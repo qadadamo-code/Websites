@@ -60,6 +60,25 @@ export const en: typeof ar = {
         { value: 100, suffix: "%", label: "yours to own" },
       ],
     },
+    showcase: {
+      eyebrow: "Real work, not mockups",
+      title: "See your website before it's built",
+      sub: "Every template is a complete working site with real photos, copy and prices. Browse it on desktop and mobile.",
+    },
+    why: {
+      label: "Why Planet",
+      title: "A marketing agency that builds websites, not a coder stacking pages",
+      text: "Planet has worked with 370+ brands on marketing, identity and content. The same team now builds your website, so it understands your audience and sells from day one.",
+      stats: [
+        { v: "3", u: "days", l: "from brief to launch" },
+        { v: "11,999", u: "EGP", l: "one clear price, starting from" },
+        { v: "8", u: "pages", l: "in the core package" },
+        { v: "2", u: "languages", l: "Arabic & English, written natively" },
+      ],
+    },
+    included: { label: "What you get", title: "Every detail that matters, in one price" },
+    chapters: { label: "Templates", title: "Six ready worlds to start from", sub: "Pick the closest to your business and we tailor it to your brand from scratch.", enter: "Enter" },
+    closing: { line1: "Let's launch", line2: "your next website." },
     clients: { title: "Planet has worked with 370+ brands" },
     build: {
       eyebrow: "More than a presence",

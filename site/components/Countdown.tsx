@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const TOTAL = 72 * 3600;
 
 /** A live 72-hour countdown that loops. Purely visual: it sells the "3 days" promise. */
-export function Countdown({ labels, locale }: { labels: { hours: string; minutes: string; seconds: string }; locale: string }) {
+export function Countdown({ labels, compact = false }: { labels: { hours: string; minutes: string; seconds: string }; locale?: string; compact?: boolean }) {
   const [left, setLeft] = useState(TOTAL);
   useEffect(() => {
     const start = Date.now();
@@ -15,12 +15,18 @@ export function Countdown({ labels, locale }: { labels: { hours: string; minutes
     return () => clearInterval(id);
   }, []);
   const hh = Math.floor(left / 3600), mm = Math.floor((left % 3600) / 60), ss = left % 60;
-  const fmt = (n: number) => new Intl.NumberFormat(locale === "ar" ? "ar-EG" : "en-US", { minimumIntegerDigits: 2 }).format(n);
+  const fmt = (n: number) => new Intl.NumberFormat("en-US", { minimumIntegerDigits: 2 }).format(n);
   const parts = [
     [fmt(hh), labels.hours],
     [fmt(mm), labels.minutes],
     [fmt(ss), labels.seconds],
   ];
+  if (compact)
+    return (
+      <span className="font-display font-bold tabular-nums text-white" dir="ltr">
+        {fmt(hh)}:{fmt(mm)}:{fmt(ss)}
+      </span>
+    );
   return (
     <div className="flex items-end gap-3" dir="ltr">
       {parts.map(([v, l], i) => (

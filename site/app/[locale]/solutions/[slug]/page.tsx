@@ -6,7 +6,8 @@ import { PageHero } from "@/components/PageHero";
 import { Section, SectionHead } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 import { Button } from "@/components/Button";
-import { TemplateMock } from "@/components/TemplateMock";
+import { DemoFrame } from "@/components/demo/DemoFrame";
+import { getDemos } from "@/content/demos";
 import { Icon } from "@/components/Icon";
 import { CtaSection } from "@/components/CtaSection";
 
@@ -26,6 +27,7 @@ export default async function Page({ params }: { params: Promise<{ locale: Local
   const s = t.sectors.find((x) => x.slug === slug);
   if (!s) notFound();
   const tp = t.templates.items.find((x) => x.sector === slug);
+  const demo = tp ? getDemos(locale).find((d) => d.slug === tp.slug) : undefined;
   return (
     <>
       <PageHero title={s.title} sub={s.sub} locale={locale} homeLabel={t.common.breadcrumbHome}>
@@ -52,9 +54,12 @@ export default async function Page({ params }: { params: Promise<{ locale: Local
               <Button href={href("/pricing", locale)} variant="ghost">{t.home.pricing.cta}</Button>
             </div>
           </div>
-          {tp && (
-            <Reveal className="animate-float">
-              <TemplateMock t={tp} rtl={locale === "ar"} />
+          {demo && (
+            <Reveal className="relative">
+              <DemoFrame d={demo} dir={locale === "ar" ? "rtl" : "ltr"} viewH={900} />
+              <div className="absolute -bottom-8 end-4 hidden w-[150px] sm:block">
+                <DemoFrame d={demo} dir={locale === "ar" ? "rtl" : "ltr"} mobile viewH={760} autoScroll className="border-[5px] border-black" />
+              </div>
             </Reveal>
           )}
         </div>

@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatPrice(n: number, locale: string) {
-  return new Intl.NumberFormat(locale === "ar" ? "ar-EG" : "en-US").format(n);
+  return new Intl.NumberFormat("en-US").format(n);
 }

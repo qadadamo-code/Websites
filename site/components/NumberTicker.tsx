@@ -11,7 +11,7 @@ export function NumberTicker({ value, locale, suffix = "" }: { value: number; lo
     const c = animate(0, value, { duration: 1.6, ease: [0.22, 1, 0.36, 1], onUpdate: (v) => setN(Math.round(v)) });
     return () => c.stop();
   }, [inView, value]);
-  const fmt = new Intl.NumberFormat(locale === "ar" ? "ar-EG" : "en-US");
+  const fmt = new Intl.NumberFormat("en-US");
   return (
     <span ref={ref} className="tabular-nums">
       {fmt.format(n)}

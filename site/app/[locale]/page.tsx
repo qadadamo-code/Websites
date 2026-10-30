@@ -1,19 +1,17 @@
 import Link from "next/link";
 import { ArrowUpRight, Check, X } from "lucide-react";
-import { PlanetCanvas } from "@/components/PlanetCanvas";
 import { SplitWords, Reveal } from "@/components/Reveal";
 import { Countdown } from "@/components/Countdown";
-import { NumberTicker } from "@/components/NumberTicker";
 import { Marquee } from "@/components/Marquee";
-import { BuildSequence } from "@/components/BuildSequence";
 import { OrbitSectors } from "@/components/OrbitSectors";
-import { SpotlightCard } from "@/components/SpotlightCard";
-import { TemplateMock } from "@/components/TemplateMock";
 import { Faq } from "@/components/Faq";
 import { CtaSection } from "@/components/CtaSection";
 import { Section, SectionHead } from "@/components/Section";
 import { Button } from "@/components/Button";
 import { Icon } from "@/components/Icon";
+import { HeroStage } from "@/components/home/HeroStage";
+import { ChapterIndex, Index, NumberedRows, TemplateMarquee } from "@/components/home/Bits";
+import { getDemos } from "@/content/demos";
 import { getDict, href, type Locale } from "@/lib/i18n";
 import { formatPrice } from "@/lib/utils";
 
@@ -25,62 +23,56 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
   const t = getDict(locale);
   const h = t.home;
   const p = t.pricing.package;
+  const demos = getDemos(locale);
+  const tiles = t.templates.items.map((tp) => ({ slug: tp.slug, name: tp.name, label: tp.label, img: demos.find((d) => d.slug === tp.slug)!.hero.img }));
+  const chapters = tiles.map((tl) => ({ ...tl, href: href("/templates", locale), tagline: demos.find((d) => d.slug === tl.slug)!.tagline }));
 
   return (
     <>
       {/* HERO */}
-      <section className="relative min-h-[100svh] overflow-hidden pt-28">
+      <section className="relative overflow-hidden pt-32 sm:pt-40">
         <div className="grid-bg pointer-events-none absolute inset-0" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(20,54,89,0.6),transparent_60%)]" />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-6 px-4 sm:px-6 lg:min-h-[calc(100svh-7rem)] lg:grid-cols-2">
-          <div className="relative z-10 py-10">
-            <Reveal>
-              <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm text-white/85">
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-mint opacity-75" />
-                  <span className="relative inline-flex size-2 rounded-full bg-mint" />
-                </span>
-                {h.hero.eyebrow}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(20,54,89,0.7),transparent_60%)]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-center" aria-hidden>
+          <img src="/img/art/planet-3d.webp" alt="" className="animate-float w-[min(1100px,170vw)] max-w-none opacity-45 mix-blend-screen [mask-image:radial-gradient(circle,black_35%,transparent_65%)]" />
+        </div>
+        <div className="relative z-10 mx-auto max-w-5xl px-4 text-center sm:px-6">
+          <Reveal>
+            <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm text-white/85">
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-mint opacity-75" />
+                <span className="relative inline-flex size-2 rounded-full bg-mint" />
               </span>
-            </Reveal>
-            <h1 className="mt-7 text-5xl font-black leading-[1.08] tracking-tight text-white sm:text-7xl">
-              <SplitWords text={h.hero.title1} delay={0.1} />
-              <br />
-              <SplitWords text={h.hero.title2} className="text-gradient" delay={0.35} />
-            </h1>
-            <Reveal delay={0.5}>
-              <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted">{h.hero.sub}</p>
-            </Reveal>
-            <Reveal delay={0.65} className="mt-9 flex flex-wrap items-center gap-3">
-              <Button href={href("/start", locale)}>
-                {h.hero.ctaPrimary}
-                <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 rtl:-scale-x-100" />
-              </Button>
-              <Button href={href("/templates", locale)} variant="ghost">{h.hero.ctaSecondary}</Button>
-              <span className="text-sm text-mint">{h.hero.priceTag}</span>
-            </Reveal>
-          </div>
-
-          <div className="relative h-[46vh] min-h-[340px] lg:h-[78vh]">
-            <PlanetCanvas className="absolute inset-0 size-full" />
-            <Reveal delay={0.9} className="glass absolute bottom-4 start-1/2 w-max -translate-x-1/2 rounded-3xl px-6 py-4 rtl:translate-x-1/2 lg:bottom-16">
-              <div className="mb-2 text-xs text-muted">{h.hero.countdownLabel}</div>
-              <Countdown labels={t.common} locale={locale} />
-            </Reveal>
-          </div>
+              {h.hero.eyebrow}
+            </span>
+          </Reveal>
+          <h1 className="mt-8 text-[2.75rem] font-black leading-[1.12] tracking-tight text-white sm:text-7xl lg:text-8xl">
+            <SplitWords text={h.hero.title1} delay={0.1} />
+            <br />
+            <SplitWords text={h.hero.title2} className="text-gradient" delay={0.35} />
+          </h1>
+          <Reveal delay={0.5}>
+            <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">{h.hero.sub}</p>
+          </Reveal>
+          <Reveal delay={0.65} className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <Button href={href("/start", locale)}>
+              {h.hero.ctaPrimary}
+              <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 rtl:-scale-x-100" />
+            </Button>
+            <Button href={href("/templates", locale)} variant="ghost">{h.hero.ctaSecondary}</Button>
+          </Reveal>
+          <Reveal delay={0.8} className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted">
+            <span className="text-mint">{h.hero.priceTag}</span>
+            <span className="hidden h-4 w-px bg-white/15 sm:block" />
+            <span className="flex items-center gap-3">
+              {h.hero.countdownLabel}
+              <span className="glass rounded-full px-3 py-1"><Countdown labels={t.common} locale={locale} compact /></span>
+            </span>
+          </Reveal>
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-white/8 bg-white/8 md:grid-cols-4">
-            {h.hero.stats.map((s) => (
-              <div key={s.label} className="bg-space p-6">
-                <div className="font-display text-4xl font-black text-white">
-                  <NumberTicker value={s.value} suffix={s.suffix} locale={locale} />
-                </div>
-                <div className="mt-1 text-sm text-muted">{s.label}</div>
-              </div>
-            ))}
-          </div>
+        <div className="relative mt-20 pb-24 sm:mt-24">
+          <HeroStage locale={locale} names={t.templates.items.map((x) => ({ slug: x.slug, name: x.name, label: x.label }))} />
         </div>
       </section>
 
@@ -89,146 +81,165 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         <p className="mb-6 text-center text-sm text-muted">{h.clients.title}</p>
         <Marquee duration={45}>
           {CLIENTS.map((c) => (
-            <span key={c} className="font-display whitespace-nowrap text-2xl font-bold text-white/30 transition-colors hover:text-white/80">
-              {c}
-            </span>
+            <span key={c} className="font-display whitespace-nowrap text-2xl font-bold text-white/30 transition-colors hover:text-white/80">{c}</span>
           ))}
         </Marquee>
       </section>
 
-      {/* BUILD SEQUENCE */}
-      <div className="pt-24 md:pt-32">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <SectionHead eyebrow={h.build.eyebrow} title={h.build.title} sub={h.build.sub} />
+      {/* 01 WHY */}
+      <Section>
+        <Index n="01" label={h.why.label} />
+        <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
+          <Reveal>
+            <h2 className="text-3xl font-bold leading-tight text-white sm:text-5xl">{h.why.title}</h2>
+            <p className="mt-6 text-lg leading-relaxed text-muted">{h.why.text}</p>
+          </Reveal>
+          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10">
+            {h.why.stats.map((s, i) => (
+              <Reveal key={s.l} delay={i * 0.06} className="bg-space p-6 sm:p-8">
+                <div className="flex items-baseline gap-2" dir="ltr">
+                  <span className="font-display text-4xl font-black text-white sm:text-5xl">{s.v}</span>
+                </div>
+                <div className="mt-1 text-sm font-semibold text-mint">{s.u}</div>
+                <div className="mt-3 text-sm leading-relaxed text-muted">{s.l}</div>
+              </Reveal>
+            ))}
+          </div>
         </div>
-        <BuildSequence layers={h.build.layers} locale={locale} />
-      </div>
+      </Section>
+
+      {/* SHOWCASE */}
+      <section className="py-10 md:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <SectionHead eyebrow={h.showcase.eyebrow} title={h.showcase.title} sub={h.showcase.sub} />
+        </div>
+        <TemplateMarquee tiles={tiles} hrefTo={href("/templates", locale)} />
+      </section>
+
+      {/* 02 INCLUDED */}
+      <Section>
+        <Index n="02" label={h.included.label} />
+        <Reveal><h2 className="mb-12 max-w-3xl text-3xl font-bold leading-tight text-white sm:text-5xl">{h.included.title}</h2></Reveal>
+        <NumberedRows items={h.features.items} />
+      </Section>
 
       {/* NOT A LANDING PAGE */}
-      <Section>
-        <SectionHead eyebrow={h.notLanding.eyebrow} title={h.notLanding.title} sub={h.notLanding.sub} center />
-        <Reveal className="mx-auto max-w-4xl overflow-hidden rounded-3xl border border-white/8">
-          <div className="grid grid-cols-[1fr_auto_auto] items-center gap-x-4 border-b border-white/8 bg-white/[0.03] px-5 py-4 text-sm sm:gap-x-10 sm:px-8">
-            <span />
-            <span className="w-20 text-center text-muted sm:w-28">{h.notLanding.landing}</span>
-            <span className="w-20 text-center font-semibold text-mint sm:w-28">{h.notLanding.planet}</span>
-          </div>
-          {h.notLanding.rows.map((r) => (
-            <div key={r} className="grid grid-cols-[1fr_auto_auto] items-center gap-x-4 border-b border-white/5 px-5 py-4 last:border-0 sm:gap-x-10 sm:px-8">
-              <span className="text-white/85">{r}</span>
-              <span className="grid w-20 place-items-center sm:w-28"><X className="size-5 text-white/25" /></span>
-              <span className="grid w-20 place-items-center sm:w-28">
-                <span className="grid size-7 place-items-center rounded-full bg-mint/15"><Check className="size-4 text-mint" /></span>
-              </span>
+      <Section className="pt-0 md:pt-0">
+        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr]">
+          <SectionHead eyebrow={h.notLanding.eyebrow} title={h.notLanding.title} sub={h.notLanding.sub} />
+          <Reveal className="overflow-hidden rounded-3xl border border-white/8 bg-white/[0.02]">
+            <div className="grid grid-cols-[1fr_auto_auto] items-center gap-x-4 border-b border-white/8 bg-white/[0.03] px-5 py-4 text-sm sm:gap-x-8 sm:px-8">
+              <span />
+              <span className="w-20 text-center text-muted sm:w-24">{h.notLanding.landing}</span>
+              <span className="w-20 text-center font-semibold text-mint sm:w-24">{h.notLanding.planet}</span>
             </div>
-          ))}
-        </Reveal>
-      </Section>
-
-      {/* SECTORS ORBIT */}
-      <Section>
-        <SectionHead eyebrow={h.sectors.eyebrow} title={h.sectors.title} sub={h.sectors.sub} />
-        <OrbitSectors sectors={t.sectors} hrefBase={href("/solutions", locale)} cta={t.common.learnMore} />
-      </Section>
-
-      {/* FEATURES */}
-      <Section>
-        <SectionHead eyebrow={h.features.eyebrow} title={h.features.title} />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {h.features.items.map((f, i) => (
-            <Reveal key={f.title} delay={(i % 3) * 0.08}>
-              <SpotlightCard className="h-full">
-                <span className="grid size-12 place-items-center rounded-2xl bg-mint/10 text-mint">
-                  <Icon name={f.icon} className="size-6" />
+            {h.notLanding.rows.map((r) => (
+              <div key={r} className="grid grid-cols-[1fr_auto_auto] items-center gap-x-4 border-b border-white/5 px-5 py-4 last:border-0 sm:gap-x-8 sm:px-8">
+                <span className="text-white/85">{r}</span>
+                <span className="grid w-20 place-items-center sm:w-24"><X className="size-5 text-white/25" /></span>
+                <span className="grid w-20 place-items-center sm:w-24">
+                  <span className="grid size-7 place-items-center rounded-full bg-mint/15"><Check className="size-4 text-mint" /></span>
                 </span>
-                <h3 className="mt-6 text-xl font-semibold text-white">{f.title}</h3>
-                <p className="mt-2 leading-relaxed text-muted">{f.text}</p>
-              </SpotlightCard>
-            </Reveal>
-          ))}
-        </div>
-      </Section>
-
-      {/* PRICING TEASER */}
-      <Section>
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <SectionHead eyebrow={h.pricing.eyebrow} title={h.pricing.title} sub={h.pricing.sub} />
-          <Reveal>
-            <div className="relative overflow-hidden rounded-[2rem] border border-mint/30 bg-gradient-to-b from-space-3 to-space p-8 shadow-[0_0_120px_-30px_rgba(146,197,180,0.5)]">
-              <div className="pointer-events-none absolute -end-16 -top-16 size-48 rounded-full bg-mint/20 blur-3xl" />
-              <div className="text-sm text-mint">{p.name} · {p.tagline}</div>
-              <div className="mt-4 flex items-baseline gap-2">
-                <span className="text-sm text-muted">{t.common.from}</span>
-                <span className="font-display text-6xl font-black text-white">{formatPrice(p.price, locale)}</span>
-                <span className="text-lg text-muted">{t.common.currency}</span>
               </div>
-              <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
-                {p.includes.slice(0, 8).map((x) => (
-                  <li key={x} className="flex items-start gap-2 text-sm text-white/85">
-                    <Check className="mt-0.5 size-4 shrink-0 text-mint" />
-                    {x}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 text-xs leading-relaxed text-muted">{p.note}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button href={href("/start", locale)}>{p.cta}</Button>
-                <Button href={href("/pricing", locale)} variant="ghost">{h.pricing.cta}</Button>
-              </div>
-            </div>
+            ))}
           </Reveal>
         </div>
       </Section>
 
-      {/* TEMPLATES */}
+      {/* 03 TEMPLATES INDEX */}
       <Section>
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHead eyebrow={t.templates.title} title={t.templates.sub} />
-        </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {t.templates.items.slice(0, 3).map((tp, i) => (
-            <Reveal key={tp.slug} delay={i * 0.1}>
-              <Link href={href("/templates", locale)} className="group block">
-                <TemplateMock t={tp} rtl={locale === "ar"} className="transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-0.5deg]" />
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="font-semibold text-white">{tp.name}</span>
-                  <span className="text-sm text-muted">{tp.label}</span>
-                </div>
-              </Link>
+        <Index n="03" label={h.chapters.label} />
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.6fr]">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <Reveal>
+              <h2 className="text-3xl font-bold leading-tight text-white sm:text-5xl">{h.chapters.title}</h2>
+              <p className="mt-5 text-lg leading-relaxed text-muted">{h.chapters.sub}</p>
+              <div className="mt-8"><Button href={href("/templates", locale)} variant="ghost">{h.hero.ctaSecondary}</Button></div>
             </Reveal>
-          ))}
-        </div>
-        <div className="mt-10">
-          <Button href={href("/templates", locale)} variant="ghost">{h.hero.ctaSecondary}</Button>
+          </div>
+          <ChapterIndex items={chapters} enter={h.chapters.enter} />
         </div>
       </Section>
 
-      {/* PAYMENTS */}
+      {/* 04 SECTORS */}
       <Section>
-        <SectionHead eyebrow={h.payments.eyebrow} title={h.payments.title} sub={h.payments.sub} />
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {t.paymentsPage.methods.map((m, i) => (
-            <Reveal key={m.name} delay={(i % 4) * 0.06}>
-              <div className="flex h-full items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.03] p-4">
-                <Icon name={m.icon} className="size-5 shrink-0 text-mint" />
-                <span className="text-sm font-medium text-white">{m.name}</span>
+        <Index n="04" label={h.sectors.eyebrow} />
+        <SectionHead title={h.sectors.title} sub={h.sectors.sub} />
+        <OrbitSectors sectors={t.sectors} hrefBase={href("/solutions", locale)} cta={t.common.learnMore} />
+      </Section>
+
+      {/* 05 PRICING */}
+      <Section>
+        <Index n="05" label={h.pricing.eyebrow} />
+        <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-space-2">
+          <img src="/img/art/glass-ui.webp" alt="" aria-hidden className="absolute inset-0 size-full object-cover opacity-50 [mask-image:linear-gradient(to_left,black,transparent_75%)] rtl:[mask-image:linear-gradient(to_right,black,transparent_75%)]" />
+          <div className="relative grid gap-10 p-6 sm:p-12 lg:grid-cols-[1fr_1.1fr] lg:p-16">
+            <Reveal>
+              <h2 className="text-3xl font-bold leading-tight text-white sm:text-5xl">{h.pricing.title}</h2>
+              <p className="mt-5 text-lg text-muted">{h.pricing.sub}</p>
+              <div className="mt-10 flex flex-wrap items-baseline gap-3">
+                <span className="text-sm text-muted">{t.common.from}</span>
+                <span className="font-display text-6xl font-black text-white sm:text-7xl" dir="ltr">{formatPrice(p.price, locale)}</span>
+                <span className="text-lg text-mint">{t.common.currency}</span>
+              </div>
+              <p className="mt-4 max-w-md text-xs leading-relaxed text-muted">{p.note}</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button href={href("/start", locale)}>{p.cta}</Button>
+                <Button href={href("/pricing", locale)} variant="ghost">{h.pricing.cta}</Button>
               </div>
             </Reveal>
-          ))}
+            <Reveal delay={0.1} className="glass rounded-3xl p-6 sm:p-8">
+              <div className="mb-5 text-sm font-semibold text-mint">{p.name} · {p.tagline}</div>
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {p.includes.map((x) => (
+                  <li key={x} className="flex items-start gap-2.5 text-sm text-white/85">
+                    <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-mint/15"><Check className="size-3 text-mint" /></span>
+                    {x}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
         </div>
-        <Link href={href("/payments", locale)} className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-mint hover:underline">
+      </Section>
+
+      {/* 06 PAYMENTS */}
+      <Section>
+        <Index n="06" label={h.payments.eyebrow} />
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-end">
+          <SectionHead title={h.payments.title} sub={h.payments.sub} />
+          <div className="grid grid-cols-2 gap-3 pb-14">
+            {t.paymentsPage.methods.map((m, i) => (
+              <Reveal key={m.name} delay={(i % 4) * 0.05}>
+                <div className="flex h-full items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.03] p-4 transition-colors hover:border-mint/30">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-mint/10 text-mint"><Icon name={m.icon} className="size-5" /></span>
+                  <span className="text-sm font-medium text-white">{m.name}</span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+        <Link href={href("/payments", locale)} className="inline-flex items-center gap-2 text-sm font-semibold text-mint hover:underline">
           {t.common.learnMore} <ArrowUpRight className="size-4 rtl:-scale-x-100" />
         </Link>
       </Section>
 
-      {/* FAQ */}
+      {/* 07 FAQ */}
       <Section>
+        <Index n="07" label={t.faq.title} />
         <div className="grid gap-12 lg:grid-cols-[1fr_1.5fr]">
           <SectionHead title={t.faq.title} sub={t.faq.sub} />
-          <Faq items={t.faq.items.slice(0, 5)} />
+          <Faq items={t.faq.items.slice(0, 6)} />
         </div>
       </Section>
 
+      {/* CLOSING */}
+      <section className="relative overflow-hidden px-4 pt-16 text-center sm:px-6">
+        <Reveal>
+          <p className="text-[clamp(2.5rem,9vw,8rem)] font-black leading-[1.05] tracking-tight text-white">{h.closing.line1}</p>
+          <p className="text-gradient text-[clamp(2.5rem,9vw,8rem)] font-black leading-[1.15] tracking-tight">{h.closing.line2}</p>
+        </Reveal>
+      </section>
       <CtaSection t={t} locale={locale} />
     </>
   );

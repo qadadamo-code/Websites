@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Alexandria, Montserrat } from "next/font/google";
+import { Alexandria, Montserrat, El_Messiri, Reem_Kufi } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { Header } from "@/components/Header";
@@ -12,6 +12,8 @@ import { SITE_URL, contact, dirOf, getDict, isLocale, locales } from "@/lib/i18n
 import { pageMeta } from "@/lib/seo";
 
 const alexandria = Alexandria({ subsets: ["arabic", "latin"], variable: "--font-alexandria", display: "swap" });
+const messiri = El_Messiri({ subsets: ["arabic", "latin"], variable: "--font-messiri", display: "swap" });
+const kufi = Reem_Kufi({ subsets: ["arabic", "latin"], variable: "--font-kufi", display: "swap" });
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", display: "swap", weight: ["400", "500", "700", "900"] });
 
 export const dynamicParams = false;
@@ -36,7 +38,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   if (!isLocale(locale)) notFound();
   const t = getDict(locale);
   return (
-    <html lang={locale === "ar" ? "ar-EG" : "en"} dir={dirOf(locale)} className={`${alexandria.variable} ${montserrat.variable}`}>
+    <html lang={locale === "ar" ? "ar-EG" : "en"} dir={dirOf(locale)} className={`${alexandria.variable} ${montserrat.variable} ${messiri.variable} ${kufi.variable}`}>
       <body className="font-sans">
         <JsonLd
           data={{
