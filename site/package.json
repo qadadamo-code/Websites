@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "npx serve out"
+    "start": "npx serve out",
+    "dist": "next build && rm -rf ../dist && cp -r out ../dist"
   },
   "author": "",
   "license": "ISC",

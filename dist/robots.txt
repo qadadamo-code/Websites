@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /ar/thanks/
+Disallow: /en/thanks/
+
+Sitemap: https://web.theplanetco.com/sitemap.xml
