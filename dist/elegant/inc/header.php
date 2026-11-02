@@ -31,8 +31,8 @@ foreach ($jsProducts as &$jp) { $c = category($jp['cat']); $jp['catName'] = $c ?
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/img/brand/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
-<link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/<?= LANG === 'ar' ? 'ibm-plex-sans-arabic-arabic-400-normal' : 'jost-latin-400-normal' ?>.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/<?= LANG === 'ar' ? 'alexandria-arabic-200-normal' : 'bodoni-moda-latin-400-normal' ?>.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/<?= LANG === 'ar' ? 'readex-pro-arabic-300-normal' : 'manrope-latin-400-normal' ?>.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="<?= asset('assets/css/site.css') ?>">
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -55,8 +55,8 @@ foreach ($jsProducts as &$jp) { $c = category($jp['cat']); $jp['catName'] = $c ?
       <stop offset="0" stop-color="#E9D3A0"/><stop offset=".45" stop-color="#C7A86A"/><stop offset="1" stop-color="#9C7B3F"/>
     </linearGradient>
     <symbol id="eb-mono" viewBox="0 0 120 120">
-      <text x="4" y="80" direction="ltr" font-family="Cormorant Garamond, serif" font-size="92" font-weight="400" fill="currentColor">E</text>
-      <text x="45" y="112" direction="ltr" font-family="Cormorant Garamond, serif" font-size="92" font-weight="400" fill="currentColor">B</text>
+      <text x="4" y="80" direction="ltr" font-family="Bodoni Moda, serif" font-size="92" font-weight="400" fill="currentColor">E</text>
+      <text x="45" y="112" direction="ltr" font-family="Bodoni Moda, serif" font-size="92" font-weight="400" fill="currentColor">B</text>
     </symbol>
   </defs>
 </svg>
@@ -77,7 +77,7 @@ foreach ($jsProducts as &$jp) { $c = category($jp['cat']); $jp['catName'] = $c ?
       <?php endforeach; ?>
     </nav>
     <a class="hdr__logo" href="./" aria-label="<?= e($storeName) ?>">
-      <svg class="mono" viewBox="0 0 120 120"><use href="#eb-mono"/></svg>
+      <img class="hdr__mark" src="assets/img/brand/logo-gold.png" alt="" width="342" height="342">
       <span class="hdr__word"><b>ELEGANCE</b><small>BOUTIQUE</small></span>
     </a>
     <div class="hdr__tools">

@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-const EB_VERSION = '1.0.3';
+const EB_VERSION = '1.1.0';
 define('EB_ROOT', dirname(__DIR__));
 define('EB_STORAGE', EB_ROOT . '/storage');
 define('EB_UPLOADS', EB_ROOT . '/uploads');
