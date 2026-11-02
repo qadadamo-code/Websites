@@ -10,7 +10,7 @@ function product_card(array $p, int $i = 0, string $extra = ''): string {
     $stock = (int)$p['stock'];
     $low = $stock > 0 && $stock <= (int)setting('low_stock', 2);
     ob_start(); ?>
-<article class="pcard <?= $extra ?>" data-tilt data-cursor="<?= LANG === 'ar' ? 'شوفي' : 'View' ?>" style="--i:<?= $i ?>">
+<article class="pcard <?= $extra ?>" data-cursor="<?= LANG === 'ar' ? 'شوفي' : 'View' ?>" style="--i:<?= $i ?>;<?= tone_style($p) ?>">
   <a class="pcard__media" href="<?= $url ?>" aria-label="<?= $name ?>">
     <img class="pcard__img pcard__img--a" src="<?= $img1 ?>" alt="<?= $name ?>" loading="lazy" width="900" height="1200">
     <?php if (count($p['images']) > 1): ?><img class="pcard__img pcard__img--b" src="<?= $img2 ?>" alt="" loading="lazy" width="900" height="1200"><?php endif; ?>
@@ -18,9 +18,6 @@ function product_card(array $p, int $i = 0, string $extra = ''): string {
     <?php if (!$stock): ?><span class="pcard__badge pcard__badge--out"><?= t('sold_out') ?></span>
     <?php elseif ($badge): ?><span class="pcard__badge"><?= e($badge) ?></span><?php endif; ?>
   </a>
-  <?php if ($stock): ?>
-  <button class="pcard__quick" data-add="<?= e($p['id']) ?>"><span>+</span> <?= t('quick_add') ?></button>
-  <?php endif; ?>
   <div class="pcard__info">
     <span class="pcard__cat"><?= e($cat[LANG] ?? '') ?></span>
     <h3 class="pcard__name"><a href="<?= $url ?>"><?= $name ?></a></h3>
@@ -29,6 +26,7 @@ function product_card(array $p, int $i = 0, string $extra = ''): string {
       <span><?= money($p['price']) ?></span>
       <?php if ($low): ?><em><?= sprintf(t('only_left'), $stock) ?></em><?php endif; ?>
     </div>
+    <?php if ($stock): ?><button class="pcard__add" data-add="<?= e($p['id']) ?>" aria-label="<?= t('add_to_cart') ?>"><span><?= t('add_to_cart') ?></span><i>+</i></button><?php endif; ?>
   </div>
 </article>
 <?php return (string)ob_get_clean();

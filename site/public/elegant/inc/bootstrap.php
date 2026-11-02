@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-const EB_VERSION = '1.1.0';
+const EB_VERSION = '1.2.0';
 define('EB_ROOT', dirname(__DIR__));
 define('EB_STORAGE', EB_ROOT . '/storage');
 define('EB_UPLOADS', EB_ROOT . '/uploads');
@@ -149,4 +149,60 @@ function status_label(string $s): string {
 function payment_label(string $m): string {
     $map = ['cod' => ['الدفع عند الاستلام', 'Cash on delivery'], 'instapay' => ['إنستاباي', 'InstaPay'], 'vodafone' => ['فودافون كاش', 'Vodafone Cash']];
     return $map[$m][LANG === 'ar' ? 0 : 1] ?? $m;
+}
+
+/**
+ * Signature colour of a product photo (average of a tiny thumbnail), cached in storage/tones.json.
+ * Drives the colour-drenched cards, showcase and product page.
+ */
+function image_tone(string $rel): string {
+    static $cache = null, $dirty = false;
+    $file = EB_STORAGE . '/tones.json';
+    if ($cache === null) {
+        $cache = is_file($file) ? (json_decode((string)file_get_contents($file), true) ?: []) : [];
+        register_shutdown_function(function () use (&$cache, &$dirty, $file) { if ($dirty) @file_put_contents($file, json_encode($cache)); });
+    }
+    if (isset($cache[$rel])) return $cache[$rel];
+    $tone = '#E9DFD2';
+    $path = EB_ROOT . '/' . ltrim($rel, '/');
+    if (is_file($path) && function_exists('imagecreatefromstring')) {
+        $im = @imagecreatefromstring((string)file_get_contents($path));
+        if ($im) {
+            $sm = imagescale($im, 12, 16);
+            $r = $g = $b = 0; $n = 0;
+            for ($x = 0; $x < 12; $x++) for ($y = 0; $y < 16; $y++) {
+                $c = imagecolorat($sm, $x, $y);
+                $r += ($c >> 16) & 255; $g += ($c >> 8) & 255; $b += $c & 255; $n++;
+            }
+            imagedestroy($im); imagedestroy($sm);
+            $tone = tone_tune($r / $n, $g / $n, $b / $n);
+        }
+    }
+    $cache[$rel] = $tone; $dirty = true;
+    return $tone;
+}
+/** Push the average colour toward a richer, fashion-shoot backdrop: more saturation, mid lightness. */
+function tone_tune(float $r, float $g, float $b): string {
+    $r /= 255; $g /= 255; $b /= 255;
+    $max = max($r, $g, $b); $min = min($r, $g, $b); $l = ($max + $min) / 2; $d = $max - $min;
+    $h = 0; $s = 0;
+    if ($d > 0) {
+        $s = $l > .5 ? $d / (2 - $max - $min) : $d / ($max + $min);
+        if ($max === $r) $h = fmod(($g - $b) / $d + 6, 6); elseif ($max === $g) $h = ($b - $r) / $d + 2; else $h = ($r - $g) / $d + 4;
+        $h /= 6;
+    }
+    $s = min(.62, $s * 1.55 + .06); $l = max(.42, min(.74, $l));
+    $q = $l < .5 ? $l * (1 + $s) : $l + $s - $l * $s; $p = 2 * $l - $q;
+    $f = function ($t) use ($p, $q) { if ($t < 0) $t += 1; if ($t > 1) $t -= 1;
+        if ($t < 1 / 6) return $p + ($q - $p) * 6 * $t; if ($t < .5) return $q; if ($t < 2 / 3) return $p + ($q - $p) * (2 / 3 - $t) * 6; return $p; };
+    return sprintf('#%02X%02X%02X', round($f($h + 1 / 3) * 255), round($f($h) * 255), round($f($h - 1 / 3) * 255));
+}
+/** Text colour that reads on top of a tone. */
+function tone_ink(string $hex): string {
+    [$r, $g, $b] = sscanf($hex, '#%02x%02x%02x');
+    return (0.299 * $r + 0.587 * $g + 0.114 * $b) > 150 ? '#2B2118' : '#FFFFFF';
+}
+function tone_style(array $p): string {
+    $t = image_tone($p['images'][0] ?? '');
+    return '--tone:' . $t . ';--tone-ink:' . tone_ink($t);
 }

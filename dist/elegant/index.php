@@ -10,33 +10,35 @@ $ar = LANG === 'ar';
 require __DIR__ . '/inc/header.php';
 ?>
 
-<!-- HERO: looping campaign film -->
-<section class="hero" data-hero>
-  <div class="hero__media">
-    <video class="hero__video" autoplay muted loop playsinline preload="auto" poster="assets/video/hero-poster.webp">
-      <source src="assets/video/hero.mp4" type="video/mp4">
-    </video>
-    <div class="hero__shade"></div>
-    <div class="hero__grain"></div>
+<!-- HERO: a light story slider — the ruby set assembles, then gold, then worn -->
+<?php
+$slides = [
+  ['seq', '', $ar ? 'من حجرٍ… إلى توقيع.' : 'From stone to signature.'],
+  ['img', 'assets/img/products/floral-shoulder-cuff-1.webp', $ar ? 'تفاصيل من الذهب.' : 'Set in gold.'],
+  ['img', 'assets/img/products/pearl-gold-link-necklace-2.webp', $ar ? 'صُنعت لتُرتدى.' : 'Made to wear.'],
+  ['video', 'assets/video/hero.mp4', $ar ? 'تلمع من كل زاوية.' : 'Light from every angle.'],
+];
+?>
+<section class="hs" data-hs>
+  <div class="hs__titles" aria-live="polite">
+    <?php foreach ($slides as $k => $sl): ?><h<?= $k ? 2 : 1 ?> class="hs__title <?= $k ? '' : 'is-on' ?>" data-hs-title="<?= $k ?>"><?= e($sl[2]) ?></h<?= $k ? 2 : 1 ?>><?php endforeach; ?>
   </div>
-  <div class="hero__content wrap">
-    <p class="eyebrow hero__eyebrow"><span class="line"></span><?= $ar ? 'مجموعة الخريف · 2026' : 'Autumn Collection · 2026' ?></p>
-    <h1 class="hero__title" data-split>
-      <span class="hero__l1"><?= split_words($ar ? 'أناقةٌ تُرتدى' : 'Elegance, worn,') ?></span>
-      <span class="hero__l2"><em><?= split_words($ar ? 'لا تُشرح.' : 'not explained.') ?></em></span>
-    </h1>
-    <p class="hero__sub"><?= $ar ? 'مجوهرات مطلية بالذهب والبلاتين، مصمَّمة لتلتقط الضوء من كل زاوية… وتلفت الأنظار إليكِ.' : 'Gold and platinum plated pieces, designed to catch the light from every angle — and every eye in the room.' ?></p>
-    <div class="hero__ctas">
-      <a href="shop.php" class="btn btn--gold" data-magnetic><?= t('shop_all') ?></a>
-      <a href="#deconstruct" class="btn btn--glass" data-magnetic><?= $ar ? 'شاهدي القطعة تتفكّك' : 'Watch a piece unfold' ?></a>
-    </div>
+  <div class="hs__stage">
+    <?php foreach ($slides as $k => [$kind, $src]): ?>
+      <div class="hs__slide hs__slide--<?= $kind ?> <?= $k ? '' : 'is-on' ?>" data-hs-slide="<?= $k ?>">
+        <?php if ($kind === 'seq'): ?><canvas class="hs__seq" width="600" height="800" data-hs-seq data-path="assets/seq/explode/" data-frames="61"></canvas>
+        <?php elseif ($kind === 'img'): ?><div class="hs__frame"><img src="<?= e($src) ?>" alt="" <?= $k > 1 ? 'loading="lazy"' : '' ?>></div>
+        <?php else: ?><div class="hs__frame"><video src="<?= e($src) ?>" muted loop playsinline preload="none" poster="assets/video/hero-poster.webp"></video></div><?php endif; ?>
+      </div>
+    <?php endforeach; ?>
+    <button class="hs__arrow hs__arrow--prev" data-hs-prev aria-label="prev"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="hs__arrow hs__arrow--next" data-hs-next aria-label="next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
   </div>
-  <div class="hero__foot wrap">
-    <div class="hero__scroll"><span><?= t('scroll') ?></span><i></i></div>
-    <div class="hero__stats">
-      <div><b data-count="<?= count($all) ?>">0</b><span><?= $ar ? 'قطعة مختارة' : 'curated pieces' ?></span></div>
-      <div><b>6</b><span><?= $ar ? 'شهور ضمان' : 'month warranty' ?></span></div>
-      <div><b>27</b><span><?= $ar ? 'محافظة نوصلها' : 'governorates served' ?></span></div>
+  <div class="hs__foot">
+    <div class="hs__dots"><?php foreach ($slides as $k => $_): ?><button class="<?= $k ? '' : 'is-on' ?>" data-hs-dot="<?= $k ?>" aria-label="<?= $k + 1 ?>"><i></i></button><?php endforeach; ?></div>
+    <div class="hs__ctas">
+      <a href="shop.php" class="btn btn--dark"><?= t('shop_all') ?></a>
+      <a href="#vitrine" class="btn btn--ghost"><?= $ar ? 'ادخلي الفاترينة' : 'Enter the window' ?></a>
     </div>
   </div>
 </section>
@@ -49,6 +51,48 @@ require __DIR__ . '/inc/header.php';
     <?php endforeach; endfor; ?>
   </div>
 </div>
+
+<!-- VITRINE: a lit display window. Tap a piece and the camera moves in on it. -->
+<?php
+$vitIds = ['floral-shoulder-cuff', 'classic-coin-necklace', 'ruby-necklace-earrings-set', 'golden-fan-earrings', 'multicolor-gemstone-necklace', 'classic-tennis-bracelet'];
+$vit = array_values(array_filter(array_map('product', $vitIds), fn($p) => $p && empty($p['hidden'])));
+if (count($vit) < 4) $vit = array_slice(products(), 0, 6);
+?>
+<section class="vit" id="vitrine" data-vit>
+  <div class="vit__head wrap">
+    <p class="eyebrow"><span class="line"></span><?= $ar ? 'الفاترينة' : 'The window' ?><span class="line"></span></p>
+    <h2 class="sec-title"><?= $ar ? 'اختاري قطعتك <em>من الفاترينة</em>' : 'Choose your piece <em>from the window</em>' ?></h2>
+    <p class="vit__hint"><?= $ar ? 'اضغطي على أي قطعة لتقربي منها' : 'Tap any piece to step closer' ?></p>
+  </div>
+  <div class="vit__scene" data-vit-scene>
+    <div class="vit__glow" data-vit-glow></div>
+    <div class="vit__row" data-vit-row>
+      <?php foreach ($vit as $k => $p): $cat = category($p['category']); ?>
+        <button class="vit__item" data-vit-item="<?= $k ?>" style="<?= tone_style($p) ?>" aria-label="<?= e(L($p, 'name')) ?>"
+          data-id="<?= e($p['id']) ?>" data-name="<?= e(L($p, 'name')) ?>" data-cat="<?= e($cat[LANG] ?? '') ?>" data-price="<?= e(money($p['price'])) ?>"
+          data-url="product.php?p=<?= e(rawurlencode($p['id'])) ?>" data-stock="<?= (int)$p['stock'] ?>"
+          data-notes="<?= e(json_encode(array_slice($p['details_' . LANG] ?? [], 0, 3), JSON_UNESCAPED_UNICODE)) ?>">
+          <span class="vit__lamp" aria-hidden="true"></span>
+          <span class="vit__niche"><img src="<?= e($p['images'][0]) ?>" alt="" loading="lazy"></span>
+          <span class="vit__plinth"><b><?= money($p['price']) ?></b></span>
+        </button>
+      <?php endforeach; ?>
+    </div>
+    <aside class="vit__card" data-vit-card aria-hidden="true">
+      <span class="vit__no" data-vit-no></span>
+      <h3 data-vit-name></h3>
+      <ul class="vit__notes" data-vit-notes></ul>
+      <div class="vit__price" data-vit-price></div>
+      <button class="btn btn--gold btn--block" data-vit-add data-add=""><?= t('add_to_cart') ?></button>
+      <a class="vit__more" data-vit-url href="#"><?= $ar ? 'كل التفاصيل' : 'Full details' ?></a>
+      <div class="vit__nav">
+        <button data-vit-prev aria-label="prev">‹</button>
+        <button class="vit__back" data-vit-back>← <?= $ar ? 'رجوع للفاترينة' : 'Back to the window' ?></button>
+        <button data-vit-next aria-label="next">›</button>
+      </div>
+    </aside>
+  </div>
+</section>
 
 <!-- Manifesto: words light up as you scroll -->
 <section class="manifesto wrap">
@@ -203,7 +247,7 @@ require __DIR__ . '/inc/header.php';
 
 <!-- Closing CTA -->
 <section class="finale">
-  <div class="finale__bg"><img src="assets/img/scenes/hero-still.webp" alt="" loading="lazy"></div>
+  <div class="finale__bg"><video src="assets/video/hero.mp4" muted loop playsinline autoplay preload="none" poster="assets/video/hero-poster.webp"></video></div>
   <div class="finale__inner wrap" data-reveal>
     <svg class="mono" viewBox="0 0 120 120"><use href="#eb-mono"/></svg>
     <h2><?= $ar ? 'قطعتك القادمة <em>مستنياكِ</em>' : 'Your next piece <em>is waiting</em>' ?></h2>

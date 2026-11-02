@@ -21,6 +21,7 @@ if (!$p): ?>
   <section class="empty empty--page wrap"><h1 class="sec-title">404</h1><p><?= t('no_results') ?></p><a class="btn btn--dark" href="shop.php"><?= t('shop_all') ?></a></section>
 <?php require __DIR__ . '/inc/footer.php'; exit; endif; ?>
 
+<div class="pdp-wrap" style="<?= tone_style($p) ?>">
 <nav class="crumbs wrap" aria-label="breadcrumb">
   <a href="./"><?= t('home') ?></a><i>/</i><a href="shop.php?cat=<?= e($p['category']) ?>"><?= e($cat[LANG] ?? '') ?></a><i>/</i><span><?= e(L($p, 'name')) ?></span>
 </nav>
@@ -85,6 +86,7 @@ if (!$p): ?>
     </div>
   </div>
 </section>
+</div>
 
 <!-- Look closer: the photo grows to full screen and pans across details as you scroll -->
 <section class="closer" data-closer>

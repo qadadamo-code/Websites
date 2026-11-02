@@ -427,3 +427,112 @@
   function closeLightbox() { if (!lb || !lb.classList.contains('is-open')) return; lb.classList.remove('is-open'); lb.setAttribute('aria-hidden', 'true'); lockScroll(false); }
   lb && lb.addEventListener('click', closeLightbox);
 })();
+
+/* ---------- story hero + display window ---------- */
+(() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const RTL = document.documentElement.dir === 'rtl';
+
+  /* hero slider */
+  const hs = $('[data-hs]');
+  if (hs) {
+    const slides = $$('[data-hs-slide]', hs), titles = $$('[data-hs-title]', hs), dots = $$('[data-hs-dot]', hs);
+    const DUR = [7000, 5200, 5200, 6500];
+    let idx = 0, timer = null, visible = true;
+
+    // ruby sequence: plays exploded → assembled ("from stone to signature")
+    const cv = $('[data-hs-seq]', hs), ctx = cv && cv.getContext('2d');
+    const N = cv ? +cv.dataset.frames : 0, frames = [];
+    let loaded = 0, playing = null;
+    const draw = i => { const im = frames[i]; if (im && im.complete && im.naturalWidth) { ctx.clearRect(0, 0, cv.width, cv.height); ctx.drawImage(im, 0, 0, cv.width, cv.height); } };
+    if (cv) for (let i = 0; i < N; i++) {
+      const im = new Image(); im.src = `${cv.dataset.path}${String(i + 1).padStart(3, '0')}.jpg`;
+      im.onload = () => { loaded++; if (i === N - 1 && !playing) draw(N - 1); };
+      frames[i] = im;
+    }
+    const playSeq = () => {
+      if (!cv) return;
+      cancelAnimationFrame(playing);
+      if (reduce) { draw(0); return; }
+      const t0 = performance.now(), hold = 700, len = 3600;
+      const step = t => {
+        const p = Math.min(1, Math.max(0, (t - t0 - hold) / len));
+        const e = 1 - Math.pow(1 - p, 3);
+        draw(Math.round((N - 1) * (1 - e)));
+        if (p < 1) playing = requestAnimationFrame(step); else playing = null;
+      };
+      playing = requestAnimationFrame(step);
+    };
+
+    const go = (n, user) => {
+      idx = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => s.classList.toggle('is-on', k === idx));
+      titles.forEach((s, k) => s.classList.toggle('is-on', k === idx));
+      dots.forEach((d, k) => { d.classList.remove('is-on'); if (k === idx) { void d.offsetWidth; d.classList.add('is-on'); } });
+      hs.style.setProperty('--hs-dur', DUR[idx] + 'ms');
+      $$('video', hs).forEach(v => { if (v.closest('[data-hs-slide]') === slides[idx]) { v.currentTime = 0; v.play().catch(() => {}); } else v.pause(); });
+      if (slides[idx].classList.contains('hs__slide--seq')) playSeq();
+      clearTimeout(timer);
+      if (visible && !reduce) timer = setTimeout(() => go(idx + 1), DUR[idx]);
+    };
+    $('[data-hs-next]', hs).addEventListener('click', () => go(idx + 1, true));
+    $('[data-hs-prev]', hs).addEventListener('click', () => go(idx - 1, true));
+    dots.forEach(d => d.addEventListener('click', () => go(+d.dataset.hsDot, true)));
+    let sx = null;
+    hs.addEventListener('pointerdown', e => sx = e.clientX);
+    hs.addEventListener('pointerup', e => { if (sx === null) return; const dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 50) go(idx + ((dx < 0) !== RTL ? 1 : -1), true); });
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; clearTimeout(timer); if (visible) timer = setTimeout(() => go(idx + 1), DUR[idx]); }).observe(hs);
+    go(0);
+  }
+
+  /* display window */
+  const vit = $('[data-vit]');
+  if (vit) {
+    const scene = $('[data-vit-scene]', vit), row = $('[data-vit-row]', vit), items = $$('[data-vit-item]', vit), card = $('[data-vit-card]', vit);
+    const mobile = () => matchMedia('(max-width: 860px)').matches;
+    const gs = window.gsap;
+    let cur = -1;
+    const setRow = (x, y, s, dur) => {
+      if (gs && !reduce) gs.to(row, { x, y, scale: s, duration: dur, ease: 'expo.inOut' });
+      else row.style.transform = `translate(${x}px,${y}px) scale(${s})`;
+    };
+    const open = k => {
+      cur = (k + items.length) % items.length;
+      const it = items[cur], d = it.dataset;
+      items.forEach((x, i) => x.classList.toggle('is-on', i === cur));
+      vit.classList.add('is-zoom'); card.setAttribute('aria-hidden', 'false');
+      vit.style.setProperty('--vt', getComputedStyle(it).getPropertyValue('--tone'));
+      $('[data-vit-no]', card).textContent = `N° ${String(cur + 1).padStart(2, '0')} · ${d.cat}`;
+      $('[data-vit-name]', card).textContent = d.name;
+      $('[data-vit-price]', card).textContent = d.price;
+      $('[data-vit-notes]', card).innerHTML = JSON.parse(d.notes || '[]').map(n => `<li>${n.replace(/[<>&]/g, '')}</li>`).join('');
+      $('[data-vit-url]', card).href = d.url;
+      const add = $('[data-vit-add]', card); add.dataset.add = d.id; add.disabled = +d.stock < 1;
+      if (mobile()) return;
+      // move the "camera": reset, measure, then scale the row so the chosen niche fills the window
+      const niche = it.querySelector('.vit__niche');
+      const W = scene.clientWidth, H = scene.clientHeight;
+      const cx = it.offsetLeft + it.offsetWidth / 2, cy = it.offsetTop + niche.offsetTop + niche.offsetHeight / 2;
+      const s = Math.min(2.3, (H * .72) / niche.offsetHeight);
+      const tx = W * (RTL ? .64 : .36), ty = H * .48;
+      setRow(tx - cx * s, ty - cy * s, s, 1.3);
+    };
+    const close = () => {
+      if (cur < 0) return;
+      cur = -1; vit.classList.remove('is-zoom'); card.setAttribute('aria-hidden', 'true');
+      items.forEach(x => x.classList.remove('is-on'));
+      setRow(0, 0, 1, 1.1);
+    };
+    items.forEach((it, k) => it.addEventListener('click', e => { e.stopPropagation(); cur === k ? close() : open(k); }));
+    $('[data-vit-next]', card).addEventListener('click', () => open(cur + 1));
+    $('[data-vit-prev]', card).addEventListener('click', () => open(cur - 1));
+    $('[data-vit-back]', card).addEventListener('click', close);
+    card.addEventListener('click', e => e.stopPropagation());
+    scene.addEventListener('click', close);
+    addEventListener('keydown', e => { if (cur < 0) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') open(cur + (RTL ? -1 : 1)); if (e.key === 'ArrowLeft') open(cur + (RTL ? 1 : -1)); });
+    addEventListener('resize', () => { if (cur >= 0 && !mobile()) open(cur); });
+    gs && gs.set(row, { transformOrigin: '0 0' });
+  }
+})();
