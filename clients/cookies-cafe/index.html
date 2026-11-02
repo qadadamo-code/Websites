@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>كوكيز كافيه | Cookies Café</title>
+<meta name="description" content="كوكيز كافيه: كوكيز طازجة، قهوة مضبوطة، ميلك شيك يستحق التصوير. الافتتاح قريبًا — احجز طاولتك أو اطلب مسبقًا عبر واتساب.">
+<meta name="theme-color" content="#1c0e07">
+<meta property="og:title" content="كوكيز كافيه | Cookies Café">
+<meta property="og:description" content="Good Vibes Only — قريبًا نفتح الفرن. تصفّح المنيو واطلب عبر واتساب.">
+<meta property="og:image" content="assets/img/og.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/img/favicon.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/baloo-bhaijaan-2-arabic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="is-loading">
+
+<!-- ============ PRELOADER ============ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <div class="loader__cookie">
+      <img src="assets/img/cookie-top.jpg" alt="">
+      <span class="loader__bite"></span>
+    </div>
+    <p class="loader__text">نُسخّن الفرن…</p>
+    <div class="loader__count"><span id="loaderPct">0</span>%</div>
+  </div>
+  <svg class="loader__drip" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 H1440 V40 C1400,40 1395,95 1370,95 C1345,95 1345,40 1300,40 C1240,40 1250,70 1220,70 C1190,70 1195,40 1130,40 C1060,40 1075,110 1040,110 C1005,110 1015,40 950,40 C880,40 890,60 860,60 C830,60 840,40 760,40 C690,40 700,100 665,100 C630,100 640,40 570,40 C500,40 510,75 480,75 C450,75 460,40 380,40 C310,40 320,115 285,115 C250,115 260,40 190,40 C130,40 140,65 110,65 C80,65 90,40 0,40 Z"/></svg>
+</div>
+
+<!-- custom cursor -->
+<div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+<!-- ============ HEADER ============ -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav__brand" data-scroll>
+    <img src="assets/img/logo.jpg" alt="شعار كوكيز كافيه" width="48" height="48">
+    <span class="nav__name">كوكيز <em>Café</em></span>
+  </a>
+  <nav class="nav__links" aria-label="القائمة الرئيسية">
+    <a href="#story" data-scroll>الحكاية</a>
+    <a href="#worlds" data-scroll>عوالمنا</a>
+    <a href="#shake" data-scroll>الميلك شيك</a>
+    <a href="#menu" data-scroll>المنيو</a>
+    <a href="#visit" data-scroll>احجز</a>
+  </nav>
+  <div class="nav__actions">
+    <button class="cart-btn" id="cartBtn" aria-label="سلة الطلبات">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1.2 11.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 7Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
+      <span class="cart-btn__count" id="cartCount">0</span>
+    </button>
+    <a class="btn btn--gold btn--sm nav__cta" href="https://wa.me/201203101104" target="_blank" rel="noopener">واتساب</a>
+    <button class="burger" id="burger" aria-label="فتح القائمة"><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#story" data-scroll>الحكاية</a>
+  <a href="#worlds" data-scroll>عوالمنا</a>
+  <a href="#shake" data-scroll>الميلك شيك</a>
+  <a href="#menu" data-scroll>المنيو</a>
+  <a href="#mood" data-scroll>مزاجك إيه؟</a>
+  <a href="#visit" data-scroll>احجز طاولتك</a>
+  <p class="mobile-menu__script">Good Vibes Only</p>
+</div>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <canvas class="hero__crumbs" id="crumbs" aria-hidden="true"></canvas>
+  <div class="bulbs" aria-hidden="true">
+    <span class="bulb" style="--x:6%;--l:120px;--d:0s"></span>
+    <span class="bulb" style="--x:24%;--l:70px;--d:-1.2s"></span>
+    <span class="bulb" style="--x:47%;--l:95px;--d:-2.1s"></span>
+    <span class="bulb" style="--x:61%;--l:150px;--d:-.6s"></span>
+  </div>
+
+  <div class="hero__grid">
+    <div class="hero__copy">
+      <p class="pill reveal-up"><span class="pill__dot"></span> الافتتاح قريبًا جدًا… الفرن يسخن الآن</p>
+      <h1 class="hero__title">
+        <span class="logo-word hero__word" data-hero>كوكيز</span>
+        <span class="hero__neon" data-hero>Café</span>
+      </h1>
+      <p class="hero__lead reveal-up">
+        مكانٌ صغير بقلبٍ كبير، فيه <b>كوكيز</b> تُخبز بحب، و<b>قهوة</b> تعرف مزاجك قبل أن تطلبها،
+        و<b>ميلك شيك</b> يستحق أن تصوّره قبل أن تشربه. لم نفتح بعد… لكن رائحة الكوكيز وصلت قبلنا.
+      </p>
+      <div class="hero__ctas reveal-up">
+        <a href="#menu" class="btn btn--gold magnetic" data-scroll>تصفّح المنيو <span aria-hidden="true">←</span></a>
+        <a href="#visit" class="btn btn--ghost magnetic" data-scroll>احجز أول طاولة</a>
+      </div>
+      <div class="oven reveal-up" aria-label="جاهزية الافتتاح">
+        <div class="oven__top"><span>جاهزية الفرن</span><b><span id="ovenPct">0</span>%</b></div>
+        <div class="oven__bar"><i id="ovenBar"></i></div>
+        <small id="ovenNote">نعجن العجينة… ونعجن معها الأفكار.</small>
+      </div>
+    </div>
+
+    <div class="hero__stage">
+      <div class="stage__ring"></div>
+      <div class="stage__ring stage__ring--2"></div>
+      <div class="stage__glow"></div>
+      <img class="hero__mascot" id="heroMascot" src="assets/img/mascot-wave.webp" alt="ماسكوت كوكيز كافيه يلوّح بيده ويحمل كوب قهوة" width="640" height="593">
+      <div class="speech" id="speech">أهلًا! أنا كوكي 👑<br><small>اضغط عليّ… أتحدّاك</small></div>
+      <span class="stage__chip c1"></span><span class="stage__chip c2"></span><span class="stage__chip c3"></span><span class="stage__chip c4"></span>
+      <p class="hero__script">Good Vibes Only <span aria-hidden="true">♡</span></p>
+    </div>
+  </div>
+
+  <a href="#story" class="scroll-hint" data-scroll aria-label="انزل للأسفل">
+    <span>انزل… الكوكيز في الأسفل</span>
+    <i></i>
+  </a>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>كوكيز طازجة</span><b>✦</b><span>Good Vibes Only</span><b>✦</b><span>قهوة مضبوطة</span><b>✦</b><span>ميلك شيك يستحق التصوير</span><b>✦</b><span>قريبًا نفتح الفرن</span><b>✦</b>
+    <span>كوكيز طازجة</span><b>✦</b><span>Good Vibes Only</span><b>✦</b><span>قهوة مضبوطة</span><b>✦</b><span>ميلك شيك يستحق التصوير</span><b>✦</b><span>قريبًا نفتح الفرن</span><b>✦</b>
+  </div>
+</div>
+
+<!-- ============ BITE (split cookie) ============ -->
+<section class="bite" id="story">
+  <div class="bite__pin">
+    <div class="bite__half bite__half--r" style="background-image:url(assets/img/hero-cookie.jpg)"></div>
+    <div class="bite__half bite__half--l" style="background-image:url(assets/img/hero-cookie.jpg)"></div>
+    <div class="bite__text">
+      <p class="eyebrow">الحكاية</p>
+      <h2 class="bite__title">كل شيءٍ بدأ <span class="logo-word">بقضمة</span></h2>
+      <p class="bite__sub">قضمةٌ واحدة من كوكيز ساخنة، فقرّرنا أن العالم يحتاج مكانًا يليق بها.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STORY words ============ -->
+<section class="story">
+  <div class="container story__grid">
+    <div class="story__mascot">
+      <img src="assets/img/mascot-shake.webp" alt="ماسكوت كوكيز يحمل ميلك شيك" loading="lazy" width="512" height="640">
+    </div>
+    <div>
+      <p class="eyebrow">من نحن؟</p>
+      <p class="story__words" id="storyWords">
+        نحن لسنا مجرد كافيه. نحن اتفاقٌ وديّ بين كوكيز ساخنة وقهوة مضبوطة على أن يجعلا يومك أخفّ.
+        هنا لا أحد يستعجلك، ولا أحد يحكم على عدد الكوكيز التي أكلتها. تعال وحدك أو مع شلّتك،
+        للمذاكرة أو للثرثرة أو لمجرد الهروب من الزحمة. القاعدة الوحيدة عندنا: Good Vibes Only.
+      </p>
+      <div class="stats">
+        <div class="stat"><b data-count="37">0</b><span>صنفًا في المنيو</span></div>
+        <div class="stat"><b data-count="5">0</b><span>عوالم من النكهات</span></div>
+        <div class="stat"><b data-count="100">0</b><span>% مزاج رائق</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORLDS (horizontal) ============ -->
+<section class="worlds" id="worlds">
+  <div class="worlds__pin">
+    <div class="worlds__head container">
+      <p class="eyebrow">عوالم كوكيز</p>
+      <h2 class="h2">خمسة عوالم… <span class="logo-word">ومعدة واحدة</span></h2>
+      <p class="muted">اسحب وتجوّل. كل عالمٍ له مزاجه وأبطاله.</p>
+    </div>
+    <div class="worlds__track" id="worldsTrack"></div>
+    <div class="worlds__progress"><i id="worldsBar"></i></div>
+  </div>
+</section>
+
+<!-- ============ MILKSHAKE SCRUB ============ -->
+<section class="shake" id="shake">
+  <div class="shake__pin">
+    <div class="shake__bgword" aria-hidden="true">MILKSHAKE</div>
+    <div class="shake__canvas-wrap">
+      <canvas id="shakeCanvas" width="540" height="945" aria-label="ميلك شيك شوكولاتة يتكوّن خطوة بخطوة"></canvas>
+      <div class="shake__shine"></div>
+    </div>
+    <div class="shake__copy">
+      <p class="eyebrow">قسم المشروبات وصل!</p>
+      <h2 class="h2 shake__h">انزل ببطء… <span class="logo-word">وشاهده يتكوّن</span></h2>
+      <ol class="shake__steps" id="shakeSteps">
+        <li class="is-active"><span class="num">01</span><div><b>الصوص أولًا</b><p>شوكولاتة كثيفة ترسم خطوطها على جدران الكوب، كأنها توقّع على عمل فني.</p></div></li>
+        <li><span class="num">02</span><div><b>ثم الميلك شيك</b><p>كثيفٌ وبارد يملأ الكوب حتى الحافة. المصّاصة ستحتاج إلى تشجيع.</p></div></li>
+        <li><span class="num">03</span><div><b>سحابة كريمة</b><p>لأننا لا نؤمن بالبخل في الكريمة… ولا في أي شيء آخر.</p></div></li>
+        <li><span class="num">04</span><div><b>التاج الأخير</b><p>كوكيز على القمة ومصّاصة مخططة. الآن صار جاهزًا لك.</p></div></li>
+      </ol>
+      <div class="shake__final" id="shakeFinal">
+        <div><small>ميلك شيك شوكولاتة</small><b>85 <i>ج.م</i></b></div>
+        <button class="btn btn--gold magnetic" data-add="m1">أضِفه إلى طلبي +</button>
+      </div>
+    </div>
+    <div class="shake__meter"><i id="shakeMeter"></i></div>
+  </div>
+</section>
+
+<!-- ============ MENU ============ -->
+<section class="menu" id="menu">
+  <svg class="drip-top" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 H1440 V30 C1400,30 1398,80 1372,80 C1346,80 1350,30 1300,30 C1240,30 1250,55 1222,55 C1194,55 1200,30 1130,30 C1062,30 1076,90 1042,90 C1008,90 1018,30 950,30 C880,30 890,48 862,48 C834,48 842,30 760,30 C690,30 702,84 668,84 C634,84 642,30 570,30 C500,30 512,60 482,60 C452,60 462,30 380,30 C310,30 322,88 288,88 C254,88 262,30 190,30 C130,30 140,52 112,52 C84,52 92,30 0,30 Z"/></svg>
+  <div class="container">
+    <div class="menu__head">
+      <div>
+        <p class="eyebrow">منيو الكافيه</p>
+        <h2 class="h2">اختر… <span class="logo-word">ولا تندم</span></h2>
+        <p class="muted">اضغط <b class="plus-inline">+</b> لتضيف إلى طلبك، ثم أرسله لنا على واتساب بضغطة واحدة. الأسعار بالجنيه المصري.</p>
+      </div>
+      <button class="roulette" id="roulette">
+        <span class="roulette__cookie"><img src="assets/img/cookie-top.jpg" alt=""></span>
+        <span><b>محتار؟</b><small>دع الكوكيز تختار لك</small></span>
+      </button>
+    </div>
+
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="menu__body">
+      <div class="menu__visual" id="menuVisual">
+        <img id="menuImg" src="assets/img/cat-hot.jpg" alt="">
+        <div class="menu__visual-cap"><b id="menuCatName"></b><span id="menuCatTag"></span></div>
+      </div>
+      <ul class="items" id="items"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MOOD ============ -->
+<section class="mood" id="mood">
+  <div class="container">
+    <div class="mood__head">
+      <p class="eyebrow">خدمة لا يقدّمها أحد غيرنا</p>
+      <h2 class="h2">مزاجك إيه <span class="logo-word">النهارده؟</span></h2>
+      <p class="muted">اختر حالتك، وكوكي سيصف لك العلاج المناسب. (العلاج لذيذ، ولا يحتاج روشتة.)</p>
+    </div>
+    <div class="moods" id="moods"></div>
+    <div class="mood__result" id="moodResult" hidden>
+      <img src="assets/img/mascot-wave.webp" alt="" class="mood__mascot" loading="lazy">
+      <div class="mood__bubble">
+        <p id="moodLine"></p>
+        <div class="mood__pick">
+          <div><b id="moodItem"></b><span id="moodPrice"></span></div>
+          <button class="btn btn--gold btn--sm" id="moodAdd">أضِفه لطلبي +</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISIT / RESERVE ============ -->
+<section class="visit" id="visit">
+  <div class="visit__media">
+    <img src="assets/img/storefront.jpg" alt="واجهة كوكيز كافيه قبل الافتتاح" loading="lazy">
+    <div class="visit__stamp"><span>Opening</span><b>SOON</b></div>
+  </div>
+  <div class="container visit__grid">
+    <div class="visit__copy">
+      <p class="eyebrow">الافتتاح قريبًا</p>
+      <h2 class="h2">كن من <span class="logo-word">أوائل الضيوف</span></h2>
+      <p class="muted">الأبواب ما زالت مغلقة، لكن قائمة الضيوف مفتوحة. احجز طاولتك من الآن، وسنراسلك فور تحديد موعد الافتتاح.
+        ومن يحجز أولًا… يحصل على ابتسامة إضافية (وربما كوكيز، لا نعِد بشيء، لكننا لا نستبعده).</p>
+      <ul class="contact-list">
+        <li><span class="ic">💬</span><div><small>واتساب للحجوزات والطلبات</small><a href="https://wa.me/201203101104" target="_blank" rel="noopener" dir="ltr">0120 310 1104</a></div></li>
+        <li><span class="ic">✉️</span><div><small>البريد الإلكتروني</small><a href="mailto:info@theplanetco.com" dir="ltr">info@theplanetco.com</a></div></li>
+        <li><span class="ic">⏰</span><div><small>مواعيد العمل</small><span>نعلنها مع الافتتاح… تابعنا</span></div></li>
+      </ul>
+      <button class="btn btn--ghost" id="notifyBtn">🔔 ذكّروني يوم الافتتاح</button>
+    </div>
+
+    <form class="reserve" id="reserveForm" novalidate>
+      <div class="reserve__head">
+        <h3>احجز طاولتك</h3>
+        <span class="tag">يصلنا فورًا على واتساب</span>
+      </div>
+      <div class="field"><label for="rName">الاسم</label><input id="rName" name="name" required placeholder="اسمك الكريم"></div>
+      <div class="field"><label for="rPhone">رقم الموبايل</label><input id="rPhone" name="phone" inputmode="tel" dir="ltr" required placeholder="01xxxxxxxxx"></div>
+      <div class="field-row">
+        <div class="field"><label for="rDate">التاريخ المفضّل</label><input id="rDate" name="date" type="date"></div>
+        <div class="field"><label for="rTime">الوقت</label><input id="rTime" name="time" type="time" value="19:00"></div>
+      </div>
+      <div class="field">
+        <label>عدد الأشخاص</label>
+        <div class="guests" id="guests">
+          <button type="button" data-g="1">1</button><button type="button" data-g="2" class="on">2</button><button type="button" data-g="3">3</button><button type="button" data-g="4">4</button><button type="button" data-g="6">6</button><button type="button" data-g="8">+8</button>
+        </div>
+      </div>
+      <div class="field"><label for="rOcc">المناسبة</label>
+        <select id="rOcc" name="occasion">
+          <option>لقاء عادي (وهل في الكوكيز شيء عادي؟)</option>
+          <option>عيد ميلاد</option>
+          <option>مذاكرة / شغل</option>
+          <option>خروجة مع الشلّة</option>
+          <option>موعد رومانسي</option>
+        </select>
+      </div>
+      <div class="field"><label for="rNotes">ملاحظات</label><textarea id="rNotes" name="notes" rows="2" placeholder="طاولة بجانب الشباك؟ كعكة مفاجأة؟ قل لنا."></textarea></div>
+      <div class="reserve__actions">
+        <button type="submit" class="btn btn--gold">أرسل الحجز على واتساب</button>
+        <button type="button" class="btn btn--line" id="reserveEmail">أو عبر الإيميل</button>
+      </div>
+      <p class="form-msg" id="reserveMsg" role="status"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer__big" aria-hidden="true">
+    <span class="logo-word">كوكيز</span><span class="footer__neon">Café</span>
+  </div>
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <img src="assets/img/logo.jpg" alt="كوكيز كافيه" width="84" height="84" loading="lazy">
+      <p>كوكيز طازجة، قهوة مضبوطة، ومزاجٌ رائق دائمًا. قريبًا نفتح الفرن… وقلوبنا.</p>
+    </div>
+    <div>
+      <h4>تصفّح</h4>
+      <a href="#story" data-scroll>الحكاية</a><a href="#menu" data-scroll>المنيو</a><a href="#mood" data-scroll>مزاجك إيه؟</a><a href="#visit" data-scroll>الحجز</a>
+    </div>
+    <div>
+      <h4>تواصل</h4>
+      <a href="https://wa.me/201203101104" target="_blank" rel="noopener" dir="ltr">WhatsApp · 0120 310 1104</a>
+      <a href="mailto:info@theplanetco.com" dir="ltr">info@theplanetco.com</a>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <span>© <span id="year">2026</span> Cookies Café. جميع الحقوق محفوظة، والكوكيز أيضًا.</span>
+    <a href="https://theplanetco.com" target="_blank" rel="noopener">صُنع بحب بواسطة Planet</a>
+  </div>
+</footer>
+
+<!-- floating whatsapp -->
+<a class="fab" href="https://wa.me/201203101104?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%20%D9%83%D9%88%D9%83%D9%8A%D8%B2%20%D9%83%D8%A7%D9%81%D9%8A%D9%87%20%F0%9F%91%8B" target="_blank" rel="noopener" aria-label="راسلنا على واتساب">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3Zm0 23.6c-2 0-4-.6-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6Zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.3-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.6l-1-2.3c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.8 5 2.1.9 3 1 4 .8.7-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.1-.3-.2-.6-.3Z"/></svg>
+</a>
+
+<!-- ============ CART DRAWER ============ -->
+<div class="drawer-scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="سلة الطلبات" aria-hidden="true">
+  <div class="drawer__head">
+    <div><h3>طلبك</h3><small id="drawerSub">لا شيء بعد… والكوكيز حزينة</small></div>
+    <button class="icon-btn" id="drawerClose" aria-label="إغلاق">✕</button>
+  </div>
+  <div class="drawer__body">
+    <ul class="cart-list" id="cartList"></ul>
+    <div class="cart-empty" id="cartEmpty">
+      <img src="assets/img/mascot-wave.webp" alt="" loading="lazy">
+      <p>السلة فارغة تمامًا.<br>حتى الفتات غير موجود!</p>
+      <a href="#menu" class="btn btn--gold btn--sm" data-scroll data-close>اذهب إلى المنيو</a>
+    </div>
+    <form class="checkout" id="checkout" novalidate>
+      <div class="otype" id="otype">
+        <button type="button" class="on" data-t="استلام من الكافيه">🛍️ استلام</button>
+        <button type="button" data-t="توصيل">🛵 توصيل</button>
+        <button type="button" data-t="أطلب وأنا في الكافيه">🪑 في الكافيه</button>
+      </div>
+      <div class="field"><label for="cName">الاسم</label><input id="cName" required placeholder="اسمك"></div>
+      <div class="field"><label for="cPhone">الموبايل</label><input id="cPhone" inputmode="tel" dir="ltr" placeholder="01xxxxxxxxx"></div>
+      <div class="field" id="addrField" hidden><label for="cAddr">العنوان</label><input id="cAddr" placeholder="الحي، الشارع، علامة مميزة"></div>
+      <div class="field"><label for="cNotes">ملاحظات</label><input id="cNotes" placeholder="سكر زيادة؟ بدون ثلج؟"></div>
+    </form>
+  </div>
+  <div class="drawer__foot" id="drawerFoot">
+    <div class="total"><span>الإجمالي</span><b id="cartTotal">0 ج.م</b></div>
+    <button class="btn btn--wa" id="sendWa">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3Z"/></svg>
+      أرسل الطلب على واتساب
+    </button>
+    <button class="btn btn--line btn--sm" id="sendMail">أرسله بالإيميل</button>
+    <small class="drawer__note">الكافيه لم يفتح بعد؛ سنتواصل معك لتأكيد موعد الطلب المسبق.</small>
+  </div>
+</aside>
+
+<!-- toast -->
+<div class="toast" id="toast" role="status" aria-live="polite"><img src="assets/img/mascot-wave.webp" alt=""><span id="toastText"></span></div>
+
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/menu-data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
