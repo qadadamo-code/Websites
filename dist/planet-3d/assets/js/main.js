@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { createWorld, SPOTS, C } from './world.js?v=1';
-import { STEPS, T, WA, EMAIL } from './content.js?v=1';
+import { createWorld, SPOTS, C } from './world.js?v=2';
+import { STEPS, T, WA, EMAIL } from './content.js?v=2';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -53,7 +53,7 @@ function renderCard(i) {
   card.classList.remove('in');
   void card.offsetWidth;
   card.innerHTML = `
-    <span class="tag">${s.tag}</span>
+    <div class="card-head"><span class="tag">${s.tag}</span>${s.li.length ? `<button class="more" aria-label="details" aria-expanded="false"><i></i></button>` : ''}</div>
     <h2>${s.h}</h2>
     <p>${s.p}</p>
     ${s.li.length ? `<ul>${s.li.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
@@ -62,6 +62,8 @@ function renderCard(i) {
       ${STEPS[i].id === 'launch' ? `<button class="btn btn-ghost" id="launch-btn">${t.launchBtn}</button>` : i < 8 ? `<button class="btn btn-ghost" data-next>${t.cta2}</button>` : `<a class="btn btn-ghost" href="#package">${t.pkg.kicker}</a>`}
     </div>`;
   card.classList.add('in');
+  card.classList.remove('open');
+  $('.more', card)?.addEventListener('click', (ev) => { const o = card.classList.toggle('open'); ev.currentTarget.setAttribute('aria-expanded', o); });
   $('[data-next]', card)?.addEventListener('click', () => goStep(i + 1));
   $('#launch-btn', card)?.addEventListener('click', () => world.launchRocket(clock.elapsedTime, true));
 }
@@ -146,7 +148,7 @@ function frame() {
   up.setFromMatrixColumn(camera.matrixWorld, 1);
   const visW = (camera.right - camera.left) / zoom, visH = (camera.top - camera.bottom) / zoom;
   const rtl = T[lang].dir === 'rtl';
-  if (isMobile) camera.position.addScaledVector(up, -visH * 0.2 * shift);
+  if (isMobile) camera.position.addScaledVector(up, -visH * 0.12 * shift);
   else camera.position.addScaledVector(right, (rtl ? 1 : -1) * visW * 0.19 * shift);
   camera.updateProjectionMatrix();
 

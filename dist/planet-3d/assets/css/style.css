@@ -95,6 +95,8 @@ main { position: relative; z-index: 2; }
 #card > * { transition: opacity .5s var(--ease), transform .6s var(--ease); }
 #card:not(.in) > * { opacity: 0; transform: translateY(14px); }
 #card.in > *:nth-child(2) { transition-delay: .05s; } #card.in > *:nth-child(3) { transition-delay: .1s; } #card.in > *:nth-child(4) { transition-delay: .15s; } #card.in > *:nth-child(5) { transition-delay: .2s; }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.more { display: none; }
 #card .tag { display: inline-flex; align-items: center; gap: 8px; font: 600 12px/1 var(--f-head); letter-spacing: .06em; color: var(--mint-d); }
 #card .tag::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px rgba(146, 197, 180, .25); }
 #card h2 { font: 700 clamp(24px, 2.3vw, 34px)/1.25 var(--f-head); margin: 16px 0 12px; letter-spacing: -.01em; color: var(--ink); }
@@ -178,12 +180,22 @@ body.no-gl #tour { height: 0; }
   .pill { height: 40px; padding: 0 12px; }
   #card { top: auto; bottom: 84px; inset-inline: 10px; width: auto; padding: 20px 20px 18px; border-radius: 22px; transform: translateY(30px); max-height: 50vh; overflow: auto; }
   #card.show { transform: none; }
-  #card h2 { font-size: 22px; margin: 10px 0 8px; }
+  #card { padding: 14px 16px 14px; bottom: 76px; max-height: 62vh; }
+  #card h2 { font-size: 19px; margin: 8px 0 0; line-height: 1.35; }
+  #card p, #card ul { display: none !important; }
+  #card.open p { display: block !important; margin-top: 8px; }
+  #card.open ul { display: grid !important; }
+  .more { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(20, 54, 89, .07); flex: none; }
+  .more i { position: relative; width: 12px; height: 12px; }
+  .more i::before, .more i::after { content: ''; position: absolute; left: 0; top: 5px; width: 12px; height: 2px; border-radius: 2px; background: currentColor; transition: transform .3s var(--ease); }
+  .more i::after { transform: rotate(90deg); }
+  #card.open .more i::after { transform: rotate(0); }
+  body.is-dark .more { background: rgba(255, 255, 255, .1); }
   #card p { font-size: 14px; line-height: 1.7; }
   #card ul { grid-template-columns: 1fr 1fr; gap: 8px 10px; margin-top: 12px; }
   #card li { font-size: 12.5px; padding-inline-start: 20px; }
   #card li::before { width: 12px; height: 12px; } #card li::after { inset-inline-start: 3px; top: 7px; }
-  .card-actions { margin-top: 14px; } .card-actions .btn { flex: 1; height: 42px; padding: 0 12px; }
+  .card-actions { margin-top: 12px; flex-wrap: nowrap; } .card-actions .btn { flex: 1; height: 40px; padding: 0 10px; font-size: 13px; }
   #dock { bottom: 12px; max-width: calc(100vw - 20px); overflow-x: auto; scrollbar-width: none; }
   #dock::-webkit-scrollbar { display: none; }
   #dock button { padding: 0 11px; height: 42px; }
