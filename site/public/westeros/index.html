@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ويستروس | WESTEROS burger &amp; more — مدينة نصر</title>
+<meta name="description" content="ويستروس برجر آند مور في مدينة نصر: برجر لحم صافي ودجاج مشوي وكرسبي، كوردن بلو، ساندويتشات، ميلك شيك وموكتيل. شوف المنيو كامل واطلب على واتساب.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="WESTEROS — burger & more">
+<meta property="og:description" content="برجر بيتبني طبقة طبقة. المنيو كامل بالأسعار، واطلب على واتساب.">
+<meta property="og:image" content="https://web.theplanetco.com/westeros/assets/img/og.jpg">
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Lalezar&family=Luckiest+Guy&family=Montserrat:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/seq/burger/001.webp">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
+</head>
+<body class="is-loading">
+
+<!-- Preloader -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__logo">
+    <span class="loader__ghost" data-logo></span>
+    <span class="loader__fill" data-logo></span>
+  </div>
+  <div class="loader__count"><span id="loadPct">0</span>%</div>
+</div>
+
+<!-- Header -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" aria-label="Westeros"><span data-logo></span></a>
+  <nav class="nav__links" id="navLinks">
+    <a href="#menu" data-i18n="nav.menu">المنيو</a>
+    <a href="#new" data-i18n="nav.new">الجديد</a>
+    <a href="#sweet" data-i18n="nav.sweet">الحلو والمشروبات</a>
+    <a href="#offers" data-i18n="nav.offers">العروض</a>
+    <a href="#visit" data-i18n="nav.visit">زورنا</a>
+  </nav>
+  <div class="nav__actions">
+    <button class="nav__lang" id="langBtn" type="button" aria-label="Language">EN</button>
+    <a class="btn btn--gold btn--sm nav__order" href="#menu" data-i18n="nav.order">اطلب الآن</a>
+    <button class="nav__burger" id="navBurger" type="button" aria-label="Menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO: burger assembles on scroll -->
+  <section class="scene scene--hero" id="hero" aria-label="Westeros">
+    <div class="scene__sticky">
+      <canvas class="scene__canvas" id="burgerCanvas"></canvas>
+      <div class="hero__word" aria-hidden="true">WESTEROS</div>
+      <div class="scene__vignette"></div>
+
+      <div class="hero__copy hero__copy--a" data-phase="a">
+        <p class="kicker"><span class="dot"></span><span data-i18n="hero.kicker">مدينة نصر · برجر آند مور</span></p>
+        <h1 class="display"><span data-i18n="hero.t1">كل طبقة</span><br><em data-i18n="hero.t2">محسوبة.</em></h1>
+        <p class="lead" data-i18n="hero.lead">لحم صافي، بريوش محمص، وشيدر بيسيح على مهله. انزل بالراحة… وشوف البرجر بيتبني قدامك.</p>
+      </div>
+
+      <ul class="hero__labels" aria-hidden="true">
+        <li style="--y:16%" data-at=".30"><b data-i18n="lbl.bun">بريوش محمص</b><small>Toasted brioche</small></li>
+        <li style="--y:30%" data-at=".36" class="r"><b data-i18n="lbl.cheddar">شيدر أمريكي</b><small>American cheddar</small></li>
+        <li style="--y:42%" data-at=".42"><b data-i18n="lbl.beef">لحم صافي 100%</b><small>Pure beef patty</small></li>
+        <li style="--y:56%" data-at=".48" class="r"><b data-i18n="lbl.veg">خس · طماطم · بصل</b><small>Fresh crunch</small></li>
+        <li style="--y:70%" data-at=".54"><b data-i18n="lbl.sauce">صوص ويستروس</b><small>House sauce</small></li>
+      </ul>
+
+      <div class="hero__copy hero__copy--c" data-phase="c">
+        <p class="kicker"><span class="dot"></span><span data-i18n="hero.signature">التوقيع بتاعنا</span></p>
+        <h2 class="display display--md" data-i18n="hero.classic">كلاسيك بيف برجر</h2>
+        <p class="price-xl"><span>195</span> <small data-i18n="egp">ج.م</small></p>
+        <div class="btns">
+          <a href="#menu" class="btn btn--gold magnetic" data-add="82653"><span data-i18n="cta.addClassic">ضيفه لطلبك</span></a>
+          <a href="#menu" class="btn btn--ghost magnetic" data-i18n="cta.fullMenu">المنيو كامل</a>
+        </div>
+      </div>
+
+      <div class="scroll-hint" id="scrollHint"><span data-i18n="hero.scroll">انزل</span><i></i></div>
+      <div class="scene__progress"><i id="heroBar"></i></div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="band" aria-hidden="true">
+    <div class="band__track">
+      <span>BURGER</span><b>✦</b><span>برجر</span><b>✦</b><span>CRISPY</span><b>✦</b><span>كرسبي</span><b>✦</b><span>CORDON BLEU</span><b>✦</b><span>ساندويتشات</span><b>✦</b><span>SHAKES</span><b>✦</b><span>موكتيل</span><b>✦</b>
+      <span>BURGER</span><b>✦</b><span>برجر</span><b>✦</b><span>CRISPY</span><b>✦</b><span>كرسبي</span><b>✦</b><span>CORDON BLEU</span><b>✦</b><span>ساندويتشات</span><b>✦</b><span>SHAKES</span><b>✦</b><span>موكتيل</span><b>✦</b>
+    </div>
+  </div>
+
+  <!-- Story -->
+  <section class="story" id="story">
+    <div class="wrap story__grid">
+      <div>
+        <p class="kicker"><span class="dot"></span><span data-i18n="story.kicker">مين إحنا</span></p>
+        <h2 class="title reveal-words" data-i18n="story.title">برجر بيتعمل بمزاج، مش بالعافية.</h2>
+      </div>
+      <div class="story__text">
+        <p class="reveal" data-i18n="story.p1">ويستروس اتولد في مدينة نصر عشان يقدّم برجر يتاكل ويتفكر فيه: عيش بريوش بيتحمّص لحظة الطلب، لحم صافي ودجاج متتبل على طريقتنا، وصوصات معمولة في مطبخنا بأسامي هتحفظها من أول قضمة.</p>
+        <div class="stats">
+          <div class="stat reveal"><b data-count="90">0</b><span data-i18n="story.s1">صنف في المنيو</span></div>
+          <div class="stat reveal"><b data-count="7">0</b><span data-i18n="story.s2">صوصات من مطبخنا</span></div>
+          <div class="stat reveal"><b data-count="17">0</b><span data-i18n="story.s3">قسم في المنيو</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW: Cordon Bleu -->
+  <section class="new" id="new">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker"><span class="dot"></span><span data-i18n="new.kicker">جديد على المنيو</span></p>
+        <h2 class="title"><span data-i18n="new.t1">كوردن بلو</span> <span class="outline">BURGERS</span></h2>
+        <p class="sub" data-i18n="new.sub">قطعة دجاج 190 جرام محشية موتزريلا وسلامي، متغلفة ومقرمشة، وجوه بريوش طري. تلات شخصيات… اختار بتاعتك.</p>
+      </div>
+      <div class="new__grid" id="newGrid"></div>
+    </div>
+  </section>
+
+  <!-- SANDWICH scene -->
+  <section class="scene scene--sand" id="sandwich" aria-label="Colonel sandwich">
+    <div class="scene__sticky">
+      <canvas class="scene__canvas" id="sandCanvas"></canvas>
+      <div class="scene__vignette scene__vignette--side"></div>
+      <div class="sand__copy">
+        <p class="kicker"><span class="dot"></span><span data-i18n="sand.kicker">من البرجر… للساندويتش</span></p>
+        <h2 class="display display--md"><span data-i18n="sand.title">كولونيل</span></h2>
+        <p class="lead" data-i18n="sand.lead">عيش فينا طري، قطع دجاج كرسبي، رانش وصوص ستارك المدخن، وموتزريلا سايحة فوق الكل.</p>
+        <ol class="sand__steps">
+          <li data-at=".12"><i>01</i><span data-i18n="sand.s1">عيش فينا طري بالسمسم</span></li>
+          <li data-at=".28"><i>02</i><span data-i18n="sand.s2">خس فريش</span></li>
+          <li data-at=".44"><i>03</i><span data-i18n="sand.s3">قطع فيليه دجاج كرسبي</span></li>
+          <li data-at=".60"><i>04</i><span data-i18n="sand.s4">صوص رانش + ستارك المدخن</span></li>
+          <li data-at=".76"><i>05</i><span data-i18n="sand.s5">موتزريلا سايحة</span></li>
+        </ol>
+        <div class="sand__buy">
+          <p class="price-xl"><span>185</span> <small data-i18n="egp">ج.م</small></p>
+          <button class="btn btn--gold magnetic" type="button" data-add="134727" data-i18n="cta.add">ضيف للطلب</button>
+        </div>
+      </div>
+      <div class="scene__progress"><i id="sandBar"></i></div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="menu" id="menu">
+    <div class="wrap">
+      <div class="sec-head sec-head--center">
+        <p class="kicker"><span class="dot"></span><span data-i18n="menu.kicker">المنيو الكامل</span></p>
+        <h2 class="title"><span data-i18n="menu.title">اختار… وإحنا علينا الباقي</span></h2>
+        <p class="sub" data-i18n="menu.sub">كل الأصناف والأسعار محدّثة من فرعنا في مدينة نصر. دوس على أي صنف للتفاصيل، وضيفه لطلبك.</p>
+      </div>
+    </div>
+    <div class="menu__bar" id="menuBar">
+      <div class="menu__search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="menuSearch" type="search" placeholder="دوّر على صنف…" data-i18n-ph="menu.search" autocomplete="off">
+      </div>
+      <div class="menu__cats" id="menuCats"></div>
+    </div>
+    <div class="wrap">
+      <div id="menuList" class="menu__list"></div>
+      <p class="menu__empty" id="menuEmpty" hidden data-i18n="menu.empty">مفيش صنف بالاسم ده. جرّب كلمة تانية.</p>
+    </div>
+  </section>
+
+  <!-- SWEET: horizontal pinned -->
+  <section class="sweet" id="sweet">
+    <div class="sweet__pin">
+      <div class="sweet__head">
+        <p class="kicker kicker--dark"><span class="dot"></span><span data-i18n="sweet.kicker">بعد البرجر</span></p>
+        <h2 class="sweet__title"><span data-i18n="sweet.t1">الجانب</span><br><span data-i18n="sweet.t2">الحلو.</span></h2>
+        <p class="sweet__sub" data-i18n="sweet.sub">ميلك شيك بطبقات كريمة وصوصات بتنزل على الكوباية، وكرانشي كيك سخنة جنبها فنجان قهوة تركي.</p>
+      </div>
+      <div class="sweet__track" id="sweetTrack"></div>
+    </div>
+  </section>
+
+  <!-- DRINKS: floating -->
+  <section class="fizz" id="fizz">
+    <div class="fizz__bubbles" aria-hidden="true"></div>
+    <div class="wrap fizz__inner">
+      <div class="fizz__copy">
+        <p class="kicker"><span class="dot"></span><span data-i18n="fizz.kicker">موكتيل وإيطاليان صودا</span></p>
+        <h2 class="title" data-i18n="fizz.title">انتعش بين القضمة والتانية.</h2>
+        <p class="sub" data-i18n="fizz.sub">مانجو وبرتقال فريش، خوخ وتفاح أحمر، عسل وليمون وجراندين… كلها على مياه فوارة وتلج كتير.</p>
+        <div class="fizz__list" id="fizzList"></div>
+      </div>
+      <div class="fizz__stage" id="fizzStage" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- OFFERS -->
+  <section class="offers" id="offers">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker"><span class="dot"></span><span data-i18n="offers.kicker">عروض وبوكسات</span></p>
+        <h2 class="title"><span data-i18n="offers.title">جاي مع الشلة؟</span></h2>
+        <p class="sub" data-i18n="offers.sub">بوكسات معمولة للمشاركة، بأسعار أوفر من الطلب لوحده.</p>
+      </div>
+      <div class="offers__grid" id="offersGrid"></div>
+    </div>
+  </section>
+
+  <!-- FIT -->
+  <section class="fit" id="fit">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker"><span class="dot"></span><span data-i18n="fit.kicker">وجبات صحية</span></p>
+        <h2 class="title"><span data-i18n="fit.title">متابع الماكروز؟ إحنا كمان.</span></h2>
+        <p class="sub" data-i18n="fit.sub">صدر دجاج مشوي 200 جرام، والسعرات والبروتين مكتوبين بالظبط.</p>
+      </div>
+      <div class="fit__grid" id="fitGrid"></div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="voices" aria-label="Reviews">
+    <div class="voices__track">
+      <blockquote>“روعة، شغل عالمي. لازم تفتحوا في كل مكان حتى برا مصر.” <cite>— فاطمة</cite></blockquote>
+      <blockquote>“طعم البرجر يجنن ❤️”</blockquote>
+      <blockquote>“Very nice.” <cite>— Nada</cite></blockquote>
+      <blockquote>“ممتاز، جزاكم الله خيرًا.”</blockquote>
+      <blockquote>“روعة، شغل عالمي. لازم تفتحوا في كل مكان حتى برا مصر.” <cite>— فاطمة</cite></blockquote>
+      <blockquote>“طعم البرجر يجنن ❤️”</blockquote>
+      <blockquote>“Very nice.” <cite>— Nada</cite></blockquote>
+      <blockquote>“ممتاز، جزاكم الله خيرًا.”</blockquote>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section class="visit" id="visit">
+    <div class="wrap visit__grid">
+      <div class="visit__info">
+        <p class="kicker"><span class="dot"></span><span data-i18n="visit.kicker">زورنا</span></p>
+        <h2 class="title" data-i18n="visit.title">مدينة نصر، المنطقة الأولى.</h2>
+        <p class="sub" data-i18n="visit.addr">قصاد مسجد فاطمة الزهراء، جنب جنينة مول.</p>
+        <ul class="visit__facts">
+          <li><b data-i18n="visit.f1t">توصيل واستلام</b><span data-i18n="visit.f1">اطلب دليفري أو عدّي خد طلبك من الفرع.</span></li>
+          <li><b data-i18n="visit.f2t">الدفع</b><span data-i18n="visit.f2">كاش عند الاستلام.</span></li>
+          <li><b data-i18n="visit.f3t">تليفون وواتساب</b><a href="tel:+201080080478" dir="ltr">0108 008 0478</a></li>
+        </ul>
+        <div class="btns">
+          <a class="btn btn--gold magnetic" href="https://wa.me/201080080478" target="_blank" rel="noopener" data-i18n="visit.wa">كلّمنا واتساب</a>
+          <a class="btn btn--ghost magnetic" href="https://www.google.com/maps/dir/?api=1&destination=30.0604725,31.3335067" target="_blank" rel="noopener" data-i18n="visit.dir">الاتجاهات</a>
+          <a class="btn btn--ghost magnetic" href="https://westeros.bonbell.online/" target="_blank" rel="noopener" data-i18n="visit.online">اطلب أونلاين</a>
+        </div>
+        <div class="social">
+          <a href="https://www.instagram.com/westeros.eg/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" class="f"/></svg></a>
+          <a href="https://www.facebook.com/profile.php?id=61561110775581" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H7v4h3v8h4v-8h3l1-4h-4V8z"/></svg></a>
+          <a href="https://wa.me/201080080478" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2L9 9.5z" class="f"/></svg></a>
+        </div>
+      </div>
+      <div class="visit__map">
+        <iframe title="Westeros map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=30.0604725,31.3335067&z=16&output=embed"></iframe>
+        <div class="visit__pin"><span data-logo></span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot__word" aria-hidden="true">WESTEROS</div>
+  <div class="wrap foot__row">
+    <span data-logo class="foot__logo"></span>
+    <p>© <span id="year">2026</span> WESTEROS burger &amp; more · <span data-i18n="foot.city">مدينة نصر، القاهرة</span></p>
+    <a class="foot__credit" href="https://web.theplanetco.com/" target="_blank" rel="noopener">Website by Planet</a>
+  </div>
+</footer>
+
+<!-- Cart -->
+<button class="cart-fab" id="cartFab" type="button" aria-label="Cart">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l-1.5 12h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+  <span class="cart-fab__count" id="cartCount">0</span>
+  <span class="cart-fab__total" id="cartFabTotal"></span>
+</button>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer__scrim" data-close></div>
+  <div class="drawer__panel" role="dialog" aria-label="Order">
+    <div class="drawer__head">
+      <h3 data-i18n="cart.title">طلبك</h3>
+      <button class="x" type="button" data-close aria-label="Close">✕</button>
+    </div>
+    <div class="drawer__body" id="cartList"></div>
+    <div class="drawer__form" id="cartForm">
+      <div class="seg" role="radiogroup">
+        <label><input type="radio" name="mode" value="pickup" checked><span data-i18n="cart.pickup">استلام من الفرع</span></label>
+        <label><input type="radio" name="mode" value="delivery"><span data-i18n="cart.delivery">توصيل</span></label>
+      </div>
+      <input id="cName" type="text" placeholder="الاسم" data-i18n-ph="cart.name" autocomplete="name">
+      <input id="cAddr" type="text" placeholder="العنوان بالتفصيل" data-i18n-ph="cart.addr" autocomplete="street-address" hidden>
+      <textarea id="cNote" rows="2" placeholder="ملاحظات (من غير بصل، صوص زيادة…)" data-i18n-ph="cart.note"></textarea>
+    </div>
+    <div class="drawer__foot">
+      <div class="drawer__total"><span data-i18n="cart.total">الإجمالي</span><b id="cartTotal">0</b></div>
+      <button class="btn btn--gold btn--block" id="sendOrder" type="button" data-i18n="cart.send">ابعت الطلب على واتساب</button>
+      <p class="drawer__note" data-i18n="cart.hint">هيتفتح واتساب برسالة جاهزة بالطلب، وفريق ويستروس هيأكد معاك.</p>
+    </div>
+  </div>
+</aside>
+
+<!-- Item modal -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal__scrim" data-close></div>
+  <div class="modal__card" role="dialog">
+    <button class="x" type="button" data-close aria-label="Close">✕</button>
+    <div class="modal__media"><img id="mImg" alt=""></div>
+    <div class="modal__body">
+      <p class="kicker" id="mCat"></p>
+      <h3 id="mName"></h3>
+      <p class="modal__en" id="mEn"></p>
+      <p class="modal__desc" id="mDesc"></p>
+      <div class="macros" id="mMac"></div>
+      <div class="modal__buy">
+        <div class="qty"><button type="button" id="mMinus">−</button><span id="mQty">1</span><button type="button" id="mPlus">+</button></div>
+        <button class="btn btn--gold" type="button" id="mAdd"><span data-i18n="cta.add">ضيف للطلب</span> · <b id="mPrice"></b></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/menu-data.js?v=1"></script>
+<script src="assets/js/app.js?v=2"></script>
+</body>
+</html>
