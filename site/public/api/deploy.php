@@ -5,7 +5,8 @@
  *   php /home/vbkug/web.theplanetco.com/api/deploy.php
  * It does nothing unless a new commit exists, so running it every 5 minutes is cheap.
  */
-if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
+// Cron on cPanel often runs the CGI build of php, so only block real web requests.
+if (PHP_SAPI !== 'cli' && isset($_SERVER['REQUEST_METHOD'])) { http_response_code(404); exit; }
 
 $REPO   = 'qadadamo-code/Websites';
 $BRANCH = 'claude/project-thread-plh9mw';
