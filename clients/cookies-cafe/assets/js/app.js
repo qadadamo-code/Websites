@@ -407,7 +407,11 @@
   }
 
   /* ---------------- menu ---------------- */
-  const cart = new Map(JSON.parse(localStorage.getItem("cookies-cart") || "[]"));
+  const store = {
+    get() { try { return JSON.parse(localStorage.getItem("cookies-cart") || "[]"); } catch (e) { return []; } },
+    set(v) { try { localStorage.setItem("cookies-cart", JSON.stringify(v)); } catch (e) {} },
+  };
+  const cart = new Map(store.get().filter(([id]) => ITEMS[id]));
   let curCat = MENU[0].id;
   const tabs = $("#tabs");
   tabs.innerHTML = MENU.map(
@@ -475,7 +479,7 @@
   function changeQty(id, d, srcEl) {
     const n = Math.max(0, (cart.get(id) || 0) + d);
     n ? cart.set(id, n) : cart.delete(id);
-    localStorage.setItem("cookies-cart", JSON.stringify([...cart]));
+    store.set([...cart]);
     $$(`.qty[data-id="${id}"]`).forEach((q) => { q.classList.toggle("has", n > 0); q.querySelector(".n").textContent = n; });
     updateCart();
     if (d > 0) {
