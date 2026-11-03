@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>تشاو 7 بيتزا | Ciao 7 Pizza — بيتزا، مكرونة وفطير</title>
+<meta name="description" content="تشاو 7 بيتزا: بيتزا إيطالية بعجينة ترتاح 48 ساعة، مكرونات، فطير حادق وحلو ومشروبات. شوف المنيو، اطلب على واتساب، أو احجز طاولة.">
+<meta name="theme-color" content="#0b0908">
+<meta property="og:title" content="Ciao 7 Pizza — تشاو 7 بيتزا">
+<meta property="og:description" content="بيتزا تشدّ الجبنة معك. المنيو كامل، واطلب أو احجز على واتساب.">
+<meta property="og:image" content="https://web.theplanetco.com/ciao7/assets/img/og.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Lalezar&family=Pacifico&family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/logo/word.webp">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
+</head>
+<body class="is-loading">
+
+<!-- Loader -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__pie">
+    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#e7a95a"/><circle cx="50" cy="50" r="37" fill="#d23a22"/><circle cx="50" cy="50" r="34" fill="#f6c453"/><g fill="#b3261e"><circle cx="38" cy="36" r="6"/><circle cx="62" cy="40" r="6"/><circle cx="46" cy="62" r="6"/><circle cx="66" cy="62" r="5"/></g></svg>
+    <span class="loader__cut"></span>
+  </div>
+  <div class="loader__txt">Ciao<span>!</span></div>
+  <div class="loader__bar"><i id="loadBar"></i></div>
+</div>
+
+<!-- Nav -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" aria-label="Ciao 7 Pizza"><img src="assets/img/logo/mini.webp" alt="تشاو 7 بيتزا" width="150" height="122"></a>
+  <nav class="nav__links" id="navLinks">
+    <a href="#pizza"><span lang="ar">البيتزا</span><span lang="en">Pizza</span></a>
+    <a href="#menu"><span lang="ar">المنيو</span><span lang="en">Menu</span></a>
+    <a href="#feteer"><span lang="ar">الفطير</span><span lang="en">Feteer</span></a>
+    <a href="#offers"><span lang="ar">العروض</span><span lang="en">Deals</span></a>
+    <a href="#book"><span lang="ar">احجز</span><span lang="en">Book</span></a>
+  </nav>
+  <div class="nav__actions">
+    <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language"><span lang="ar">EN</span><span lang="en">عربي</span></button>
+    <button class="cart-btn" id="cartBtn" type="button" aria-label="Cart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 10.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19.5" r="1.6" fill="currentColor"/><circle cx="17" cy="19.5" r="1.6" fill="currentColor"/></svg>
+      <b id="cartCount">0</b>
+    </button>
+    <button class="burger" id="burger" type="button" aria-label="Menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO: the logo assembles -->
+<section class="hero" id="hero">
+  <div class="hero__stage">
+    <div class="hero__glow"></div>
+    <div class="hero__grain"></div>
+    <div class="hero__floaters" id="floaters" aria-hidden="true"></div>
+
+    <div class="hero__logo" id="heroLogo">
+      <svg class="hero__ring" viewBox="0 0 400 400" aria-hidden="true">
+        <defs><path id="ringPath" d="M200,200 m-176,0 a176,176 0 1,1 352,0 a176,176 0 1,1 -352,0"/></defs>
+        <text><textPath href="#ringPath">CIAO! · تشاو · PIZZA · PASTA · FETEER · بيتزا · مكرونة · فطير · CIAO! · تشاو · SETTE · سبعة ·</textPath></text>
+      </svg>
+      <div class="logo-stage" id="logoStage">
+        <div class="lp" data-k="ring"><img src="assets/img/logo/ring.webp" alt=""></div>
+        <div class="lp" data-k="sliceL"><img src="assets/img/logo/sliceL.webp" alt=""></div>
+        <div class="lp" data-k="sliceR"><img src="assets/img/logo/sliceR.webp" alt=""></div>
+        <div class="lp" data-k="slice"><img src="assets/img/logo/slice.webp" alt=""></div>
+        <div class="lp" data-k="word"><img src="assets/img/logo/word.webp" alt="تشاو"></div>
+        <div class="lp" data-k="seven"><img src="assets/img/logo/seven.webp" alt="7"></div>
+        <div class="lp" data-k="base"><img src="assets/img/logo/base.webp" alt="PIZZA"></div>
+        <div class="lp lp--all" data-k="all"><img src="assets/img/logo/all.webp" alt=""></div>
+      </div>
+      <button class="bubble" id="bubble" type="button" aria-label="Ciao!">Ciao!</button>
+    </div>
+
+    <div class="hero__copy" id="heroCopy">
+      <p class="eyebrow"><span lang="ar">بيتزا · مكرونة · فطير</span><span lang="en">Pizza · Pasta · Feteer</span></p>
+      <h1>
+        <span lang="ar">قل <em>تشاو</em> لأشهى قطعة بيتزا في يومك</span>
+        <span lang="en">Say <em>Ciao</em> to the best slice of your day</span>
+      </h1>
+      <div class="hero__ctas">
+        <a href="#menu" class="btn btn--red"><span lang="ar">شوف المنيو</span><span lang="en">See the menu</span></a>
+        <a href="#book" class="btn btn--ghost"><span lang="ar">احجز طاولة</span><span lang="en">Book a table</span></a>
+      </div>
+    </div>
+    <div class="scroll-hint"><span lang="ar">انزل.. الجبنة بتستنّاك</span><span lang="en">Scroll, the cheese is waiting</span><i></i></div>
+  </div>
+</section>
+
+<!-- SCENE 1: Pizza -->
+<section class="scene" id="pizza" data-seq="pizza" data-n="32" data-fx="0.36" data-cat="classic">
+  <div class="scene__stage">
+    <canvas class="scene__cv"></canvas>
+    <div class="scene__shade"></div>
+    <div class="scene__word" aria-hidden="true">PIZZA</div>
+    <div class="scene__index"><b>01</b><span>/05</span></div>
+    <div class="scene__copy">
+      <p class="scene__tag"><span lang="ar">البيتزا</span><span lang="en">La Pizza</span></p>
+      <div class="scene__steps">
+        <div class="step"><h2><span lang="ar">عجينة ترتاح<br><em>48 ساعة</em></span><span lang="en">Dough that rests<br><em>48 hours</em></span></h2>
+          <p><span lang="ar">نتركها تختمر ببطء حتى تصير خفيفة، هشّة، وسهلة الهضم.</span><span lang="en">Slow fermentation makes it light, airy and easy to digest.</span></p></div>
+        <div class="step"><h2><span lang="ar">جبنة تشدّ معك..<br><em>ولا تنقطع</em></span><span lang="en">Cheese that stretches<br><em>and never lets go</em></span></h2>
+          <p><span lang="ar">موتزاريلا حقيقية تذوب على مهلها وتصنع هذا الخيط الذهبي.</span><span lang="en">Real mozzarella melting slowly into that golden pull.</span></p></div>
+        <div class="step"><h2><span lang="ar">فرن على <em>400°</em><br>وقلب أدفأ</span><span lang="en">A <em>400°</em> oven<br>and a warmer heart</span></h2>
+          <p><span lang="ar">حواف منتفخة ومحمّصة، وقلب طري. هكذا تكون البيتزا.</span><span lang="en">Puffy charred edges, soft heart. That's how pizza should be.</span></p>
+          <a href="#menu" class="btn btn--cream" data-goto-cat="classic"><span lang="ar">اختر بيتزتك</span><span lang="en">Pick your pizza</span></a></div>
+      </div>
+    </div>
+    <div class="scene__progress"><i></i></div>
+  </div>
+</section>
+
+<!-- The 7 secrets -->
+<section class="sette" id="sette">
+  <div class="sette__pin">
+    <div class="sette__head">
+      <p class="eyebrow"><span lang="ar">لماذا تشاو 7؟</span><span lang="en">Why Ciao 7?</span></p>
+      <h2 class="h-big"><span lang="ar">7 أسرار في<br>كل قطعة</span><span lang="en">7 secrets in<br>every slice</span></h2>
+      <p class="muted"><span lang="ar">الرقم 7 ليس صدفة. هذه وصفتنا كاملة، بلا أسرار مخفية.. تقريباً.</span><span lang="en">The 7 is no accident. Here's our whole recipe, no hidden secrets… almost.</span></p>
+    </div>
+    <div class="sette__track" id="setteTrack"></div>
+  </div>
+</section>
+
+<!-- SCENE 2: Pasta -->
+<section class="scene" id="pasta" data-seq="pasta" data-n="32" data-fx="0.5" data-cat="pasta">
+  <div class="scene__stage">
+    <canvas class="scene__cv"></canvas>
+    <div class="scene__shade"></div>
+    <div class="scene__word" aria-hidden="true">PASTA</div>
+    <div class="scene__index"><b>02</b><span>/05</span></div>
+    <div class="scene__copy">
+      <p class="scene__tag"><span lang="ar">المكرونة</span><span lang="en">La Pasta</span></p>
+      <div class="scene__steps">
+        <div class="step"><h2><span lang="ar">مكرونة<br><em>Al dente</em></span><span lang="en">Cooked<br><em>al dente</em></span></h2>
+          <p><span lang="ar">يعني متماسكة تحت السنّ، تماماً كما يطبخها الإيطاليون.</span><span lang="en">Firm to the bite, exactly like the Italians do it.</span></p></div>
+        <div class="step"><h2><span lang="ar">صوص يغطّي<br><em>كل لفّة</em></span><span lang="en">Sauce that hugs<br><em>every twirl</em></span></h2>
+          <p><span lang="ar">ألفريدو كريمي، أرابياتا حارة، أو بيستو أخضر.. اختر مزاجك.</span><span lang="en">Creamy Alfredo, fiery Arrabbiata or green Pesto. Pick your mood.</span></p></div>
+        <div class="step"><h2><span lang="ar">شوكة واحدة<br><em>لا تكفي</em></span><span lang="en">One forkful<br><em>is never enough</em></span></h2>
+          <p><span lang="ar">9 أطباق مكرونة، من الكلاسيكي حتى النجرسكو المصري.</span><span lang="en">9 pasta dishes, from the classics to Egyptian Negresco.</span></p>
+          <a href="#menu" class="btn btn--cream" data-goto-cat="pasta"><span lang="ar">منيو المكرونة</span><span lang="en">Pasta menu</span></a></div>
+      </div>
+    </div>
+    <div class="scene__progress"><i></i></div>
+  </div>
+</section>
+
+<!-- SCENE 3: Feteer -->
+<section class="scene" id="feteer" data-seq="feteer" data-n="32" data-fx="0.45" data-cat="feteer">
+  <div class="scene__stage">
+    <canvas class="scene__cv"></canvas>
+    <div class="scene__shade"></div>
+    <div class="scene__word" aria-hidden="true">FETEER</div>
+    <div class="scene__index"><b>03</b><span>/05</span></div>
+    <div class="scene__copy">
+      <p class="scene__tag"><span lang="ar">الفطير</span><span lang="en">Il Feteer</span></p>
+      <div class="scene__steps">
+        <div class="step"><h2><span lang="ar">إيطاليا قابلت<br><em>مصر</em></span><span lang="en">Italy meets<br><em>Egypt</em></span></h2>
+          <p><span lang="ar">عجينة رقيقة تُفرد باليد وتُطوى طبقة فوق طبقة.</span><span lang="en">Paper-thin dough, hand-stretched and folded layer over layer.</span></p></div>
+        <div class="step"><h2><span lang="ar">مئة طبقة<br><em>مقرمشة</em></span><span lang="en">A hundred<br><em>crispy layers</em></span></h2>
+          <p><span lang="ar">مقرمش من الخارج، طري من الداخل، وسمن بلدي يفوح.</span><span lang="en">Crisp outside, soft inside, with the aroma of real ghee.</span></p></div>
+        <div class="step"><h2><span lang="ar">حادق أو حلو؟<br><em>الاثنين!</em></span><span lang="en">Savory or sweet?<br><em>Both!</em></span></h2>
+          <p><span lang="ar">من السجق والبسطرمة إلى النوتيلا والبستاشيو.</span><span lang="en">From sausage and basterma to Nutella and pistachio.</span></p>
+          <a href="#menu" class="btn btn--cream" data-goto-cat="feteer"><span lang="ar">منيو الفطير</span><span lang="en">Feteer menu</span></a></div>
+      </div>
+    </div>
+    <div class="scene__progress"><i></i></div>
+  </div>
+</section>
+
+<!-- MENU WHEEL -->
+<section class="menu" id="menu">
+  <div class="menu__head">
+    <p class="eyebrow"><span lang="ar">المنيو بالقطعة</span><span lang="en">A menu by the slice</span></p>
+    <h2 class="h-big"><span lang="ar">لكل قطعة<br><em>حكاية</em></span><span lang="en">Every slice<br><em>has a story</em></span></h2>
+    <p class="muted"><span lang="ar">المنيو عندنا بيتزا كبيرة. اسحب قطعة، وشوف ما بداخلها.</span><span lang="en">Our menu is one big pizza. Pull a slice and see what's inside.</span></p>
+  </div>
+  <div class="menu__body">
+    <div class="wheel-wrap">
+      <div class="wheel" id="wheel"></div>
+      <div class="wheel__hint"><span lang="ar">اضغط على أي قطعة</span><span lang="en">Tap any slice</span></div>
+    </div>
+    <div class="menu__panel">
+      <div class="chips" id="chips" role="tablist"></div>
+      <div class="panel__title" id="panelTitle"></div>
+      <div class="items" id="items"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENE 4: Hot drinks -->
+<section class="scene scene--short" id="hot" data-seq="hot" data-n="32" data-fx="0.4" data-cat="hot">
+  <div class="scene__stage">
+    <canvas class="scene__cv"></canvas>
+    <div class="scene__shade"></div>
+    <div class="scene__word" aria-hidden="true">CALDO</div>
+    <div class="scene__index"><b>04</b><span>/05</span></div>
+    <div class="scene__copy">
+      <p class="scene__tag"><span lang="ar">مشروبات ساخنة</span><span lang="en">Hot drinks</span></p>
+      <div class="scene__steps">
+        <div class="step"><h2><span lang="ar">إسبريسو بكريمة<br><em>ذهبية</em></span><span lang="en">Espresso with<br><em>golden crema</em></span></h2>
+          <p><span lang="ar">حبوب محمّصة طازجة، وماكينة إيطالية لا تعرف المزاح.</span><span lang="en">Freshly roasted beans and an Italian machine that means business.</span></p></div>
+        <div class="step"><h2><span lang="ar">وختامها<br><em>قهوة</em></span><span lang="en">And to finish,<br><em>a coffee</em></span></h2>
+          <p><span lang="ar">كابتشينو، لاتيه، تركي، أو سحلب بالمكسرات في ليالي الشتاء.</span><span lang="en">Cappuccino, latte, Turkish, or nutty sahlab on winter nights.</span></p>
+          <a href="#menu" class="btn btn--cream" data-goto-cat="hot"><span lang="ar">المشروبات الساخنة</span><span lang="en">Hot drinks</span></a></div>
+      </div>
+    </div>
+    <div class="scene__progress"><i></i></div>
+  </div>
+</section>
+
+<!-- SCENE 5: Cold drinks -->
+<section class="scene scene--short" id="cold" data-seq="cold" data-n="32" data-fx="0.5" data-cat="cold">
+  <div class="scene__stage">
+    <canvas class="scene__cv"></canvas>
+    <div class="scene__shade"></div>
+    <div class="scene__word" aria-hidden="true">FREDDO</div>
+    <div class="scene__index"><b>05</b><span>/05</span></div>
+    <div class="scene__copy">
+      <p class="scene__tag"><span lang="ar">مشروبات باردة</span><span lang="en">Cold drinks</span></p>
+      <div class="scene__steps">
+        <div class="step"><h2><span lang="ar">ثلج، نعناع،<br><em>ليمون</em></span><span lang="en">Ice, mint,<br><em>lemon</em></span></h2>
+          <p><span lang="ar">موهيتو يطفئ نار الديافولا في رشفة واحدة.</span><span lang="en">A mojito that puts out the Diavola fire in one sip.</span></p></div>
+        <div class="step"><h2><span lang="ar">برّد على<br><em>قلبك</em></span><span lang="en">Cool down,<br><em>amico</em></span></h2>
+          <p><span lang="ar">عصائر فريش، ميلك شيك، وآيس لاتيه.. كلها باردة كما يجب.</span><span lang="en">Fresh juices, milkshakes and iced lattes, as cold as they should be.</span></p>
+          <a href="#menu" class="btn btn--cream" data-goto-cat="cold"><span lang="ar">المشروبات الباردة</span><span lang="en">Cold drinks</span></a></div>
+      </div>
+    </div>
+    <div class="scene__progress"><i></i></div>
+  </div>
+</section>
+
+<!-- OFFERS + ROULETTE -->
+<section class="offers" id="offers">
+  <div class="sec-head">
+    <p class="eyebrow"><span lang="ar">عروض تشاو</span><span lang="en">Ciao deals</span></p>
+    <h2 class="h-big"><span lang="ar">اللمّة أحلى<br><em>بالعروض</em></span><span lang="en">Better together,<br><em>better priced</em></span></h2>
+  </div>
+  <div class="tickets" id="tickets"></div>
+
+  <div class="roulette" id="roulette">
+    <div class="roulette__copy">
+      <p class="eyebrow"><span lang="ar">مش عارف تختار؟</span><span lang="en">Can't decide?</span></p>
+      <h3 class="h-mid"><span lang="ar">لفّ <em>عجلة السبعة</em></span><span lang="en">Spin the <em>Lucky 7</em></span></h3>
+      <p class="muted"><span lang="ar">خلّي الحظ يختار لك البيتزا. ولو وقفت على الرقم 7.. مفاجأة!</span><span lang="en">Let luck pick your pizza. Land on the 7 for a surprise!</span></p>
+      <button class="btn btn--red" id="spinBtn" type="button"><span lang="ar">لفّ العجلة</span><span lang="en">Spin it</span></button>
+      <div class="roulette__result" id="spinResult" aria-live="polite"></div>
+    </div>
+    <div class="roulette__wheel">
+      <div class="roulette__pin"></div>
+      <div id="rWheel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- GOODNESS -->
+<section class="good" id="good">
+  <div class="sec-head">
+    <p class="eyebrow"><span lang="ar">جمالها وغذاؤها</span><span lang="en">Beauty & goodness</span></p>
+    <h2 class="h-big"><span lang="ar">البيتزا الحقيقية<br><em>طعام كامل</em></span><span lang="en">Real pizza is<br><em>a complete meal</em></span></h2>
+    <p class="muted"><span lang="ar">قمح، طماطم، جبنة، وزيت زيتون. أربعة مكونات بسيطة صنعت أشهر طبق في العالم.</span><span lang="en">Wheat, tomato, cheese and olive oil. Four simple things that made the world's favourite dish.</span></p>
+  </div>
+  <div class="good__grid">
+    <div class="good__cards" id="goodCards"></div>
+    <div class="label" aria-label="Nutrition facts">
+      <div class="label__head"><span lang="ar">حقائق غذائية</span><span lang="en">Nutrition Facts</span><small><span lang="ar">لقطعة واحدة من تشاو 7</span><span lang="en">Per one slice of Ciao 7</span></small></div>
+      <div class="label__row big"><span><span lang="ar">السعادة</span><span lang="en">Happiness</span></span><b>100%</b></div>
+      <div class="label__row"><span><span lang="ar">خيوط الجبنة</span><span lang="en">Cheese pulls</span></span><b>∞</b></div>
+      <div class="label__row"><span><span lang="ar">ابتسامات</span><span lang="en">Smiles</span></span><b>7+</b></div>
+      <div class="label__row"><span><span lang="ar">ندم</span><span lang="en">Regret</span></span><b>0g</b></div>
+      <div class="label__row"><span><span lang="ar">رغبة في قطعة ثانية</span><span lang="en">Urge for another slice</span></span><b>98%</b></div>
+      <div class="label__row"><span><span lang="ar">حب إيطالي</span><span lang="en">Italian amore</span></span><b>Molto</b></div>
+      <p class="label__foot"><span lang="ar">* الأرقام علمية جداً.. حسب رأي الشيف.</span><span lang="en">* Highly scientific numbers, according to the chef.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="voices" id="voices">
+  <div class="sec-head">
+    <p class="eyebrow"><span lang="ar">الناس بتحكي</span><span lang="en">What people say</span></p>
+    <h2 class="h-big"><span lang="ar">قالوا عنّا<br><em>Mamma mia!</em></span><span lang="en">They said<br><em>Mamma mia!</em></span></h2>
+  </div>
+  <div class="marquee" id="mq1"></div>
+  <div class="marquee marquee--rev" id="mq2"></div>
+</section>
+
+<!-- ITALIAN 101 -->
+<section class="dict" id="dict">
+  <div class="sec-head">
+    <p class="eyebrow"><span lang="ar">درس إيطالي سريع</span><span lang="en">Italian 101</span></p>
+    <h2 class="h-big"><span lang="ar">اطلب <em>بالإيطالي</em><br>في 7 كلمات</span><span lang="en">Order <em>in Italian</em><br>in 7 words</span></h2>
+    <p class="muted"><span lang="ar">اقلب الكارت.. وتكلّم مع الشيف بلغته.</span><span lang="en">Flip a card and talk to the chef in his own language.</span></p>
+  </div>
+  <div class="dict__grid" id="dictGrid"></div>
+</section>
+
+<!-- BOOK / ORDER -->
+<section class="book" id="book">
+  <div class="book__inner">
+    <div class="book__copy">
+      <p class="eyebrow"><span lang="ar">اطلب أو احجز</span><span lang="en">Order or book</span></p>
+      <h2 class="h-big"><span lang="ar">كل شيء<br>على <em>واتساب</em></span><span lang="en">Everything<br>on <em>WhatsApp</em></span></h2>
+      <p class="muted"><span lang="ar">بدون تطبيقات ولا تسجيل. اختر، أرسل، وخلاص.</span><span lang="en">No apps, no sign-ups. Choose, send, done.</span></p>
+      <ul class="book__info">
+        <li><b><span lang="ar">مواعيدنا</span><span lang="en">Hours</span></b><span id="infoHours"></span></li>
+        <li><b><span lang="ar">العنوان</span><span lang="en">Address</span></b><span id="infoAddr"></span></li>
+        <li><b><span lang="ar">اتصل بنا</span><span lang="en">Call</span></b><a id="infoPhone" href="#"></a></li>
+      </ul>
+    </div>
+    <div class="book__card">
+      <div class="tabs" role="tablist">
+        <button class="tab is-on" data-tab="table" type="button"><span lang="ar">حجز طاولة</span><span lang="en">Book a table</span></button>
+        <button class="tab" data-tab="takeaway" type="button"><span lang="ar">تيك أواي</span><span lang="en">Takeaway</span></button>
+        <button class="tab" data-tab="delivery" type="button"><span lang="ar">توصيل</span><span lang="en">Delivery</span></button>
+      </div>
+
+      <form class="pane is-on" data-pane="table" id="tableForm" autocomplete="on">
+        <div class="row2">
+          <label><span class="lbl"><span lang="ar">الاسم</span><span lang="en">Name</span></span><input name="name" required></label>
+          <label><span class="lbl"><span lang="ar">الموبايل</span><span lang="en">Mobile</span></span><input name="phone" type="tel" inputmode="tel" required></label>
+        </div>
+        <div class="row2">
+          <label><span class="lbl"><span lang="ar">اليوم</span><span lang="en">Date</span></span><input name="date" type="date" required></label>
+          <label><span class="lbl"><span lang="ar">الساعة</span><span lang="en">Time</span></span><input name="time" type="time" required value="20:00"></label>
+        </div>
+        <div class="field">
+          <span class="lbl"><span lang="ar">عدد الأشخاص</span><span lang="en">Guests</span></span>
+          <div class="guests" id="guests"></div>
+        </div>
+        <div class="field">
+          <span class="lbl"><span lang="ar">المناسبة</span><span lang="en">Occasion</span></span>
+          <div class="occ" id="occ"></div>
+        </div>
+        <label><span class="lbl"><span lang="ar">ملاحظات</span><span lang="en">Notes</span></span><textarea name="notes" rows="2"></textarea></label>
+        <button class="btn btn--wa" type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg><span lang="ar">أرسل الحجز على واتساب</span><span lang="en">Send booking on WhatsApp</span></button>
+      </form>
+
+      <div class="pane" data-pane="takeaway">
+        <p class="pane__lead"><span lang="ar">اختر من المنيو، وحدد ميعاد الاستلام. طلبك يكون جاهزاً وساخناً لما توصل.</span><span lang="en">Pick from the menu and choose a pickup time. It'll be hot and ready when you arrive.</span></p>
+        <div class="pane__mini" id="paneCartT"></div>
+        <button class="btn btn--red" type="button" data-open-cart="takeaway"><span lang="ar">أكمل طلب التيك أواي</span><span lang="en">Continue takeaway order</span></button>
+      </div>
+
+      <div class="pane" data-pane="delivery">
+        <p class="pane__lead"><span lang="ar">نوصل لك البيتزا ساخنة في علبة تحفظ الحرارة. رسوم التوصيل تظهر في السلة.</span><span lang="en">We deliver it hot in a heat-keeping box. Delivery fee shows in the cart.</span></p>
+        <div class="pane__mini" id="paneCartD"></div>
+        <button class="btn btn--red" type="button" data-open-cart="delivery"><span lang="ar">أكمل طلب التوصيل</span><span lang="en">Continue delivery order</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="foot">
+  <div class="foot__big" aria-hidden="true">CIAO<span>!</span></div>
+  <div class="foot__grid">
+    <div class="foot__brand">
+      <img src="assets/img/logo/full.webp" alt="تشاو 7 بيتزا" width="180" height="180" loading="lazy" id="footLogo">
+      <p><span lang="ar">بيتزا بروح إيطالية وقلب مصري.</span><span lang="en">Italian spirit, Egyptian heart.</span></p>
+    </div>
+    <div>
+      <h4><span lang="ar">زورنا</span><span lang="en">Visit</span></h4>
+      <p id="footAddr"></p><p id="footHours"></p>
+    </div>
+    <div>
+      <h4><span lang="ar">تواصل</span><span lang="en">Contact</span></h4>
+      <p><a id="footPhone" href="#"></a></p>
+      <p><a id="footWa" href="#" target="_blank" rel="noopener">WhatsApp</a></p>
+      <div class="socials" id="socials"></div>
+    </div>
+    <div>
+      <h4><span lang="ar">المنيو</span><span lang="en">Menu</span></h4>
+      <div class="foot__cats" id="footCats"></div>
+    </div>
+  </div>
+  <div class="foot__bottom">
+    <span>© <span id="year">2026</span> Ciao 7 Pizza</span>
+    <a href="https://web.theplanetco.com" target="_blank" rel="noopener" class="planet"><span lang="ar">تصميم وتطوير</span><span lang="en">Website by</span> <b>Planet</b></a>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a class="fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+</a>
+
+<!-- Item modal -->
+<div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal__bg" data-close></div>
+  <div class="modal__card">
+    <button class="x" data-close type="button" aria-label="Close">×</button>
+    <div class="modal__art" id="mArt"></div>
+    <div class="modal__body">
+      <p class="modal__it" id="mIt"></p>
+      <h3 id="mName"></h3>
+      <p class="muted" id="mDesc"></p>
+      <div class="opt" id="mSizes"></div>
+      <div class="opt" id="mCrust"></div>
+      <label class="note"><span class="lbl"><span lang="ar">ملاحظة للمطبخ</span><span lang="en">Note for the kitchen</span></span><input id="mNote" maxlength="80"></label>
+      <div class="modal__foot">
+        <div class="qty"><button type="button" id="mMinus" aria-label="-">−</button><b id="mQty">1</b><button type="button" id="mPlus" aria-label="+">+</button></div>
+        <button class="btn btn--red" id="mAdd" type="button"><span lang="ar">أضف للسلة</span><span lang="en">Add to cart</span> · <b id="mPrice"></b></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cart drawer -->
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer__bg" data-close-cart></div>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <h3><span lang="ar">سلّتك</span><span lang="en">Your order</span></h3>
+      <button class="x" data-close-cart type="button" aria-label="Close">×</button>
+    </div>
+    <div class="drawer__list" id="cartList"></div>
+    <div class="drawer__form" id="cartForm">
+      <div class="mode" id="mode">
+        <button type="button" data-mode="delivery" class="is-on"><span lang="ar">توصيل</span><span lang="en">Delivery</span></button>
+        <button type="button" data-mode="takeaway"><span lang="ar">تيك أواي</span><span lang="en">Takeaway</span></button>
+        <button type="button" data-mode="dinein"><span lang="ar">في المطعم</span><span lang="en">Dine-in</span></button>
+      </div>
+      <div class="row2">
+        <input id="cName" placeholder="الاسم" autocomplete="name">
+        <input id="cPhone" placeholder="الموبايل" type="tel" inputmode="tel" autocomplete="tel">
+      </div>
+      <input id="cAddr" placeholder="العنوان بالتفصيل" autocomplete="street-address">
+      <div class="row2" id="cTimeRow" hidden><input id="cTime" type="time" value="20:00"><input id="cTable" placeholder="رقم الطاولة (اختياري)"></div>
+      <input id="cNotes" placeholder="ملاحظات">
+      <div class="promo"><input id="cPromo" placeholder="كود الخصم"><span id="promoMsg"></span></div>
+      <div class="sums" id="sums"></div>
+      <button class="btn btn--wa btn--block" id="sendOrder" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg><span lang="ar">أرسل الطلب على واتساب</span><span lang="en">Send order on WhatsApp</span></button>
+    </div>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status"></div>
+<div class="rain" id="rain" aria-hidden="true"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/data.js?v=2"></script>
+<script src="assets/js/art.js?v=2"></script>
+<script src="assets/js/app.js?v=2"></script>
+</body>
+</html>
