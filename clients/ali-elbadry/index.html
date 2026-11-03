@@ -5,15 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>علي البدري للموبيليا | Ali Elbadry Furniture — منذ 1952</title>
 <meta name="description" content="علي البدري للموبيليا منذ 1952 — صالونات، أنتريهات، غرف نوم، سفرة، ركنات ونيش. حفر يدوي، تذهيب بورق الذهب، وتفصيل على مقاسك.">
-<meta name="theme-color" content="#faf7f1">
+<meta name="theme-color" content="#0c0b09">
 <meta property="og:title" content="علي البدري للموبيليا — منذ 1952">
 <meta property="og:description" content="أثاث ملكي بيتصنع باليد من 1952. صالونات، غرف نوم، سفرة ونيش.">
 <meta property="og:image" content="assets/img/salon.webp">
 <link rel="icon" href="assets/img/favicon.png" type="image/png">
 <link rel="preload" href="assets/fonts/Amiri-700-arabic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/fonts.css">
-<link rel="stylesheet" href="assets/css/style.css?v=1">
-<script type="importmap">{"imports":{"three":"./assets/js/vendor/three.module.min.js"}}</script>
+<link rel="stylesheet" href="assets/css/style.css?v=2">
 </head>
 <body>
 
@@ -25,7 +24,7 @@
       <path d="M40 58c25 4 45-2 60-14 15 12 35 18 60 14v70c0 40-30 66-60 84-30-18-60-44-60-84z"/>
       <path d="M52 68c20 2 36-3 48-12 12 9 28 14 48 12v60c0 33-24 55-48 70-24-15-48-37-48-70z"/>
     </svg>
-    <img src="assets/img/crest-dark.webp" alt="" class="loader__img">
+    <img src="assets/img/crest.webp" alt="" class="loader__img">
   </div>
   <p class="loader__name">علي البدري <small>منذ 1952</small></p>
   <div class="loader__bar"><i id="loaderBar"></i></div>
@@ -36,7 +35,7 @@
 <!-- Header -->
 <header class="nav" id="nav">
   <a href="#top" class="brand" aria-label="علي البدري للموبيليا">
-    <img src="assets/img/crest-dark.webp" alt="" width="40" height="46">
+    <img src="assets/img/crest.webp" alt="" width="40" height="46">
     <span class="brand__txt"><b>علي البدري</b><small>ALI ELBADRY</small></span>
   </a>
   <nav class="nav__links" id="navLinks">
@@ -56,12 +55,12 @@
 
 <main id="top">
 
-<!-- HERO: royal armchair builds itself -->
+<!-- HERO: a royal room assembles itself piece by piece -->
 <section class="hero" id="hero">
   <div class="hero__stage">
     <div class="hero__bg" aria-hidden="true">
-      <img src="assets/img/crest-dark.webp" alt="" class="hero__watermark">
-      <span class="hero__arch"></span>
+      <img src="assets/img/crest.webp" alt="" class="hero__watermark">
+      <span class="hero__glow"></span>
     </div>
 
     <div class="hero__copy">
@@ -75,30 +74,22 @@
         <a href="#collections" class="btn btn--gold">شوف المجموعات</a>
         <a href="#tailor" class="btn btn--line">فصّل طقمك</a>
       </div>
-
-      <ol class="steps" id="heroSteps">
-        <li class="is-on"><b>01</b><span>الرسمة</span><p>كل قطعة بتبدأ بخط قلم على ورق.</p></li>
-        <li><b>02</b><span>الهيكل</span><p>زان مجفف، معشّق بالنقر واللسان.</p></li>
-        <li><b>03</b><span>الحفر والتذهيب</span><p>أويمة يدوية وورق ذهب طبقة طبقة.</p></li>
-        <li><b>04</b><span>التنجيد</span><p>كابيتونيه يدوي وقماش من اختيارك.</p></li>
-        <li><b>05</b><span>توقيع البدري</span><p>قطعة جاهزة تعيش معاك العمر كله.</p></li>
-      </ol>
+      <div class="rooms" id="rooms" role="tablist" aria-label="اختار الأوضة">
+        <button type="button" class="room on" data-room="0"><b>01</b>الصالون الملكي</button>
+        <button type="button" class="room" data-room="1"><b>02</b>السفرة</button>
+        <button type="button" class="room" data-room="2"><b>03</b>غرفة النوم</button>
+      </div>
     </div>
 
-    <div class="hero__canvas-wrap">
-      <canvas id="chair3d" aria-label="فوتيه ملكي بيتجمع قطعة قطعة"></canvas>
-      <img class="hero__fallback" src="assets/img/salon-sm.webp" alt="صالون علي البدري الكلاسيك">
-      <div class="hero__ring" aria-hidden="true"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/><circle id="heroRing" cx="50" cy="50" r="46"/></svg><b id="heroPct">0%</b></div>
-      <button class="replay" id="replay" type="button">↺ أعد التجميع</button>
-      <p class="drag-hint">اسحب لتلف الفوتيه</p>
+    <div class="hero__art" id="heroArt">
+      <div class="puzzle" id="puzzle" aria-label="صورة أوضة من علي البدري بتتجمع قطعة قطعة" role="img"></div>
+      <svg class="hero__frame" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><rect x="1" y="1" width="398" height="298" rx="4" pathLength="100" id="heroFrame"/></svg>
+      <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+      <div class="hero__seal" id="heroSeal"><img src="assets/img/crest.webp" alt=""><span>منذ 1952</span></div>
+      <p class="hero__cap" id="heroCap">الصالون الملكي · حفر يدوي وتذهيب بورق الذهب</p>
     </div>
 
-    <div class="swatches" id="swatches">
-      <div class="swatches__group"><span>القماش</span><div class="swatches__row" data-kind="fabric"></div></div>
-      <div class="swatches__group"><span>الخشب</span><div class="swatches__row" data-kind="frame"></div></div>
-    </div>
-
-    <div class="scroll-hint" aria-hidden="true"><span></span> انزل وشوف الفوتيه بيتصنع</div>
+    <div class="scroll-hint" aria-hidden="true"><span></span> انزل وشوف الأوضة بتتجمع</div>
   </div>
 </section>
 
@@ -215,7 +206,7 @@
 
     <aside class="certificate" id="certificate" aria-live="polite">
       <div class="certificate__in">
-        <img src="assets/img/crest-dark.webp" alt="" class="certificate__crest">
+        <img src="assets/img/crest.webp" alt="" class="certificate__crest">
         <p class="certificate__title">شهادة طلب تفصيل</p>
         <dl>
           <div><dt>القسم</dt><dd id="cCat">—</dd></div>
@@ -264,8 +255,7 @@
 </a>
 
 <script src="assets/js/vendor/lenis.min.js" defer></script>
-<script src="assets/js/data.js?v=1" defer></script>
-<script src="assets/js/app.js?v=1" defer></script>
-<script type="module" src="assets/js/chair3d.js?v=1"></script>
+<script src="assets/js/data.js?v=2" defer></script>
+<script src="assets/js/app.js?v=2" defer></script>
 </body>
 </html>

@@ -39,8 +39,8 @@
       <div class="col__sticky"><div class="col__inner">
         <div class="col__scene">
           <img src="assets/img/${c.img}.webp" srcset="assets/img/${c.img}-sm.webp 640w, assets/img/${c.img}.webp 1168w" sizes="(max-width:820px) 100vw, 60vw" alt="${c.name} — ${c.kicker}" loading="lazy">
-          <div class="door door--l"><span class="knob"></span><img src="assets/img/crest-dark.webp" alt=""></div>
-          <div class="door door--r"><span class="knob"></span><img src="assets/img/crest-dark.webp" alt=""></div>
+          <div class="door door--l"><span class="knob"></span><img src="assets/img/crest.webp" alt=""></div>
+          <div class="door door--r"><span class="knob"></span><img src="assets/img/crest.webp" alt=""></div>
           ${c.spots.map(s => `<button type="button" class="spot ${s.x > 68 ? 'tip-left' : s.x < 32 ? 'tip-right' : ''} ${s.y < 28 ? 'tip-down' : ''}" style="left:${s.x}%;top:${s.y}%" aria-label="${s.t}"><span class="spot__tip"><b>${s.t}</b>${s.d}</span></button>`).join('')}
         </div>
         <div class="col__copy">
@@ -94,8 +94,6 @@
     const ch = e.target.closest('.chip');
     if (ch) {
       const k = ch.dataset.kind; st[k] = lists[k][+ch.dataset.i]; renderTailor();
-      if (k === 'fabric') { AB.chairSet && AB.chairSet('fabric', st.fabric.c); syncSw(); }
-      if (k === 'finish') { AB.chairSet && AB.chairSet('frame', st.finish.id); syncSw(); }
     }
   });
   $('#tName').addEventListener('input', renderTailor);
@@ -123,22 +121,7 @@
     goTo('#tailor');
   });
 
-  /* ---------- hero swatches ---------- */
-  const swRow = k => $(`.swatches__row[data-kind="${k}"]`);
-  swRow('fabric').innerHTML = AB.fabrics.map((f, i) => `<button type="button" class="sw" data-i="${i}" title="${f.name}" aria-label="قماش ${f.name}" style="background:${f.c}"></button>`).join('');
-  swRow('frame').innerHTML = AB.finishes.map((f, i) => `<button type="button" class="sw" data-i="${i}" title="${f.name}" aria-label="خشب ${f.name}" style="background:${f.c}"></button>`).join('');
-  function syncSw() {
-    $$('.sw', swRow('fabric')).forEach(b => b.classList.toggle('on', AB.fabrics[+b.dataset.i] === st.fabric));
-    $$('.sw', swRow('frame')).forEach(b => b.classList.toggle('on', AB.finishes[+b.dataset.i] === st.finish));
-  }
-  $('#swatches').addEventListener('click', e => {
-    const b = e.target.closest('.sw'); if (!b) return;
-    const kind = b.parentElement.dataset.kind;
-    if (kind === 'fabric') { st.fabric = AB.fabrics[+b.dataset.i]; AB.chairSet && AB.chairSet('fabric', st.fabric.c); }
-    else { st.finish = AB.finishes[+b.dataset.i]; AB.chairSet && AB.chairSet('frame', st.finish.id); }
-    syncSw(); renderTailor();
-  });
-  syncSw(); renderTailor();
+  renderTailor();
   bindWa();
 
   /* ---------- nav ---------- */
@@ -175,32 +158,82 @@
     e.preventDefault(); goTo(h);
   });
 
-  /* ---------- hero progress ---------- */
-  const hero = $('#hero'), steps = $$('#heroSteps li'), ring = $('#heroRing'), pct = $('#heroPct');
-  const STEP_AT = [0, 0.12, 0.34, 0.56, 0.8];
-  AB.heroTarget = 0;
-  let auto = null; // phone: time-based build
+  /* ---------- hero: room puzzle ---------- */
+  const hero = $('#hero'), puzzle = $('#puzzle'), art = $('#heroArt');
+  const ROOMS = [
+    { img: 'salon', cap: 'الصالون الملكي · حفر يدوي وتذهيب بورق الذهب' },
+    { img: 'dining', cap: 'سفرة الوليمة · لاكيه أسود بحليات ذهبي' },
+    { img: 'bedroom', cap: 'غرفة القصر · كابيتونيه يدوي وإطار محفور' }
+  ];
+  ROOMS.forEach(r => { const i = new Image(); i.src = `assets/img/${r.img}.webp`; });
+  let introP = 0, tiles = [], grid = null, room = 0, scrollP = 0, autoP = 0, swap = null;
+  function rnd(i) { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+  function buildPuzzle() {
+    const cols = isM() ? 5 : 6, rows = isM() ? 4 : 5;
+    if (grid && grid[0] === cols) return;
+    grid = [cols, rows];
+    puzzle.style.setProperty('--cols', cols); puzzle.style.setProperty('--rows', rows);
+    puzzle.innerHTML = '<span class="puzzle__full"></span>'; tiles = [];
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const i = r * cols + c, el = document.createElement('i');
+      el.className = 'tile';
+      el.style.backgroundSize = `${cols * 100}% ${rows * 100}%`;
+      el.style.backgroundPosition = `${c / (cols - 1) * 100}% ${r / (rows - 1) * 100}%`;
+      const cx = c - (cols - 1) / 2, cy = r - (rows - 1) / 2;
+      const ang = Math.atan2(cy || 0.3, cx || 0.3) + (rnd(i) - 0.5);
+      const dist = (isM() ? 1.4 : 2.2) + rnd(i + 9) * (isM() ? 1.4 : 2.4);
+      tiles.push({ el, dx: Math.cos(ang) * dist * 100, dy: Math.sin(ang) * dist * 100, rot: (rnd(i + 3) - 0.5) * 70, z: -200 - rnd(i + 5) * 500, delay: rnd(i + 7) });
+      puzzle.appendChild(el);
+    }
+    setRoomImage(room);
+  }
+  function setRoomImage(k) {
+    const url = `url(assets/img/${ROOMS[k].img}.webp)`;
+    tiles.forEach(t => { t.el.style.backgroundImage = url; });
+    $('.puzzle__full', puzzle).style.backgroundImage = url;
+    $('#heroCap').textContent = ROOMS[k].cap;
+  }
+  const easeO = t => 1 - Math.pow(1 - t, 3);
+  function renderHero(now) {
+    const base = isM() ? autoP : Math.max(scrollP, introP);
+    let a = clamp(base / 0.68);
+    if (swap) {
+      const t = (now - swap.t0) / 1000;
+      let f;
+      if (t < 0.45) f = 1 - 0.8 * easeO(t / 0.45);
+      else { if (!swap.done) { swap.done = true; setRoomImage(room); } f = 0.2 + 0.8 * easeO(clamp((t - 0.45) / 0.9)); }
+      if (t > 1.35) swap = null;
+      a = Math.min(a, f);
+    }
+    for (const t of tiles) {
+      const k = easeO(clamp((a - t.delay * 0.42) / 0.58)), q = 1 - k;
+      t.el.style.transform = q < 0.0005 ? 'none' : `translate3d(${t.dx * q}%,${t.dy * q}%,${t.z * q}px) rotate(${t.rot * q}deg)`;
+      t.el.style.opacity = clamp(k * 2.2);
+    }
+    puzzle.style.setProperty('--full', a >= 0.999 ? 1 : 0);
+    puzzle.style.setProperty('--seam', (0.55 * (1 - clamp((a - 0.9) / 0.1))).toFixed(3));
+    art.style.setProperty('--fr', (100 * (1 - clamp((base - 0.5) / 0.3))).toFixed(2));
+    art.style.setProperty('--co', clamp((base - 0.72) / 0.15).toFixed(3));
+    art.style.setProperty('--se', easeO(clamp((base - 0.8) / 0.18)).toFixed(3));
+    $('.scroll-hint').style.opacity = base > 0.03 ? 0 : 1;
+  }
+  let heroVis = true;
+  new IntersectionObserver(es => { heroVis = es[0].isIntersecting; }).observe(hero);
+  (function heroLoop(now) { if (heroVis) renderHero(now); requestAnimationFrame(heroLoop); })(performance.now());
   function playAuto() {
-    const t0 = performance.now(), dur = 5200;
-    cancelAnimationFrame(auto && auto.id);
-    auto = { id: 0 };
-    const step = now => {
-      const t = clamp((now - t0) / dur);
-      AB.heroTarget = t < 1 ? t * t * (3 - 2 * t) : 1;
-      heroUI(AB.heroTarget);
-      if (t < 1 && isM()) auto.id = requestAnimationFrame(step); else auto = null;
-    };
-    auto.id = requestAnimationFrame(step);
+    const t0 = performance.now(), dur = 2600;
+    const step = now => { const t = clamp((now - t0) / dur); autoP = t; if (t < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
   }
-  $('#replay').addEventListener('click', playAuto);
-  function heroUI(p) {
-    let k = 0; STEP_AT.forEach((s, i) => { if (p >= s) k = i; });
-    steps.forEach((li, i) => { li.classList.toggle('is-on', i === k); li.classList.toggle('is-done', i < k); });
-    ring.style.strokeDashoffset = 289 * (1 - p);
-    pct.textContent = Math.round(p * 100) + '%';
-    $('#swatches').classList.toggle('show', p > 0.62 || isM());
-    $('.scroll-hint').style.opacity = p > 0.03 ? 0 : 1;
-  }
+  $('#rooms').addEventListener('click', e => {
+    const b = e.target.closest('.room'); if (!b) return;
+    const k = +b.dataset.room; if (k === room) return;
+    room = k;
+    $$('.room').forEach(x => x.classList.toggle('on', x === b));
+    const base = isM() ? autoP : scrollP;
+    if (base < 0.3) setRoomImage(room); else swap = { t0: performance.now(), done: false };
+  });
+  buildPuzzle();
 
   /* ---------- timeline ---------- */
   const tlSec = $('#timeline'), tlTrack = $('#timelineTrack'), tlFill = $('#timelineFill'), tlCards = () => $$('.tl');
@@ -224,8 +257,7 @@
     // hero
     if (!isM()) {
       const r = hero.getBoundingClientRect();
-      const p = clamp(-r.top / (hero.offsetHeight - vh));
-      AB.heroTarget = p; heroUI(p);
+      scrollP = clamp(-r.top / ((hero.offsetHeight - vh) * 0.9));
     }
 
     // timeline
@@ -318,10 +350,10 @@
     layoutTimeline();
     if (m !== wasM) {
       wasM = m;
-      if (m) playAuto(); else if (auto) { cancelAnimationFrame(auto.id); auto = null; }
+      buildPuzzle();
+      if (m) { autoP = 0; playAuto(); }
     }
     onScroll();
-    if (isM() && !auto) heroUI(AB.heroTarget);
   }
   let rT; addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(onResize, 120); });
   mq.addEventListener ? mq.addEventListener('change', onResize) : mq.addListener(onResize);
@@ -330,19 +362,17 @@
   const bar = $('#loaderBar'); let lp = 12; bar.style.width = lp + '%';
   const tick = setInterval(() => { lp = Math.min(90, lp + Math.random() * 14); bar.style.width = lp + '%'; }, 200);
   const loaded = new Promise(r => document.readyState === 'complete' ? r() : addEventListener('load', r, { once: true }));
-  const ready3d = new Promise(r => AB.ready3d ? r() : addEventListener('ab:ready', r, { once: true }));
   const minShow = new Promise(r => setTimeout(r, 1700));
-  Promise.race([Promise.all([loaded, ready3d, minShow]), new Promise(r => setTimeout(r, 5500))]).then(() => {
+  Promise.race([Promise.all([loaded, minShow]), new Promise(r => setTimeout(r, 5500))]).then(() => {
     clearInterval(tick); bar.style.width = '100%';
     setTimeout(() => {
       $('#loader').classList.add('done'); html.classList.add('ready');
-      if (isM()) playAuto();
+      if (isM()) playAuto(); else { const t0 = performance.now(); const f = now => { const t = clamp((now - t0) / 2200); introP = 0.32 * (1 - Math.pow(1 - t, 3)); if (t < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); }
     }, 300);
   });
 
   setupLenis();
   layoutTimeline();
   onScroll();
-  heroUI(0);
   if (document.fonts) document.fonts.ready.then(() => { layoutTimeline(); onScroll(); });
 })();
