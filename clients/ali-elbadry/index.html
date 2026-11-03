@@ -4,238 +4,193 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>علي البدري للموبيليا | Ali Elbadry Furniture — منذ 1952</title>
-<meta name="description" content="علي البدري للموبيليا منذ 1952 — صالونات، أنتريهات، غرف نوم، سفرة، ركنات ونيش. حفر يدوي، تذهيب بورق الذهب، وتفصيل على مقاسك.">
-<meta name="theme-color" content="#0c0b09">
+<meta name="description" content="علي البدري للموبيليا منذ 1952 — صالونات، أنتريهات، غرف نوم، سفرة، ركنات ونيش. حفر يدوي، تذهيب، وتفصيل على مقاسك.">
+<meta name="theme-color" content="#f6f3ee">
 <meta property="og:title" content="علي البدري للموبيليا — منذ 1952">
-<meta property="og:description" content="أثاث ملكي بيتصنع باليد من 1952. صالونات، غرف نوم، سفرة ونيش.">
+<meta property="og:description" content="أثاث بيتصنع باليد من 1952. صالونات، غرف نوم، سفرة ونيش.">
 <meta property="og:image" content="assets/img/salon.webp">
 <link rel="icon" href="assets/img/favicon.png" type="image/png">
-<link rel="preload" href="assets/fonts/Amiri-700-arabic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/fonts.css">
-<link rel="stylesheet" href="assets/css/style.css?v=2">
+<link rel="preload" href="assets/fonts/Alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/img/salon.webp" as="image">
+<link rel="stylesheet" href="assets/css/fonts.css?v=3">
+<link rel="stylesheet" href="assets/css/style.css?v=3">
 </head>
 <body>
 
-<!-- Loader -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="shieldClip" clipPathUnits="objectBoundingBox"><path id="shieldPath" d="M0,0.08 Q0.25,0 0.5,0.06 Q0.75,0 1,0.08 L1,0.62 Q1,0.86 0.5,1 Q0,0.86 0,0.62 Z"/></clipPath>
+    <clipPath id="shieldStatic" clipPathUnits="objectBoundingBox"><path d="M0,0.08 Q0.25,0 0.5,0.06 Q0.75,0 1,0.08 L1,0.62 Q1,0.86 0.5,1 Q0,0.86 0,0.62 Z"/></clipPath>
+  </defs>
+</svg>
+
 <div class="loader" id="loader" aria-hidden="true">
-  <div class="loader__crest">
-    <svg viewBox="0 0 200 230" class="loader__draw">
-      <path d="M100 8l9 16 15-10-4 20H80l-4-20 15 10z"/>
-      <path d="M40 58c25 4 45-2 60-14 15 12 35 18 60 14v70c0 40-30 66-60 84-30-18-60-44-60-84z"/>
-      <path d="M52 68c20 2 36-3 48-12 12 9 28 14 48 12v60c0 33-24 55-48 70-24-15-48-37-48-70z"/>
-    </svg>
-    <img src="assets/img/crest.webp" alt="" class="loader__img">
-  </div>
-  <p class="loader__name">علي البدري <small>منذ 1952</small></p>
-  <div class="loader__bar"><i id="loaderBar"></i></div>
+  <img src="assets/img/crest-dark.webp" alt="">
+  <span class="loader__line"><i></i></span>
 </div>
 
-<div class="cursor" id="cursor" aria-hidden="true"><i></i></div>
-
-<!-- Header -->
 <header class="nav" id="nav">
   <a href="#top" class="brand" aria-label="علي البدري للموبيليا">
-    <img src="assets/img/crest.webp" alt="" width="40" height="46">
+    <img src="assets/img/crest-dark.webp" alt="" width="34" height="39" class="brand__crest">
     <span class="brand__txt"><b>علي البدري</b><small>ALI ELBADRY</small></span>
   </a>
-  <nav class="nav__links" id="navLinks">
-    <a href="#story">الحكاية</a>
-    <a href="#categories">الأقسام</a>
-    <a href="#collections">المجموعات</a>
-    <a href="#craft">الصنعة</a>
-    <a href="#tailor">فصّل طقمك</a>
-    <a href="#visit">زورنا</a>
-    <a class="nav__menu-cta" data-wa="أهلًا علي البدري، عايز أحجز زيارة للمعرض" href="#">احجز زيارة للمعرض</a>
+  <nav class="nav__links" id="navLinks" aria-label="القائمة">
+    <a href="#collections"><i>01</i>المجموعات</a>
+    <a href="#categories"><i>02</i>الأقسام</a>
+    <a href="#craft"><i>03</i>الصنعة</a>
+    <a href="#story"><i>04</i>حكايتنا</a>
+    <a href="#tailor"><i>05</i>فصّل طقمك</a>
+    <a href="#visit"><i>06</i>زورنا</a>
   </nav>
-  <div class="nav__actions">
-    <a class="btn btn--ink btn--sm hide-sm" data-wa="أهلًا علي البدري، عايز أحجز زيارة للمعرض" href="#">احجز زيارة</a>
+  <div class="nav__end">
+    <a class="btn btn--dark btn--sm hide-m" data-wa="أهلًا علي البدري، عايز أحجز زيارة للمعرض" href="#">احجز زيارة</a>
     <button class="burger" id="burger" aria-label="القائمة" aria-expanded="false"><i></i><i></i></button>
   </div>
 </header>
 
 <main id="top">
 
-<!-- HERO: a royal room assembles itself piece by piece -->
+<!-- HERO: the logo's shield opens into the room -->
 <section class="hero" id="hero">
   <div class="hero__stage">
-    <div class="hero__bg" aria-hidden="true">
-      <img src="assets/img/crest.webp" alt="" class="hero__watermark">
-      <span class="hero__glow"></span>
-    </div>
-
-    <div class="hero__copy">
-      <p class="eyebrow"><span class="eyebrow__line"></span> علي البدري للموبيليا · منذ 1952</p>
-      <h1 class="hero__title">
-        <span class="line"><span>أثاث بيتصنع</span></span>
-        <span class="line"><span>عشان <em class="gold-text">يعيش</em></span></span>
-      </h1>
-      <p class="hero__lead">أكتر من 70 سنة وإحنا بنحفر ونذهّب وننجّد بإيدينا. صالونات وغرف نوم وسفرة بتفضل في البيت جيل ورا جيل.</p>
+    <div class="hero__copy" id="heroCopy">
+      <p class="eyebrow">علي البدري للموبيليا <span>·</span> منذ 1952</p>
+      <h1 class="hero__title"><span class="ln"><span>فخامة</span></span><span class="ln"><span class="gold">بتتورّث</span></span></h1>
+      <p class="hero__lead">صالونات وغرف نوم وسفرة بنصنعها بإيدينا من أكتر من 70 سنة. تصميم هادي، خامات تعيش، وتفاصيل ما بتتكررش.</p>
       <div class="hero__cta">
-        <a href="#collections" class="btn btn--gold">شوف المجموعات</a>
-        <a href="#tailor" class="btn btn--line">فصّل طقمك</a>
-      </div>
-      <div class="rooms" id="rooms" role="tablist" aria-label="اختار الأوضة">
-        <button type="button" class="room on" data-room="0"><b>01</b>الصالون الملكي</button>
-        <button type="button" class="room" data-room="1"><b>02</b>السفرة</button>
-        <button type="button" class="room" data-room="2"><b>03</b>غرفة النوم</button>
+        <a href="#collections" class="btn btn--dark">شوف المجموعات</a>
+        <a href="#tailor" class="link-arrow">فصّل طقمك <span>←</span></a>
       </div>
     </div>
 
-    <div class="hero__art" id="heroArt">
-      <div class="puzzle" id="puzzle" aria-label="صورة أوضة من علي البدري بتتجمع قطعة قطعة" role="img"></div>
-      <svg class="hero__frame" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><rect x="1" y="1" width="398" height="298" rx="4" pathLength="100" id="heroFrame"/></svg>
-      <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
-      <div class="hero__seal" id="heroSeal"><img src="assets/img/crest.webp" alt=""><span>منذ 1952</span></div>
-      <p class="hero__cap" id="heroCap">الصالون الملكي · حفر يدوي وتذهيب بورق الذهب</p>
+    <div class="hero__media" id="heroMedia">
+      <div class="hero__clip" id="heroClip"><img src="assets/img/salon.webp" alt="صالون كلاسيك من علي البدري" id="heroImg"></div>
+      <svg class="hero__outline" id="heroOutline" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,8 Q25,0 50,6 Q75,0 100,8 L100,62 Q100,86 50,100 Q0,86 0,62 Z" vector-effect="non-scaling-stroke"/></svg>
+      <div class="seal" id="seal" aria-hidden="true">
+        <svg viewBox="0 0 120 120"><defs><path id="sealPath" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#sealPath">ALI ELBADRY · FURNITURE · SINCE 1952 ·</textPath></text></svg>
+        <img src="assets/img/crest-dark.webp" alt="">
+      </div>
+      <div class="hero__cap" id="heroCap"><span>01</span><p>الصالون الملكي<small>حفر يدوي · تذهيب · داماسك عاجي</small></p></div>
     </div>
-
-    <div class="scroll-hint" aria-hidden="true"><span></span> انزل وشوف الأوضة بتتجمع</div>
+    <div class="scroll-cue" id="scrollCue" aria-hidden="true"><i></i></div>
   </div>
 </section>
 
-<!-- Marquee -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee__track">
-    <span>حفر يدوي</span><i>✦</i><span>تذهيب بورق الذهب</span><i>✦</i><span>خشب زان مجفف</span><i>✦</i><span>تنجيد كابيتونيه</span><i>✦</i><span>تفصيل على المقاس</span><i>✦</i><span>منذ 1952</span><i>✦</i>
-    <span>حفر يدوي</span><i>✦</i><span>تذهيب بورق الذهب</span><i>✦</i><span>خشب زان مجفف</span><i>✦</i><span>تنجيد كابيتونيه</span><i>✦</i><span>تفصيل على المقاس</span><i>✦</i><span>منذ 1952</span><i>✦</i>
-  </div>
-</div>
-
-<!-- STORY -->
-<section class="story" id="story">
-  <div class="wrap story__intro">
-    <div class="story__year" data-reveal>
-      <span class="kicker">الحكاية</span>
-      <b class="gold-text big-year">1952</b>
-      <p class="story__since"><b data-count="74">0</b> سنة من الصنعة</p>
-    </div>
-    <div class="story__text" data-reveal>
-      <h2 class="h2">اسم اتكتب على <em class="gold-text">الخشب</em> قبل ما يتكتب على اليافطة</h2>
-      <p>من سنة 1952 وعلي البدري بيعمل حاجة واحدة بس: أثاث يستاهل يتورّث. ورشة بتحترم الصنعة، وأسطوات بيعرفوا الخشب من ريحته، وتشطيب ما يخرجش من عندنا غير لما يبقى مظبوط.</p>
-      <div class="stats">
-        <div><b data-count="1952" data-from="1900">1952</b><span>سنة البداية</span></div>
-        <div><b>3</b><span>أجيال صنايعية</span></div>
-        <div><b>100%</b><span>شغل إيد</span></div>
-      </div>
+<!-- STATEMENT -->
+<section class="statement" id="story">
+  <div class="wrap">
+    <p class="label">حكايتنا</p>
+    <p class="statement__text" id="statement">من سنة 1952 وإحنا بنصنع أثاث مش بيتبدّل، بيتورّث. خشب بنختاره لوح لوح، وحفر بإيد أسطوات، وتشطيب ما يخرجش من الورشة غير وهو كامل.</p>
+    <div class="stats">
+      <div><b data-count="1952" data-from="1900">1952</b><span>سنة البداية</span></div>
+      <div><b data-count="70" data-suffix="+">70+</b><span>سنة خبرة</span></div>
+      <div><b>3</b><span>أجيال صنايعية</span></div>
+      <div><b>100%</b><span>شغل إيد</span></div>
     </div>
   </div>
+</section>
 
-  <div class="timeline" id="timeline">
-    <div class="timeline__sticky">
-      <div class="timeline__head wrap"><span class="kicker">رحلة 70 سنة</span><p class="timeline__tip">مرّر وشوف الحكاية</p></div>
-      <div class="timeline__track" id="timelineTrack">
-        <span class="timeline__thread"><i id="timelineFill"></i></span>
-      </div>
+<!-- COLLECTIONS -->
+<section class="cols" id="collections">
+  <div class="cols__sticky">
+    <div class="wrap cols__head">
+      <div><p class="label">المجموعات</p><h2 class="h2">ثلاث حكايات <span class="gold">لبيتك</span></h2></div>
+      <div class="cols__nav hide-m"><span id="colsCount">01 / 03</span><span class="cols__bar"><i id="colsBar"></i></span></div>
     </div>
+    <div class="cols__track" id="colsTrack"></div>
   </div>
 </section>
 
 <!-- CATEGORIES -->
 <section class="cats" id="categories">
   <div class="wrap">
-    <header class="sec-head" data-reveal>
-      <span class="kicker">الأقسام</span>
-      <h2 class="h2">لكل أوضة في بيتك <em class="gold-text">طقم ملكي</em></h2>
-      <p>اختار القسم، وإحنا نوريك الموديلات ونفصّل لك على مقاسك وذوقك.</p>
-    </header>
-    <div class="cats__grid" id="catsGrid"></div>
+    <div class="sec-head">
+      <p class="label">الأقسام</p>
+      <h2 class="h2">كل أوضة <span class="gold">ليها طقمها</span></h2>
+      <p class="sec-head__sub">اختار القسم، ونوريك الموديلات ونفصّل على مقاسك.</p>
+    </div>
+    <ul class="cats__list" id="catsList"></ul>
   </div>
-</section>
-
-<!-- COLLECTIONS -->
-<section class="cols" id="collections">
-  <div class="wrap">
-    <header class="sec-head" data-reveal>
-      <span class="kicker">المجموعات</span>
-      <h2 class="h2">ادخل <em class="gold-text">القصر</em>… الأبواب بتتفتح لك</h2>
-      <p>دوس على النقط الدهبي عشان تشوف تفاصيل الصنعة في كل قطعة.</p>
-    </header>
-  </div>
-  <div id="colsList"></div>
+  <div class="cats__preview" id="catsPreview" aria-hidden="true"><img alt="" id="catsPreviewImg"></div>
 </section>
 
 <!-- CRAFT -->
 <section class="craft" id="craft">
   <div class="wrap craft__grid">
     <div class="craft__media">
-      <div class="craft__frame">
-        <img src="assets/img/craft.webp" alt="أسطى بيذهّب إطار محفور يدويًا" loading="lazy" id="craftImg">
-        <span class="craft__badge"><b id="craftNum">01</b><small>من 05</small></span>
-      </div>
+      <div class="craft__shield"><img src="assets/img/craft.webp" alt="أسطى بيذهّب إطار محفور يدويًا" loading="lazy" id="craftImg"></div>
+      <span class="craft__num" id="craftNum">01</span>
     </div>
-    <div class="craft__steps">
-      <header class="sec-head sec-head--start" data-reveal>
-        <span class="kicker">الصنعة</span>
-        <h2 class="h2">من لوح خشب… <em class="gold-text">لتحفة في بيتك</em></h2>
-      </header>
-      <ol id="craftList"></ol>
+    <div class="craft__body">
+      <p class="label label--light">الصنعة</p>
+      <h2 class="h2">من لوح خشب <span class="gold">لقطعة تعيش</span></h2>
+      <ol class="craft__steps" id="craftList"></ol>
     </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="journey">
+  <div class="wrap">
+    <div class="sec-head sec-head--row">
+      <div><p class="label">من 1952 لليوم</p><h2 class="h2">رحلة <span class="gold">ثلاث أجيال</span></h2></div>
+    </div>
+    <ol class="journey__list" id="journeyList"></ol>
   </div>
 </section>
 
 <!-- PROMISE -->
 <section class="promise">
   <div class="wrap promise__grid">
-    <div class="promise__item" data-reveal><svg viewBox="0 0 48 48"><path d="M24 4l16 6v12c0 11-7 19-16 22-9-3-16-11-16-22V10z"/><path d="M17 24l5 5 9-10"/></svg><h3>خامات بتعيش</h3><p>زان مجفف وأقمشة مستوردة وإسفنج عالي الكثافة.</p></div>
-    <div class="promise__item" data-reveal><svg viewBox="0 0 48 48"><path d="M6 40L40 6M10 36l4 4M16 30l4 4M22 24l4 4M28 18l4 4M34 12l4 4"/></svg><h3>على مقاسك</h3><p>بنيجي نقيس المكان، ونفصّل القطعة بالسنتي.</p></div>
-    <div class="promise__item" data-reveal><svg viewBox="0 0 48 48"><path d="M4 14h24v20H4zM28 20h9l7 7v7H28z"/><circle cx="12" cy="36" r="4"/><circle cx="36" cy="36" r="4"/></svg><h3>توصيل وتركيب</h3><p>فريقنا بيوصل ويركّب ويسيب المكان نضيف.</p></div>
-    <div class="promise__item" data-reveal><svg viewBox="0 0 48 48"><path d="M8 10h32v22H20l-8 7v-7H8z"/><path d="M16 19h16M16 25h10"/></svg><h3>معاك بعد البيع</h3><p>صيانة وتجديد تنجيد لأي قطعة خرجت من عندنا.</p></div>
+    <div><span>01</span><h3>خامات بتعيش</h3><p>زان مجفف، أقمشة مستوردة، وإسفنج عالي الكثافة.</p></div>
+    <div><span>02</span><h3>على مقاسك</h3><p>بنيجي نقيس المكان ونفصّل بالسنتي.</p></div>
+    <div><span>03</span><h3>توصيل وتركيب</h3><p>فريقنا بيوصل ويركّب ويسيب المكان نضيف.</p></div>
+    <div><span>04</span><h3>معاك بعد البيع</h3><p>صيانة وتجديد تنجيد لأي قطعة من عندنا.</p></div>
   </div>
 </section>
 
 <!-- TAILOR -->
 <section class="tailor" id="tailor">
   <div class="wrap tailor__grid">
-    <form class="tailor__form" id="tailorForm" novalidate>
-      <header class="sec-head sec-head--start" data-reveal>
-        <span class="kicker">فصّل طقمك</span>
-        <h2 class="h2">صمّم قطعتك… <em class="gold-text">وإحنا ننفذها</em></h2>
-        <p>اختار وابعت لنا على واتساب، وهنرد عليك بالموديلات والسعر.</p>
-      </header>
-      <fieldset><legend><b>1</b> القسم</legend><div class="chips" id="tCat"></div></fieldset>
-      <fieldset><legend><b>2</b> الطراز</legend><div class="chips" id="tStyle"></div></fieldset>
-      <fieldset><legend><b>3</b> تشطيب الخشب</legend><div class="chips chips--sw" id="tFinish"></div></fieldset>
-      <fieldset><legend><b>4</b> لون القماش</legend><div class="chips chips--sw" id="tFabric"></div></fieldset>
-      <fieldset class="fields">
-        <legend><b>5</b> بياناتك</legend>
+    <div class="tailor__form">
+      <p class="label">فصّل طقمك</p>
+      <h2 class="h2">قولنا ذوقك، <span class="gold">وإحنا ننفذ</span></h2>
+      <p class="sec-head__sub">اختار وابعت لنا على واتساب، وهنرد عليك بالموديلات والسعر.</p>
+      <div class="field"><p class="field__t"><b>1</b>القسم</p><div class="chips" id="tCat"></div></div>
+      <div class="field"><p class="field__t"><b>2</b>الطراز</p><div class="chips" id="tStyle"></div></div>
+      <div class="field"><p class="field__t"><b>3</b>تشطيب الخشب</p><div class="chips" id="tFinish"></div></div>
+      <div class="field"><p class="field__t"><b>4</b>لون القماش</p><div class="chips" id="tFabric"></div></div>
+      <div class="field field--inputs">
+        <p class="field__t"><b>5</b>بياناتك</p>
         <label><span>الاسم</span><input id="tName" autocomplete="name" placeholder="اسمك"></label>
-        <label><span>المدينة / المنطقة</span><input id="tCity" placeholder="مثلًا: مدينة نصر"></label>
+        <label><span>المنطقة</span><input id="tCity" placeholder="مثلًا: مدينة نصر"></label>
         <label class="full"><span>مقاسات أو ملاحظات</span><textarea id="tNote" rows="3" placeholder="مثلًا: الصالة 4×5 متر، عايز صالون 7 مقاعد"></textarea></label>
-      </fieldset>
-    </form>
-
-    <aside class="certificate" id="certificate" aria-live="polite">
-      <div class="certificate__in">
-        <img src="assets/img/crest.webp" alt="" class="certificate__crest">
-        <p class="certificate__title">شهادة طلب تفصيل</p>
-        <dl>
-          <div><dt>القسم</dt><dd id="cCat">—</dd></div>
-          <div><dt>الطراز</dt><dd id="cStyle">—</dd></div>
-          <div><dt>الخشب</dt><dd id="cFinish">—</dd></div>
-          <div><dt>القماش</dt><dd id="cFabric">—</dd></div>
-          <div><dt>باسم</dt><dd id="cName">—</dd></div>
-        </dl>
-        <div class="certificate__preview" id="cPreview"><span class="pv-frame"></span><span class="pv-fabric"></span></div>
-        <button class="btn btn--gold btn--block" type="button" id="tSend">ابعت الطلب على واتساب</button>
-        <p class="certificate__sign">علي البدري · منذ 1952</p>
       </div>
+    </div>
+    <aside class="summary" id="summary">
+      <div class="summary__top"><img src="assets/img/crest-dark.webp" alt=""><div><b>طلب تفصيل</b><small>علي البدري · منذ 1952</small></div></div>
+      <dl>
+        <div><dt>القسم</dt><dd id="cCat">—</dd></div>
+        <div><dt>الطراز</dt><dd id="cStyle">—</dd></div>
+        <div><dt>الخشب</dt><dd id="cFinish">—</dd></div>
+        <div><dt>القماش</dt><dd id="cFabric">—</dd></div>
+      </dl>
+      <div class="summary__sw"><span class="pv-frame"></span><span class="pv-fabric"></span></div>
+      <button class="btn btn--gold btn--block" type="button" id="tSend">ابعت الطلب على واتساب</button>
     </aside>
   </div>
 </section>
 
 <!-- VISIT -->
 <section class="visit" id="visit">
-  <div class="wrap visit__grid">
-    <div class="visit__crest" data-reveal><img src="assets/img/logo-full.webp" alt="شعار علي البدري للموبيليا" loading="lazy"></div>
-    <div class="visit__copy" data-reveal>
-      <span class="kicker kicker--light">زورنا</span>
-      <h2 class="h2">القطعة الحلوة <em class="gold-text">تتشاف بالعين</em></h2>
-      <p>تعالى المعرض والمس الخشب والقماش بإيدك، أو ابعت لنا صورة المكان ومقاساته ونرشح لك الأنسب.</p>
-      <div class="visit__cta">
-        <a class="btn btn--gold" data-wa="أهلًا علي البدري، عايز لوكيشن المعرض ومواعيد الزيارة" href="#">ابعت لنا على واتساب</a>
-        <a class="btn btn--line-light" id="callBtn" href="#">اتصل بينا</a>
-        <a class="btn btn--line-light" id="fbBtn" href="#" target="_blank" rel="noopener">صفحتنا على فيسبوك</a>
-      </div>
+  <div class="wrap visit__in">
+    <img src="assets/img/logo-full.webp" alt="شعار علي البدري للموبيليا" class="visit__logo" loading="lazy">
+    <h2 class="h2">القطعة الحلوة <span class="gold">تتشاف بالعين</span></h2>
+    <p>تعالى المعرض والمس الخشب والقماش بإيدك، أو ابعت لنا صورة المكان ومقاساته ونرشح لك الأنسب.</p>
+    <div class="visit__cta">
+      <a class="btn btn--gold" data-wa="أهلًا علي البدري، عايز لوكيشن المعرض ومواعيد الزيارة" href="#">ابعت لنا على واتساب</a>
+      <a class="btn btn--ghost" id="callBtn" href="#">اتصل بينا</a>
+      <a class="btn btn--ghost" id="fbBtn" href="#" target="_blank" rel="noopener">فيسبوك</a>
     </div>
   </div>
 </section>
@@ -244,18 +199,21 @@
 
 <footer class="foot">
   <div class="wrap foot__in">
-    <a href="#top" class="brand brand--foot"><img src="assets/img/crest.webp" alt="" width="40" height="46"><span class="brand__txt"><b>علي البدري</b><small>ALI ELBADRY FURNITURE</small></span></a>
-    <nav><a href="#categories">الأقسام</a><a href="#collections">المجموعات</a><a href="#craft">الصنعة</a><a href="#tailor">فصّل طقمك</a></nav>
-    <p class="foot__copy">© <span id="year">2026</span> علي البدري للموبيليا · منذ 1952 · <a href="https://web.theplanetco.com/" target="_blank" rel="noopener">Website by Planet</a></p>
+    <a href="#top" class="brand brand--light"><img src="assets/img/crest.webp" alt="" width="34" height="39"><span class="brand__txt"><b>علي البدري</b><small>ALI ELBADRY</small></span></a>
+    <p>© <span id="year">2026</span> علي البدري للموبيليا · منذ 1952 · <a href="https://web.theplanetco.com/" target="_blank" rel="noopener" dir="ltr">Website by Planet</a></p>
   </div>
 </footer>
 
-<a class="wa-float" data-wa="أهلًا علي البدري، عندي استفسار" href="#" aria-label="واتساب">
-  <svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>
-</a>
+<div class="mbar" id="mbar">
+  <a class="mbar__wa" data-wa="أهلًا علي البدري، عندي استفسار" href="#"><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>واتساب</a>
+  <a class="mbar__call" id="mCall" href="#">اتصل</a>
+  <a class="mbar__go" href="#tailor">فصّل طقمك</a>
+</div>
+
+<a class="wa-float" data-wa="أهلًا علي البدري، عندي استفسار" href="#" aria-label="واتساب"><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg></a>
 
 <script src="assets/js/vendor/lenis.min.js" defer></script>
-<script src="assets/js/data.js?v=2" defer></script>
-<script src="assets/js/app.js?v=2" defer></script>
+<script src="assets/js/data.js?v=3" defer></script>
+<script src="assets/js/app.js?v=3" defer></script>
 </body>
 </html>

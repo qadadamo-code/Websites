@@ -1,153 +1,104 @@
-/* Ali Elbadry Furniture — page logic */
+/* Ali Elbadry Furniture — v3 page logic */
 (() => {
   const AB = window.AB;
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   const mq = matchMedia('(max-width: 820px)');
   const isM = () => mq.matches;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const wa = msg => `https://wa.me/${AB.config.whatsapp}?text=${encodeURIComponent(msg)}`;
   const html = document.documentElement;
+  const wa = msg => `https://wa.me/${AB.config.whatsapp}?text=${encodeURIComponent(msg)}`;
 
-  /* ---------- links ---------- */
-  function bindWa(root = document) {
-    $$('[data-wa]', root).forEach(a => { a.href = wa(a.dataset.wa); a.target = '_blank'; a.rel = 'noopener'; });
-  }
-  $('#callBtn').href = 'tel:' + AB.config.phone;
-  $('#fbBtn').href = AB.config.facebook;
-  $('#year').textContent = new Date().getFullYear();
-
-  /* ---------- build: categories ---------- */
-  $('#catsGrid').innerHTML = AB.categories.map((c, i) => `
-    <button class="cat" type="button" data-cat="${c.id}">
-      <svg viewBox="0 0 80 60" aria-hidden="true">${c.svg}</svg>
-      <span class="cat__go" aria-hidden="true">↖</span>
-      <h3>${c.name}</h3><p>${c.note}</p>
+  /* ---------- content ---------- */
+  const IMG = { salon: 'salon', antrih: 'salon', bedroom: 'bedroom', dining: 'dining', corner: 'salon', vitrine: 'dining', dresser: 'bedroom', office: 'craft' };
+  $('#catsList').innerHTML = AB.categories.map((c, i) => `
+    <li><button class="cat" type="button" data-cat="${c.id}" data-img="${IMG[c.id] || 'salon'}" data-r>
       <span class="cat__n">${String(i + 1).padStart(2, '0')}</span>
-    </button>`).join('');
+      <svg viewBox="0 0 80 60" aria-hidden="true">${c.svg}</svg>
+      <span class="cat__txt"><span class="cat__name">${c.name}</span><span class="cat__note cat__note--m">${c.note}</span></span>
+      <span class="cat__note cat__note--d">${c.note}</span>
+      <span class="cat__go" aria-hidden="true">↖</span>
+    </button></li>`).join('');
+  $('#colsTrack').innerHTML = AB.collections.map((c, i) => `
+    <article class="col">
+      <div class="col__img"><img src="assets/img/${c.img}.webp" srcset="assets/img/${c.img}-sm.webp 640w, assets/img/${c.img}.webp 1168w" sizes="(max-width:820px) 84vw, 60vw" alt="${c.name}" loading="lazy"><span class="col__tag">${c.kicker}</span></div>
+      <div class="col__meta">
+        <span class="col__n">0${i + 1}</span>
+        <div><h3>${c.name}</h3><p>${c.desc}</p></div>
+        <a class="btn btn--dark btn--sm" data-wa="أهلًا علي البدري، عايز أعرف تفاصيل وسعر ${c.name} (${c.kicker})" href="#">اسأل عن السعر</a>
+      </div>
+    </article>`).join('') + `
+    <article class="col col--end"><div class="col__end">
+      <img src="assets/img/crest.webp" alt="">
+      <div><h3>مش لاقي اللي في دماغك؟ نفصّله لك على مقاسك.</h3><a href="#tailor" class="btn btn--gold">فصّل طقمك</a></div>
+    </div></article>`;
+  $('.cols__sticky').insertAdjacentHTML('beforeend', `<div class="cols__dots" id="colsDots">${AB.collections.map(() => '<i></i>').join('')}<i></i></div>`);
+  if (!isM()) $('#colsDots').style.display = 'none';
 
-  /* ---------- build: timeline ---------- */
-  $('#timelineTrack').insertAdjacentHTML('beforeend', AB.timeline.map((t, i) => `
-    <article class="tl"><span class="tl__y">${t.y}</span>
-      <div class="tl__card"><span class="num">${String(i + 1).padStart(2, '0')} / 0${AB.timeline.length}</span><h3>${t.t}</h3><p>${t.d}</p></div>
-    </article>`).join(''));
+  $('#craftList').innerHTML = AB.craft.map(c => `<li><b>${c.n}</b><div><h3>${c.t}</h3><p>${c.d}</p></div></li>`).join('');
+  $('#journeyList').innerHTML = AB.timeline.map(t => `<li data-r><b>${t.y}</b><h3>${t.t}</h3><p>${t.d}</p></li>`).join('');
 
-  /* ---------- build: collections ---------- */
-  $('#colsList').innerHTML = AB.collections.map((c, i) => `
-    <article class="col" data-col="${c.id}">
-      <div class="col__sticky"><div class="col__inner">
-        <div class="col__scene">
-          <img src="assets/img/${c.img}.webp" srcset="assets/img/${c.img}-sm.webp 640w, assets/img/${c.img}.webp 1168w" sizes="(max-width:820px) 100vw, 60vw" alt="${c.name} — ${c.kicker}" loading="lazy">
-          <div class="door door--l"><span class="knob"></span><img src="assets/img/crest.webp" alt=""></div>
-          <div class="door door--r"><span class="knob"></span><img src="assets/img/crest.webp" alt=""></div>
-          ${c.spots.map(s => `<button type="button" class="spot ${s.x > 68 ? 'tip-left' : s.x < 32 ? 'tip-right' : ''} ${s.y < 28 ? 'tip-down' : ''}" style="left:${s.x}%;top:${s.y}%" aria-label="${s.t}"><span class="spot__tip"><b>${s.t}</b>${s.d}</span></button>`).join('')}
-        </div>
-        <div class="col__copy">
-          <span class="num">0${i + 1} / 0${AB.collections.length}</span>
-          <span class="kicker">${c.kicker}</span>
-          <h3>${c.name}</h3>
-          <p>${c.desc}</p>
-          <div class="col__btns">
-            <a class="btn btn--ink" data-wa="أهلًا علي البدري، عايز أعرف تفاصيل وسعر ${c.name} (${c.kicker})" href="#">اسأل عن السعر</a>
-            <button class="btn btn--line" type="button" data-cat="${c.cat}">فصّل زيها</button>
-          </div>
-        </div>
-      </div></div>
-    </article>`).join('');
+  // statement words
+  const stEl = $('#statement');
+  stEl.innerHTML = stEl.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
+  const words = $$('.w', stEl);
 
-  /* ---------- build: craft ---------- */
-  $('#craftList').innerHTML = AB.craft.map((c, i) => `<li data-i="${i}"><b>${c.n}</b><div><h3>${c.t}</h3><p>${c.d}</p></div></li>`).join('');
-
-  /* ---------- configurator ---------- */
+  /* ---------- tailor ---------- */
   const st = { cat: null, style: AB.styles[0], finish: AB.finishes[0], fabric: AB.fabrics[0] };
-  const chipHTML = (items, kind) => items.map((it, i) => {
-    const name = typeof it === 'string' ? it : it.name;
-    const sw = it.c ? `<i style="background:${it.c}"></i>` : '';
-    return `<button type="button" class="chip" data-kind="${kind}" data-i="${i}">${sw}${name}</button>`;
-  }).join('');
-  $('#tCat').innerHTML = chipHTML(AB.categories, 'cat');
-  $('#tStyle').innerHTML = chipHTML(AB.styles, 'style');
-  $('#tFinish').innerHTML = chipHTML(AB.finishes, 'finish');
-  $('#tFabric').innerHTML = chipHTML(AB.fabrics, 'fabric');
   const lists = { cat: AB.categories, style: AB.styles, finish: AB.finishes, fabric: AB.fabrics };
-
-  function setCert(id, val) {
-    const el = $(id); if (el.textContent === val) return;
-    el.textContent = val; el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
-    setTimeout(() => el.classList.remove('flash'), 900);
-  }
+  const chips = (items, kind) => items.map((it, i) => `<button type="button" class="chip" data-kind="${kind}" data-i="${i}">${it.c ? `<i style="background:${it.c}"></i>` : ''}${typeof it === 'string' ? it : it.name}</button>`).join('');
+  $('#tCat').innerHTML = chips(AB.categories, 'cat');
+  $('#tStyle').innerHTML = chips(AB.styles, 'style');
+  $('#tFinish').innerHTML = chips(AB.finishes, 'finish');
+  $('#tFabric').innerHTML = chips(AB.fabrics, 'fabric');
+  function setC(id, v) { const el = $(id); if (el.textContent === v) return; el.textContent = v; el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 900); }
   function renderTailor() {
-    $$('.chip').forEach(ch => {
-      const v = lists[ch.dataset.kind][+ch.dataset.i];
-      ch.classList.toggle('on', st[ch.dataset.kind] === v);
-    });
-    setCert('#cCat', st.cat ? st.cat.name : '—');
-    setCert('#cStyle', st.style);
-    setCert('#cFinish', st.finish.name);
-    setCert('#cFabric', st.fabric.name);
-    setCert('#cName', $('#tName').value.trim() || '—');
-    $('.pv-frame').style.background = st.finish.c;
-    $('.pv-fabric').style.background = st.fabric.c;
+    $$('.chip').forEach(c => c.classList.toggle('on', st[c.dataset.kind] === lists[c.dataset.kind][+c.dataset.i]));
+    setC('#cCat', st.cat ? st.cat.name : '—'); setC('#cStyle', st.style); setC('#cFinish', st.finish.name); setC('#cFabric', st.fabric.name);
+    $('.pv-frame').style.background = st.finish.c; $('.pv-fabric').style.background = st.fabric.c;
   }
   document.addEventListener('click', e => {
     const ch = e.target.closest('.chip');
-    if (ch) {
-      const k = ch.dataset.kind; st[k] = lists[k][+ch.dataset.i]; renderTailor();
-    }
+    if (ch) { st[ch.dataset.kind] = lists[ch.dataset.kind][+ch.dataset.i]; renderTailor(); return; }
+    const b = e.target.closest('.cat[data-cat]');
+    if (b) { st.cat = AB.categories.find(c => c.id === b.dataset.cat) || null; renderTailor(); goTo('#tailor'); }
   });
-  $('#tName').addEventListener('input', renderTailor);
   $('#tSend').addEventListener('click', () => {
-    const lines = [
-      'أهلًا علي البدري، عايز أفصّل طقم:',
-      `• القسم: ${st.cat ? st.cat.name : 'لسه بختار'}`,
-      `• الطراز: ${st.style}`,
-      `• تشطيب الخشب: ${st.finish.name}`,
-      `• لون القماش: ${st.fabric.name}`
-    ];
+    const L = ['أهلًا علي البدري، عايز أفصّل طقم:', `• القسم: ${st.cat ? st.cat.name : 'لسه بختار'}`, `• الطراز: ${st.style}`, `• تشطيب الخشب: ${st.finish.name}`, `• لون القماش: ${st.fabric.name}`];
     const n = $('#tName').value.trim(), c = $('#tCity').value.trim(), note = $('#tNote').value.trim();
-    if (n) lines.push(`• الاسم: ${n}`);
-    if (c) lines.push(`• المنطقة: ${c}`);
-    if (note) lines.push(`• ملاحظات: ${note}`);
-    open(wa(lines.join('\n')), '_blank', 'noopener');
+    if (n) L.push(`• الاسم: ${n}`); if (c) L.push(`• المنطقة: ${c}`); if (note) L.push(`• ملاحظات: ${note}`);
+    open(wa(L.join('\n')), '_blank', 'noopener');
   });
-
-  // category buttons → preselect & go to tailor
-  document.addEventListener('click', e => {
-    const b = e.target.closest('[data-cat]:not(.chip)');
-    if (!b) return;
-    st.cat = AB.categories.find(c => c.id === b.dataset.cat) || null;
-    renderTailor();
-    goTo('#tailor');
-  });
-
   renderTailor();
-  bindWa();
 
-  /* ---------- nav ---------- */
+  /* ---------- links ---------- */
+  $$('[data-wa]').forEach(a => { a.href = wa(a.dataset.wa); a.target = '_blank'; a.rel = 'noopener'; });
+  $('#callBtn').href = $('#mCall').href = 'tel:' + AB.config.phone;
+  $('#fbBtn').href = AB.config.facebook;
+  $('#year').textContent = new Date().getFullYear();
+
+  /* ---------- nav + smooth scroll ---------- */
   const nav = $('#nav');
-  $('#burger').addEventListener('click', () => {
-    const o = nav.classList.toggle('open');
-    $('#burger').setAttribute('aria-expanded', o);
-    document.body.style.overflow = o ? 'hidden' : '';
-    if (lenis) o ? lenis.stop() : lenis.start();
-  });
-  function closeMenu() { nav.classList.remove('open'); document.body.style.overflow = ''; $('#burger').setAttribute('aria-expanded', false); if (lenis) lenis.start(); }
-
-  /* ---------- smooth scroll (desktop only) ---------- */
   let lenis = null;
   function setupLenis() {
     const want = !isM() && !reduced && window.Lenis && matchMedia('(pointer:fine)').matches;
-    if (want && !lenis) { lenis = new Lenis({ lerp: 0.1, smoothWheel: true }); lenis.on('scroll', onScroll); }
+    if (want && !lenis) { lenis = new Lenis({ lerp: 0.1 }); lenis.on('scroll', onScroll); }
     if (!want && lenis) { lenis.destroy(); lenis = null; }
   }
-  function lenisRaf(t) { if (lenis) lenis.raf(t); requestAnimationFrame(lenisRaf); }
-  requestAnimationFrame(lenisRaf);
-
+  (function raf(t) { if (lenis) lenis.raf(t); requestAnimationFrame(raf); })(0);
+  function closeMenu() { nav.classList.remove('open'); document.body.style.overflow = ''; $('#burger').setAttribute('aria-expanded', 'false'); }
+  $('#burger').addEventListener('click', () => {
+    const o = nav.classList.toggle('open');
+    $('#burger').setAttribute('aria-expanded', String(o));
+    document.body.style.overflow = o ? 'hidden' : '';
+  });
   function goTo(sel) {
     const el = $(sel); if (!el) return;
     closeMenu();
-    const off = -parseInt(getComputedStyle(html).getPropertyValue('--nav-h') || 70) + 4;
+    const off = -(isM() ? 60 : 66) + 1;
     if (lenis) lenis.scrollTo(el, { offset: off, duration: 1.4 });
     else scrollTo({ top: el.getBoundingClientRect().top + scrollY + off, behavior: reduced ? 'auto' : 'smooth' });
   }
@@ -158,221 +109,162 @@
     e.preventDefault(); goTo(h);
   });
 
-  /* ---------- hero: room puzzle ---------- */
-  const hero = $('#hero'), puzzle = $('#puzzle'), art = $('#heroArt');
-  const ROOMS = [
-    { img: 'salon', cap: 'الصالون الملكي · حفر يدوي وتذهيب بورق الذهب' },
-    { img: 'dining', cap: 'سفرة الوليمة · لاكيه أسود بحليات ذهبي' },
-    { img: 'bedroom', cap: 'غرفة القصر · كابيتونيه يدوي وإطار محفور' }
-  ];
-  ROOMS.forEach(r => { const i = new Image(); i.src = `assets/img/${r.img}.webp`; });
-  let introP = 0, tiles = [], grid = null, room = 0, scrollP = 0, autoP = 0, swap = null;
-  function rnd(i) { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
-  function buildPuzzle() {
-    const cols = isM() ? 5 : 6, rows = isM() ? 4 : 5;
-    if (grid && grid[0] === cols) return;
-    grid = [cols, rows];
-    puzzle.style.setProperty('--cols', cols); puzzle.style.setProperty('--rows', rows);
-    puzzle.innerHTML = '<span class="puzzle__full"></span>'; tiles = [];
-    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-      const i = r * cols + c, el = document.createElement('i');
-      el.className = 'tile';
-      el.style.backgroundSize = `${cols * 100}% ${rows * 100}%`;
-      el.style.backgroundPosition = `${c / (cols - 1) * 100}% ${r / (rows - 1) * 100}%`;
-      const cx = c - (cols - 1) / 2, cy = r - (rows - 1) / 2;
-      const ang = Math.atan2(cy || 0.3, cx || 0.3) + (rnd(i) - 0.5);
-      const dist = (isM() ? 1.4 : 2.2) + rnd(i + 9) * (isM() ? 1.4 : 2.4);
-      tiles.push({ el, dx: Math.cos(ang) * dist * 100, dy: Math.sin(ang) * dist * 100, rot: (rnd(i + 3) - 0.5) * 70, z: -200 - rnd(i + 5) * 500, delay: rnd(i + 7) });
-      puzzle.appendChild(el);
+  /* ---------- hero: shield opens into the room ---------- */
+  const hero = $('#hero'), media = $('#heroMedia'), copy = $('#heroCopy'), shield = $('#shieldPath');
+  const SH = [0, .08, .25, 0, .5, .06, .75, 0, 1, .08, 1, .62, 1, .86, .5, 1, 0, .86, 0, .62];
+  const RE = [0, 0, .25, 0, .5, 0, .75, 0, 1, 0, 1, 1, 1, 1, .5, 1, 0, 1, 0, 1];
+  function shieldD(t) {
+    const v = SH.map((a, i) => (a + (RE[i] - a) * t).toFixed(4));
+    return `M${v[0]},${v[1]} Q${v[2]},${v[3]} ${v[4]},${v[5]} Q${v[6]},${v[7]} ${v[8]},${v[9]} L${v[10]},${v[11]} Q${v[12]},${v[13]} ${v[14]},${v[15]} Q${v[16]},${v[17]} ${v[18]},${v[19]} Z`;
+  }
+  let VW = innerWidth, VH = innerHeight, start = null;
+  function measureHero() {
+    VW = document.documentElement.clientWidth; VH = innerHeight;
+    if (!isM()) {
+      const pad = Math.max(20, (VW - 1240) / 2);
+      const w = Math.min(VW * 0.36, 520), h = Math.min(w * 1.2, VH - 190);
+      start = { x: pad + 10, y: (VH - h) / 2 + 30, w: Math.min(w, h / 1.2 * 1.0 + w * 0), h };
+      start.w = Math.min(w, h / 1.12);
+    } else {
+      const top = copy.getBoundingClientRect().height + 64 + 18 + 34;
+      const h = Math.max(220, VH - top - 34);
+      const w = Math.min(VW - 76, h * 0.86);
+      start = { x: (VW - w) / 2, y: top, w, h };
     }
-    setRoomImage(room);
   }
-  function setRoomImage(k) {
-    const url = `url(assets/img/${ROOMS[k].img}.webp)`;
-    tiles.forEach(t => { t.el.style.backgroundImage = url; });
-    $('.puzzle__full', puzzle).style.backgroundImage = url;
-    $('#heroCap').textContent = ROOMS[k].cap;
-  }
-  const easeO = t => 1 - Math.pow(1 - t, 3);
-  function renderHero(now) {
-    const base = isM() ? autoP : Math.max(scrollP, introP);
-    let a = clamp(base / 0.68);
-    if (swap) {
-      const t = (now - swap.t0) / 1000;
-      let f;
-      if (t < 0.45) f = 1 - 0.8 * easeO(t / 0.45);
-      else { if (!swap.done) { swap.done = true; setRoomImage(room); } f = 0.2 + 0.8 * easeO(clamp((t - 0.45) / 0.9)); }
-      if (t > 1.35) swap = null;
-      a = Math.min(a, f);
-    }
-    for (const t of tiles) {
-      const k = easeO(clamp((a - t.delay * 0.42) / 0.58)), q = 1 - k;
-      t.el.style.transform = q < 0.0005 ? 'none' : `translate3d(${t.dx * q}%,${t.dy * q}%,${t.z * q}px) rotate(${t.rot * q}deg)`;
-      t.el.style.opacity = clamp(k * 2.2);
-    }
-    puzzle.style.setProperty('--full', a >= 0.999 ? 1 : 0);
-    puzzle.style.setProperty('--seam', (0.55 * (1 - clamp((a - 0.9) / 0.1))).toFixed(3));
-    art.style.setProperty('--fr', (100 * (1 - clamp((base - 0.5) / 0.3))).toFixed(2));
-    art.style.setProperty('--co', clamp((base - 0.72) / 0.15).toFixed(3));
-    art.style.setProperty('--se', easeO(clamp((base - 0.8) / 0.18)).toFixed(3));
-    $('.scroll-hint').style.opacity = base > 0.03 ? 0 : 1;
-  }
-  let heroVis = true;
-  new IntersectionObserver(es => { heroVis = es[0].isIntersecting; }).observe(hero);
-  (function heroLoop(now) { if (heroVis) renderHero(now); requestAnimationFrame(heroLoop); })(performance.now());
-  function playAuto() {
-    const t0 = performance.now(), dur = 2600;
-    const step = now => { const t = clamp((now - t0) / dur); autoP = t; if (t < 1) requestAnimationFrame(step); };
-    requestAnimationFrame(step);
-  }
-  $('#rooms').addEventListener('click', e => {
-    const b = e.target.closest('.room'); if (!b) return;
-    const k = +b.dataset.room; if (k === room) return;
-    room = k;
-    $$('.room').forEach(x => x.classList.toggle('on', x === b));
-    const base = isM() ? autoP : scrollP;
-    if (base < 0.3) setRoomImage(room); else swap = { t0: performance.now(), done: false };
-  });
-  buildPuzzle();
-
-  /* ---------- timeline ---------- */
-  const tlSec = $('#timeline'), tlTrack = $('#timelineTrack'), tlFill = $('#timelineFill'), tlCards = () => $$('.tl');
-  let tlDist = 0;
-  function layoutTimeline() {
-    if (isM()) { tlSec.style.height = ''; tlTrack.style.transform = ''; return; }
-    tlDist = Math.max(0, tlTrack.scrollWidth - innerWidth);
-    tlSec.style.height = (innerHeight + tlDist) + 'px';
+  let lastE = -1;
+  function heroFrame(t) {
+    if (!start) measureHero();
+    const e = easeIO(clamp(t / 0.78));
+    if (Math.abs(e - lastE) < 0.0004) return; lastE = e;
+    media.style.left = lerp(start.x, 0, e) + 'px';
+    media.style.top = lerp(start.y, 0, e) + 'px';
+    media.style.width = lerp(start.w, VW, e) + 'px';
+    media.style.height = lerp(start.h, VH, e) + 'px';
+    shield.setAttribute('d', shieldD(e));
+    media.style.setProperty('--s', (1.14 - 0.14 * e).toFixed(4));
+    media.style.setProperty('--ol', clamp(1 - e * 3).toFixed(3));
+    media.style.setProperty('--ov', clamp((e - 0.5) / 0.5).toFixed(3));
+    media.style.setProperty('--cap', clamp((e - 0.82) / 0.18).toFixed(3));
+    hero.style.setProperty('--cue', clamp(1 - t * 8).toFixed(3));
+    copy.style.opacity = clamp(1 - e * 2.2).toFixed(3);
+    copy.style.transform = isM() ? `translateY(${-e * 40}px)` : `translateY(calc(-44% - ${e * 50}px))`;
+    nav.classList.toggle('on-dark', e > 0.92 && t < 1);
   }
 
-  /* ---------- per-frame scroll scenes ---------- */
-  const cols = () => $$('.col');
-  const craftItems = () => $$('#craftList li');
-  const craftImg = $('#craftImg');
-  const craftLook = [[1.05, 0, 1], [1.14, 0.15, 1], [1.24, 0.05, 1.1], [1.12, 0, 1.25], [1.02, 0, 1]];
+  /* ---------- collections ---------- */
+  const colsSec = $('#collections'), track = $('#colsTrack');
+  let colsDist = 0;
+  function layoutCols() {
+    if (isM()) { colsSec.style.height = ''; track.style.transform = ''; $('#colsDots').style.display = ''; return; }
+    $('#colsDots').style.display = 'none';
+    colsDist = Math.max(0, track.scrollWidth - VW + Math.max(20, (VW - 1240) / 2));
+    colsSec.style.height = (VH + colsDist) + 'px';
+  }
+  track.addEventListener('scroll', () => {
+    if (!isM()) return;
+    const cards = $$('.col', track), mid = VW / 2;
+    let best = 0, bd = 1e9;
+    cards.forEach((c, i) => { const r = c.getBoundingClientRect(); const d = Math.abs(r.left + r.width / 2 - mid); if (d < bd) { bd = d; best = i; } });
+    $$('#colsDots i').forEach((d, i) => d.classList.toggle('on', i === best));
+  }, { passive: true });
+  $$('#colsDots i')[0].classList.add('on');
+
+  /* ---------- category preview (desktop) ---------- */
+  const prev = $('#catsPreview'), prevImg = $('#catsPreviewImg');
+  if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    let px = 0, py = 0, cx = 0, cy = 0, on = false;
+    $('#catsList').addEventListener('pointerover', e => {
+      const b = e.target.closest('.cat'); if (!b) return;
+      const src = `assets/img/${b.dataset.img}-sm.webp`;
+      if (!prevImg.src.endsWith(src)) prevImg.src = src;
+      on = true; prev.classList.add('on');
+    });
+    $('#catsList').addEventListener('pointerleave', () => { on = false; prev.classList.remove('on'); });
+    addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; });
+    (function loop() { cx += (px - cx) * 0.14; cy += (py - cy) * 0.14; if (on) prev.style.transform = `translate3d(${cx - 130}px,${cy - 160}px,0) rotate(${(px - cx) * 0.04}deg)`; requestAnimationFrame(loop); })();
+  }
+
+  /* ---------- scroll ---------- */
+  const craftItems = $$('#craftList li'), craftImg = $('#craftImg'), craftNum = $('#craftNum');
+  const mbar = $('#mbar');
   let lastCraft = -1;
   function onScroll() {
-    const vh = innerHeight, y = lenis ? lenis.scroll : scrollY;
-    nav.classList.toggle('scrolled', y > 20);
+    const y = lenis ? lenis.scroll : scrollY;
+    nav.classList.toggle('scrolled', y > 30 && !(nav.classList.contains('on-dark')));
 
     // hero
-    if (!isM()) {
-      const r = hero.getBoundingClientRect();
-      scrollP = clamp(-r.top / ((hero.offsetHeight - vh) * 0.9));
-    }
+    const hr = hero.getBoundingClientRect();
+    const t = clamp(-hr.top / (hero.offsetHeight - VH));
+    if (hr.bottom > 0) heroFrame(t);
+    mbar.classList.toggle('show', t > 0.5);
 
-    // timeline
-    const tr = tlSec.getBoundingClientRect();
-    if (!isM()) {
-      const p = tlDist ? clamp(-tr.top / tlDist) : 0;
-      tlTrack.style.transform = `translate3d(${p * tlDist}px,0,0)`;
-      tlFill.style.transform = `scaleX(${p})`;
-      const n = AB.timeline.length;
-      tlCards().forEach((c, i) => c.classList.toggle('on', i <= Math.round(p * (n - 1) + 0.2)));
-    } else {
-      const p = clamp((vh * 0.65 - tr.top) / tr.height);
-      tlFill.style.transform = '';
-      tlFill.style.setProperty('--tl', p);
-      tlCards().forEach(c => c.classList.toggle('on', c.getBoundingClientRect().top < vh * 0.65));
-    }
+    // statement words
+    const sr = stEl.getBoundingClientRect();
+    const sp = clamp((VH * 0.85 - sr.top) / (sr.height + VH * 0.35));
+    const lit = Math.round(sp * words.length * 1.05);
+    words.forEach((w, i) => w.classList.toggle('lit', i < lit));
 
-    // collections (palace doors)
-    cols().forEach(col => {
-      let d, p;
-      if (!isM()) {
-        const r = col.getBoundingClientRect();
-        p = clamp(-r.top / (col.offsetHeight - vh));
-        d = clamp((p - 0.05) / 0.5);
-      } else {
-        const r = $('.col__scene', col).getBoundingClientRect();
-        p = clamp((vh - r.top) / (vh * 0.95));
-        d = clamp((p - 0.28) / 0.45);
-      }
-      const e = 1 - Math.pow(1 - d, 3);
-      const sc = $('.col__scene', col);
-      sc.style.setProperty('--d', e.toFixed(4));
-      sc.style.setProperty('--p', p.toFixed(4));
-      col.classList.toggle('opened', e > 0.85);
-    });
+    // collections
+    if (!isM()) {
+      const cr = colsSec.getBoundingClientRect();
+      const p = colsDist ? clamp(-cr.top / colsDist) : 0;
+      track.style.transform = `translate3d(${p * colsDist}px,0,0)`;
+      $('#colsBar').style.setProperty('--cb', p.toFixed(3));
+      const n = AB.collections.length;
+      $('#colsCount').textContent = `0${Math.min(n, 1 + Math.floor(p * n * 0.999))} / 0${n}`;
+      $$('.col__img img', track).forEach(img => {
+        const r = img.parentElement.getBoundingClientRect();
+        img.style.setProperty('--px', ((r.left + r.width / 2 - VW / 2) / VW * -40).toFixed(1) + 'px');
+      });
+    }
 
     // craft steps
     let best = 0, bd = 1e9;
-    craftItems().forEach((li, i) => {
-      const r = li.getBoundingClientRect();
-      const dd = Math.abs(r.top + Math.min(r.height, 160) / 2 - vh * (isM() ? 0.62 : 0.5));
-      if (dd < bd) { bd = dd; best = i; }
-    });
+    craftItems.forEach((li, i) => { const r = li.getBoundingClientRect(); const d = Math.abs(r.top + 40 - VH * 0.55); if (d < bd) { bd = d; best = i; } });
     if (best !== lastCraft) {
       lastCraft = best;
-      craftItems().forEach((li, i) => li.classList.toggle('on', i === best));
-      $('#craftNum').textContent = AB.craft[best].n;
-      const [z, s, sat] = craftLook[best];
-      craftImg.style.setProperty('--z', z); craftImg.style.setProperty('--s', s); craftImg.style.setProperty('--sat', sat);
+      craftItems.forEach((li, i) => li.classList.toggle('on', i === best));
+      craftNum.textContent = AB.craft[best].n;
+      craftImg.style.setProperty('--z', [1.06, 1.14, 1.24, 1.12, 1.02][best]);
     }
   }
   let ticking = false;
   addEventListener('scroll', () => { if (lenis) return; if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; onScroll(); }); } }, { passive: true });
 
-  /* ---------- reveals + counters ---------- */
+  /* ---------- reveal + counters ---------- */
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     e.target.classList.add('in'); io.unobserve(e.target);
-    $$('[data-count]', e.target).forEach(countUp);
-  }), { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
-  $$('[data-reveal], .cat').forEach(el => io.observe(el));
-  function countUp(el) {
-    if (el.dataset.done) return; el.dataset.done = 1;
-    const to = +el.dataset.count, from = +(el.dataset.from || 0), t0 = performance.now(), dur = 1800;
-    const f = now => { const t = clamp((now - t0) / dur); el.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - t, 3))); if (t < 1) requestAnimationFrame(f); };
+  }), { threshold: 0.15 });
+  $$('[data-r]').forEach(el => io.observe(el));
+  const cio = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return; cio.unobserve(e.target);
+    const el = e.target, to = +el.dataset.count, from = +(el.dataset.from || 0), t0 = performance.now();
+    const f = now => { const k = clamp((now - t0) / 1800); el.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3))) + (el.dataset.suffix || ''); if (k < 1) requestAnimationFrame(f); };
     requestAnimationFrame(f);
+  }), { threshold: 0.6 });
+  $$('[data-count]').forEach(el => cio.observe(el));
+
+  /* ---------- resize ---------- */
+  let lastW = innerWidth, lastH = innerHeight;
+  function onResize(force) {
+    const w = innerWidth, h = innerHeight;
+    // ignore small height-only changes (phone address bar)
+    if (!force && w === lastW && Math.abs(h - lastH) < 120) return;
+    lastW = w; lastH = h;
+    setupLenis(); measureHero(); lastE = -1; layoutCols(); onScroll();
   }
+  let rT; addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(() => onResize(false), 100); });
+  mq.addEventListener ? mq.addEventListener('change', () => onResize(true)) : mq.addListener(() => onResize(true));
 
-  /* ---------- hotspots (tap on phones) ---------- */
-  document.addEventListener('click', e => {
-    const s = e.target.closest('.spot');
-    $$('.spot.on').forEach(o => { if (o !== s) o.classList.remove('on'); });
-    if (s) s.classList.toggle('on');
-  });
-
-  /* ---------- cursor (desktop) ---------- */
-  if (matchMedia('(hover:hover) and (pointer:fine)').matches && !reduced) {
-    const cur = $('#cursor'); let x = -100, y = -100, cx = x, cy = y;
-    addEventListener('pointermove', e => { x = e.clientX; y = e.clientY; cur.classList.add('on'); });
-    document.addEventListener('pointerover', e => cur.classList.toggle('big', !!e.target.closest('a,button,.spot,canvas')));
-    const loop = () => { cx += (x - cx) * 0.2; cy += (y - cy) * 0.2; cur.style.transform = `translate3d(${cx}px,${cy}px,0)`; requestAnimationFrame(loop); };
-    loop();
-  }
-
-  /* ---------- responsive switch ---------- */
-  let wasM = isM();
-  function onResize() {
-    const m = isM();
-    setupLenis();
-    layoutTimeline();
-    if (m !== wasM) {
-      wasM = m;
-      buildPuzzle();
-      if (m) { autoP = 0; playAuto(); }
-    }
-    onScroll();
-  }
-  let rT; addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(onResize, 120); });
-  mq.addEventListener ? mq.addEventListener('change', onResize) : mq.addListener(onResize);
-
-  /* ---------- loader ---------- */
-  const bar = $('#loaderBar'); let lp = 12; bar.style.width = lp + '%';
-  const tick = setInterval(() => { lp = Math.min(90, lp + Math.random() * 14); bar.style.width = lp + '%'; }, 200);
+  /* ---------- start ---------- */
+  function start0() { setupLenis(); measureHero(); layoutCols(); lastE = -1; onScroll(); }
+  start0();
+  if (document.fonts) document.fonts.ready.then(() => { measureHero(); lastE = -1; layoutCols(); onScroll(); });
   const loaded = new Promise(r => document.readyState === 'complete' ? r() : addEventListener('load', r, { once: true }));
-  const minShow = new Promise(r => setTimeout(r, 1700));
-  Promise.race([Promise.all([loaded, minShow]), new Promise(r => setTimeout(r, 5500))]).then(() => {
-    clearInterval(tick); bar.style.width = '100%';
-    setTimeout(() => {
-      $('#loader').classList.add('done'); html.classList.add('ready');
-      if (isM()) playAuto(); else { const t0 = performance.now(); const f = now => { const t = clamp((now - t0) / 2200); introP = 0.32 * (1 - Math.pow(1 - t, 3)); if (t < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); }
-    }, 300);
+  Promise.race([Promise.all([loaded, new Promise(r => setTimeout(r, 1200))]), new Promise(r => setTimeout(r, 4500))]).then(() => {
+    $('#loader').classList.add('done'); html.classList.add('ready');
+    measureHero(); lastE = -1; layoutCols(); onScroll();
   });
-
-  setupLenis();
-  layoutTimeline();
-  onScroll();
-  if (document.fonts) document.fonts.ready.then(() => { layoutTimeline(); onScroll(); });
 })();
