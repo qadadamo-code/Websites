@@ -536,3 +536,11 @@ html[lang="en"] .drawer__head h3{font-family:var(--fl);font-size:24px}
   .sette__track::-webkit-scrollbar{display:none}
   .sc{width:76vw;scroll-snap-align:center}
 }
+/* stop sideways drift on iPhone: clip anything wider than the screen without breaking sticky */
+html,body{overflow-x:clip;max-width:100%}
+section,footer,.hero{overflow-x:clip}
+@media (max-width:760px){
+  .hero{height:150vh}
+  .foot{padding-bottom:84px}
+  .step{transition:none}
+}
