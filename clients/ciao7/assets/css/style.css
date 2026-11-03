@@ -519,3 +519,20 @@ html[lang="en"] .drawer__head h3{font-family:var(--fl);font-size:24px}
 .lp--all{opacity:0;pointer-events:none;transition:opacity .2s}
 .lp--all.is-on{opacity:1}
 .lp--all.is-hold{opacity:0;transition:none}
+@media (max-width:760px){
+  .fab-wa{inset-inline-start:auto;inset-inline-end:14px;width:50px;height:50px;bottom:14px}
+  .fab-wa svg{width:26px;height:26px}
+  .nav.is-solid{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(11,9,8,.95)}
+  .nav__links{backdrop-filter:none}
+  .card__foot .price{flex-wrap:wrap;row-gap:0}
+  .card__foot .price .from{width:100%}
+  .scene__copy{bottom:40px}
+  .scene__word{-webkit-text-stroke-width:1px}
+}
+@media (max-width:760px){
+  .sette{height:auto;padding:0 0 70px}
+  .sette__pin{position:relative;height:auto;padding-top:90px}
+  .sette__track{width:auto;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 12vw 20px;gap:14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;transform:none!important}
+  .sette__track::-webkit-scrollbar{display:none}
+  .sc{width:76vw;scroll-snap-align:center}
+}

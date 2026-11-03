@@ -120,7 +120,7 @@
       '<svg viewBox="-12 -12 24 24" width="26"><rect x="-7" y="-7" width="14" height="14" rx="3" fill="#f6c453"/><circle cx="-2" cy="-1" r="1.6" fill="#e0a52d"/></svg>',
       '<svg viewBox="-12 -12 24 24" width="24"><circle r="6" fill="none" stroke="#1d1a17" stroke-width="4"/></svg>'
     ];
-    const n = isMobile() ? 9 : 16, items = [];
+    const n = isMobile() ? 6 : 16, items = [];
     for (let i = 0; i < n; i++) {
       const el = document.createElement('div'); el.className = 'floater';
       el.innerHTML = shapes[i % shapes.length];
@@ -172,7 +172,7 @@
      ====================================================== */
   let lenis;
   function initScroll() {
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger); ScrollTrigger.config({ ignoreMobileResize: true });
     if (window.Lenis && !reduce) {
       lenis = new Lenis({ lerp: .1, smoothWheel: true });
       lenis.on('scroll', ScrollTrigger.update);
@@ -211,19 +211,22 @@
   function makeScene(sec) {
     const n = +sec.dataset.n, dir = sec.dataset.seq, fx = +sec.dataset.fx || .5;
     const cv = $('.scene__cv', sec), ctx = cv.getContext('2d');
-    const frames = new Array(n); let loaded = false, last = -1;
+    const frames = new Array(n); let loaded = false, last = -1, lastKey = -1, lastW = 0, lastH = 0;
     const steps = $$('.step', sec), word = $('.scene__word', sec), bar = $('.scene__progress i', sec);
     function load() {
       if (loaded) return; loaded = true;
       for (let i = 0; i < n; i++) {
         const im = new Image(); im.decoding = 'async';
-        im.onload = () => { frames[i] = im; if (i === 0 || Math.abs(i - last) < 2) draw(state.p); };
+        im.onload = () => { frames[i] = im; if (i === 0 || Math.abs(i - last) < 2) { lastKey = -1; draw(state.p); } };
         im.src = `assets/seq/${dir}/${String(i + 1).padStart(2, '0')}.webp`;
       }
     }
     function size() {
-      const dpr = Math.min(devicePixelRatio || 1, 2);
-      cv.width = Math.round(cv.clientWidth * dpr); cv.height = Math.round(cv.clientHeight * dpr); draw(state.p);
+      const w = cv.clientWidth, h = cv.clientHeight;
+      if (w === lastW && Math.abs(h - lastH) < 160 && cv.width) return; // ignore mobile URL-bar resizes
+      lastW = w; lastH = h;
+      const dpr = Math.min(devicePixelRatio || 1, isMobile() ? 1.5 : 2);
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); lastKey = -1; draw(state.p);
     }
     function cover(im, alpha) {
       const W = cv.width, H = cv.height, iw = im.naturalWidth, ih = im.naturalHeight;
@@ -241,6 +244,8 @@
       const fp = clamp(p * 1.08) * (n - 1), i = Math.floor(fp), f = fp - i;
       const a = frames[i] || frames.slice(0, i + 1).reverse().find(Boolean);
       if (!a) return;
+      const key = i * 16 + Math.round(f * 12) + (frames[i + 1] ? 0 : 1000);
+      if (key === lastKey) return; lastKey = key;
       ctx.fillStyle = '#000'; ctx.fillRect(0, 0, cv.width, cv.height);
       cover(a, 1);
       const b = frames[i + 1]; if (b && f > .02) cover(b, f);
@@ -261,7 +266,7 @@
       if (word) word.style.transform = `translateX(${(p - .5) * -18}vw)`;
       if (bar) bar.style.transform = `scaleX(${p})`;
     }
-    ScrollTrigger.create({ trigger: sec, start: 'top 250%', onEnter: load, onEnterBack: load });
+    ScrollTrigger.create({ trigger: sec, start: 'top 400%', onEnter: load, onEnterBack: load });
     ScrollTrigger.create({ trigger: sec, start: 'top top', end: 'bottom bottom', onUpdate: s => render(s.progress), onRefresh: s => render(s.progress) });
     addEventListener('resize', size);
     requestAnimationFrame(size);
@@ -284,6 +289,7 @@
   }
   function setteScroll() {
     const track = $('#setteTrack');
+    if (isMobile()) return; // phones get a native swipe carousel (CSS)
     ScrollTrigger.create({
       trigger: '#sette', start: 'top top', end: 'bottom bottom',
       onUpdate: s => {
