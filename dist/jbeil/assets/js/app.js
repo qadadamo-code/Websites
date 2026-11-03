@@ -14,10 +14,13 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const MOBILE = matchMedia('(max-width: 760px)').matches || (matchMedia('(pointer: coarse)').matches && innerWidth < 900);
+  const isMob = () => matchMedia('(max-width: 760px)').matches || (matchMedia('(pointer: coarse)').matches && innerWidth < 900);
+  const MOBILE = isMob();
   const hasGsap = !!(window.gsap && window.ScrollTrigger);
   if (hasGsap) { gsap.registerPlugin(ScrollTrigger); ScrollTrigger.config({ ignoreMobileResize: true }); }
   if (MOBILE) document.documentElement.classList.add('is-mobile');
+  // Phone and desktop use different scroll scenes; rebuild the page when the window crosses the breakpoint.
+  let rsT; addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => { if (isMob() !== MOBILE) location.reload(); }, 350); });
   const store = {
     get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
