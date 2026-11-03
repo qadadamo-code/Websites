@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>جراني سيكرتس | Granny's Secrets — أكل البيت زي ما تيتة بتعمله</title>
+<meta name="description" content="جراني سيكرتس مطبخ بيتي: طواجن، محاشي، ملوخية، صواني فرن وحلويات الجدة بالسمنة البلدي. شوف المنيو بالأسعار واطلب على واتساب.">
+<meta name="theme-color" content="#2a0d12">
+<meta property="og:title" content="Granny's Secrets — جراني سيكرتس">
+<meta property="og:description" content="أكل البيت زي ما تيتة بتعمله. المنيو كامل بالأسعار، واطلب على واتساب.">
+<meta property="og:image" content="https://web.theplanetco.com/grannys/assets/img/og.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,100;1,9..144,300..900,100&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Rakkas&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/logo/w1.webp">
+<link rel="preload" as="image" href="assets/seq/tagine/01.webp">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
+</head>
+<body class="is-intro">
+
+<!-- ============ INTRO: the logo cooks itself ============ -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__paper"></div>
+  <div class="logo-stage" id="introLogo">
+    <svg class="ls-oval" viewBox="0 0 1630 1270" preserveAspectRatio="none"><ellipse cx="815" cy="635" rx="800" ry="620"/></svg>
+    <img class="ls ls-plate" src="assets/img/logo/plate.webp" alt="">
+    <img class="ls ls-st" data-i="0" src="assets/img/logo/st0.webp" alt="">
+    <img class="ls ls-st" data-i="1" src="assets/img/logo/st1.webp" alt="">
+    <img class="ls ls-st" data-i="2" src="assets/img/logo/st2.webp" alt="">
+    <img class="ls ls-st" data-i="3" src="assets/img/logo/st3.webp" alt="">
+    <img class="ls ls-w1" src="assets/img/logo/w1.webp" alt="">
+    <img class="ls ls-w2" src="assets/img/logo/w2.webp" alt="">
+    <img class="ls ls-leaf" src="assets/img/logo/leaf.webp" alt="">
+    <img class="ls ls-tag" src="assets/img/logo/tag.webp" alt="">
+  </div>
+  <p class="intro__line"><span lang="ar">بنسخّن الأكل…</span><span lang="en">Warming up the pots…</span></p>
+  <button class="intro__skip" id="introSkip" type="button"><span lang="ar">تخطّي</span><span lang="en">Skip</span></button>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" aria-label="Granny's Secrets"><img src="assets/img/logo/mini.webp" alt="جراني سيكرتس" width="408" height="318"></a>
+  <nav class="nav__links" id="navLinks">
+    <a href="#today"><span lang="ar">طبق النهارده</span><span lang="en">Today</span></a>
+    <a href="#menu"><span lang="ar">المنيو</span><span lang="en">Menu</span></a>
+    <a href="#stories"><span lang="ar">الحكايات</span><span lang="en">Stories</span></a>
+    <a href="#feasts"><span lang="ar">العزومات</span><span lang="en">Feasts</span></a>
+    <a href="#secrets"><span lang="ar">أسرار الجدة</span><span lang="en">Secrets</span></a>
+    <a href="#how"><span lang="ar">إزاي تطلب</span><span lang="en">How to order</span></a>
+  </nav>
+  <div class="nav__actions">
+    <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language"><span lang="ar">EN</span><span lang="en">عربي</span></button>
+    <button class="cart-btn" id="cartBtn" type="button" aria-label="Cart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16l-1.4 9.2a2 2 0 0 1-2 1.8H7.4a2 2 0 0 1-2-1.8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 9V7.5a3.5 3.5 0 0 1 7 0V9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <b id="cartCount">0</b>
+    </button>
+    <button class="burger" id="burger" type="button" aria-label="Menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO: the tagine lid lifts ============ -->
+<section class="hero scene" id="hero" data-seq="tagine" data-n="31" data-fx=".5" data-fy=".55">
+  <div class="scene__pin">
+    <canvas class="scene__cv"></canvas>
+    <div class="scene__shade"></div>
+    <svg class="hero__steam" viewBox="0 0 300 260" aria-hidden="true">
+      <path d="M90 250 C70 210 110 190 92 150 C76 116 112 96 96 60 C86 38 100 20 104 8"/>
+      <path d="M150 250 C132 214 170 196 150 158 C134 126 168 104 152 70 C144 50 156 30 160 14"/>
+      <path d="M210 250 C192 212 228 192 210 152 C196 120 226 100 212 66 C204 46 214 28 218 16"/>
+    </svg>
+    <div class="hero__copy" id="heroCopy">
+      <p class="kicker"><i></i><span lang="ar">مطبخ بيتي · القاهرة والجيزة</span><span lang="en">Home kitchen · Cairo & Giza</span></p>
+      <h1 class="hero__title">
+        <span lang="ar"><span class="ln">أكل البيت</span><span class="ln">زي ما <em>تيتة</em> بتعمله</span></span>
+        <span lang="en"><span class="ln">Home food,</span><span class="ln">the way <em>Granny</em> makes it</span></span>
+      </h1>
+      <p class="hero__sub"><span lang="ar">كل يوم بنطبخ أكل مصري بالسمنة البلدي والبهارات اللي بنطحنها بإيدينا، ونوصّله سخن لحد باب بيتك.</span><span lang="en">Every day we cook Egyptian food with real ghee and spices we grind by hand, and deliver it hot to your door.</span></p>
+      <div class="hero__cta">
+        <a class="btn btn--cream" href="#menu"><span lang="ar">اطلب دلوقتي</span><span lang="en">Order now</span><svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="btn btn--ghost" href="#today"><span lang="ar">طبق النهارده</span><span lang="en">Today's dish</span></a>
+      </div>
+    </div>
+    <div class="hero__secret" id="heroSecret">
+      <p class="hand"><span lang="ar">السر مش في الوصفة…</span><span lang="en">The secret isn't the recipe…</span></p>
+      <h2><span lang="ar">السر في <em>النَّفَس</em></span><span lang="en">it's the <em>soul</em></span></h2>
+    </div>
+    <div class="hero__facts" id="heroFacts">
+      <div><b>38</b><span lang="ar">صنف بيتي</span><span lang="en">home dishes</span></div>
+      <div><b>100%</b><span lang="ar">سمنة بلدي</span><span lang="en">real ghee</span></div>
+      <div><b>0</b><span lang="ar">مواد حافظة</span><span lang="en">preservatives</span></div>
+    </div>
+    <div class="scroll-hint"><span lang="ar">انزل وافتح الطاجن</span><span lang="en">Scroll to lift the lid</span><i></i></div>
+    <div class="scene__bar"><i></i></div>
+  </div>
+</section>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true"><div class="marquee__track" id="marquee"></div></div>
+
+<!-- ============ TODAY ============ -->
+<section class="today" id="today">
+  <div class="wrap today__grid">
+    <div class="today__photo">
+      <div class="today__img"><img id="todayImg" src="assets/food/s1.webp" alt="" loading="lazy"></div>
+      <div class="stamp" aria-hidden="true">
+        <svg viewBox="0 0 200 200"><defs><path id="circ" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0"/></defs><text><textPath href="#circ" id="stampText">DISH OF THE DAY • GRANNY&apos;S SECRETS •</textPath></text></svg>
+        <img src="assets/img/logo/leaf-c.webp" alt="">
+      </div>
+    </div>
+    <div class="today__copy">
+      <p class="eyebrow"><span lang="ar">طبق النهارده</span><span lang="en">Dish of the day</span> · <b id="todayDay"></b></p>
+      <h2 class="h2" id="todayName"></h2>
+      <p class="lead" id="todayDesc"></p>
+      <div class="today__buy">
+        <b class="price" id="todayPrice"></b>
+        <button class="btn btn--wine" id="todayAdd" type="button"><span lang="ar">ضيفه لطلبك</span><span lang="en">Add to order</span><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      </div>
+      <p class="hand hand--wine" id="todayNote"><span lang="ar">كل يوم في الأسبوع ليه طبخته… زي بيت العيلة بالظبط.</span><span lang="en">Every weekday has its own dish, just like the family home.</span></p>
+      <ol class="week" id="week"></ol>
+    </div>
+  </div>
+  <div class="wrap promise" id="promise"></div>
+</section>
+
+<!-- ============ MENU ============ -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow"><span lang="ar">المنيو</span><span lang="en">The menu</span></p>
+      <h2 class="h2"><span lang="ar">اختار من سفرة <em>تيتة</em></span><span lang="en">Pick from <em>Granny's</em> table</span></h2>
+      <p class="lead"><span lang="ar">الأسعار بالجنيه المصري. دوس على أي طبق تشوف تفاصيله وتضيف ملاحظاتك.</span><span lang="en">Prices in Egyptian pounds. Tap any dish for details and notes.</span></p>
+    </header>
+    <div class="menu__tools">
+      <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><input id="search" type="search" autocomplete="off" placeholder="دوّر على أكلة… ملوخية، محشي، أم علي"></label>
+    </div>
+  </div>
+  <div class="tabs" id="tabs"><div class="tabs__in" id="tabsIn"></div></div>
+  <div class="wrap" id="menuBody"></div>
+  <p class="wrap menu__empty" id="menuEmpty" hidden><span lang="ar">مش لاقيين الأكلة دي… جرّب اسم تاني أو اطلبها مننا على واتساب.</span><span lang="en">We couldn't find that dish. Try another name or ask us on WhatsApp.</span></p>
+</section>
+
+<!-- ============ STORIES ============ -->
+<section class="stories-head" id="stories">
+  <div class="wrap">
+    <p class="eyebrow eyebrow--cream"><span lang="ar">Authentic Food Stories</span><span lang="en">Authentic Food Stories</span></p>
+    <h2 class="h2 h2--cream"><span lang="ar">كل طبق ليه <em>حكاية</em></span><span lang="en">Every dish has a <em>story</em></span></h2>
+    <p class="lead lead--cream"><span lang="ar">دي أشهر حكايات مطبخ جدتنا… انزل على مهلك وشوفها بتتطبخ قدامك.</span><span lang="en">Granny's most famous kitchen stories. Scroll slowly and watch them cook.</span></p>
+  </div>
+</section>
+
+<section class="scene chapter" id="ch-molokhia" data-seq="molokhia" data-n="31" data-fx=".5" data-fy=".5" data-cat="stews" data-feature="s1,s2">
+  <div class="scene__pin">
+    <canvas class="scene__cv"></canvas><div class="scene__shade"></div>
+    <div class="chap">
+      <p class="chap__no">01 <span lang="ar">· الحكاية</span><span lang="en">· Story</span></p>
+      <h3 class="chap__title"><span lang="ar">شهقة <em>التقلية</em></span><span lang="en">The ta'leya <em>gasp</em></span></h3>
+      <p class="chap__txt"><span lang="ar">التوم يتحمّر في السمنة لحد ما يبقى دهبي، وينزل على الملوخية وهي بتغلي… والبيت كله يشهق.</span><span lang="en">Garlic fries in ghee until golden, then hits the molokhia at a rolling boil, and the whole house gasps.</span></p>
+      <p class="chap__note hand"><span lang="ar">سر تيتة: الكسبرة الناشفة تنزل آخر لحظة.</span><span lang="en">Granny's secret: the dried coriander goes in last.</span></p>
+      <div class="chap__items"></div>
+    </div>
+    <div class="scene__bar"><i></i></div>
+  </div>
+</section>
+
+<section class="scene chapter chapter--alt" id="ch-mahshi" data-seq="mahshi" data-n="31" data-fx=".5" data-fy=".5" data-cat="mahshi" data-feature="m1,m5">
+  <div class="scene__pin">
+    <canvas class="scene__cv"></canvas><div class="scene__shade"></div>
+    <div class="chap">
+      <p class="chap__no">02 <span lang="ar">· الحكاية</span><span lang="en">· Story</span></p>
+      <h3 class="chap__title"><span lang="ar">صينية <em>الصبر</em></span><span lang="en">A tray of <em>patience</em></span></h3>
+      <p class="chap__txt"><span lang="ar">ساعات من اللف بالإيد، صباع ورا صباع، لحد ما الصينية تبقى لوحة تتحط في نص السفرة.</span><span lang="en">Hours of rolling by hand, one by one, until the tray becomes a painting in the middle of the table.</span></p>
+      <p class="chap__note hand"><span lang="ar">سر تيتة: ريش الضاني تحت الحلّة.</span><span lang="en">Granny's secret: lamb chops under the pot.</span></p>
+      <div class="chap__items"></div>
+    </div>
+    <div class="scene__bar"><i></i></div>
+  </div>
+</section>
+
+<section class="scene chapter" id="ch-omali" data-seq="omali" data-n="31" data-fx=".46" data-fy=".55" data-cat="sweets" data-feature="w1,w2">
+  <div class="scene__pin">
+    <canvas class="scene__cv"></canvas><div class="scene__shade"></div>
+    <div class="chap">
+      <p class="chap__no">03 <span lang="ar">· الحكاية</span><span lang="en">· Story</span></p>
+      <h3 class="chap__title"><span lang="ar">أم علي <em>من الفرن</em></span><span lang="en">Om Ali, <em>from the oven</em></span></h3>
+      <p class="chap__txt"><span lang="ar">قشرة دهبي بتتكسر تحت المعلقة، وتحتها لبن وقشطة ومكسرات… حلو آخر القعدة.</span><span lang="en">A golden crust cracks under the spoon, with milk, cream and nuts beneath. The sweet end of every visit.</span></p>
+      <p class="chap__note hand"><span lang="ar">سر تيتة: الرقاق يتحمّص الأول.</span><span lang="en">Granny's secret: toast the pastry first.</span></p>
+      <div class="chap__items"></div>
+    </div>
+    <div class="scene__bar"><i></i></div>
+  </div>
+</section>
+
+<section class="scene chapter chapter--alt" id="feasts" data-seq="box" data-n="31" data-fx=".5" data-fy=".5" data-cat="boxes" data-feature="b1,b2,b3">
+  <div class="scene__pin">
+    <canvas class="scene__cv"></canvas><div class="scene__shade"></div>
+    <div class="chap">
+      <p class="chap__no">04 <span lang="ar">· الحكاية</span><span lang="en">· Story</span></p>
+      <h3 class="chap__title"><span lang="ar">العزومة <em>توصلك</em></span><span lang="en">The feast <em>comes to you</em></span></h3>
+      <p class="chap__txt"><span lang="ar">بنغلّف كل طبق كأنه رايح لبيت العيلة، ويوصلك سخن وريحته سابقاه… وإنتِ تاخدي التعظيم.</span><span lang="en">We pack every dish as if it's going to the family home. It arrives hot, its smell ahead of it, and you take the compliments.</span></p>
+      <p class="chap__note hand"><span lang="ar">للعزومات: اطلب قبلها بيوم.</span><span lang="en">For feasts: order a day ahead.</span></p>
+      <div class="chap__items"></div>
+    </div>
+    <div class="scene__bar"><i></i></div>
+  </div>
+</section>
+
+<!-- ============ SECRETS ============ -->
+<section class="secrets" id="secrets">
+  <div class="wrap">
+    <header class="sec-head sec-head--center">
+      <p class="eyebrow eyebrow--cream"><span lang="ar">أسرار الجدة</span><span lang="en">Granny's secrets</span></p>
+      <h2 class="h2 h2--cream"><span lang="ar">اللي ما كانتش <em>بتقوله لحد</em></span><span lang="en">What she <em>never told anyone</em></span></h2>
+      <p class="lead lead--cream"><span lang="ar">دوس على الكارت واقلبه.</span><span lang="en">Tap a card to flip it.</span></p>
+    </header>
+    <div class="cards" id="secretCards"></div>
+  </div>
+</section>
+
+<!-- ============ HOW ============ -->
+<section class="how" id="how">
+  <div class="wrap">
+    <header class="sec-head sec-head--center">
+      <p class="eyebrow"><span lang="ar">إزاي تطلب</span><span lang="en">How to order</span></p>
+      <h2 class="h2"><span lang="ar">3 خطوات <em>وتاكل</em></span><span lang="en">3 steps <em>to dinner</em></span></h2>
+    </header>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><h3><span lang="ar">اختار أكلك</span><span lang="en">Pick your food</span></h3><p><span lang="ar">ضيف الأطباق اللي نفسك فيها للسلة، واكتب ملاحظاتك.</span><span lang="en">Add the dishes you crave to your basket, with any notes.</span></p></li>
+      <li><span class="steps__n">2</span><h3><span lang="ar">ابعت على واتساب</span><span lang="en">Send on WhatsApp</span></h3><p><span lang="ar">طلبك بيتكتب لوحده، وإحنا بنأكد معاك الميعاد والحساب.</span><span lang="en">Your order writes itself, and we confirm time and total with you.</span></p></li>
+      <li><span class="steps__n">3</span><h3><span lang="ar">استلمه سخن</span><span lang="en">Receive it hot</span></h3><p><span lang="ar">بيتطبخ النهارده، وبيوصلك في تغليف بيحافظ على السخونية.</span><span lang="en">Cooked today and delivered in packaging that keeps it hot.</span></p></li>
+    </ol>
+    <div class="info" id="info"></div>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section class="reviews">
+  <div class="wrap">
+    <header class="sec-head sec-head--center">
+      <p class="eyebrow"><span lang="ar">قالوا عن أكلنا</span><span lang="en">What people say</span></p>
+    </header>
+    <div class="quotes" id="quotes"></div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final" id="final">
+  <div class="final__logo" id="finalLogo"></div>
+  <h2 class="h2 h2--cream"><span lang="ar">جعان؟ <em>تيتة مستنياك.</em></span><span lang="en">Hungry? <em>Granny's waiting.</em></span></h2>
+  <div class="hero__cta">
+    <a class="btn btn--cream" href="#menu"><span lang="ar">افتح المنيو</span><span lang="en">Open the menu</span></a>
+    <a class="btn btn--ghost" id="finalWa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.6 8.2c.2-.5.5-.5.8-.5h.5c.2 0 .4 0 .6.5l.7 1.7c.1.2 0 .4-.1.6l-.5.6c-.1.2-.1.3 0 .5.4.8 1.6 2 2.5 2.4.2.1.4.1.5-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.3.1.4.3.4.5 0 .6-.4 1.4-1 1.6-.7.3-1.8.3-3.6-.6-2.2-1.1-3.7-3.6-3.9-4-.2-.4-.8-1.6-.3-2.7Z" fill="currentColor"/></svg><span lang="ar">كلّمنا واتساب</span><span lang="en">WhatsApp us</span></a>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div class="foot__brand">
+      <img src="assets/img/logo/mini-cream.webp" alt="Granny's Secrets" width="408" height="318">
+      <p><span lang="ar">أكل مصري بيتي بالسمنة البلدي، بيتطبخ كل يوم ويوصلك سخن.</span><span lang="en">Egyptian home cooking in real ghee, made daily and delivered hot.</span></p>
+    </div>
+    <div>
+      <h4><span lang="ar">اطلب</span><span lang="en">Order</span></h4>
+      <a id="footWa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+      <a id="footTel" href="#" dir="ltr"></a>
+      <p id="footHours"></p>
+      <p id="footArea"></p>
+    </div>
+    <div>
+      <h4><span lang="ar">تصفّح</span><span lang="en">Explore</span></h4>
+      <a href="#menu"><span lang="ar">المنيو</span><span lang="en">Menu</span></a>
+      <a href="#feasts"><span lang="ar">العزومات</span><span lang="en">Feasts</span></a>
+      <a href="#secrets"><span lang="ar">أسرار الجدة</span><span lang="en">Secrets</span></a>
+    </div>
+    <div>
+      <h4><span lang="ar">تابعنا</span><span lang="en">Follow</span></h4>
+      <div class="socials" id="socials"></div>
+    </div>
+  </div>
+  <div class="wrap foot__bottom">
+    <span>© <span id="year"></span> Granny's Secrets</span>
+    <a href="https://web.theplanetco.com/" target="_blank" rel="noopener"><span lang="ar">تصميم وتطوير Planet</span><span lang="en">Website by Planet</span></a>
+  </div>
+</footer>
+
+<!-- mobile order bar -->
+<button class="obar" id="obar" type="button">
+  <span class="obar__n" id="obarN">0</span>
+  <span class="obar__t"><span lang="ar">شوف طلبك</span><span lang="en">View order</span></span>
+  <b id="obarT">0</b>
+</button>
+
+<!-- ============ ITEM SHEET ============ -->
+<div class="sheet" id="sheet" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="sheet__bg" data-close></div>
+  <div class="sheet__card">
+    <button class="x" data-close type="button" aria-label="Close"><i></i><i></i></button>
+    <div class="sheet__img"><img id="shImg" alt=""></div>
+    <div class="sheet__body">
+      <p class="sheet__cat" id="shCat"></p>
+      <h3 id="shName"></h3>
+      <p id="shDesc"></p>
+      <p class="sheet__meta" id="shMeta"></p>
+      <label class="fld"><span><span lang="ar">ملاحظة للمطبخ (اختياري)</span><span lang="en">Note for the kitchen (optional)</span></span><input id="shNote" type="text" maxlength="80"></label>
+      <div class="sheet__buy">
+        <div class="qty"><button type="button" id="shMinus" aria-label="-">−</button><b id="shQty">1</b><button type="button" id="shPlus" aria-label="+">+</button></div>
+        <button class="btn btn--wine btn--wide" id="shAdd" type="button"><span lang="ar">ضيف</span><span lang="en">Add</span> · <b id="shPrice"></b></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CART ============ -->
+<aside class="cart" id="cart" aria-hidden="true">
+  <div class="cart__bg" data-cclose></div>
+  <div class="cart__panel">
+    <header class="cart__head">
+      <h3><span lang="ar">طلبك</span><span lang="en">Your order</span></h3>
+      <button class="x" data-cclose type="button" aria-label="Close"><i></i><i></i></button>
+    </header>
+    <div class="cart__scroll">
+      <div id="cartList"></div>
+      <div class="cart__empty" id="cartEmpty">
+        <img src="assets/img/logo/mini.webp" alt="">
+        <p><span lang="ar">السلة لسه فاضية… تيتة مستنية تعرف نفسك في إيه.</span><span lang="en">Your basket is empty. Granny is waiting to hear what you crave.</span></p>
+        <a class="btn btn--wine" href="#menu" data-cclose><span lang="ar">افتح المنيو</span><span lang="en">Open the menu</span></a>
+      </div>
+      <form class="cart__form" id="orderForm" novalidate>
+        <div class="seg" id="modeSeg">
+          <button type="button" data-m="delivery" class="on"><span lang="ar">توصيل</span><span lang="en">Delivery</span></button>
+          <button type="button" data-m="pickup"><span lang="ar">استلام</span><span lang="en">Pickup</span></button>
+        </div>
+        <label class="fld"><span><span lang="ar">الاسم</span><span lang="en">Name</span></span><input name="name" required autocomplete="name"></label>
+        <label class="fld"><span><span lang="ar">رقم الموبايل</span><span lang="en">Mobile</span></span><input name="phone" required inputmode="tel" autocomplete="tel" dir="ltr" placeholder="01xxxxxxxxx"></label>
+        <div class="dlv">
+          <label class="fld"><span><span lang="ar">المنطقة</span><span lang="en">Area</span></span><input name="area" autocomplete="address-level2"></label>
+          <label class="fld"><span><span lang="ar">العنوان بالتفصيل</span><span lang="en">Full address</span></span><input name="address" autocomplete="street-address"></label>
+        </div>
+        <div class="seg seg--sm" id="whenSeg">
+          <button type="button" data-w="asap" class="on"><span lang="ar">في أقرب وقت</span><span lang="en">As soon as possible</span></button>
+          <button type="button" data-w="later"><span lang="ar">حدد ميعاد</span><span lang="en">Schedule</span></button>
+        </div>
+        <div class="when" id="whenBox" hidden>
+          <label class="fld"><span><span lang="ar">اليوم</span><span lang="en">Day</span></span><select name="day" id="daySel"></select></label>
+          <label class="fld"><span><span lang="ar">الساعة</span><span lang="en">Time</span></span><select name="time" id="timeSel"></select></label>
+        </div>
+        <label class="fld"><span><span lang="ar">الدفع</span><span lang="en">Payment</span></span>
+          <select name="pay" id="paySel"></select></label>
+        <label class="fld"><span><span lang="ar">ملاحظات</span><span lang="en">Notes</span></span><textarea name="notes" rows="2"></textarea></label>
+      </form>
+    </div>
+    <footer class="cart__foot" id="cartFoot">
+      <div class="row"><span><span lang="ar">الأصناف</span><span lang="en">Subtotal</span></span><b id="cSub"></b></div>
+      <div class="row" id="cFeeRow"><span><span lang="ar">التوصيل</span><span lang="en">Delivery</span></span><b id="cFee"></b></div>
+      <p class="free" id="cFree"></p>
+      <div class="row row--total"><span><span lang="ar">الإجمالي</span><span lang="en">Total</span></span><b id="cTot"></b></div>
+      <button class="btn btn--wa btn--wide" id="sendBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><span lang="ar">ابعت الطلب على واتساب</span><span lang="en">Send order on WhatsApp</span></button>
+    </footer>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status"></div>
+<div class="fly" id="fly" aria-hidden="true"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/data.js?v=2"></script>
+<script src="assets/js/app.js?v=2"></script>
+</body>
+</html>
