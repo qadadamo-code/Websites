@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>روز هاوس للأثاث | Rose House Furniture</title>
+<meta name="description" content="روز هاوس للأثاث — ركنات، أنتريهات، غرف نوم، سفرة، تسريحات، أثاث مكتبي وخارجي. تفصيل على مقاسك بخامات مختارة وتشطيب دقيق.">
+<meta name="theme-color" content="#16151a">
+<meta property="og:title" content="روز هاوس للأثاث — Rose House Furniture">
+<meta property="og:description" content="أثاث يُصنع على مقاس حياتك. ركنات، غرف نوم، سفرة، مكتبي وخارجي.">
+<meta property="og:image" content="assets/img/logo.svg">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preload" href="assets/fonts/ElMessiri-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/style.css?v=1">
+<script type="importmap">{"imports":{"three":"./assets/js/vendor/three.module.min.js"}}</script>
+</head>
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__mark">
+    <svg viewBox="0 0 340 170" class="mark-anim">
+      <defs>
+        <linearGradient id="ls" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbfbfc"/><stop offset=".45" stop-color="#c3c8cf"/><stop offset=".55" stop-color="#8d939c"/><stop offset="1" stop-color="#e3e6ea"/></linearGradient>
+        <linearGradient id="lr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4a4f"/><stop offset=".5" stop-color="#d7141e"/><stop offset="1" stop-color="#9e0b13"/></linearGradient>
+      </defs>
+      <path class="m-r" fill="url(#ls)" fill-rule="evenodd" d="M2 20H122C152 20 170 40 170 66C170 89 155 104 134 109L176 152H136L100 113H54V152H22V46ZM54 46V87H120C132 87 138 78 138 66C138 54 132 46 120 46Z"/>
+      <path class="m-h" fill="url(#lr)" d="M176 6H214V14H208V152H180V14H176ZM258 6H296V14H290V152H262V14H258Z"/>
+      <path class="m-roof" fill="none" stroke="url(#lr)" stroke-width="15" d="M136 150L235 76L336 150"/>
+      <g class="m-win" fill="url(#ls)"><rect x="222" y="112" width="12" height="12"/><rect x="237" y="112" width="12" height="12"/><rect x="222" y="127" width="12" height="12"/><rect x="237" y="127" width="12" height="12"/></g>
+    </svg>
+  </div>
+  <div class="loader__bar"><i id="loaderBar"></i></div>
+  <p class="loader__txt">ROSE <b>HOUSE</b> <small>FURNITURE</small></p>
+</div>
+
+<!-- Header -->
+<header class="nav" id="nav">
+  <a href="#top" class="brand" aria-label="روز هاوس">
+    <img src="assets/img/mark.svg" alt="" width="58" height="29">
+    <span class="brand__txt"><b>ROSE <em>HOUSE</em></b><small>FURNITURE</small></span>
+  </a>
+  <nav class="nav__links" id="navLinks">
+    <a href="#worlds">الأقسام</a>
+    <a href="#shop">المعرض</a>
+    <a href="#detail">التفصيل</a>
+    <a href="#custom">فصّل بنفسك</a>
+    <a href="#projects">أعمالنا</a>
+    <a href="#showroom">تواصل</a>
+  </nav>
+  <div class="nav__actions">
+    <button class="icon-btn" id="openWish" aria-label="المفضلة"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="count" id="wishCount">0</span></button>
+    <button class="icon-btn" id="openCart" aria-label="السلة"><svg viewBox="0 0 24 24"><path d="M5 7h14l-1.4 11.2a2 2 0 0 1-2 1.8H8.4a2 2 0 0 1-2-1.8L5 7z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg><span class="count" id="cartCount">0</span></button>
+    <a class="btn btn--red btn--sm hide-sm" data-wa="أهلًا روز هاوس، عايز أحجز زيارة للمعرض" href="#">احجز زيارة</a>
+    <button class="burger" id="burger" aria-label="القائمة"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO: sofa assembling on scroll -->
+<section class="hero" id="hero">
+  <div class="hero__stage">
+    <div class="hero__bg"><span class="ring ring--1"></span><span class="ring ring--2"></span><span class="grid-lines"></span></div>
+    <canvas id="sofa3d" aria-label="ركنة روز هاوس تتجمع قطعة قطعة"></canvas>
+    <img class="hero__fallback" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1400&q=70" alt="">
+
+    <div class="hero__intro" id="heroIntro">
+      <p class="eyebrow"><span class="dot"></span> روز هاوس للأثاث — منذ 2009</p>
+      <h1 class="hero__title"><span class="line"><span>أثاث يتصنع</span></span><span class="line"><span>على <em>مقاس حياتك</em></span></span></h1>
+      <p class="hero__lead">ركنات، أنتريهات، غرف نوم وسفرة… كل قطعة بتتفصّل في ورشتنا بخامات مختارة وتشطيب بالمللي. انزل بالماوس وشوف الركنة بتتجمع قدامك.</p>
+      <div class="hero__cta">
+        <a href="#shop" class="btn btn--red">تصفّح المعرض</a>
+        <a href="#custom" class="btn btn--ghost">فصّل قطعتك</a>
+      </div>
+      <div class="scroll-hint"><span></span> مرّر لأسفل</div>
+    </div>
+
+    <div class="hero__steps" id="heroSteps">
+      <div class="step" data-i="0"><span class="step__n">01</span><h3>الهيكل</h3><p>خشب زان مُعالج ومجفف بالأفران، متجمع بالغِراء والتعشيق مش بالمسامير بس.</p></div>
+      <div class="step" data-i="1"><span class="step__n">02</span><h3>القاعدة والرجول</h3><p>رجول زان أو معدن ذهبي، وقاعدة مرفوعة 12 سم عشان التنضيف تحتها يبقى سهل.</p></div>
+      <div class="step" data-i="2"><span class="step__n">03</span><h3>الإسفنج</h3><p>إسفنج كثافة 35 مع طبقة فايبر ناعمة — قعدة ثابتة متهبطش بعد سنة.</p></div>
+      <div class="step" data-i="3"><span class="step__n">04</span><h3>المخدات</h3><p>مخدات ظهر بسوست مخفية، تتفك وتتغسل، ومخدات ديكور بلون البراند.</p></div>
+      <div class="step" data-i="4"><span class="step__n">05</span><h3>اللون والقماش</h3><p>أكتر من 40 لون وقماش مستورد مقاوم للبقع. جرّب الألوان على الركنة دلوقتي.</p>
+        <div class="swatches" id="heroSwatches"></div>
+      </div>
+    </div>
+
+    <div class="hero__meter" id="heroMeter">
+      <div class="meter__ring"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19"/><circle class="meter__fill" id="meterFill" cx="22" cy="22" r="19"/></svg><b id="meterPct">0%</b></div>
+      <span>تم التجميع</span>
+    </div>
+    <div class="hero__tag" id="heroTag">
+      <small>ركنة ميلانو L</small>
+      <b>48,500 <i>ج.م</i></b>
+      <button class="btn btn--light btn--sm" data-quick="rh-c01">شوف التفاصيل</button>
+    </div>
+  </div>
+</section>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true"><div class="marquee__track" id="marquee"></div></div>
+
+<!-- WORLDS + categories -->
+<section class="section worlds" id="worlds">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow"><span class="dot"></span> الأقسام</p>
+      <h2 class="h2 split">ثلاث عوالم… <em>وبيت واحد</em></h2>
+      <p class="sec-lead">من الصالة لحد المكتب والجنينة، كل قسم ليه ورشة وفريق تصميم متخصص.</p>
+    </div>
+    <div class="worlds__grid" id="worldsGrid"></div>
+    <div class="cats" id="catsGrid"></div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section class="section shop" id="shop">
+  <div class="wrap">
+    <div class="sec-head sec-head--row">
+      <div>
+        <p class="eyebrow"><span class="dot"></span> المعرض أونلاين</p>
+        <h2 class="h2 split">اختار قطعتك <em>من المعرض</em></h2>
+      </div>
+      <div class="shop__tools">
+        <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="search" type="search" placeholder="ابحث: ركنة، سرير، مكتب…"></label>
+        <select id="sort" aria-label="ترتيب">
+          <option value="feat">الترتيب: المميز</option>
+          <option value="low">السعر: من الأقل</option>
+          <option value="high">السعر: من الأعلى</option>
+          <option value="fast">الأسرع تنفيذًا</option>
+        </select>
+      </div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="grid" id="grid"></div>
+    <div class="more-wrap"><button class="btn btn--ghost" id="more" hidden>عرض كل الموديلات</button></div>
+    <p class="empty" id="empty" hidden>مفيش نتايج… جرّب كلمة تانية أو كلّمنا ونفصّلهالك.</p>
+  </div>
+</section>
+
+<!-- DETAIL -->
+<section class="section detail" id="detail">
+  <div class="wrap detail__wrap">
+    <div class="detail__visual">
+      <div class="hotspots ph" id="hotspots">
+        <img data-u="1567016432779-094069958ea5" data-cat="corners" alt="تفاصيل ركنة روز هاوس">
+        <button class="hs" style="--x:22%;--y:38%" data-t="0"><span>+</span></button>
+        <button class="hs" style="--x:55%;--y:58%" data-t="1"><span>+</span></button>
+        <button class="hs" style="--x:78%;--y:30%" data-t="2"><span>+</span></button>
+        <button class="hs" style="--x:40%;--y:82%" data-t="3"><span>+</span></button>
+        <div class="hs-card" id="hsCard"><b></b><p></p></div>
+      </div>
+      <div class="detail__badge"><b>15</b><span>سنة ضمان<br>على الهيكل</span></div>
+    </div>
+    <div class="detail__text">
+      <p class="eyebrow"><span class="dot"></span> التفصيل</p>
+      <h2 class="h2 split">الفرق في <em>التفاصيل الصغيرة</em></h2>
+      <p class="sec-lead">إحنا مش بنبيع شكل وبس. كل قطعة بتعدّي على 7 مراحل فحص قبل ما تخرج من الورشة، وبنصوّرلك كل مرحلة.</p>
+      <ol class="layers" id="layers">
+        <li><span>01</span><div><b>تجفيف الخشب</b><p>نسبة رطوبة أقل من 10% عشان مفيش تشقق أو تقوّس.</p></div></li>
+        <li><span>02</span><div><b>تعشيق يدوي</b><p>الوصلات معشّقة ومغرّاة، مش مسامير بس — هيكل يعيش.</p></div></li>
+        <li><span>03</span><div><b>إسفنج بشهادة</b><p>كثافات من 28 لـ 45 حسب نوع القعدة اللي تحبها.</p></div></li>
+        <li><span>04</span><div><b>خياطة مزدوجة</b><p>غرزة مزدوجة على كل الحواف وسوست مخفية.</p></div></li>
+        <li><span>05</span><div><b>تشطيب ودهان</b><p>بولي يوريثان أو لاكيه مطفي، 3 طبقات على الأقل.</p></div></li>
+      </ol>
+      <div class="stats" id="stats">
+        <div><b data-count="15">0</b><span>سنة خبرة</span></div>
+        <div><b data-count="4800" data-plus>0</b><span>بيت اتفرش</span></div>
+        <div><b data-count="40" data-plus>0</b><span>لون قماش</span></div>
+        <div><b data-count="1200">0</b><span>م² ورشة ومعرض</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOM -->
+<section class="section custom" id="custom">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow eyebrow--light"><span class="dot"></span> فصّل بنفسك</p>
+      <h2 class="h2 split">صمّم قطعتك <em>في 4 خطوات</em></h2>
+      <p class="sec-lead">اختار الموديل والمقاس والقماش واللون، وهنبعتلك تصميم 3D وعرض سعر نهائي خلال 24 ساعة.</p>
+    </div>
+    <div class="cfg">
+      <div class="cfg__form">
+        <div class="cfg__group">
+          <h4><i>1</i> الموديل</h4>
+          <div class="opts" data-key="model">
+            <button class="opt is-on" data-v="ركنة L" data-base="32000"><svg viewBox="0 0 60 40"><path d="M4 8h52v14H26v14H4z"/></svg>ركنة L</button>
+            <button class="opt" data-v="ركنة U" data-base="46000"><svg viewBox="0 0 60 40"><path d="M4 6h52v30H44V18H16v18H4z"/></svg>ركنة U</button>
+            <button class="opt" data-v="كنبة 3 مقاعد" data-base="18000"><svg viewBox="0 0 60 40"><path d="M4 12h52v18H4z"/></svg>كنبة 3</button>
+            <button class="opt" data-v="أنتريه كامل" data-base="52000"><svg viewBox="0 0 60 40"><path d="M2 6h34v12H2zM40 6h18v12H40zM14 24h32v12H14z"/></svg>أنتريه</button>
+          </div>
+        </div>
+        <div class="cfg__group">
+          <h4><i>2</i> الطول <output id="lenOut">300 سم</output></h4>
+          <input type="range" id="len" min="180" max="420" step="10" value="300">
+          <div class="range-lbl"><span>180 سم</span><span>420 سم</span></div>
+        </div>
+        <div class="cfg__group">
+          <h4><i>3</i> الخامة</h4>
+          <div class="opts opts--txt" data-key="fabric">
+            <button class="opt is-on" data-v="قطيفة مستورد" data-k="1">قطيفة</button>
+            <button class="opt" data-v="كتان طبيعي" data-k="1.05">كتان</button>
+            <button class="opt" data-v="بوكليه" data-k="1.12">بوكليه</button>
+            <button class="opt" data-v="جلد طبيعي" data-k="1.45">جلد</button>
+          </div>
+        </div>
+        <div class="cfg__group">
+          <h4><i>4</i> اللون <output id="colorOut">بيج رملي</output></h4>
+          <div class="swatches swatches--lg" id="cfgSwatches"></div>
+        </div>
+      </div>
+      <div class="cfg__summary">
+        <div class="cfg__preview" id="cfgPreview">
+          <svg viewBox="0 0 300 170" id="cfgSvg"><g id="cfgShape"></g></svg>
+        </div>
+        <ul class="cfg__list" id="cfgList"></ul>
+        <div class="cfg__price"><span>السعر التقريبي</span><b id="cfgPrice">0</b><small>ج.م — شامل التوصيل والتركيب داخل القاهرة والجيزة</small></div>
+        <a class="btn btn--red btn--block" id="cfgSend" href="#">ابعت التصميم على واتساب</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS horizontal -->
+<section class="projects" id="projects">
+  <div class="projects__pin">
+    <div class="projects__head">
+      <p class="eyebrow"><span class="dot"></span> أعمالنا</p>
+      <h2 class="h2">بيوت <em>فرشناها</em></h2>
+      <p class="sec-lead">مشاريع حقيقية من التصميم للتسليم. اسحب أو مرّر لتشوف أكتر.</p>
+    </div>
+    <div class="projects__track" id="projTrack"></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section process" id="process">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow"><span class="dot"></span> رحلتك معانا</p>
+      <h2 class="h2 split">من الزيارة <em>للتركيب</em></h2>
+    </div>
+    <div class="process__line"><i id="procFill"></i></div>
+    <div class="process__grid">
+      <article><span>01</span><h3>زيارة ومقاسات</h3><p>مهندس من عندنا يزورك، ياخد المقاسات ويفهم ذوقك وطريقة استعمالك.</p></article>
+      <article><span>02</span><h3>تصميم 3D</h3><p>بنعملك تصميم ثلاثي الأبعاد للمكان بالألوان والخامات قبل أي تصنيع.</p></article>
+      <article><span>03</span><h3>التصنيع</h3><p>الورشة تبدأ، وتوصلك صور وفيديو من كل مرحلة على واتساب.</p></article>
+      <article><span>04</span><h3>توصيل وتركيب</h3><p>فريق التركيب بيسلّمك القطعة متركبة ونضيفة، وضمان مكتوب.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section reviews">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow"><span class="dot"></span> آراء عملائنا</p>
+      <h2 class="h2 split">بيوت <em>بتتكلم عننا</em></h2>
+    </div>
+    <div class="reviews__row" id="reviews"></div>
+  </div>
+</section>
+
+<!-- SHOWROOM / CONTACT -->
+<section class="section showroom" id="showroom">
+  <div class="wrap showroom__wrap">
+    <div class="showroom__info">
+      <p class="eyebrow eyebrow--light"><span class="dot"></span> زورنا</p>
+      <h2 class="h2">المعرض مستنيك… <em>والقهوة علينا</em></h2>
+      <ul class="info">
+        <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span id="infoAddr"></span></li>
+        <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="infoHours"></span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a id="infoPhone" href="#"></a></li>
+      </ul>
+      <div class="hero__cta">
+        <a class="btn btn--red" data-wa="أهلًا روز هاوس، عايز أستفسر عن" href="#">كلّمنا واتساب</a>
+        <a class="btn btn--ghost btn--ghost-light" id="callBtn" href="#">اتصل بينا</a>
+      </div>
+    </div>
+    <form class="lead" id="leadForm">
+      <h3>اطلب زيارة مهندس مجانًا</h3>
+      <label><span>الاسم</span><input name="name" required placeholder="اسمك"></label>
+      <label><span>رقم الموبايل</span><input name="phone" required inputmode="tel" placeholder="01xxxxxxxxx"></label>
+      <label><span>المنطقة</span><input name="area" placeholder="مثلًا: التجمع، زايد، مدينة نصر"></label>
+      <label><span>محتاج إيه؟</span>
+        <select name="need"><option>ركنة / أنتريه</option><option>غرفة نوم</option><option>سفرة</option><option>فرش شقة كاملة</option><option>أثاث مكتبي</option><option>أثاث خارجي</option></select>
+      </label>
+      <button class="btn btn--red btn--block" type="submit">ابعت الطلب</button>
+      <small>هيتفتح واتساب برسالة جاهزة، ونرد عليك في نفس اليوم.</small>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__wrap">
+    <div class="footer__brand">
+      <img src="assets/img/logo.svg" alt="Rose House Furniture" width="200" height="145">
+      <p>روز هاوس للأثاث — تصميم وتصنيع أثاث منزلي ومكتبي وخارجي بمواصفات عالمية وأيدي مصرية.</p>
+    </div>
+    <div><h4>الأقسام</h4><ul id="footCats"></ul></div>
+    <div><h4>روابط</h4><ul><li><a href="#shop">المعرض</a></li><li><a href="#custom">فصّل بنفسك</a></li><li><a href="#projects">أعمالنا</a></li><li><a href="#showroom">تواصل معنا</a></li></ul></div>
+    <div><h4>طرق الدفع</h4><ul><li>كاش في المعرض</li><li>إنستاباي / فودافون كاش</li><li>تحويل بنكي</li><li>تقسيط حتى 12 شهر*</li></ul></div>
+  </div>
+  <div class="wrap footer__bottom">
+    <span>© <span id="yr"></span> Rose House Furniture. جميع الحقوق محفوظة.</span>
+    <a href="https://web.theplanetco.com/" target="_blank" rel="noopener">Website by <b>Planet</b></a>
+  </div>
+</footer>
+
+<!-- floating whatsapp -->
+<a class="fab-wa" data-wa="أهلًا روز هاوس" href="#" aria-label="واتساب"><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.9.9 3.9.8a3.3 3.3 0 0 0 2.2-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.5z"/></svg></a>
+
+<!-- quick view -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal__bg" data-close></div>
+  <div class="modal__box" role="dialog" aria-modal="true">
+    <button class="modal__x" data-close aria-label="إغلاق">×</button>
+    <div class="qv" id="qv"></div>
+  </div>
+</div>
+
+<!-- drawer: cart / wishlist -->
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer__bg" data-dclose></div>
+  <div class="drawer__panel">
+    <div class="drawer__head"><h3 id="drawerTitle">سلة الطلبات</h3><button class="modal__x" data-dclose aria-label="إغلاق">×</button></div>
+    <div class="drawer__body" id="drawerBody"></div>
+    <div class="drawer__foot" id="drawerFoot"></div>
+  </div>
+</aside>
+
+<!-- lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true"><button class="modal__x" data-lclose>×</button><img id="lbImg" alt=""><div class="lb__cap" id="lbCap"></div><button class="lb__nav lb__prev" id="lbPrev">‹</button><button class="lb__nav lb__next" id="lbNext">›</button></div>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/data.js?v=1"></script>
+<script src="assets/js/app.js?v=1"></script>
+<script type="module" src="assets/js/hero3d.js?v=1"></script>
+</body>
+</html>
