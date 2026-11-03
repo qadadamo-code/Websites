@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Disha's Catering | ديشا كيترينج — بوفيهات وسِت منيو للمناسبات</title>
+<meta name="description" content="Disha's Catering: بوفيه يليق بفرحتك وتنظيم يخليك مرتاح. سِت منيو اقتصادي من 150 جنيه للفرد، بوفيهات للخطوبة والعزومات والشركات. اطلب على واتساب أو احجز مناسبتك.">
+<meta name="theme-color" content="#7A3B1D">
+<meta property="og:title" content="Disha's Catering — بوفيه يليق بفرحتك">
+<meta property="og:description" content="سِت منيو اقتصادي من 150 جنيه، بوفيهات للمناسبات، طلب وحجز على واتساب.">
+<meta property="og:image" content="https://web.theplanetco.com/dishas/assets/img/og.jpg">
+<link rel="icon" type="image/webp" href="assets/img/chef.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=Tajawal:wght@400;500;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Playball&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/dishclosed.webp">
+<link rel="stylesheet" href="assets/css/style.css?v=1">
+</head>
+<body class="is-loading">
+
+<!-- Loader: chef badge + ring text -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__badge">
+    <svg viewBox="0 0 200 200" class="ring">
+      <defs><path id="ringPath" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs>
+      <circle cx="100" cy="100" r="96" class="ring__line"/>
+      <text><textPath href="#ringPath" startOffset="0">Disha's Catering · Disha's Catering · Disha's Catering ·</textPath></text>
+    </svg>
+    <img src="assets/img/chef.webp" alt="" width="120" height="120">
+  </div>
+  <div class="loader__name">Disha's <em>Catering</em></div>
+  <div class="loader__bar"><i id="loadBar"></i></div>
+</div>
+
+<!-- Header -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" aria-label="Disha's Catering">
+    <img src="assets/img/chef.webp" alt="" width="44" height="44">
+    <span>Disha's <em>Catering</em></span>
+  </a>
+  <nav class="nav__links" id="navLinks">
+    <a href="#menu" data-en="Set menus">السِت منيو</a>
+    <a href="#offer" data-en="Offer">العرض</a>
+    <a href="#order" data-en="Order">اطلب</a>
+    <a href="#events" data-en="Book an event">احجز مناسبتك</a>
+    <a href="#contact" data-en="Contact">تواصل</a>
+  </nav>
+  <div class="nav__actions">
+    <button class="lang" id="langBtn" type="button" aria-label="Language">EN</button>
+    <a class="nav__cta" href="#order" data-en="Order now">اطلب دلوقتي</a>
+    <button class="burger" id="burger" type="button" aria-label="Menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO: the chafing dish opens as you scroll -->
+<section class="hero" id="top">
+  <div class="hero__stage">
+    <canvas class="hero__canvas" id="heroCanvas"></canvas>
+    <video class="hero__video" id="heroVideo" muted playsinline preload="none" poster="assets/img/dishclosed.webp"></video>
+    <div class="hero__shade"></div>
+    <div class="hero__steam" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="hero__inner">
+      <p class="kicker"><span class="dot"></span><span data-en="Catering · buffets · set menus">كيترينج · بوفيهات · سِت منيو</span></p>
+      <h1 class="hero__title">
+        <span class="line"><span class="w" data-en="A buffet worthy">بوفيه يليق</span></span>
+        <span class="line"><span class="w" data-en="of your celebration">بفرحتك</span></span>
+      </h1>
+      <p class="hero__sub"><span data-en="…and organisation that lets you relax. Home taste, elegant serving, every detail handled.">…وتنظيم يخليك مرتاح. طعم بيتي فاخر، تقديم راقي، واهتمام بأدق التفاصيل.</span></p>
+      <div class="hero__cta">
+        <a href="#menu" class="btn btn--brown" data-en="See the set menus">شوف السِت منيو</a>
+        <a href="#events" class="btn btn--ghost" data-en="Book your event">احجز مناسبتك</a>
+      </div>
+      <div class="hero__price"><span data-en="Set menus from">سِت منيو يبدأ من</span> <b>150</b> <small data-en="EGP / person">جنيه للفرد</small></div>
+    </div>
+    <a href="#promise" class="hero__scroll" aria-label="Scroll"><i></i><span data-en="Lift the lid">انزل وافتح الغطا</span></a>
+  </div>
+</section>
+
+<!-- PROMISES -->
+<section class="promise" id="promise">
+  <div class="marquee" aria-hidden="true"><div class="marquee__track" id="marquee"></div></div>
+  <div class="promise__grid wrap">
+    <div class="promise__item" data-rise>
+      <span class="ico" data-ico="leaf"></span>
+      <h3 data-en="Fresh ingredients">مكونات طازجة</h3>
+      <p data-en="Cooked the same day, never reheated leftovers.">بتتطبخ في نفس اليوم، مش أكل بايت متسخّن.</p>
+    </div>
+    <div class="promise__item" data-rise>
+      <span class="ico" data-ico="cloche"></span>
+      <h3 data-en="Rich home taste">طعم بيتي فاخر</h3>
+      <p data-en="Recipes that taste like a family table, plated for guests.">وصفات بطعم سفرة البيت، متقدّمة بشكل يليق بضيوفك.</p>
+    </div>
+    <div class="promise__item" data-rise>
+      <span class="ico" data-ico="plate"></span>
+      <h3 data-en="Elegant serving">تقديم راقي</h3>
+      <p data-en="Copper chafing dishes, clean linen and a tidy buffet line.">سخانات نحاس، مفارش نضيفة، وبوفيه متنظّم من أوله لآخره.</p>
+    </div>
+    <div class="promise__item" data-rise>
+      <span class="ico" data-ico="heart"></span>
+      <h3 data-en="Every detail">أدق التفاصيل</h3>
+      <p data-en="Because your guests deserve the best.">عشان ضيوفك يستحقوا الأفضل.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PLATE ASSEMBLY -->
+<section class="build" id="build">
+  <div class="build__stage">
+    <div class="build__text">
+      <p class="kicker kicker--dark"><span class="dot"></span><span data-en="How every plate is made">إزاي بيتعمل كل طبق</span></p>
+      <h2 class="h2"><span data-en="Built by hand,">بيتجمّع بالإيد،</span><br><em data-en="piece by piece">حتة حتة</em></h2>
+      <p class="lead" data-en="Rice first, then the grill, then the details. Each plate leaves our kitchen balanced, hot and ready to serve.">الأرز الأول، بعدين المشويات، بعدين التفاصيل. كل طبق بيطلع من مطبخنا متوازن، سخن، وجاهز يتقدّم.</p>
+      <ol class="build__steps">
+        <li><b>01</b><span data-en="Khalta rice with toasted nuts">أرز خلطة بالمكسرات</span></li>
+        <li><b>02</b><span data-en="Kofta and grills off the fire">كفتة ومشويات من على النار</span></li>
+        <li><b>03</b><span data-en="Roast beef, turkey and chicken">لحمة ورومي وفراخ</span></li>
+        <li><b>04</b><span data-en="Sambousek and the final touch">سمبوسة واللمسة الأخيرة</span></li>
+      </ol>
+    </div>
+    <div class="build__media">
+      <div class="build__ring" aria-hidden="true"></div>
+      <canvas id="buildCanvas"></canvas>
+      <video id="buildVideo" muted playsinline loop preload="none"></video>
+    </div>
+  </div>
+</section>
+
+<!-- SET MENUS -->
+<section class="menu" id="menu">
+  <div class="menu__head wrap">
+    <p class="kicker kicker--dark"><span class="dot"></span><span data-en="Economy set menus">سِت منيو اقتصادي</span></p>
+    <h2 class="h2"><span data-en="Five plates,">5 أطباق،</span> <em data-en="one standard">ومستوى واحد</em></h2>
+    <p class="lead" data-en="Prices are per person. Pick one set for everyone or mix them for your guests.">الأسعار للفرد. اختار سِت واحد للكل، أو نوّع لضيوفك.</p>
+    <div class="menu__jump" id="menuJump"></div>
+  </div>
+  <div id="sets"></div>
+</section>
+
+<!-- ADD-ON OFFER -->
+<section class="offer" id="offer">
+  <div class="offer__inner wrap">
+    <div class="offer__badge" data-rise>
+      <svg viewBox="0 0 64 64" width="52" height="52" fill="none" stroke="currentColor" stroke-width="3"><circle cx="32" cy="34" r="22"/><path d="M32 22v13l8 5M22 8l-8 6M42 8l8 6"/></svg>
+      <span data-en="Limited-time offer">عرض لفترة محدودة</span>
+    </div>
+    <h2 class="h2 h2--light"><span data-en="Complete the plate">كمّل الطبق</span> <em data-en="for just 50">بـ 50 جنيه بس</em></h2>
+    <p class="lead lead--light" data-en="Add a slice of chocolate gateau, a water bottle and a Pepsi to any set.">ضيف قطعة جاتوه شوكولاتة + مياه + بيبسي على أي سِت.</p>
+    <div class="offer__eq" id="offerEq">
+      <figure class="offer__pic"><img src="assets/img/addon.webp" alt="" loading="lazy" width="1000" height="753"></figure>
+      <div class="offer__parts">
+        <span class="part" data-en="Gateau">جاتوه</span><b>+</b>
+        <span class="part" data-en="Water">مياه</span><b>+</b>
+        <span class="part" data-en="Pepsi">بيبسي</span><b>=</b>
+        <span class="offer__stamp"><small data-en="only">بـ</small>50<small data-en="EGP">جنيه</small></span>
+      </div>
+    </div>
+    <button class="btn btn--cream" type="button" id="offerAdd" data-en="Add it to my order">ضيفه على طلبي</button>
+  </div>
+</section>
+
+<!-- ORDER BUILDER -->
+<section class="order" id="order">
+  <div class="wrap">
+    <p class="kicker kicker--dark"><span class="dot"></span><span data-en="Order on WhatsApp">اطلب على واتساب</span></p>
+    <h2 class="h2"><span data-en="Build your order,">جهّز طلبك،</span> <em data-en="we handle the rest">والباقي علينا</em></h2>
+    <div class="order__grid">
+      <div class="order__list" id="orderList"></div>
+      <form class="card order__form" id="orderForm" novalidate>
+        <h3 data-en="Your order">طلبك</h3>
+        <div class="order__sum" id="orderSum"><p class="muted" data-en="Choose the number of people for any set.">اختار عدد الأفراد لأي سِت.</p></div>
+        <label class="check"><input type="checkbox" id="addonAll"> <span data-en="Add the 50 EGP offer for every person">ضيف عرض الـ 50 جنيه لكل فرد</span></label>
+        <div class="order__total"><span data-en="Estimated total">الإجمالي التقريبي</span><b id="orderTotal">0</b></div>
+        <div class="row2">
+          <label><span data-en="Name">الاسم</span><input name="name" required autocomplete="name"></label>
+          <label><span data-en="Phone">الموبايل</span><input name="phone" type="tel" inputmode="tel" required autocomplete="tel"></label>
+        </div>
+        <div class="row2">
+          <label><span data-en="Delivery date">ميعاد التسليم</span><input name="date" type="date" required></label>
+          <label><span data-en="Time">الساعة</span><input name="time" type="time"></label>
+        </div>
+        <label><span data-en="Address / area">العنوان / المنطقة</span><input name="area" required autocomplete="street-address"></label>
+        <label><span data-en="Notes (optional)">ملاحظات (اختياري)</span><textarea name="notes" rows="2"></textarea></label>
+        <p class="form__err" id="orderErr" hidden></p>
+        <button class="btn btn--wa" type="submit"><span class="wa-ico"></span><span data-en="Send order on WhatsApp">ابعت الطلب على واتساب</span></button>
+        <p class="muted small" data-en="We confirm availability and delivery fees on WhatsApp.">هنأكد معاك المواعيد ورسوم التوصيل على واتساب.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS / BOOKING -->
+<section class="events" id="events">
+  <div class="events__media">
+    <picture>
+      <source media="(max-width: 760px)" srcset="assets/img/event-s.webp">
+      <img src="assets/img/event.webp" alt="" loading="lazy" width="1600" height="895">
+    </picture>
+    <div class="events__quote" data-rise>
+      <span>“</span>
+      <p data-en="Every detail we make… because your guests deserve the best.">كل تفصيلة بنعملها… عشان ضيوفك يستحقوا الأفضل</p>
+    </div>
+  </div>
+  <div class="wrap events__body">
+    <div class="events__intro">
+      <p class="kicker kicker--dark"><span class="dot"></span><span data-en="Events &amp; buffets">مناسبات وبوفيهات</span></p>
+      <h2 class="h2"><span data-en="Book your buffet,">احجز البوفيه،</span> <em data-en="enjoy your party">واستمتع بفرحتك</em></h2>
+      <p class="lead" data-en="Engagements, birthdays, family gatherings, office lunches. Tell us the date and the number of guests and we plan the table with you.">خطوبة، عيد ميلاد، عزومة عيلة، أو غدا شركة. قولنا الميعاد وعدد الضيوف ونرتب معاك السفرة.</p>
+      <ul class="events__steps">
+        <li data-rise><b>1</b><div><h4 data-en="Pick your set or buffet">اختار السِت أو البوفيه</h4><p data-en="From the menu or a custom mix.">من المنيو أو تشكيلة على مزاجك.</p></div></li>
+        <li data-rise><b>2</b><div><h4 data-en="Date and guest count">الميعاد وعدد الضيوف</h4><p data-en="Book ahead to secure your day.">احجز بدري عشان نضمنلك اليوم.</p></div></li>
+        <li data-rise><b>3</b><div><h4 data-en="We deliver and set up">إحنا بنوصّل ونجهّز</h4><p data-en="Hot, tidy and on time.">سخن، متنظّم، وفي ميعاده.</p></div></li>
+      </ul>
+    </div>
+    <form class="card book" id="bookForm" novalidate>
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab is-on" data-tab="event" data-en="Event buffet">بوفيه مناسبة</button>
+        <button type="button" class="tab" data-tab="table" data-en="Book a table setup">حجز ترابيزة / سفرة</button>
+        <button type="button" class="tab" data-tab="tasting" data-en="Tasting visit">موعد تذوّق</button>
+      </div>
+      <p class="tab__hint" id="tabHint"></p>
+      <div class="field" data-for="event table">
+        <span class="lbl" data-en="Occasion">المناسبة</span>
+        <div class="chips" id="occChips"></div>
+      </div>
+      <div class="field" data-for="event table">
+        <span class="lbl"><span data-en="Guests">عدد الضيوف</span>: <b id="guestOut">40</b></span>
+        <input type="range" id="guests" min="10" max="300" step="5" value="40">
+      </div>
+      <div class="field" data-for="event table">
+        <span class="lbl" data-en="Service style">شكل الخدمة</span>
+        <div class="chips" id="styleChips"></div>
+      </div>
+      <div class="row2">
+        <label><span data-en="Name">الاسم</span><input name="name" required autocomplete="name"></label>
+        <label><span data-en="Phone">الموبايل</span><input name="phone" type="tel" inputmode="tel" required autocomplete="tel"></label>
+      </div>
+      <div class="row2">
+        <label><span data-en="Date">التاريخ</span><input name="date" type="date" required></label>
+        <label><span data-en="Time">الساعة</span><input name="time" type="time"></label>
+      </div>
+      <label class="field" data-for="event table"><span data-en="Venue / area">المكان / المنطقة</span><input name="area"></label>
+      <label><span data-en="Anything we should know?">حابب تقولنا حاجة؟</span><textarea name="notes" rows="2"></textarea></label>
+      <p class="form__err" id="bookErr" hidden></p>
+      <button class="btn btn--wa" type="submit"><span class="wa-ico"></span><span data-en="Send booking on WhatsApp">ابعت الحجز على واتساب</span></button>
+    </form>
+  </div>
+</section>
+
+<!-- KITCHEN -->
+<section class="kitchen">
+  <div class="kitchen__img" data-parallax>
+    <picture>
+      <source media="(max-width: 760px)" srcset="assets/img/chefhands-s.webp">
+      <img src="assets/img/chefhands.webp" alt="" loading="lazy" width="1400" height="783">
+    </picture>
+  </div>
+  <div class="kitchen__card wrap">
+    <div class="card card--dark" data-rise>
+      <img src="assets/img/chef.webp" alt="" width="84" height="84" class="kitchen__chef" loading="lazy">
+      <h2 class="h2 h2--light"><span data-en="From Disha's kitchen">من مطبخ ديشا</span><br><em data-en="to your table">لسفرتك</em></h2>
+      <p class="lead lead--light" data-en="We cook like we are hosting our own family, then pack and serve it like professionals.">بنطبخ كأننا بنعزم أهلنا، وبنغلّف ونقدّم زي المحترفين.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq wrap" id="faq">
+  <h2 class="h2"><span data-en="Quick questions">أسئلة</span> <em data-en="before you book">قبل ما تحجز</em></h2>
+  <details data-rise><summary data-en="Are the prices per person?">الأسعار دي للفرد؟</summary><p data-en="Yes. Every set price on the menu is for one person.">أيوه، سعر كل سِت في المنيو للفرد الواحد.</p></details>
+  <details data-rise><summary data-en="Can I mix different sets?">ينفع أنوّع بين أكتر من سِت؟</summary><p data-en="Of course. Choose any number of people for each set in the order builder.">طبعًا، اختار عدد الأفراد لكل سِت من جزء الطلب.</p></details>
+  <details data-rise><summary data-en="How early should I book?">أحجز قبلها بقد إيه؟</summary><p data-en="The earlier the better, especially for big events. Message us and we confirm your date.">كل ما كان بدري كان أحسن، خصوصًا للمناسبات الكبيرة. ابعتلنا ونأكدلك الميعاد.</p></details>
+  <details data-rise><summary data-en="Do you deliver and set up the buffet?">بتوصّلوا وبتجهّزوا البوفيه؟</summary><p data-en="Yes. We agree on delivery and setup details with you on WhatsApp.">أيوه، بنتفق معاك على التوصيل والتجهيز على واتساب.</p></details>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="foot" id="contact">
+  <div class="wrap foot__grid">
+    <div>
+      <div class="foot__logo"><img src="assets/img/chef.webp" alt="" width="64" height="64" loading="lazy"><span>Disha's <em>Catering</em></span></div>
+      <p class="foot__tag" data-en="A buffet worthy of your celebration… and organisation that lets you relax.">بوفيه يليق بفرحتك… وتنظيم يخليك مرتاح</p>
+    </div>
+    <div class="foot__links">
+      <a id="footWa" href="#" target="_blank" rel="noopener"><span class="wa-ico"></span> <span data-en="WhatsApp">واتساب</span></a>
+      <a id="footTel" href="#"><span data-en="Call us">اتصل بينا</span> <bdi id="footPhone"></bdi></a>
+      <a id="footIg" href="#" target="_blank" rel="noopener">Instagram @dishascatering</a>
+    </div>
+  </div>
+  <div class="wrap foot__bottom">
+    <span>© <span id="year">2026</span> Disha's Catering</span>
+    <a href="https://web.theplanetco.com/" target="_blank" rel="noopener" class="credit">Website by <b>Planet</b></a>
+  </div>
+</footer>
+
+<!-- Floating -->
+<a class="fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><span class="wa-ico"></span></a>
+<div class="orderbar" id="orderBar">
+  <span><b id="barCount">0</b> <span data-en="people">فرد</span> · <b id="barTotal">0</b> <span class="cur"></span></span>
+  <a href="#order" class="btn btn--cream btn--sm" data-en="Complete order">كمّل الطلب</a>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/data.js?v=1"></script>
+<script src="assets/js/app.js?v=1"></script>
+</body>
+</html>
