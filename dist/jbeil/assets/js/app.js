@@ -464,6 +464,7 @@
     sigTl.fromTo(tiles, {
       x: () => gsap.utils.random(-400, 400), y: () => gsap.utils.random(-300, 300), z: 0, rotationZ: () => gsap.utils.random(-180, 180), scale: () => gsap.utils.random(.1, .6), opacity: 0
     }, { x: 0, y: 0, rotationZ: 0, scale: 1.02, opacity: 1, ease: 'power3.out', stagger: { each: .015, from: 'edges' }, duration: 1 })
+      .fromTo(box, { clipPath: 'circle(160% at 50% 50%)' }, { clipPath: 'circle(50% at 50% 50%)', ease: 'power2.inOut', duration: .35 }, .75)
       .from('#sigParts li', { y: 20, opacity: 0, stagger: .12, duration: .4 }, .3)
       .from('.sig__title', { letterSpacing: '.2em', opacity: 0, duration: .6 }, 0);
 

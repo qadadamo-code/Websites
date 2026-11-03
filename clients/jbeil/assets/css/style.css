@@ -146,7 +146,7 @@ html[lang=en] .panel{direction:ltr}
 .price b{font-size:2.4rem;font-weight:700;color:var(--plum)}
 .price small{font-size:1rem;opacity:.7}
 .sig__art{position:relative;aspect-ratio:1;max-height:78vh;margin:auto;width:100%}
-.tiles{position:absolute;inset:7%;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);border-radius:50%;z-index:2}
+.tiles{position:absolute;inset:5%;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);z-index:2;filter:drop-shadow(0 30px 40px rgba(42,24,48,.35))}
 .tiles i{background-size:600% 600%;will-change:transform,opacity}
 .sig__ring{position:absolute;inset:0;border-radius:50%;border:1.5px dashed rgba(120,78,118,.35);animation:spin 40s linear infinite}
 .sig__ring::before{content:'𐤂 𐤁 𐤉 𐤋 · 𐤂 𐤁 𐤉 𐤋 ·';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-family:var(--ph);color:var(--plum);background:var(--cream);padding:0 10px;font-size:1.1rem;white-space:nowrap}
