@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>جُبيل | Jbeil — مطعم لبناني في مساكن شيراتون</title>
+<meta name="description" content="جُبيل: مطبخ لبناني على الفحم في مساكن شيراتون، القاهرة. شاورما، شيش طاووق، كفتة، حمص وتبولة. شوف المنيو كامل بالأسعار، اطلب على واتساب أو احجز طاولتك.">
+<meta name="theme-color" content="#784E76">
+<meta property="og:title" content="جُبيل — Jbeil Lebanese Restaurant">
+<meta property="og:description" content="طعم لبنان على الفحم، في قلب مساكن شيراتون. المنيو كامل، طلب واتساب وحجز طاولة.">
+<meta property="og:image" content="https://web.theplanetco.com/jbeil/assets/video/hero.jpg">
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=Noto+Sans+Phoenician&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/video/hero.jpg">
+<link rel="stylesheet" href="assets/css/style.css?v=1">
+</head>
+<body class="is-loading">
+
+<!-- Loader: Phoenician letters become Jbeil -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__glyphs" id="loaderGlyphs"></div>
+  <div class="loader__logo"><span class="logo-ar">جُبيل</span><span class="logo-en">Jbeil</span></div>
+  <div class="loader__bar"><i id="loadBar"></i></div>
+</div>
+
+<!-- Header -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" aria-label="Jbeil">
+    <span class="nav__mark"><span class="logo-ar">جُبيل</span><span class="logo-en">Jbeil</span></span>
+  </a>
+  <nav class="nav__links" id="navLinks">
+    <a href="#story" data-i18n="nav.story">حكايتنا</a>
+    <a href="#menu" data-i18n="nav.menu">المنيو</a>
+    <a href="#signature" data-i18n="nav.sig">وجبة جبيل</a>
+    <a href="#reserve" data-i18n="nav.reserve">احجز طاولة</a>
+    <a href="#visit" data-i18n="nav.visit">زورنا</a>
+  </nav>
+  <div class="nav__actions">
+    <button class="lang" id="langBtn" type="button" aria-label="Language"><span>EN</span></button>
+    <button class="cart-btn" id="cartBtn" type="button" aria-label="Cart">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
+      <b id="cartCount">0</b>
+    </button>
+    <button class="burger" id="burger" type="button" aria-label="Menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero__media">
+    <video id="heroVideo" src="assets/video/hero.mp4" poster="assets/video/hero.jpg" muted loop playsinline autoplay preload="auto"></video>
+  </div>
+  <div class="hero__shade"></div>
+  <canvas class="embers" id="embers"></canvas>
+  <div class="hero__glyphs" aria-hidden="true"><span>𐤂</span><span>𐤁</span><span>𐤉</span><span>𐤋</span></div>
+  <div class="hero__inner">
+    <p class="kicker" data-reveal><span class="dot"></span><span data-i18n="hero.kicker">مطبخ لبناني على الفحم · مساكن شيراتون</span></p>
+    <h1 class="hero__title">
+      <span class="line"><span class="split" data-i18n="hero.t1">طعم جبيل</span></span>
+      <span class="line line--mint"><span class="split" data-i18n="hero.t2">على فحم القاهرة</span></span>
+    </h1>
+    <p class="hero__sub" data-reveal data-i18n="hero.sub">من المدينة اللي علّمت العالم الحروف… جبنالك أبجدية الأكل اللبناني: شاورما على الفحم، طاووق متبّل، كفتة وحمص بزيت زيتون.</p>
+    <div class="hero__cta" data-reveal>
+      <a href="#menu" class="btn btn--mint" data-i18n="hero.order">اطلب دلوقتي</a>
+      <a href="#reserve" class="btn btn--ghost" data-i18n="hero.reserve">احجز طاولة</a>
+    </div>
+  </div>
+  <div class="hero__rating" data-reveal>
+    <b>4.6</b><span class="stars">★★★★★</span><small data-i18n="hero.rating">+1000 تقييم على طلبات</small>
+  </div>
+  <a href="#story" class="hero__scroll" aria-label="Scroll"><span data-i18n="hero.scroll">انزل</span><i></i></a>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track" id="marquee"></div>
+</div>
+
+<!-- STORY: horizontal pinned -->
+<section class="story" id="story">
+  <div class="story__pin">
+    <div class="story__track" id="storyTrack">
+      <article class="panel panel--intro">
+        <div class="panel__alpha" id="alpha" aria-hidden="true"></div>
+        <p class="eyebrow" data-i18n="story.e1">01 — المدينة</p>
+        <h2 data-i18n="story.h1">جبيل… أقدم مدينة عايشة، ومنها خرجت أول أبجدية للعالم.</h2>
+        <p data-i18n="story.p1">الفينيقيين في جبيل كتبوا أول حروف. إحنا كتبنا بيها المنيو: كل قسم عندنا ليه حرف، وكل طبق ليه حكاية.</p>
+      </article>
+      <article class="panel panel--fire">
+        <div class="panel__photo"><img src="assets/img/m/516778808.webp" alt="" loading="lazy"></div>
+        <div class="panel__text">
+          <p class="eyebrow" data-i18n="story.e2">02 — الفحم</p>
+          <h2 data-i18n="story.h2">فحم حقيقي، تتبيلة لبنانية، وخبز طالع سخن.</h2>
+          <p data-i18n="story.p2">المسحّب والطاووق والكفتة بيتشووا قدامك على الفحم، والثومية بتتعمل كل يوم بإيدينا.</p>
+        </div>
+      </article>
+      <article class="panel panel--cairo">
+        <div class="panel__stack">
+          <img src="assets/img/m/516778852.webp" alt="" loading="lazy">
+          <img src="assets/img/m/516778809.webp" alt="" loading="lazy">
+          <img src="assets/img/m/615402011.webp" alt="" loading="lazy">
+        </div>
+        <div class="panel__text">
+          <p class="eyebrow" data-i18n="story.e3">03 — القاهرة</p>
+          <h2 data-i18n="story.h3">من جبيل لمساكن شيراتون: نفس الطعم، على بعد خطوة منك.</h2>
+          <p data-i18n="story.p3">تيك أواي، دليفري، أو قعدة على الترابيزة مع الصحاب. اختار وإحنا علينا الباقي.</p>
+          <a href="#menu" class="btn btn--mint" data-i18n="story.cta">افتح المنيو</a>
+        </div>
+      </article>
+    </div>
+    <div class="story__progress"><i id="storyBar"></i></div>
+  </div>
+</section>
+
+<!-- SIGNATURE: tile assembly -->
+<section class="sig" id="signature">
+  <div class="sig__pin">
+    <div class="sig__copy">
+      <p class="eyebrow" data-i18n="sig.e">الطبق اللي على اسمنا</p>
+      <h2 class="sig__title" data-i18n="sig.h">وجبة جبيل</h2>
+      <p class="sig__desc" data-i18n="sig.p">2 سيخ كفتة، سيخ طاووق، ربع فرخة، رز بسمتي، ثومية، مخلل و2 سمبوسك جبنة. كل اللي بتحبه في طبق واحد.</p>
+      <ul class="sig__parts" id="sigParts">
+        <li data-i18n="sig.l1">كفتة على الفحم</li>
+        <li data-i18n="sig.l2">شيش طاووق</li>
+        <li data-i18n="sig.l3">ربع فرخة</li>
+        <li data-i18n="sig.l4">سمبوسك جبنة</li>
+      </ul>
+      <div class="sig__buy">
+        <span class="price"><b>320</b> <small data-i18n="cur">ج.م</small></span>
+        <button class="btn btn--mint" data-add="516778818" type="button" data-i18n="add">أضف للطلب</button>
+      </div>
+    </div>
+    <div class="sig__art">
+      <div class="tiles" id="sigTiles" data-src="assets/img/m/516778818.webp"></div>
+      <div class="sig__ring" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <header class="menu__head">
+    <p class="eyebrow" data-i18n="menu.e">أبجدية جبيل</p>
+    <h2 class="menu__title"><span class="split" data-i18n="menu.h">المنيو</span></h2>
+    <p class="menu__lead" data-i18n="menu.p">7 أقسام، كل قسم ليه حرف فينيقي. الأسعار بالجنيه المصري.</p>
+    <div class="search">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="search" type="search" data-i18n-ph="menu.search" placeholder="دوّر على صنف… شاورما، حمص، كفتة">
+    </div>
+  </header>
+  <nav class="cats" id="cats" aria-label="Menu categories"></nav>
+  <div id="menuBody"></div>
+  <div class="noresult" id="noResult" hidden data-i18n="menu.none">مفيش نتايج. جرّب كلمة تانية.</div>
+</section>
+
+<!-- RESERVE -->
+<section class="reserve" id="reserve">
+  <div class="reserve__art" aria-hidden="true">
+    <div class="table">
+      <span class="plate p1"><img src="assets/img/m/516778852.webp" alt=""></span>
+      <span class="plate p2"><img src="assets/img/m/2985880088.webp" alt=""></span>
+      <span class="plate p3"><img src="assets/img/m/1555317779.webp" alt=""></span>
+      <span class="plate p4"><img src="assets/img/m/615402011.webp" alt=""></span>
+      <span class="plate p5"><img src="assets/img/m/721262322.webp" alt=""></span>
+    </div>
+  </div>
+  <div class="reserve__card">
+    <p class="eyebrow" data-i18n="res.e">ترابيزتك جاهزة</p>
+    <h2 data-i18n="res.h">احجز طاولة</h2>
+    <p class="muted" data-i18n="res.p">املأ البيانات وهنأكد معاك الحجز على واتساب في دقايق.</p>
+    <form id="resForm" novalidate>
+      <div class="row">
+        <label><span data-i18n="f.name">الاسم</span><input name="name" required autocomplete="name"></label>
+        <label><span data-i18n="f.phone">رقم الموبايل</span><input name="phone" type="tel" inputmode="tel" required autocomplete="tel" dir="ltr"></label>
+      </div>
+      <div class="row">
+        <label><span data-i18n="f.date">اليوم</span><input name="date" type="date" required></label>
+        <label><span data-i18n="f.time">الساعة</span><input name="time" type="time" required value="20:00"></label>
+      </div>
+      <div class="guests">
+        <span data-i18n="f.guests">عدد الأفراد</span>
+        <div class="stepper"><button type="button" data-g="-1">−</button><output id="guests">2</output><button type="button" data-g="1">+</button></div>
+      </div>
+      <div class="chips" id="occasion">
+        <button type="button" class="chip is-on" data-v="normal" data-i18n="f.o1">قعدة عادية</button>
+        <button type="button" class="chip" data-v="birthday" data-i18n="f.o2">عيد ميلاد</button>
+        <button type="button" class="chip" data-v="family" data-i18n="f.o3">عزومة عيلة</button>
+        <button type="button" class="chip" data-v="work" data-i18n="f.o4">شغل</button>
+      </div>
+      <label><span data-i18n="f.notes">ملاحظات</span><textarea name="notes" rows="2"></textarea></label>
+      <button class="btn btn--mint btn--block" type="submit">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2s-1 .3-3.5-.7c-2.9-1.2-4.8-4.2-5-4.4-.1-.2-1.2-1.6-1.2-3s.7-2.2 1-2.5c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+        <span data-i18n="res.send">ابعت الحجز على واتساب</span>
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <div class="visit__info">
+    <p class="eyebrow" data-i18n="v.e">زورنا</p>
+    <h2 data-i18n="v.h">جبيل، مساكن شيراتون</h2>
+    <p class="visit__addr" data-i18n="v.addr">شارع عبد الحميد بدوي، مساكن شيراتون، مصر الجديدة، القاهرة</p>
+    <div class="visit__tags">
+      <span data-i18n="v.t1">تيك أواي</span><span data-i18n="v.t2">دليفري</span><span data-i18n="v.t3">قعدة في المطعم</span>
+    </div>
+    <div class="visit__btns">
+      <a class="btn btn--mint" id="waLink" target="_blank" rel="noopener" data-i18n="v.wa">كلّمنا واتساب</a>
+      <a class="btn btn--ghost" href="https://www.google.com/maps/search/?api=1&query=30.1069725,31.3784032" target="_blank" rel="noopener" data-i18n="v.map">افتح الخريطة</a>
+      <a class="btn btn--ghost" href="https://www.talabat.com/egypt/restaurant/739022/jbeil" target="_blank" rel="noopener" data-i18n="v.talabat">اطلب من طلبات</a>
+    </div>
+    <div class="socials">
+      <a href="https://www.instagram.com/jbeillebaneserestaurant/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+      <a href="https://www.facebook.com/JbeilLebaneseRestaurant/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M14 8h3V4h-3c-2.8 0-4 1.8-4 4.3V10H7v4h3v8h4v-8h3l1-4h-4V8.6c0-.4.3-.6.6-.6H14Z"/></svg></a>
+      <a href="https://www.tiktok.com/@jbeileg" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.5 3c.4 2.2 1.8 3.7 4 4v3.2a7.6 7.6 0 0 1-4-1.2v6.5a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v3.3a2.4 2.4 0 1 0 1.5 2.2V3h3.2Z"/></svg></a>
+    </div>
+  </div>
+  <div class="visit__map">
+    <iframe title="Jbeil map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=30.1069725,31.3784032&z=16&output=embed"></iframe>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="foot__big" aria-hidden="true">𐤂𐤁𐤉𐤋</div>
+  <div class="foot__row">
+    <span class="nav__mark"><span class="logo-ar">جُبيل</span><span class="logo-en">Jbeil</span></span>
+    <p data-i18n="foot.p">طعم لبنان الأصيل في مساكن شيراتون، القاهرة.</p>
+    <a class="credit" href="https://web.theplanetco.com" target="_blank" rel="noopener">Website by <b>Planet</b></a>
+  </div>
+</footer>
+
+<!-- Floating order -->
+<button class="fab" id="fab" type="button"><span data-i18n="fab">طلبك</span> · <b id="fabTotal">0</b> <small data-i18n="cur">ج.م</small></button>
+
+<!-- Cart drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer__bg" data-close></div>
+  <aside class="drawer__panel" role="dialog" aria-label="Cart">
+    <header class="drawer__head">
+      <h3 data-i18n="cart.h">طلبك</h3>
+      <button class="x" type="button" data-close aria-label="Close">×</button>
+    </header>
+    <div class="drawer__body">
+      <ul class="cart-list" id="cartList"></ul>
+      <div class="cart-empty" id="cartEmpty">
+        <span class="cart-empty__glyph">𐤀</span>
+        <p data-i18n="cart.empty">الطلب لسه فاضي. اختار من المنيو.</p>
+      </div>
+      <form class="checkout" id="checkout" novalidate>
+        <div class="seg" id="orderType">
+          <button type="button" class="is-on" data-v="delivery" data-i18n="cart.delivery">دليفري</button>
+          <button type="button" data-v="pickup" data-i18n="cart.pickup">تيك أواي</button>
+          <button type="button" data-v="dinein" data-i18n="cart.dinein">في المطعم</button>
+        </div>
+        <label><span data-i18n="f.name">الاسم</span><input name="name" required autocomplete="name"></label>
+        <label><span data-i18n="f.phone">رقم الموبايل</span><input name="phone" type="tel" required dir="ltr" autocomplete="tel"></label>
+        <label class="addr"><span data-i18n="cart.addr">العنوان بالتفصيل</span><textarea name="address" rows="2" autocomplete="street-address"></textarea></label>
+        <label><span data-i18n="f.notes">ملاحظات</span><textarea name="notes" rows="2"></textarea></label>
+      </form>
+    </div>
+    <footer class="drawer__foot">
+      <div class="total"><span data-i18n="cart.total">الإجمالي</span><b><span id="cartTotal">0</span> <small data-i18n="cur">ج.م</small></b></div>
+      <p class="hint" data-i18n="cart.hint">الأسعار من غير خدمة التوصيل. هنأكد معاك الطلب على واتساب.</p>
+      <button class="btn btn--mint btn--block" id="sendOrder" type="button" data-i18n="cart.send">ابعت الطلب على واتساب</button>
+    </footer>
+  </aside>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/menu-data.js?v=1"></script>
+<script src="assets/js/app.js?v=1"></script>
+</body>
+</html>
