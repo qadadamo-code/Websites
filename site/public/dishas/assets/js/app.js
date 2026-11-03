@@ -437,6 +437,11 @@
     }, { threshold: .35 }).observe(v);
   }
 
+  /* phone and desktop use different scenes: rebuild when the window crosses the breakpoint */
+  var mq = window.matchMedia('(max-width: 760px)');
+  var onMq = function () { if (mq.matches !== isPhone) location.reload(); };
+  if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq);
+
   /* ---------- boot ---------- */
   applyLang();
   scenes();
