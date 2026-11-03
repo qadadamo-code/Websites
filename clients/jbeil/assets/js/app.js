@@ -14,8 +14,10 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MOBILE = matchMedia('(max-width: 760px)').matches || (matchMedia('(pointer: coarse)').matches && innerWidth < 900);
   const hasGsap = !!(window.gsap && window.ScrollTrigger);
-  if (hasGsap) gsap.registerPlugin(ScrollTrigger);
+  if (hasGsap) { gsap.registerPlugin(ScrollTrigger); ScrollTrigger.config({ ignoreMobileResize: true }); }
+  if (MOBILE) document.documentElement.classList.add('is-mobile');
   const store = {
     get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
@@ -388,7 +390,8 @@
       const p = seqPlayer(sc); const steps = $$('.scene__steps span', sc);
       const set = pr => { p.draw(Math.min(p.N - 1, Math.round(pr * (p.N - 1)))); steps.forEach((s, i) => s.classList.toggle('on', pr >= i / steps.length - .02)); };
       if (!hasGsap || reduce) { set(1); return; }
-      ScrollTrigger.create({ trigger: sc, start: 'center center', end: '+=110%', pin: true, scrub: true, anticipatePin: 1, onUpdate: s => set(s.progress) });
+      if (MOBILE) ScrollTrigger.create({ trigger: sc, start: 'top 85%', end: 'bottom 35%', scrub: true, onUpdate: s => set(s.progress) });
+      else ScrollTrigger.create({ trigger: sc, start: 'center center', end: '+=110%', pin: true, scrub: true, anticipatePin: 1, onUpdate: s => set(s.progress) });
       set(0);
     });
     if (!hasGsap || reduce) return;
@@ -399,7 +402,7 @@
     $$('.scene[data-scene=shatter]').forEach(sc => {
       const tiles = $$('.shatter i', sc);
       gsap.fromTo(tiles, {
-        x: () => gsap.utils.random(-260, 260), y: () => gsap.utils.random(-200, 200), rotation: () => gsap.utils.random(-120, 120), scale: () => gsap.utils.random(.2, .8), opacity: 0
+        x: () => gsap.utils.random(-260, 260) * (MOBILE ? .4 : 1), y: () => gsap.utils.random(-200, 200) * (MOBILE ? .4 : 1), rotation: () => gsap.utils.random(-120, 120), scale: () => gsap.utils.random(.2, .8), opacity: 0
       }, { x: 0, y: 0, rotation: 0, scale: 1.02, opacity: 1, ease: 'power2.out', stagger: { each: .012, from: 'random' }, scrollTrigger: { trigger: sc, start: 'top 85%', end: 'center 45%', scrub: 1 } });
     });
     $$('.scene[data-scene=orbit]').forEach(sc => {
@@ -444,25 +447,30 @@
     const track = $('#storyTrack');
     const rtl = () => document.documentElement.dir === 'rtl';
     const dist = () => track.scrollWidth - innerWidth;
+    const alpha = $('#alpha');
+    alpha.innerHTML = '𐤀𐤁𐤂𐤃𐤄𐤅𐤆𐤇𐤈𐤉𐤊𐤋𐤌𐤍𐤎𐤏𐤐𐤑𐤒𐤓𐤔𐤕'.match(/[\s\S]{2}/g).map(g => `<span>${g}</span>`).join('');
+    if (MOBILE) {
+      $$('.panel').forEach(pn => gsap.from(pn.querySelectorAll('.eyebrow, h2, p, .btn, .panel__photo, .panel__stack img'), { y: 40, opacity: 0, stagger: .1, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: pn, start: 'top 75%' } }));
+      gsap.fromTo('#alpha span', { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: .03, scrollTrigger: { trigger: '.story', start: 'top 80%', end: 'top 20%', scrub: 1 } });
+    } else {
     track.style.flexDirection = rtl() ? 'row-reverse' : 'row';
     gsap.fromTo(track, { x: () => (rtl() ? -dist() : 0) }, {
       x: () => (rtl() ? 0 : -dist()), ease: 'none',
       scrollTrigger: { trigger: '.story', pin: '.story__pin', start: 'top top', end: () => '+=' + dist() * 1.1, scrub: 1, invalidateOnRefresh: true, onUpdate: s => gsap.set('#storyBar', { scaleX: s.progress }) }
     });
-    const alpha = $('#alpha');
-    alpha.innerHTML = '𐤀𐤁𐤂𐤃𐤄𐤅𐤆𐤇𐤈𐤉𐤊𐤋𐤌𐤍𐤎𐤏𐤐𐤑𐤒𐤓𐤔𐤕'.match(/[\s\S]{2}/g).map(g => `<span>${g}</span>`).join('');
     gsap.fromTo('#alpha span', { opacity: 0, y: 40, rotate: -20 }, { opacity: 1, y: 0, rotate: 0, stagger: .04, ease: 'power2.out', scrollTrigger: { trigger: '.story', start: 'top 70%', end: 'top top', scrub: 1 } });
     gsap.from('.panel--intro h2, .panel--intro p', { y: 50, opacity: 0, stagger: .12, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.story', start: 'top 60%' } });
     gsap.fromTo('.panel__photo img', { scale: 1.35 }, { scale: 1.05, ease: 'none', scrollTrigger: { trigger: '.story', start: 'top top', end: () => '+=' + dist(), scrub: true } });
     gsap.from('.panel__stack img', { scale: 0, rotate: -30, stagger: .1, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.story', start: () => 'top+=' + dist() * .7 + ' top', toggleActions: 'play none none reverse' } });
+    }
 
     // signature tiles
     const box = $('#sigTiles'); const src = box.dataset.src; const C = 6;
     box.innerHTML = Array.from({ length: C * C }, (_, k) => { const r = Math.floor(k / C), c = k % C; return `<i style="background-image:url(${src});background-position:${c / (C - 1) * 100}% ${r / (C - 1) * 100}%"></i>`; }).join('');
     const tiles = $$('#sigTiles i');
-    const sigTl = gsap.timeline({ scrollTrigger: { trigger: '.sig', start: 'top top', end: '+=120%', pin: '.sig__pin', scrub: 1, anticipatePin: 1 } });
+    const sigTl = gsap.timeline({ scrollTrigger: MOBILE ? { trigger: '.sig__art', start: 'top 90%', end: 'bottom 55%', scrub: 1 } : { trigger: '.sig', start: 'top top', end: '+=120%', pin: '.sig__pin', scrub: 1, anticipatePin: 1 } });
     sigTl.fromTo(tiles, {
-      x: () => gsap.utils.random(-400, 400), y: () => gsap.utils.random(-300, 300), z: 0, rotationZ: () => gsap.utils.random(-180, 180), scale: () => gsap.utils.random(.1, .6), opacity: 0
+      x: () => gsap.utils.random(-400, 400) * (MOBILE ? .4 : 1), y: () => gsap.utils.random(-300, 300) * (MOBILE ? .4 : 1), z: 0, rotationZ: () => gsap.utils.random(-180, 180), scale: () => gsap.utils.random(.1, .6), opacity: 0
     }, { x: 0, y: 0, rotationZ: 0, scale: 1.02, opacity: 1, ease: 'power3.out', stagger: { each: .015, from: 'edges' }, duration: 1 })
       .fromTo(box, { clipPath: 'circle(160% at 50% 50%)' }, { clipPath: 'circle(50% at 50% 50%)', ease: 'power2.inOut', duration: .35 }, .75)
       .from('#sigParts li', { y: 20, opacity: 0, stagger: .12, duration: .4 }, .3)
@@ -518,7 +526,7 @@
     $('#langBtn').addEventListener('click', () => {
       lang = lang === 'en' ? 'ar' : 'en'; store.set('jb_lang', lang);
       applyLang(); rerenderMenuText(); renderCart();
-      const track = $('#storyTrack'); track.style.flexDirection = lang === 'ar' ? 'row-reverse' : 'row';
+      const track = $('#storyTrack'); if (!MOBILE) track.style.flexDirection = lang === 'ar' ? 'row-reverse' : 'row';
       if (hasGsap) ScrollTrigger.refresh();
     });
     $('#waLink').href = `https://wa.me/${CONFIG.whatsapp}`;
@@ -550,7 +558,7 @@
   renderCart();
   initReserve();
   initEvents();
-  if (hasGsap && window.Lenis && !reduce) {
+  if (hasGsap && window.Lenis && !reduce && !MOBILE) {
     lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(tm => lenis.raf(tm * 1000));
