@@ -1,242 +1,286 @@
-import * as THREE from 'three';
-import { createWorld, SPOTS, C } from './world.js?v=2';
-import { STEPS, T, WA, EMAIL } from './content.js?v=2';
+import { createScene } from './scene.js?v=10';
+import { CHAPTERS, T, WA, EMAIL } from './content.js?v=10';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-const lerp = (a, b, t) => a + (b - a) * t;
-const smooth = (t) => t * t * (3 - 2 * t);
 
 let lang = 'ar';
-try { const saved = localStorage.getItem('planet3d-lang'); if (saved === 'en' || saved === 'ar') lang = saved; } catch (e) {}
+try { const s = localStorage.getItem('planet3d-lang'); if (s === 'ar' || s === 'en') lang = s; } catch (e) {}
 if (new URLSearchParams(location.search).get('lang') === 'en') lang = 'en';
+const L = () => T[lang];
+const mobile = matchMedia('(max-width: 860px), (pointer: coarse)').matches;
 
-// ---------- Static text ----------
-const ICONS = {
-  hq: '<path d="M7 20V4h6a5 5 0 0 1 0 10H7"/><circle cx="17.5" cy="18.5" r="2" fill="currentColor" stroke="none"/>',
-  web: '<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M2 20h20M3 8h18"/>',
-  ads: '<path d="M4 10v4h3l7 4V6L7 10H4z"/><path d="M17.5 8.5a5 5 0 0 1 0 7M20 6a8.5 8.5 0 0 1 0 12"/>',
-  content: '<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>',
-  brand: '<path d="M14.5 4.5l5 5L9 20H4v-5z"/><path d="M12.5 6.5l5 5"/>',
-  launch: '<path d="M12 2c3 2.5 4.5 6 4.5 10l-2 4h-5l-2-4C7.5 8 9 4.5 12 2z"/><circle cx="12" cy="10" r="1.6"/><path d="M9.5 16l-2.5 4M14.5 16l2.5 4M12 17v4"/>',
-  data: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+// ---------- text scramble ----------
+const GLYPH = { ar: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي', en: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' };
+const NUMS = '0123456789/#*+=';
+const running = new WeakMap();
+function scramble(el, text, dur = 700) {
+  if (!el) return;
+  const prev = running.get(el); if (prev) cancelAnimationFrame(prev);
+  const pool = (/[؀-ۿ]/.test(text) ? GLYPH.ar : GLYPH.en) + NUMS;
+  const start = performance.now();
+  const step = (now) => {
+    const k = clamp((now - start) / dur);
+    let out = '';
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (ch === ' ' || ch === '\n') { out += ch; continue; }
+      out += i / text.length < k ? ch : pool[(Math.random() * pool.length) | 0];
+    }
+    el.textContent = out;
+    if (k < 1) running.set(el, requestAnimationFrame(step)); else running.delete(el);
+  };
+  running.set(el, requestAnimationFrame(step));
+}
+
+// ---------- ambient sound, generated in the browser ----------
+const sound = {
+  ctx: null, on: false, master: null,
+  start() {
+    if (!this.ctx) {
+      const C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+      const ctx = (this.ctx = new C());
+      this.master = ctx.createGain(); this.master.gain.value = 0; this.master.connect(ctx.destination);
+      const buf = ctx.createBuffer(1, ctx.sampleRate * 3, ctx.sampleRate);
+      const d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      const noise = ctx.createBufferSource(); noise.buffer = buf; noise.loop = true;
+      const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 500; bp.Q.value = 0.7;
+      const lfo = ctx.createOscillator(); lfo.frequency.value = 0.07; const lg = ctx.createGain(); lg.gain.value = 320; lfo.connect(lg); lg.connect(bp.frequency);
+      const wg = ctx.createGain(); wg.gain.value = 0.16;
+      noise.connect(bp); bp.connect(wg); wg.connect(this.master); noise.start(); lfo.start();
+      const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900; lp.connect(this.master);
+      [110, 164.8, 220.5, 329.6].forEach((f, i) => { const o = ctx.createOscillator(); o.type = i % 2 ? 'triangle' : 'sine'; o.frequency.value = f; o.detune.value = (i - 1.5) * 6; const g = ctx.createGain(); g.gain.value = 0.035; o.connect(g); g.connect(lp); o.start(); });
+    }
+    this.ctx.resume(); this.on = true;
+    this.master.gain.setTargetAtTime(0.6, this.ctx.currentTime, 0.8);
+  },
+  stop() { if (!this.ctx) return; this.on = false; this.master.gain.setTargetAtTime(0, this.ctx.currentTime, 0.3); },
+  blip(freq = 880, len = 0.08, vol = 0.05) {
+    if (!this.on) return; const ctx = this.ctx;
+    const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(freq, ctx.currentTime); o.frequency.exponentialRampToValueAtTime(freq * 1.5, ctx.currentTime + len);
+    g.gain.setValueAtTime(vol, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + len); o.connect(g); g.connect(this.master); o.start(); o.stop(ctx.currentTime + len + 0.02);
+  },
+  whoosh() {
+    if (!this.on) return; const ctx = this.ctx;
+    const buf = ctx.createBuffer(1, ctx.sampleRate * 0.8, ctx.sampleRate); const d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
+    const s = ctx.createBufferSource(); s.buffer = buf; const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.setValueAtTime(300, ctx.currentTime); f.frequency.exponentialRampToValueAtTime(3000, ctx.currentTime + 0.6);
+    const g = ctx.createGain(); g.gain.value = 0.25; s.connect(f); f.connect(g); g.connect(this.master); s.start();
+  },
 };
-const svg = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg>`;
 
+// ---------- scroll layout ----------
+let starts = [], total = 0;
+function computeTrack() {
+  starts = []; total = 0;
+  CHAPTERS.forEach((c) => { starts.push(total); total += c.len; });
+  $('#track').style.height = `${(total + 1) * 100}vh`;
+}
+function chapterAt(s) { for (let i = CHAPTERS.length - 1; i >= 0; i--) if (s >= starts[i]) return i; return 0; }
+function goChapter(i) { window.scrollTo({ top: (starts[i] + (i ? 0.3 : 0)) * innerHeight, behavior: 'smooth' }); }
+
+// ---------- text ----------
+let lastPanel = '';
 function applyText() {
-  const t = T[lang];
-  document.documentElement.lang = lang;
-  document.documentElement.dir = t.dir;
-  document.title = t.title;
+  const t = L();
+  document.documentElement.lang = lang; document.documentElement.dir = t.dir; document.title = t.title;
   $$('[data-t]').forEach((el) => {
     const v = el.dataset.t.split('.').reduce((o, k) => (o ? o[k] : undefined), t);
     if (typeof v === 'string') el.textContent = v;
   });
-  $('#pkg-items').innerHTML = t.pkg.items.map((i) => `<li><span class="tick"></span>${i}</li>`).join('');
-  $('#dock').innerHTML = STEPS.slice(1, 8).map((s, i) => `<button data-go="${i + 1}" aria-label="${t.dock[s.id]}">${svg(s.id)}<span>${t.dock[s.id]}</span></button>`).join('') + '<i class="dock-bar"><b></b></i>';
-  $('#hotspots').innerHTML = STEPS.slice(1, 8).map((s, i) => `<button class="hs" data-go="${i + 1}" data-spot="${s.spot}"><i>+</i><span>${t.dock[s.id]}</span></button>`).join('');
-  $$('[data-go]').forEach((b) => b.addEventListener('click', () => goStep(+b.dataset.go)));
-  $$('.wa-link').forEach((a) => (a.href = WA + '?text=' + encodeURIComponent(lang === 'ar' ? 'أهلاً بلانت، عايز أبدأ مشروع' : 'Hi Planet, I would like to start a project')));
-  $$('.mail-link').forEach((a) => (a.href = 'mailto:' + EMAIL));
-  lastCard = -1;
-  if (world) world.paintScreens(lang);
+  $('#hero-h').innerHTML = t.hero.h.split('\n').map((l) => `<span>${l}</span>`).join('');
+  $('#sound span').textContent = t.sound[sound.on ? 1 : 0];
+  $('#chapters').innerHTML = CHAPTERS.map((c, i) => `<button data-ch="${i}"><i>0${i}</i><span>${t.chapters[c.id]}</span></button>`).join('');
+  $$('#chapters button').forEach((b) => b.addEventListener('click', () => goChapter(+b.dataset.ch)));
+  $('#menu-links').innerHTML = CHAPTERS.map((c, i) => `<a href="#" data-ch="${i}"><i>0${i}</i><span>${t.chapters[c.id]}</span></a>`).join('');
+  $$('#menu-links a').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); toggleMenu(false); goChapter(+a.dataset.ch); }));
+  $('#faq').innerHTML = t.faq.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join('');
+  $('#manifesto').innerHTML = t.manifesto.map((l) => `<p><span>${l}</span></p>`).join('');
+  const c = t.contact;
+  $('#inc').innerHTML = c.inc.map((x) => `<li>${x}</li>`).join('');
+  const waText = encodeURIComponent(lang === 'ar' ? 'أهلاً بلانت، عايز أبدأ مشروع' : 'Hi Planet, I would like to start a project');
+  $('#links').innerHTML = [[c.links[0], `${WA}?text=${waText}`], [c.links[1], `mailto:${EMAIL}`], [c.links[2], 'https://web.theplanetco.com/']]
+    .map(([n, h]) => `<a href="${h}" ${h.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}><b>[</b><span data-hover>${n}</span><b>]</b></a>`).join('');
+  $$('.wa-link').forEach((a) => (a.href = `${WA}?text=${waText}`));
+  $$('.mail-link').forEach((a) => (a.href = `mailto:${EMAIL}`));
+  lastPanel = '';
 }
 
-// ---------- Card ----------
-let lastCard = -1;
-function renderCard(i) {
-  if (i === lastCard) return;
-  lastCard = i;
-  const t = T[lang], s = T[lang].steps[STEPS[i].id];
-  const card = $('#card');
-  card.classList.remove('in');
-  void card.offsetWidth;
-  card.innerHTML = `
-    <div class="card-head"><span class="tag">${s.tag}</span>${s.li.length ? `<button class="more" aria-label="details" aria-expanded="false"><i></i></button>` : ''}</div>
-    <h2>${s.h}</h2>
-    <p>${s.p}</p>
-    ${s.li.length ? `<ul>${s.li.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
-    <div class="card-actions">
-      <a class="btn btn-primary wa-link" target="_blank" rel="noopener" href="${WA}">${t.cta1}</a>
-      ${STEPS[i].id === 'launch' ? `<button class="btn btn-ghost" id="launch-btn">${t.launchBtn}</button>` : i < 8 ? `<button class="btn btn-ghost" data-next>${t.cta2}</button>` : `<a class="btn btn-ghost" href="#package">${t.pkg.kicker}</a>`}
-    </div>`;
-  card.classList.add('in');
-  card.classList.remove('open');
-  $('.more', card)?.addEventListener('click', (ev) => { const o = card.classList.toggle('open'); ev.currentTarget.setAttribute('aria-expanded', o); });
-  $('[data-next]', card)?.addEventListener('click', () => goStep(i + 1));
-  $('#launch-btn', card)?.addEventListener('click', () => world.launchRocket(clock.elapsedTime, true));
+function showPanel(kind, i) {
+  const key = kind + i + lang;
+  if (key === lastPanel) return;
+  lastPanel = key;
+  const t = L();
+  const p = $('#panel');
+  p.classList.remove('in'); void p.offsetWidth; p.classList.add('in');
+  let tags;
+  if (kind === 'services') {
+    const s = t.services[i];
+    p.innerHTML = `<div class="p-meta"><span class="mono">0${i + 1} / 0${t.services.length}</span><span class="mono">${s.code}</span></div>
+      <h2 data-s="${s.name}">${s.name}</h2><p class="lead">${s.line}</p>
+      <ul>${s.items.map((x, k) => `<li><i class="mono">${String(k + 1).padStart(2, '0')}</i><span>${x}</span></li>`).join('')}</ul>
+      <a class="bracket wa-link" target="_blank" rel="noopener" href="${WA}"><b>[</b><span>${lang === 'ar' ? 'اطلب الخدمة' : 'Ask for this'}</span><b>]</b></a>`;
+    tags = [s.code + '.SYS', 'PLANET // 0' + (i + 1), (lang === 'ar' ? 'خدمة ' : 'SERVICE ') + '0' + (i + 1)];
+  } else {
+    const w = t.works[i];
+    p.innerHTML = `<div class="p-meta"><span class="mono">${w.code}</span><span class="mono">0${i + 1} / 03</span></div>
+      <h2 data-s="${w.name}">${w.name}</h2><p class="type">${w.type}</p><p class="lead">${w.line}</p>
+      <a class="bracket" target="_blank" rel="noopener" href="${w.url}"><b>[</b><span>${t.open}</span><b>]</b></a>`;
+    tags = [w.code, w.url.replace('https://', '').replace(/\/$/, ''), 'LIVE ●'];
+  }
+  if (kind === 'services') $$('.wa-link', p).forEach((a) => (a.href = $('.wa-link').href));
+  $$('.tag-float').forEach((el, k) => scramble(el, tags[k] || '', 900));
+  scramble($('h2', p), $('h2', p).dataset.s, 650);
+  sound.blip(660, 0.09, 0.04);
 }
 
-function goStep(i) {
-  const tour = $('#tour');
-  window.scrollTo({ top: tour.offsetTop + i * innerHeight, behavior: 'smooth' });
+function toggleMenu(open) {
+  const m = $('#menu');
+  const o = open ?? !m.classList.contains('open');
+  m.classList.toggle('open', o);
+  document.body.classList.toggle('menu-open', o);
+  $('#menu-btn span').textContent = o ? L().close : L().menu;
+  sound.blip(o ? 520 : 400, 0.1, 0.04);
 }
 
-// ---------- Three.js ----------
-let world, renderer, camera, clock;
-const canvas = $('#gl');
-function webglOK() { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } }
-
-const DARK = new THREE.Color(0x060a1a), LIGHT = new THREE.Color(0xeef4f2);
-const bg = new THREE.Color();
-const DIR = new THREE.Vector3(1, 1.02, 1).normalize();
-let baseH = 120;
-const mouse = { x: 0, y: 0, sx: 0, sy: 0 };
-let isMobile = false;
-
-// zoom factor for each step (1 = whole island)
-function stepFrame(i) {
-  const id = STEPS[i].id;
-  const spot = SPOTS[STEPS[i].spot];
-  if (id === 'intro') return { pos: new THREE.Vector3(0, isMobile ? 46 : 40, 0), zoom: isMobile ? 0.62 : 0.5, dark: 1, shift: 0 };
-  if (id === 'outro') return { pos: new THREE.Vector3(0, -4, 0), zoom: isMobile ? 0.8 : 0.72, dark: 1, shift: 0.55 };
-  const z = id === 'hq' ? (isMobile ? 3.4 : 2.2) : (isMobile ? 4.0 : 2.75);
-  return { pos: new THREE.Vector3(spot.x, spot.y + (id === 'hq' ? 4 : 3), spot.z), zoom: z, dark: 0, shift: 1 };
-}
-
-function resize() {
-  const w = innerWidth, h = innerHeight;
-  isMobile = w < 860;
-  renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.6 : 2));
-  renderer.setSize(w, h, false);
-  const aspect = w / h;
-  baseH = Math.max(118, 150 / aspect);
-  camera.left = (-baseH * aspect) / 2; camera.right = (baseH * aspect) / 2;
-  camera.top = baseH / 2; camera.bottom = -baseH / 2;
-  camera.updateProjectionMatrix();
-}
-
-let pSmooth = 0;
-const tmpV = new THREE.Vector3(), right = new THREE.Vector3(), up = new THREE.Vector3();
-let glow;
-
-function frame() {
-  const dt = Math.min(0.05, clock.getDelta());
-  const t = clock.elapsedTime;
-  const tour = $('#tour');
-  const vh = innerHeight;
-  const raw = (scrollY - tour.offsetTop) / vh;
-  const pTarget = clamp(raw, 0, STEPS.length - 1);
-  pSmooth += (pTarget - pSmooth) * Math.min(1, dt * 3.2);
-  const p = pSmooth;
-
-  const i = Math.min(STEPS.length - 2, Math.floor(p));
-  const f = p - i;
-  const e = smooth(clamp((f - 0.12) / 0.76));
-  const A = stepFrame(i), B = stepFrame(i + 1);
-  const pos = A.pos.clone().lerp(B.pos, e);
-  let zoom = Math.exp(lerp(Math.log(A.zoom), Math.log(B.zoom), e));
-  if (A.zoom > 1.5 && B.zoom > 1.5) zoom *= 1 - 0.38 * Math.sin(Math.PI * e); // pull back while flying between districts
-  const dark = lerp(A.dark, B.dark, smooth(clamp((f - 0.05) / 0.9)));
-  const shift = lerp(A.shift, B.shift, e);
-
-  // camera direction: slow drift in the dark intro, mouse parallax everywhere
-  mouse.sx += (mouse.x - mouse.sx) * 0.05; mouse.sy += (mouse.y - mouse.sy) * 0.05;
-  const az = Math.sin(t * 0.12) * 0.7 * dark + mouse.sx * 0.08;
-  const dir = DIR.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), az);
-  dir.y += mouse.sy * 0.06; dir.normalize();
-  // after the tour: drift the planet back and dim it so the text panels read clearly
-  const post = clamp((raw - (STEPS.length - 1)) / 1.2);
-  zoom *= 1 - 0.35 * smooth(post);
-  $('#veil').style.opacity = smooth(post).toFixed(3);
-  camera.zoom = zoom;
-  camera.position.copy(pos).addScaledVector(dir, 220);
-  camera.lookAt(pos);
-  camera.updateMatrixWorld();
-  right.setFromMatrixColumn(camera.matrixWorld, 0);
-  up.setFromMatrixColumn(camera.matrixWorld, 1);
-  const visW = (camera.right - camera.left) / zoom, visH = (camera.top - camera.bottom) / zoom;
-  const rtl = T[lang].dir === 'rtl';
-  if (isMobile) camera.position.addScaledVector(up, -visH * 0.12 * shift);
-  else camera.position.addScaledVector(right, (rtl ? 1 : -1) * visW * 0.19 * shift);
-  camera.updateProjectionMatrix();
-
-  // colours and light
-  bg.copy(LIGHT).lerp(DARK, dark);
-  renderer.setClearColor(bg, 1);
-  world.stars.material.opacity = dark;
-  world.stars.visible = dark > 0.01;
-  world.hemi.intensity = lerp(1.45, 1.0, dark);
-  glow.material.opacity = 0.75 * dark;
-  glow.position.copy(pos).addScaledVector(dir, -160);
-  document.body.style.setProperty('--dark', dark.toFixed(3));
-  document.body.classList.toggle('is-dark', dark > 0.5);
-
-  world.update(t);
-  // the rocket fires by itself when you arrive at the launch pad
-  const active = Math.round(p);
-  if (STEPS[active].id === 'launch' && Math.abs(p - active) < 0.15) world.launchRocket(t);
-
-  renderer.render(world.scene, camera);
-
-  // ---------- UI sync ----------
-  const intro = $('#intro');
-  intro.style.opacity = clamp(1 - p * 2.2);
-  intro.style.transform = `translateY(${-p * 80}px) scale(${1 + p * 0.12})`;
-  intro.style.visibility = p > 0.5 ? 'hidden' : 'visible';
-
-  const after = raw > STEPS.length - 1 + 0.35;
-  const showCard = p > 0.55 && !after;
-  $('#card').classList.toggle('show', showCard);
-  if (showCard) renderCard(clamp(Math.round(p), 1, 8));
-  $('#dock').classList.toggle('show', p > 0.55 && !after);
-  const bar = $('.dock-bar b');
-  if (bar) bar.style.transform = `scaleX(${clamp((p - 1) / 6)})`;
-  $$('#dock button').forEach((b) => b.classList.toggle('on', +b.dataset.go === Math.round(p)));
-
-  // hotspots
-  const hsOn = dark < 0.3 && !after;
-  $$('#hotspots .hs').forEach((b) => {
-    const s = SPOTS[b.dataset.spot];
-    tmpV.set(s.x, s.y + 11, s.z).project(camera);
-    const x = (tmpV.x * 0.5 + 0.5) * innerWidth, y = (-tmpV.y * 0.5 + 0.5) * innerHeight;
-    const onScreen = x > 20 && x < innerWidth - 20 && y > 70 && y < innerHeight - 90;
-    const isCur = +b.dataset.go === Math.round(p);
-    b.style.transform = `translate(${x}px, ${y}px)`;
-    b.classList.toggle('show', hsOn && onScreen);
-    b.classList.toggle('cur', isCur);
-  });
-  $('#scroll-hint').classList.toggle('hide', p > 0.15);
-  requestAnimationFrame(frame);
-}
-
+// ---------- boot ----------
 async function boot() {
-  const bar = $('#loader .lbar b'), pct = $('#loader .lpct');
-  let shown = 0;
-  const tick = (to) => { shown = to; bar.style.transform = `scaleX(${to / 100})`; pct.textContent = Math.round(to); };
+  computeTrack();
   applyText();
-  tick(10);
-  if (!webglOK()) { document.body.classList.add('no-gl'); $('#loader').classList.add('done'); return; }
-  try { await Promise.race([document.fonts.load('800 40px Alexandria'), new Promise((r) => setTimeout(r, 2500))]); await document.fonts.ready; } catch (e) {}
-  tick(35);
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 1000);
-  clock = new THREE.Clock();
-  await new Promise((r) => setTimeout(r, 30));
-  world = createWorld();
-  tick(75);
-  world.paintScreens(lang);
-  // soft mint halo behind the planet for the dark scenes
-  const gtex = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'); const g = x.createRadialGradient(128, 128, 0, 128, 128, 128); g.addColorStop(0, 'rgba(146,197,180,0.55)'); g.addColorStop(0.45, 'rgba(146,197,180,0.16)'); g.addColorStop(1, 'rgba(146,197,180,0)'); x.fillStyle = g; x.fillRect(0, 0, 256, 256); const tx = new THREE.CanvasTexture(c); tx.colorSpace = THREE.SRGBColorSpace; return tx; })();
-  glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: gtex, transparent: true, depthWrite: false }));
-  glow.scale.setScalar(300); world.scene.add(glow);
-  resize();
-  addEventListener('resize', resize);
-  addEventListener('pointermove', (ev) => { mouse.x = ev.clientX / innerWidth - 0.5; mouse.y = ev.clientY / innerHeight - 0.5; });
-  renderer.compile(world.scene, camera);
-  tick(100);
-  requestAnimationFrame(frame);
-  setTimeout(() => $('#loader').classList.add('done'), 350);
+  const canvas = $('#gl');
+  let ok = true;
+  try { ok = !!document.createElement('canvas').getContext('webgl2'); } catch (e) { ok = false; }
+  if (!ok) { document.body.classList.add('no-gl'); $('#loader').classList.add('done'); return; }
+
+  const loaderTxt = $('#loader .l-txt'), lpct = $('#loader .l-pct');
+  let fake = 0;
+  const li = setInterval(() => { fake = Math.min(94, fake + Math.random() * 9); lpct.textContent = String(Math.round(fake)).padStart(3, '0'); scramble(loaderTxt, L().loading, 400); }, 260);
+
+  try { await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 2500))]); } catch (e) {}
+  const S = createScene(canvas, { mobile });
+  L().works.forEach((w, i) => S.addWorkBlock(i, w.img));
+  const resize = () => S.resize(innerWidth, innerHeight);
+  resize(); addEventListener('resize', resize);
+  await new Promise((r) => setTimeout(r, 50));
+  try { S.compile(); } catch (e) {}
+
+  const st = { chapter: 0, local: 0, glitch: 0, mx: 0, my: 0, pointer: null, w: innerWidth, h: innerHeight, side: 0 };
+  const mouse = { x: 0, y: 0, on: false };
+  const cursor = $('#cursor');
+  addEventListener('pointermove', (e) => {
+    mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true;
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+  document.addEventListener('mouseleave', () => (mouse.on = false));
+  addEventListener('pointerdown', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true; });
+
+  let sSmooth = scrollY / innerHeight, lastCh = -1, lastMani = -1, hoverWork = -1, wasHover = false;
+  const hudSvg = $('#hud-lines'), hudNums = $('#hud-nums');
+  canvas.addEventListener('click', () => {
+    if (st.chapter === 2 && hoverWork >= 0) { sound.blip(990, 0.12, 0.05); window.open(L().works[hoverWork].url, '_blank', 'noopener'); }
+  });
+
+  let lastT = performance.now();
+  function loop() {
+    const now = performance.now(), dt = Math.min(0.1, (now - lastT) / 1000); lastT = now;
+    st.w = innerWidth; st.h = innerHeight;
+    const target = scrollY / innerHeight;
+    sSmooth += (target - sSmooth) * (1 - Math.exp(-dt * 5.5));
+    if (Math.abs(target - sSmooth) < 0.0005) sSmooth = target;
+    const s = clamp(sSmooth, 0, total - 0.0001);
+    const ch = chapterAt(s);
+    const local = clamp((s - starts[ch]) / CHAPTERS[ch].len);
+    let g = 0;
+    for (let i = 1; i < starts.length; i++) g = Math.max(g, 1 - Math.abs(s - starts[i]) / 0.32);
+    g = Math.pow(clamp(g), 1.5);
+    st.chapter = ch; st.local = local; st.glitch = g;
+    const km = 1 - Math.exp(-dt * 3.5);
+    st.mx += ((mouse.on ? mouse.x / st.w - 0.5 : 0) - st.mx) * km;
+    st.my += ((mouse.on ? mouse.y / st.h - 0.5 : 0) - st.my) * km;
+    st.pointer = mouse.on && !document.body.classList.contains('menu-open') ? { x: (mouse.x / st.w) * 2 - 1, y: -(mouse.y / st.h) * 2 + 1 } : null;
+    st.side = innerWidth < 860 ? 0 : L().dir === 'rtl' ? -1 : 1;
+
+    const hud = S.frame(st);
+
+    if (ch !== lastCh) {
+      lastCh = ch;
+      document.body.dataset.ch = CHAPTERS[ch].id;
+      $$('#chapters button').forEach((b, i) => b.classList.toggle('on', i === ch));
+      sound.whoosh();
+      if (CHAPTERS[ch].id === 'contact') scramble($('#contact-h'), L().contact.h, 900);
+    }
+
+    let svg = '';
+    if (ch === 0 && hud.labels.length && g < 0.3) {
+      const pts = hud.labels;
+      hudNums.innerHTML = pts.map((p) => `<span style="transform:translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)">${p.id}</span>`).join('');
+      for (let i = 1; i < pts.length; i++) svg += `<line x1="${pts[i - 1].x}" y1="${pts[i - 1].y}" x2="${pts[i].x}" y2="${pts[i].y}"/>`;
+      pts.forEach((p) => (svg += `<circle cx="${p.x}" cy="${p.y}" r="2.4"/>`));
+    } else hudNums.innerHTML = '';
+
+    const panelOn = (ch === 1 || ch === 2) && g < 0.45;
+    $('#panel').classList.toggle('show', panelOn);
+    $('#tags').classList.toggle('show', panelOn);
+    if (ch === 1) showPanel('services', Math.round(local * 4));
+    if (ch === 2) showPanel('works', Math.round(local * 2));
+    if (panelOn && hud.anchors) {
+      const tags = $$('.tag-float');
+      const dir = L().dir === 'rtl' ? 1 : -1;
+      hud.anchors.forEach((a, i) => {
+        const tg = tags[i]; if (!tg) return;
+        const ox = (i === 0 ? 60 : i === 1 ? 110 : -120) * dir * (mobile ? 0.5 : 1), oy = i === 0 ? -36 : i === 1 ? 24 : 40;
+        tg.style.transform = `translate(${(a.x + ox).toFixed(1)}px, ${(a.y + oy).toFixed(1)}px)`;
+        svg += `<polyline points="${a.x},${a.y} ${a.x + ox * 0.45},${a.y + oy} ${a.x + ox},${a.y + oy}"/><circle cx="${a.x}" cy="${a.y}" r="2.6"/>`;
+      });
+    }
+    hudSvg.innerHTML = svg;
+
+    hoverWork = hud.hoverWork;
+    if (hud.hovered !== wasHover) { wasHover = hud.hovered; if (wasHover) sound.blip(1200, 0.05, 0.03); }
+    cursor.classList.toggle('big', hud.hovered);
+    cursor.dataset.label = ch === 2 && hud.hovered ? L().open : '';
+    canvas.style.cursor = ch === 2 && hud.hovered ? 'pointer' : '';
+
+    if (ch === 3) {
+      const n = Math.floor(clamp((local - 0.1) / 0.6) * L().manifesto.length + 0.0001);
+      if (n !== lastMani) {
+        $$('#manifesto p').forEach((p, i) => {
+          const on = i < n, was = p.classList.contains('on');
+          p.classList.toggle('on', on);
+          if (on && !was) { scramble($('span', p), L().manifesto[i], 800); sound.blip(440 + i * 110, 0.12, 0.04); }
+        });
+        lastMani = n;
+      }
+    } else if (lastMani !== -1) { lastMani = -1; $$('#manifesto p').forEach((p) => p.classList.remove('on')); }
+
+    document.body.style.setProperty('--hero', (ch === 0 ? 1 - clamp(local * 2.2) : 0).toFixed(3));
+    $('#scroll-hint').classList.toggle('hide', s > 0.12);
+    $('#progress b').style.transform = `scaleY(${(s / total).toFixed(4)})`;
+    requestAnimationFrame(loop);
+  }
+
+  clearInterval(li); lpct.textContent = '100';
+  requestAnimationFrame(loop);
+  setTimeout(() => { $('#loader').classList.add('done'); document.body.classList.add('ready'); scramble($('#mission'), L().mission, 1400); }, 450);
 }
 
+// ---------- controls ----------
 $('#lang').addEventListener('click', () => {
   lang = lang === 'ar' ? 'en' : 'ar';
   try { localStorage.setItem('planet3d-lang', lang); } catch (e) {}
   applyText();
+  scramble($('#mission'), L().mission, 900);
+});
+$('#sound').addEventListener('click', () => {
+  if (sound.on) sound.stop(); else sound.start();
+  $('#sound span').textContent = L().sound[sound.on ? 1 : 0];
+  $('#sound').classList.toggle('on', sound.on);
+});
+$('#menu-btn').addEventListener('click', () => toggleMenu());
+addEventListener('keydown', (e) => { if (e.key === 'Escape') toggleMenu(false); });
+document.addEventListener('pointerover', (e) => {
+  const el = e.target.closest('[data-hover]');
+  if (el && !el._busy) { el._busy = true; scramble(el, el.textContent, 380); setTimeout(() => (el._busy = false), 420); sound.blip(1500, 0.03, 0.02); }
 });
 
 boot();
