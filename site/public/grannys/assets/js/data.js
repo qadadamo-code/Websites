@@ -1,97 +1,88 @@
 /* Granny's Secrets — menu & settings.
-   PRICES, PHONE AND DELIVERY FEE ARE PLACEHOLDERS: confirm with the client before launch. */
+   Dish names and descriptions come from the client's menu (Grannys Secrets Menu All Items).
+   PRICES, PHONE, HOURS AND DELIVERY FEE ARE PLACEHOLDERS: confirm with the client before launch. */
 window.GS_CONFIG = {
   whatsapp: '201203101104',          // TEMP (Planet). Replace with the kitchen's WhatsApp number.
   phone: '+20 120 310 1104',
   deliveryFee: 30,                   // EGP, placeholder
   freeDeliveryOver: 1000,            // EGP, placeholder
-  hours: { ar: 'يوميًا من 12 الظهر لـ 11 بالليل', en: 'Daily, 12 pm to 11 pm' },
   hoursNum: { ar: 'يوميًا 12 ظهرًا – 11 مساءً', en: 'Daily 12 pm – 11 pm' },
   area: { ar: 'توصيل داخل القاهرة والجيزة', en: 'Delivery across Cairo & Giza' },
   instagram: '#', facebook: '#', tiktok: '#'
 };
 
+/* Where each recipe comes from. "who" ties it to Sanaa's own story (brand story PDF). */
+window.GS_ORIGINS = {
+  eg: { ar: 'مصر', en: 'Egypt', whoAr: 'من أمها وجدتها اتعلمت أصول المطبخ المصري، وفي أسوان عرفت سر حفظ الأكل بمكونات طبيعية زي الفراعنة.', whoEn: 'Her mother and grandmother taught her the Egyptian ways, and in Aswan she learned how the Pharaohs kept food with natural ingredients.' },
+  it: { ar: 'إيطاليا', en: 'Italy', whoAr: 'خدت دبلومة في مكونات الأكل والوصفات من الكوليدج الفرنسيسكاني في أسوان، أشهر مدرسة إيطالي في مصر.', whoEn: 'She earned a diploma in food ingredients and recipes from the College Franciscan in Aswan, the most famous Italian school in Egypt.' },
+  in: { ar: 'الهند', en: 'India', whoAr: 'البهارات والكاري والبرياني اتعلمتهم من شيف العيلة الهندي في فيلا والدها.', whoEn: 'Spices, curries and biryani came from the family’s Indian butler at her father’s villa.' },
+  tr: { ar: 'تركيا', en: 'Turkey', whoAr: 'ورق العنب وكفتة داوود باشا من شيف العيلة التركي.', whoEn: 'Vine leaves and Dawood Pasha came from the family’s Turkish chef.' },
+  world: { ar: 'ومن العالم', en: 'And the world', whoAr: 'من مدرسة نوتردام الفرنساوي ومعارف والدها الإنجليز اتعلمت إن كل مطبخ في العالم ليه سر… ولسه بنضيف عليه.', whoEn: 'From her French school and her father’s British friends she learned that every kitchen in the world holds a secret, and we keep adding to it.' }
+};
+
 window.GS_CATS = [
-  { id: 'tagines', ar: 'الطواجن', en: 'Clay Tagines', noteAr: 'الطاجن الفخار بيستنى في الفرن على مهله… والصبر هو أول سر.', noteEn: 'The clay pot waits in the oven, slowly. Patience is the first secret.', no: '01' },
-  { id: 'mahshi', ar: 'المحاشي', en: 'Mahshi', noteAr: 'كل صباع ملفوف بالإيد، رفيع زي القلم… زي ما تيتة علّمتنا.', noteEn: 'Every roll is wrapped by hand, pencil-thin, the way Granny taught us.', no: '02' },
-  { id: 'oven', ar: 'من فرن الجدة', en: "From Granny's Oven", noteAr: 'صواني الجمعة اللي ريحتها بتجمّع العيلة قبل ما تتحط على السفرة.', noteEn: 'The Friday trays whose smell gathers the family before they reach the table.', no: '03' },
-  { id: 'stews', ar: 'طبيخ البيت', en: 'Home Stews', noteAr: 'طبيخ كل يوم بالسمنة البلدي، وبيتقدّم مع رز بالشعرية.', noteEn: 'Everyday stews in real ghee, served with vermicelli rice.', no: '04' },
-  { id: 'sides', ar: 'جنب الطبق', en: 'On the Side', noteAr: 'السفرة ما تكملش من غير الحاجات الصغيرة دي.', noteEn: 'No table is complete without these little things.', no: '05' },
-  { id: 'sweets', ar: 'حلو الجدة', en: "Granny's Sweets", noteAr: 'آخر القعدة… وأحلى ذكرى.', noteEn: 'The end of the meal, and the sweetest memory.', no: '06' },
-  { id: 'frozen', ar: 'جاهز للطبخ', en: 'Ready to Cook', noteAr: 'لفّيناه ليكي… عليكي بس الحلّة والنار.', noteEn: 'We rolled it for you. You only need the pot and the fire.', no: '07' },
-  { id: 'boxes', ar: 'العزومات', en: 'Feast Boxes', noteAr: 'عزومة كاملة توصلك سخنة… وإنتِ تاخدي التعظيم.', noteEn: 'A whole feast arrives hot, and you take the compliments.', no: '08' }
+  { id: 'pasta', ar: 'خط الباستا', en: 'Pasta Meal Line', noteAr: 'مكرونة أل دينتي بصوصات كريمي غنية… من إيطاليا لمطبخ تيتة.', noteEn: 'Al dente pasta in rich, creamy sauces, from Italy to Granny’s kitchen.', no: '01' },
+  { id: 'rice', ar: 'خط الرز', en: 'Rice Meal Line', noteAr: 'رز مصري وبسمتي، وفتة على أصولها، ورز معمّر بطعم زمان.', noteEn: 'Egyptian and basmati rice, proper fatta, and roz meammar the old way.', no: '02' },
+  { id: 'meat', ar: 'لعشاق اللحمة', en: 'Meat Lovers Line', noteAr: 'لحم أنجوس، كبدة بلدي، وسجق بورسعيدي… لمحبي الطعم الجامد.', noteEn: 'Angus beef, baladi liver and Port Said sausage, for bold appetites.', no: '03' },
+  { id: 'meal', ar: 'جهّز وجبتك', en: 'Prepare Your Meal', noteAr: 'خلّي الصعب علينا: البروتين والصوص جاهزين، وإنت اختار الجنب. مناسب للكيتو.', noteEn: 'Leave the hard part to us: protein and sauce ready, you pick the side. Ideal for keto.', no: '04' },
+  { id: 'sandwich', ar: 'جهّز سندوتشك', en: 'Prepare Your Sandwich', noteAr: 'خلّي الحشو علينا… وإنت اختار العيش.', noteEn: 'Leave the filling to us. You choose the bread.', no: '05' }
 ];
 
-/* img = file name in assets/food (webp). serves = persons. */
+/* img = number of the file in assets/food2/dN.webp. o = origin key. Prices are placeholders. */
 window.GS_MENU = [
-  // Tagines
-  { id: 't1', cat: 'tagines', ar: 'طاجن بامية باللحمة الضاني', en: 'Okra & Lamb Tagine', dAr: 'بامية صغيرة ولحمة ضاني بتتسوّى في صلصة طماطم وتقلية توم وكسبرة.', dEn: 'Baby okra and lamb slow-baked in tomato with garlic and coriander.', price: 320, tag: 'best' },
-  { id: 't2', cat: 'tagines', ar: 'طاجن تورلي باللحمة', en: 'Turli Vegetable Tagine', dAr: 'كوسة وبطاطس وجزر وبسلة وفاصوليا خضرا مع لحمة كندوز.', dEn: 'Zucchini, potato, carrot, peas and green beans with beef.', price: 290 },
-  { id: 't3', cat: 'tagines', ar: 'طاجن رز معمّر بالفراخ', en: 'Ruz Me’ammar with Chicken', dAr: 'رز بالقشطة واللبن متسوّي في الفرن، ووشّه دهبي، وفوقه ربع فرخة.', dEn: 'Oven-baked creamy rice with a golden top and a quarter chicken.', price: 260, tag: 'best' },
-  { id: 't4', cat: 'tagines', ar: 'طاجن لسان عصفور باللحمة', en: 'Orzo & Beef Tagine', dAr: 'لسان عصفور محمّر في السمنة مع مكعبات لحمة وصلصة.', dEn: 'Ghee-toasted orzo with beef cubes in tomato sauce.', price: 280 },
-  { id: 't5', cat: 'tagines', ar: 'طاجن كفتة داوود باشا', en: 'Dawood Basha Kofta Tagine', dAr: 'كرات كفتة متبّلة في صلصة طماطم بالبصل والفلفل.', dEn: 'Spiced meatballs baked in a tomato, onion and pepper sauce.', price: 270 },
+  // Pasta Meal Line
+  { id: 'p1', cat: 'pasta', img: 1, o: 'it', tag: 'best', price: 245, ar: 'مكرونة بيستو الريحان بالفراخ المشوية', en: 'Creamy Basil Pesto Pasta with Grilled Chicken & Sun-Dried Tomatoes', dAr: 'مكرونة بصوص بيستو الريحان الكريمي مع قطع الدجاج المشوي والطماطم المجففة، مستوحاة من النكهات الإيطالية الأصيلة.', dEn: 'Al dente pasta tossed in a rich creamy basil pesto sauce with tender grilled chicken and sun-dried tomatoes, inspired by the authentic flavors of Italy.' },
+  { id: 'p2', cat: 'pasta', img: 2, o: 'it', price: 255, ar: 'مكرونة ترافل مشروم بالفراخ المشوية', en: 'Creamy Truffle Mushroom Pasta with Grilled Chicken', dAr: 'مكرونة بصوص الترافل مشروم الكريمي مع قطع الدجاج المشوي وشرائح المشروم الطازج، مستوحاة من النكهات الإيطالية الأصيلة.', dEn: 'Al dente pasta tossed in a rich creamy truffle mushroom sauce with tender grilled chicken and fresh mushrooms, inspired by the authentic flavors of Italy.' },
+  { id: 'p3', cat: 'pasta', img: 3, o: 'it', price: 240, ar: 'مكرونة ألفريدو بالفراخ والمشروم', en: 'Creamy Alfredo Pasta with Grilled Chicken & Mushrooms', dAr: 'مكرونة بصوص الألفريدو الكريمي مع قطع الدجاج المشوي وشرائح المشروم الطازج.', dEn: 'Al dente pasta tossed in a rich creamy Alfredo sauce with tender grilled chicken and fresh mushrooms.' },
+  { id: 'p4', cat: 'pasta', img: 4, o: 'world', price: 240, ar: 'مكرونة كاجون بالفراخ المشوية', en: 'Creamy Cajun Pasta with Grilled Chicken', dAr: 'مكرونة بصوص الكاجون الكريمي الغني بالتوابل، مستوحاة من نكهات مطبخ لويزيانا المميزة.', dEn: 'Al dente pasta tossed in a rich creamy Cajun sauce with tender grilled chicken, inspired by Louisiana cuisine.' },
+  { id: 'p5', cat: 'pasta', img: 5, o: 'it', price: 235, ar: 'مكرونة الليمون والزبدة والثوم بالفراخ', en: 'Lemon Garlic Butter Pasta with Grilled Chicken', dAr: 'مكرونة بصوص الليمون الغني بالزبدة والثوم مع قطع الدجاج المشوي، مستوحاة من النكهات الإيطالية الكلاسيكية.', dEn: 'Al dente pasta tossed in a velvety lemon, garlic and butter sauce with tender grilled chicken.' },
+  { id: 'p6', cat: 'pasta', img: 6, o: 'eg', price: 230, ar: 'مكرونة بولونيز السجق البورسعيدي', en: 'Pasta with Port Said Smoked Sausage Bolognese', dAr: 'مكرونة أل دينتي مع بولونيز السجق البورسعيدي المدخن المفروم، مطهو على نار هادئة في صوص الطماطم الغني بنكهات البحر المتوسط.', dEn: 'Al dente pasta tossed with ground smoked Port Said sausage, slow-cooked in a rich Mediterranean-style tomato sauce.' },
+  { id: 'p7', cat: 'pasta', img: 7, o: 'eg', price: 225, ar: 'كبدة إسكندراني بمكرونة ديتاليني', en: 'Alexandrian Beef Liver with Ditalini Pasta', dAr: 'شرائح الكبدة السكندراني المتبلة تقدم مع مكرونة صغيرة مصنوعة من دقيق السيمولينا الفاخر.', dEn: 'Tender Alexandrian-style beef liver strips served with al dente ditalini made from premium semolina.' },
+  { id: 'p8', cat: 'pasta', img: 8, o: 'world', price: 230, ar: 'تشيز برجر ماكاروني', en: 'Cheeseburger Macaroni | Beefy Mac & Cheese', dAr: 'وجبة تجمع بين اللحم المفروم المتبل الشهي والمكرونة الطرية المغطاة بصلصة جبن الشيدر الغنية والكثيفة.', dEn: 'Savory seasoned beef and tender macaroni smothered in a rich, velvety cheddar cheese sauce.' },
+  { id: 'p9', cat: 'pasta', img: 9, o: 'eg', tag: 'granny', price: 260, ar: 'لسان عصفور بلحم الموزة', en: 'Orzo with Beef Shank', dAr: 'لسان عصفور باللحمة المفرومة المعصجة وقطع لحم الموزة الطرية، محمر بالسمن البلدي على الطريقة المصرية الأصيلة.', dEn: 'Egyptian-style baked orzo with seasoned ground beef and tender pieces of beef shank, finished with authentic Egyptian ghee.' },
+  { id: 'p10', cat: 'pasta', img: 10, o: 'it', price: 250, ar: 'لازانيا اللحمة الكلاسيك', en: 'Classic Beef Lasagna', dAr: 'طبقات من اللازانيا بالبشاميل الكريمي باللحمة المفرومة المعصجة وصوص الطماطم الغني، على طريقة بولونيا الإيطالية.', dEn: 'Layers of lasagna with seasoned ground beef, rich tomato sauce and creamy béchamel, inspired by the bold flavors of Bologna.' },
 
-  // Mahshi
-  { id: 'm1', cat: 'mahshi', ar: 'ورق عنب', en: 'Stuffed Vine Leaves', dAr: 'ورق عنب رفيع بالرز والخضرة، متسوّي على ريش ضاني. 20 صباع.', dEn: 'Thin vine-leaf rolls with herbed rice, cooked over lamb chops. 20 pcs.', price: 190, tag: 'best' },
-  { id: 'm2', cat: 'mahshi', ar: 'محشي كرنب', en: 'Stuffed Cabbage', dAr: 'كرنب ملفوف بالرز والشبت والكمون. 20 صباع.', dEn: 'Cabbage rolls with dill and cumin rice. 20 pcs.', price: 175 },
-  { id: 'm3', cat: 'mahshi', ar: 'محشي مشكّل', en: 'Mixed Mahshi', dAr: 'كوسة وباذنجان وفلفل وطماطم محشيين بخلطة الجدة.', dEn: "Zucchini, eggplant, peppers and tomatoes with Granny's filling.", price: 195 },
-  { id: 'm4', cat: 'mahshi', ar: 'محشي بصل', en: 'Stuffed Onions', dAr: 'طبقات بصل محشية ومتحمّرة بدبس الرمان.', dEn: 'Onion layers stuffed and caramelised with pomegranate molasses.', price: 210, tag: 'new' },
-  { id: 'm5', cat: 'mahshi', ar: 'صينية محشي العيلة', en: 'Family Mahshi Tray', dAr: 'صينية كاملة من كل الأنواع تكفّي 4 أفراد.', dEn: 'A full tray of every kind. Serves 4.', price: 680, serves: 4 },
+  // Rice Meal Line
+  { id: 'r1', cat: 'rice', img: 11, o: 'in', price: 245, ar: 'بتر تشيكن كريمي بالرز المصري', en: 'Creamy Butter Chicken with Egyptian Rice', dAr: 'قطع الدجاج بالصوص المخملي الفاخر الغني بكريمة الزبدة والطماطم مع الأرز المصري، مستوحاة من طبق الباتر تشيكن الهندي الكلاسيكي.', dEn: 'Egyptian white rice with tender chicken simmered in a rich, velvety buttery tomato and cream sauce, inspired by the classic Indian butter chicken.' },
+  { id: 'r2', cat: 'rice', img: 12, o: 'in', price: 245, ar: 'كاري الفراخ المشوية بالرز المصري', en: 'Creamy Grilled Chicken Curry with Egyptian Rice', dAr: 'قطع الدجاج المشوي بصوص الكاري الكريمي الغني مع الأرز المصري الفاخر الأبيض، مستوحاة من النكهات الهندية الأصيلة.', dEn: 'Egyptian white rice with tender grilled chicken in a rich, creamy curry sauce, inspired by the aromatic flavors of Indian cuisine.' },
+  { id: 'r3', cat: 'rice', img: 13, o: 'eg', price: 220, ar: 'كفتة الرز بالرز بالشعرية', en: 'Egyptian Rice Kofta with Vermicelli Rice', dAr: 'كفتة الأرز بصوص الطماطم المسبك، تقدم مع الأرز المصري بالشعرية على الطريقة المصرية الأصيلة.', dEn: 'Traditional Egyptian rice kofta simmered in a rich tomato sauce, served with classic Egyptian vermicelli rice.' },
+  { id: 'r4', cat: 'rice', img: 14, o: 'in', price: 250, ar: 'برياني الفراخ', en: 'Chicken Biryani', dAr: 'قطع الدجاج المتبلة وخلطة المسالا الغنية مع الأرز البسمتي العطري، مستوحى من نكهات البرياني الهندي الأصيل.', dEn: 'Fragrant basmati rice layered with tender, seasoned chicken and aromatic masala spices, inspired by Indian biryani.' },
+  { id: 'r5', cat: 'rice', img: 15, o: 'world', tag: 'hot', price: 250, ar: 'كونغ باو الفراخ الحار بالرز البسمتي', en: 'Spicy Kung Pao Chicken with Basmati Rice', dAr: 'قطع الدجاج المشوي مع الخضروات بصوص الكونغ باو الحار وفلفل سيتشوان العطري، تقدم مع الأرز البسمتي.', dEn: 'Tender grilled chicken and vegetables tossed in a fiery Kung Pao sauce with aromatic Sichuan pepper, served with fluffy basmati rice.' },
+  { id: 'r6', cat: 'rice', img: 16, o: 'eg', price: 230, ar: 'فتة السجق الشرقي', en: 'Oriental Sausage Fatta', dAr: 'فتة السجق الشرقي على أصولها مع الأرز الأبيض وصوص الطماطم المسبك بالطشة البيضاء بالخل والثوم مع العيش المحمص.', dEn: 'Spiced oriental sausage over crispy toasted bread and rice, topped with slow-cooked tomato sauce and Granny’s garlic-and-vinegar white tasha.' },
+  { id: 'r7', cat: 'rice', img: 17, o: 'eg', tag: 'best', price: 290, ar: 'فتة الكوارع المخلية', en: 'Boneless Kawareh Fatta', dAr: 'فتة الكوارع المخلية بصوص الطماطم بالخل والثوم، مع الأرز المصري بالشعرية والحمص والعيش المحمص على الطريقة المصرية الأصيلة.', dEn: 'Tender boneless beef trotters in a rich tomato, garlic and vinegar sauce, served over Egyptian vermicelli rice, chickpeas and crispy toasted bread.' },
+  { id: 'r8', cat: 'rice', img: 18, o: 'eg', tag: 'granny', price: 340, ar: 'رز معمّر بالبط', en: 'Granny’s Baked Rice with Duck (Roz Meammar)', dAr: 'أرز معمر غني وكريمي مطهو بشوربة البط مع قطع لحم البط الطرية والقشطة البلدي الفلاحي، على طريقة جداتنا وبنفس طعم زمان.', dEn: 'Rich, creamy Egyptian baked rice slow-cooked in duck broth with tender duck, topped with rustic qashta, just like our grandmothers made it.' },
+  { id: 'r9', cat: 'rice', img: 19, o: 'world', price: 260, ar: 'فتة دجاج المسخن', en: 'Palestinian Chicken Musakhan Fatta', dAr: 'فتة دجاج المسخن بالأرز البسمتي مع البصل المكرمل ودبس الرمان والحمص، مستوحاة من نكهات المسخن الفلسطيني الأصيل.', dEn: 'Chicken slowly cooked in extra virgin olive oil with caramelized onions and pomegranate molasses, inspired by Palestinian musakhan.' },
 
-  // Oven
-  { id: 'o1', cat: 'oven', ar: 'مكرونة بشاميل', en: 'Béchamel Pasta', dAr: 'مكرونة قلم ولحمة مفرومة وبشاميل كريمي بوشّ محمّر.', dEn: 'Penne, spiced minced beef and creamy béchamel with a golden top.', price: 220, tag: 'best' },
-  { id: 'o2', cat: 'oven', ar: 'فتّة باللحمة', en: 'Fattah with Beef', dAr: 'عيش محمّص ورز وصلصة خل وتوم ولحمة موزة.', dEn: 'Toasted bread, rice, garlic-vinegar tomato sauce and beef shank.', price: 340 },
-  { id: 'o3', cat: 'oven', ar: 'رقاق باللحمة', en: 'Roqaq with Minced Beef', dAr: 'رقاق مقرمش بالسمنة البلدي ومحشي لحمة مفرومة.', dEn: 'Crisp ghee pastry sheets layered with minced beef.', price: 250 },
-  { id: 'o4', cat: 'oven', ar: 'صينية بطاطس باللحمة', en: 'Potato & Beef Tray', dAr: 'بطاطس ولحمة في صلصة طماطم بالفلفل والبصل.', dEn: 'Potatoes and beef baked in tomato with peppers and onion.', price: 290 },
-  { id: 'o5', cat: 'oven', ar: 'نص فرخة محمّرة بالرز', en: 'Half Roast Chicken & Rice', dAr: 'فرخة متسلّقة بالبهارات ومتحمّرة، مع رز بالشعرية.', dEn: 'Spiced, simmered then roasted chicken with vermicelli rice.', price: 260 },
-  { id: 'o6', cat: 'oven', ar: 'حمام محشي فريك', en: 'Pigeon Stuffed with Freekeh', dAr: 'جوز حمام محشي فريك ومتحمّر في السمنة.', dEn: 'A pair of pigeons stuffed with freekeh, ghee-roasted.', price: 380, tag: 'chef' },
+  // Meat Lovers Line
+  { id: 'm1', cat: 'meat', img: 21, o: 'world', price: 290, ar: 'بيف ستروجانوف كلاسيك', en: 'Classic Beef Stroganoff', dAr: 'لحم الأنجوس المفروم الفاخر مع المشروم الطازج والبصل، مطهي في صوص غني من المستردة والساور كريم، مستوحى من الطبق الروسي الكلاسيكي.', dEn: 'Premium minced Angus beef with fresh mushrooms and onions in a savory mustard and sour cream sauce, inspired by the classic Russian dish.' },
+  { id: 'm2', cat: 'meat', img: 22, o: 'tr', price: 260, ar: 'كفتة داوود باشا', en: 'Dawood Pasha Meatballs', dAr: 'كفتة داوود باشا المطهية في صوص الطماطم الغني، مستوحاة من الطريقة التركية الأصيلة.', dEn: 'Savory Dawood Pasha meatballs simmered in a rich tomato sauce, inspired by traditional Turkish style.' },
+  { id: 'm3', cat: 'meat', img: 23, o: 'eg', price: 230, ar: 'كفتة الرز', en: 'Egyptian Rice Kofta (Koftet Roz)', dAr: 'كفتة الأرز بصوص الطماطم المسبك على الطريقة المصرية الأصيلة.', dEn: 'Traditional Egyptian rice kofta simmered in a rich, slow-cooked tomato sauce.' },
+  { id: 'm4', cat: 'meat', img: 24, o: 'tr', tag: 'best', price: 280, ar: 'ورق عنب بشوربة الكوارع', en: 'Stuffed Vine Leaves with Kawareh Broth', dAr: 'أصابع ورق العنب المحشوة بالخلطة التركية الغنية باللحم المفروم والأرز وزيت الزيتون البكر، تقدم مع شوربة الكوارع المصرية المطهية على نار هادئة.', dEn: 'Vine leaves stuffed with a Turkish-inspired blend of rice, minced beef and extra virgin olive oil, served with slow-simmered Egyptian kawareh broth.' },
+  { id: 'm5', cat: 'meat', img: 25, o: 'eg', price: 240, ar: 'بولونيز السجق البورسعيدي', en: 'Port Said Smoked Sausage Bolognese', dAr: 'سجق بورسعيدي مدخن ومفروم، مطهو على نار هادئة في صوص الطماطم الغني بنكهات البحر المتوسط.', dEn: 'Ground smoked Port Said sausage slow-cooked in Granny’s rich Mediterranean-style tomato sauce.' },
+  { id: 'm6', cat: 'meat', img: 26, o: 'eg', tag: 'granny', price: 270, ar: 'فريك بلحم الموزة', en: 'Freekeh with Beef Shank', dAr: 'فريك باللحمة المفرومة المعصجة وقطع لحم الموزة الطرية، بالسمن البلدي على الطريقة المصرية الأصيلة.', dEn: 'Nutty freekeh with seasoned ground beef and tender beef shank, finished with authentic Egyptian ghee.' },
+  { id: 'm7', cat: 'meat', img: 27, o: 'eg', price: 230, ar: 'كبدة إسكندراني', en: 'Alexandrian Beef Liver', dAr: 'شرائح كبدة بلدي متبلة متشوحة على الطريقة السكندرانية الأصيلة، بنفس النكهة المميزة لأشهر أكلات الشارع في الإسكندرية.', dEn: 'Beef liver strips seasoned and seared Alexandrian style, one of Egypt’s most iconic street-food classics.' },
+  { id: 'm8', cat: 'meat', img: 28, o: 'eg', tag: 'chef', price: 380, ar: 'مكس السعادة الملكي', en: 'The Royal Happiness Platter', dAr: 'توليفة غنية من الكبدة البلدي الطازجة المشوية مع السجق الشرقي والكلاوي، متشوحة باللية الضاني المقرمشة على الجريل مع الفلفل الحامي وتتبيلة جداتنا الخاصة.', dEn: 'The ultimate Egyptian street-food feast: baladi liver, oriental sausage and kidney seared on the grill with crispy lamb fat, hot chilies and Granny’s seasoning.' },
 
-  // Stews
-  { id: 's1', cat: 'stews', ar: 'ملوخية بالفراخ', en: 'Molokhia with Chicken', dAr: 'ملوخية خضرا بشهقة التقلية، وربع فرخة ورز.', dEn: 'Green molokhia with the famous garlic ta’leya, chicken and rice.', price: 230, tag: 'best' },
-  { id: 's2', cat: 'stews', ar: 'ملوخية بالأرانب', en: 'Molokhia with Rabbit', dAr: 'ملوخية بشوربة الأرانب ونص أرنب محمّر.', dEn: 'Molokhia in rabbit broth with half a roasted rabbit.', price: 310 },
-  { id: 's3', cat: 'stews', ar: 'فاصوليا بيضا باللحمة', en: 'White Beans with Beef', dAr: 'فاصوليا بيضا متسوّية على مهلها مع لحمة ورز.', dEn: 'Slow-cooked white beans with beef and rice.', price: 215 },
-  { id: 's4', cat: 'stews', ar: 'بسلّة بالجزر واللحمة', en: 'Peas & Carrots with Beef', dAr: 'بسلة وجزر في صلصة خفيفة مع لحمة ورز.', dEn: 'Peas and carrots in a light tomato sauce with beef and rice.', price: 215 },
-  { id: 's5', cat: 'stews', ar: 'شوربة لسان عصفور', en: 'Orzo Soup', dAr: 'شوربة لحمة بلسان عصفور وليمونة.', dEn: 'Beef broth with orzo and a squeeze of lemon.', price: 75 },
+  // Prepare Your Meal (keto-friendly, no carb side)
+  { id: 'k1', cat: 'meal', img: 29, o: 'it', tag: 'protein', price: 230, ar: 'فراخ مشوية بصوص البيستو والطماطم المجففة', en: 'Grilled Chicken with Creamy Basil Pesto & Sun-Dried Tomatoes', dAr: 'قطع الدجاج المشوي بصوص بيستو الريحان الكريمي مع الطماطم المجففة، مستوحاة من النكهات الإيطالية الأصيلة.', dEn: 'Tender grilled chicken with sun-dried tomatoes in a rich, creamy basil pesto sauce, inspired by the flavors of Italy.' },
+  { id: 'k2', cat: 'meal', img: 30, o: 'it', price: 235, ar: 'فراخ مشوية بصوص الترافل مشروم', en: 'Grilled Chicken with Creamy Truffle Mushroom Sauce', dAr: 'قطع الدجاج المشوي مع شرائح المشروم الطازج بصوص الترافل مشروم الكريمي.', dEn: 'Tender grilled chicken with fresh mushrooms in a rich, creamy truffle mushroom sauce.' },
+  { id: 'k3', cat: 'meal', img: 31, o: 'it', price: 225, ar: 'فراخ مشوية بصوص الألفريدو مشروم', en: 'Grilled Chicken with Creamy Alfredo Mushroom Sauce', dAr: 'قطع الدجاج المشوي مع شرائح المشروم الطازج بصوص الألفريدو الكريمي الغني.', dEn: 'Tender grilled chicken with fresh mushrooms in a rich, creamy Alfredo sauce.' },
+  { id: 'k4', cat: 'meal', img: 32, o: 'it', price: 220, ar: 'فراخ بصوص الليمون والزبدة والثوم', en: 'Creamy Lemon Garlic Butter Chicken', dAr: 'قطع الدجاج المشوي بصوص الليمون الغني بالزبدة والثوم، مستوحاة من النكهات الإيطالية الكلاسيكية.', dEn: 'Tender grilled chicken in a velvety lemon, garlic and butter sauce.' },
+  { id: 'k5', cat: 'meal', img: 33, o: 'in', price: 225, ar: 'بتر تشيكن كريمي', en: 'Creamy Butter Chicken', dAr: 'قطع الدجاج بالصوص المخملي الفاخر الغني بكريمة الزبدة والطماطم، مستوحاة من الباتر تشيكن الهندي.', dEn: 'Tender chicken simmered in a velvety buttery tomato and cream sauce, inspired by Indian butter chicken.' },
+  { id: 'k6', cat: 'meal', img: 34, o: 'world', price: 225, ar: 'فراخ كاجون كريمي', en: 'Creamy Cajun Chicken', dAr: 'قطع الدجاج المشوي بصوص الكاجون الكريمي الغني بالتوابل، مستوحاة من نكهات مطبخ لويزيانا.', dEn: 'Tender grilled chicken in a rich, creamy Cajun-spiced sauce, inspired by Louisiana cuisine.' },
+  { id: 'k7', cat: 'meal', img: 35, o: 'world', tag: 'hot', price: 230, ar: 'كونغ باو الفراخ الحار', en: 'Spicy Kung Pao Chicken', dAr: 'قطع الدجاج المشوي مع الخضروات بصوص الكونغ باو الحار وفلفل سيتشوان العطري.', dEn: 'Grilled chicken tossed with vegetables in a fiery Kung Pao sauce with Sichuan pepper.' },
+  { id: 'k8', cat: 'meal', img: 36, o: 'eg', price: 260, ar: 'كوارع مخلية', en: 'Boneless Kawareh', dAr: 'كوارع مخلية طرية بصوص الطماطم بالخل والثوم، تقدم مع الحمص والعيش المحمص على الطريقة المصرية الأصيلة.', dEn: 'Tender boneless beef trotters in a tomato, garlic and vinegar sauce, with chickpeas and crispy toasted bread.' },
 
-  // Sides
-  { id: 'd1', cat: 'sides', ar: 'رز بالشعرية', en: 'Vermicelli Rice', dAr: 'رز مصري بالشعرية المحمّرة في السمنة.', dEn: 'Egyptian rice with ghee-toasted vermicelli.', price: 45 },
-  { id: 'd2', cat: 'sides', ar: 'سلطة بلدي', en: 'Baladi Salad', dAr: 'طماطم وخيار وبصل وفلفل بالليمون والكمون.', dEn: 'Tomato, cucumber, onion and pepper with lemon and cumin.', price: 40 },
-  { id: 'd3', cat: 'sides', ar: 'طحينة', en: 'Tahini', dAr: 'طحينة بالليمون والتوم.', dEn: 'Tahini with lemon and garlic.', price: 35 },
-  { id: 'd4', cat: 'sides', ar: 'بابا غنوج', en: 'Baba Ghanoush', dAr: 'باذنجان مشوي على الفحم بالطحينة.', dEn: 'Charcoal-grilled eggplant with tahini.', price: 50 },
-  { id: 'd5', cat: 'sides', ar: 'مخلل بيتي', en: 'Homemade Pickles', dAr: 'لفت وجزر وخيار مخلل في البيت.', dEn: 'House-pickled turnip, carrot and cucumber.', price: 30 },
-
-  // Sweets
-  { id: 'w1', cat: 'sweets', ar: 'أم علي بالمكسرات', en: 'Om Ali with Nuts', dAr: 'رقاق ولبن وقشطة ومكسرات، طالعة من الفرن.', dEn: 'Pastry, milk, cream and nuts, straight from the oven.', price: 115, tag: 'best' },
-  { id: 'w2', cat: 'sweets', ar: 'رز بلبن بالفرن', en: 'Baked Rice Pudding', dAr: 'رز بلبن بوشّ محمّر وقرفة.', dEn: 'Rice pudding with a caramelised top and cinnamon.', price: 70 },
-  { id: 'w3', cat: 'sweets', ar: 'مهلبية بالفستق', en: 'Pistachio Muhallabia', dAr: 'مهلبية بماء الورد وفستق حلبي.', dEn: 'Rose-water milk pudding with pistachios.', price: 70 },
-  { id: 'w4', cat: 'sweets', ar: 'بسبوسة بالقشطة', en: 'Basbousa with Cream', dAr: 'بسبوسة بالسمنة محشية قشطة.', dEn: 'Ghee semolina cake filled with clotted cream.', price: 95 },
-  { id: 'w5', cat: 'sweets', ar: 'كنافة بالقشطة', en: 'Kunafa with Cream', dAr: 'كنافة بلدي مقرمشة بالقشطة والشربات.', dEn: 'Crisp kunafa with cream and syrup.', price: 130 },
-
-  // Frozen / ready to cook
-  { id: 'f1', cat: 'frozen', ar: 'ورق عنب ملفوف (1 كيلو)', en: 'Rolled Vine Leaves (1 kg)', dAr: 'ملفوف ومتجمّد، جاهز للحلّة.', dEn: 'Hand-rolled and frozen, ready for your pot.', price: 340 },
-  { id: 'f2', cat: 'frozen', ar: 'كرنب ملفوف (1 كيلو)', en: 'Rolled Cabbage (1 kg)', dAr: 'ملفوف ومتجمّد، جاهز للحلّة.', dEn: 'Hand-rolled and frozen, ready for your pot.', price: 290 },
-  { id: 'f3', cat: 'frozen', ar: 'كفتة متبّلة (1 كيلو)', en: 'Seasoned Kofta (1 kg)', dAr: 'لحمة كندوز بتتبيلة الجدة.', dEn: "Beef with Granny's seasoning.", price: 430 },
-  { id: 'f4', cat: 'frozen', ar: 'ملوخية مخروطة (1 كيلو)', en: 'Chopped Molokhia (1 kg)', dAr: 'ملوخية طازة مخروطة ومتجمّدة.', dEn: 'Fresh molokhia, finely chopped and frozen.', price: 95 },
-
-  // Boxes
-  { id: 'b1', cat: 'boxes', ar: 'عزومة صغيرة', en: 'Small Feast', dAr: 'محشي مشكّل + فرخة محمّرة + ملوخية + رز + سلطة.', dEn: 'Mixed mahshi, roast chicken, molokhia, rice and salad.', price: 1150, serves: 4, tag: 'best' },
-  { id: 'b2', cat: 'boxes', ar: 'عزومة كبيرة', en: 'Grand Feast', dAr: 'صينية محشي + بطة + فتة + مكرونة بشاميل + أم علي.', dEn: 'Mahshi tray, duck, fattah, béchamel pasta and Om Ali.', price: 2350, serves: 8 },
-  { id: 'b3', cat: 'boxes', ar: 'غدا الأسبوع', en: 'Weekly Lunch Box', dAr: '5 وجبات غدا لأيام الشغل، صنف مختلف كل يوم.', dEn: 'Five weekday lunches, a different dish each day.', price: 1250, serves: 1, tag: 'new' }
+  // Prepare Your Sandwich (fillings)
+  { id: 'w1', cat: 'sandwich', img: 37, o: 'world', price: 190, ar: 'مسخن الدجاج', en: 'Palestinian Chicken Musakhan', dAr: 'شرائح دجاج المسخن المطهية على نار هادئة بزيت الزيتون البكر مع البصل المكرمل ودبس الرمان.', dEn: 'Chicken strips slowly cooked in extra virgin olive oil with caramelized onions and pomegranate molasses.' },
+  { id: 'w2', cat: 'sandwich', img: 38, o: 'eg', price: 210, ar: 'شاورما لحم مصري', en: 'Egyptian-Style Beef Shawarma', dAr: 'شاورما اللحم المصنوعة من لحم الأنجوس المفروم الفاخر والمتبل على طريقة الشاورما المصرية الأصيلة.', dEn: 'Premium minced Angus beef shawarma seasoned and prepared the Egyptian way.' },
+  { id: 'w3', cat: 'sandwich', img: 39, o: 'world', price: 220, ar: 'فيلي تشيز ستيك جراني', en: 'Granny’s Philly Cheesesteak', dAr: 'لحم الأنجوس المفروم الفاخر مغطى بخليط من جبنة القشقوان وجبنة الشيدر الذائبة، من أشهر أسرار جدتي.', dEn: 'Premium minced Angus beef topped with melted kashkaval and cheddar, Granny’s take on Philadelphia’s cheesesteak.' }
 ];
 
-/* Dish of the day, by weekday (0 = Sunday). Placeholder rotation. */
-window.GS_DAILY = { 0: 'o1', 1: 't1', 2: 'm3', 3: 'o2', 4: 'o6', 5: 'o5', 6: 's1' };
-
-/* Granny's secrets (flip cards). */
-window.GS_SECRETS = [
-  { ar: 'الشهقة', en: 'The gasp', qAr: 'ليه بنشهق وإحنا بنحط التقلية؟', qEn: 'Why do we gasp when the garlic goes in?', aAr: 'التوم يتحمّر في السمنة لحد ما يبقى دهبي، ويدخل الملوخية وهي بتغلي. الشهقة؟ دي بركة الجدة.', aEn: 'Garlic fries in ghee until golden and meets the molokhia at a boil. The gasp is Granny’s blessing.' },
-  { ar: 'الصباع الرفيع', en: 'The thin roll', qAr: 'إيه سر ورق العنب اللي بيدوب؟', qEn: 'What makes vine leaves melt?', aAr: 'ورقة صغيرة، حشوة قليلة، ولفّة مشدودة. وتحت الحلّة ريش ضاني.', aEn: 'A small leaf, a little filling and a tight roll, cooked over lamb chops.' },
-  { ar: 'نار هادية', en: 'A low flame', qAr: 'ليه الطاجن بيطلع طعمه أحلى؟', qEn: 'Why does a tagine taste better?', aAr: 'الفخار بيسخن على مهله وبيحبس البخار… فاللحمة بتستوي في عصيرها.', aEn: 'Clay heats slowly and traps the steam, so the meat cooks in its own juices.' },
-  { ar: 'السمنة البلدي', en: 'Real ghee', qAr: 'إيه اللي بيفرّق أكل البيت؟', qEn: 'What makes home food different?', aAr: 'سمنة بلدي، بهارات بنطحنها بإيدينا، ومفيش أي حاجة جاهزة.', aEn: 'Real ghee, spices we grind ourselves and nothing out of a packet.' }
-];
-
-window.GS_REVIEWS = [
-  { n: 'منى ع.', nEn: 'Mona A.', ar: 'الملوخية فكّرتني بأكل ستّي بالظبط. وصلت سخنة ومتغلّفة حلو.', en: 'The molokhia tasted exactly like my grandmother’s. Arrived hot and beautifully packed.' },
-  { n: 'أحمد س.', nEn: 'Ahmed S.', ar: 'طلبنا عزومة لـ 8 أفراد، والكل سأل جبتوا الأكل ده منين.', en: 'We ordered the 8-person feast and everyone asked where the food came from.' },
-  { n: 'سارة م.', nEn: 'Sara M.', ar: 'ورق العنب رفيع ومظبوط، والكرنب المجمّد وفّر عليّ يوم كامل.', en: 'The vine leaves are thin and perfect, and the frozen cabbage saved me a whole day.' }
+/* Three generations (brand story). */
+window.GS_TIMELINE = [
+  { y: '1932', ar: 'سناء', en: 'Sanaa', dAr: 'حياة كلها إبداع ونَفَس حلو وكرم.', dEn: 'A life of creativity, flavor and generosity.' },
+  { y: '1994', ar: 'Mom’s Food', en: 'Mom’s Food', dAr: 'بنحافظ على وصفات البيت الأصيلة لمصر والعالم، بأكتر من 260 منتج طبيعي.', dEn: 'Preserving authentic home-style recipes for Egypt and the world, in 260+ natural products.' },
+  { y: '2014', ar: 'شكلك أكلك', en: 'Shakak Aklak', dAr: 'توعية غذائية علشان تختار أكلك وإنت فاهم.', dEn: 'Nutrition education to make informed food choices.' },
+  { y: '2024', ar: 'Granny’s Secrets', en: 'Granny’s Secrets', dAr: 'وصفات جدتنا لحياة النهارده، بوعي شكلك أكلك الغذائي.', dEn: 'Our grandmother’s recipes for today’s lifestyles, with the nutrition awareness of Shakak Aklak.' }
 ];

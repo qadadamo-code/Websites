@@ -1,7 +1,7 @@
 /* Granny's Secrets — site logic */
 (() => {
   'use strict';
-  const C = window.GS_CONFIG, CATS = window.GS_CATS, MENU = window.GS_MENU, DAILY = window.GS_DAILY, SECRETS = window.GS_SECRETS, REVIEWS = window.GS_REVIEWS;
+  const C = window.GS_CONFIG, CATS = window.GS_CATS, MENU = window.GS_MENU, ORIG = window.GS_ORIGINS, TL = window.GS_TIMELINE;
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -16,11 +16,11 @@
   const money = n => `${Math.round(n).toLocaleString('en-US')} ${lang === 'ar' ? 'ج.م' : 'EGP'}`;
   const byId = id => MENU.find(m => m.id === id);
   const catOf = id => CATS.find(c => c.id === id);
-  const img = it => `assets/food/${it.id}.webp`;
+  const img = it => `assets/food2/d${it.img}.webp`;
   const wa = msg => `https://wa.me/${C.whatsapp}?text=${encodeURIComponent(msg)}`;
   const T = (ar, en) => (lang === 'ar' ? ar : en);
   const DAYS = { ar: ['الأحد', 'الاتنين', 'التلات', 'الأربع', 'الخميس', 'الجمعة', 'السبت'], en: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] };
-  const TAGS = { best: { ar: 'الأكثر طلبًا', en: 'Best seller', c: '' }, new: { ar: 'جديد', en: 'New', c: 'badge--new' }, chef: { ar: 'اختيار الشيف', en: "Chef's pick", c: 'badge--chef' } };
+  const TAGS = { best: { ar: 'الأكثر طلبًا', en: 'Best seller', c: '' }, granny: { ar: 'وصفة سناء', en: "Sanaa's recipe", c: 'badge--chef' }, chef: { ar: 'اختيار الشيف', en: "Chef's pick", c: 'badge--chef' }, hot: { ar: 'حرّاق', en: 'Spicy', c: 'badge--hot' }, protein: { ar: 'كيتو · بروتين', en: 'Keto · protein', c: 'badge--new' } };
   const ICON = {
     plus: '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
     arrow: '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -32,8 +32,8 @@
   function applyLang(first) {
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    document.title = lang === 'ar' ? 'جراني سيكرتس | Granny\'s Secrets — أكل البيت زي ما تيتة بتعمله' : "Granny's Secrets — Home food, the way Granny makes it";
-    $('#search').placeholder = T('دوّر على أكلة… ملوخية، محشي، أم علي', 'Search a dish… molokhia, mahshi, Om Ali');
+    document.title = lang === 'ar' ? 'جراني سيكرتس | Granny\'s Secrets — أكل أصيل بيحكي حكايات' : "Granny's Secrets — Authentic Food Stories";
+    $('#search').placeholder = T('دوّر على أكلة… بيستو، فتة، كبدة', 'Search a dish… pesto, fatta, liver');
     store.set('gs-lang', lang);
     renderAll();
     if (!first && window.ScrollTrigger) { scenes.forEach(s => s.layout()); ScrollTrigger.refresh(); }
@@ -44,43 +44,55 @@
      ====================================================== */
   function renderMarquee() {
     const words = lang === 'ar'
-      ? ['سمنة بلدي', 'طبيخ كل يوم', 'بهارات مطحونة في البيت', 'توصيل سخن', 'محشي ملفوف بالإيد', 'من غير مواد حافظة', 'عزومات كاملة']
-      : ['Real ghee', 'Cooked every day', 'Hand-ground spices', 'Delivered hot', 'Hand-rolled mahshi', 'No preservatives', 'Whole feasts'];
+      ? ['We make it natural.. you eat it fresh', 'من مطبخ عيلتنا لسفرتك', 'طبيعي 100%', 'وصفات 3 أجيال', 'من غير إضافات صناعية', 'مصر · إيطاليا · الهند · تركيا', 'Authentic Food Stories']
+      : ['We make it natural.. you eat it fresh', 'From our family kitchen to your table', '100% natural', 'Recipes of 3 generations', 'No artificial additives', 'Egypt · Italy · India · Turkey', 'Authentic Food Stories'];
     const one = words.map(w => `<span>${w}<img src="assets/img/logo/leaf-c.webp" alt=""></span>`).join('');
     $('#marquee').innerHTML = one + one;
   }
 
-  let todayPick = null;
-  function renderToday(pickId) {
-    const dow = new Date().getDay();
-    const id = pickId || DAILY[dow];
-    todayPick = byId(id);
-    const dayIdx = +Object.keys(DAILY).find(k => DAILY[k] === id);
-    $('#todayDay').textContent = DAYS[lang][isNaN(dayIdx) ? dow : dayIdx];
-    $('#todayName').textContent = L(todayPick);
-    $('#todayDesc').textContent = D(todayPick);
-    $('#todayPrice').textContent = money(todayPick.price);
-    const im = $('#todayImg');
-    if (!im.src.endsWith(img(todayPick))) {
-      im.style.opacity = 0;
-      const n = new Image(); n.onload = () => { im.src = n.src; im.alt = L(todayPick); im.style.opacity = 1; }; n.src = img(todayPick);
-    }
-    const order = [6, 0, 1, 2, 3, 4, 5]; // Saturday first (Egyptian week)
-    $('#week').innerHTML = order.map(d => {
-      const it = byId(DAILY[d]);
-      return `<li data-d="${d}" class="${it.id === id ? 'on' : ''} ${d === dow ? 'today-mark' : ''}"><b>${DAYS[lang][d]}</b><span>${L(it)}</span></li>`;
-    }).join('');
-    const st = $('#stampText'); st.textContent = "DISH OF THE DAY • GRANNY'S SECRETS • "; st.setAttribute('textLength', 452); st.setAttribute('lengthAdjust', 'spacing');
-  }
-
+  const PIC = {
+    leaf: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 38C10 20 22 9 40 8c0 18-11 30-29 30Z"/><path d="M10 38 28 20"/></svg>',
+    drop: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6s12 13 12 22a12 12 0 0 1-24 0C12 19 24 6 24 6Z"/><path d="M19 30a5 5 0 0 0 5 5"/></svg>',
+    meat: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 8c7 0 12 6 10 13-2 8-11 10-15 15-3 4-9 5-12 2s-2-9 2-12c5-4 7-13 15-18Z"/><circle cx="31" cy="18" r="3"/></svg>',
+    jar: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="14" width="24" height="28" rx="5"/><path d="M15 8h18v6H15zM12 24h24"/></svg>',
+    heart: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 40S7 30 7 18a9 9 0 0 1 17-4 9 9 0 0 1 17 4c0 12-17 22-17 22Z"/><path d="M15 22h6l2-4 3 8 2-4h5"/></svg>',
+    fire: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 42c-8 0-13-5-13-12 0-9 9-12 9-22 6 4 9 9 9 14 2-2 3-4 3-6 4 4 5 9 5 14 0 7-5 12-13 12Z"/></svg>'
+  };
   function renderPromise() {
     const P = [
-      { ic: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16h20l-2 24a3 3 0 0 1-3 3H19a3 3 0 0 1-3-3Z"/><path d="M12 16h24M18 10h12l2 6H16Z"/><path d="M19 27c3 2 7 2 10 0"/></svg>', ar: 'سمنة بلدي حقيقية', en: 'Real ghee', dAr: 'مفيش زيوت مهدرجة ولا سمن صناعي.', dEn: 'No hydrogenated oils, no margarine.' },
-      { ic: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 24h32a16 16 0 0 1-32 0Z"/><path d="M28 24 38 8"/><circle cx="18" cy="20" r="1.5" fill="currentColor"/><circle cx="23" cy="18" r="1.5" fill="currentColor"/></svg>', ar: 'بهارات بإيدينا', en: 'Spices ground by hand', dAr: 'بنحمّص ونطحن البهارات في المطبخ.', dEn: 'We toast and grind them in our kitchen.' },
-      { ic: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="26" r="14"/><path d="M24 18v8l5 4M20 6h8"/></svg>', ar: 'بيتطبخ النهارده', en: 'Cooked today', dAr: 'مش أكل امبارح. كل طلب طازة.', dEn: "Never yesterday's food. Every order is fresh." },
-      { ic: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 18h32v20a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3Z"/><path d="M8 18l4-8h24l4 8M20 26c2-2 2-4 0-6M28 26c2-2 2-4 0-6"/></svg>', ar: 'يوصلك سخن', en: 'Arrives hot', dAr: 'تغليف محكم بيحافظ على السخونية.', dEn: 'Sealed packaging that keeps the heat in.' }
+      { ic: PIC.leaf, ar: 'من غير GMO', en: 'Non-GMO', dAr: 'مكونات طبيعية بس، من غير أي تعديل وراثي.', dEn: 'Only natural, non-modified ingredients.' },
+      { ic: PIC.drop, ar: 'من غير ألوان ولا نكهات صناعية', en: 'No artificial colors or flavors', dAr: 'الطعم واللون من الأكل نفسه.', dEn: 'Taste and color come from the food itself.' },
+      { ic: PIC.jar, ar: 'سمنة بلدي وزيت زيتون بكر', en: 'Real ghee & extra-virgin olive oil', dAr: 'زي ما كانت سناء بتطبخ بالظبط.', dEn: 'Exactly the way Sanaa cooked.' },
+      { ic: PIC.meat, ar: 'لحم أنجوس وكبدة بلدي', en: 'Angus beef & baladi liver', dAr: 'بروتين مختار بعناية لكل طبق.', dEn: 'Carefully chosen protein for every dish.' },
+      { ic: PIC.heart, ar: 'بوعي شكلك أكلك', en: 'With Shakak Aklak awareness', dAr: 'توعية غذائية علشان تختار وإنت فاهم.', dEn: 'Nutrition awareness to choose well.' },
+      { ic: PIC.fire, ar: 'خط مناسب للكيتو', en: 'A keto-friendly line', dAr: 'جهّز وجبتك: بروتين وصوص من غير نشويات.', dEn: 'Prepare Your Meal: protein and sauce, no carbs.' }
     ];
-    $('#promise').innerHTML = P.map(p => `<div class="pr reveal">${p.ic}<h3>${L(p)}</h3><p>${D(p)}</p></div>`).join('');
+    $('#promise').innerHTML = P.map(p => `<div class="pr reveal">${p.ic}<div><h3>${L(p)}</h3><p>${D(p)}</p></div></div>`).join('');
+  }
+
+  let curOrigin = 'eg';
+  const ORDER = ['eg', 'it', 'in', 'tr', 'world'];
+  function renderOrigins() {
+    $('#origins').innerHTML = ORDER.map((k, i) => `<button class="origin ${k === curOrigin ? 'on' : ''}" type="button" role="tab" data-o="${k}"><small>0${i + 1}</small>${L(ORIG[k])}<i>${MENU.filter(m => m.o === k).length}</i></button>`).join('');
+    renderWorld();
+  }
+  function renderWorld() {
+    const o = ORIG[curOrigin];
+    $('#worldNo').textContent = '0' + (ORDER.indexOf(curOrigin) + 1);
+    $('#worldName').textContent = L(o);
+    $('#worldWho').textContent = lang === 'ar' ? o.whoAr : o.whoEn;
+    const list = MENU.filter(m => m.o === curOrigin).slice(0, 4);
+    $('#worldDishes').innerHTML = list.map(it => `<div class="wd" data-id="${it.id}"><div class="wd__img"><img src="${img(it)}" alt="${L(it)}" loading="lazy"></div><h5>${L(it)}</h5><div class="wd__foot"><span class="price">${money(it.price)}</span><span class="buy">${buyHtml(it, true)}</span></div></div>`).join('');
+  }
+  function setOrigin(k) {
+    if (k === curOrigin) return; curOrigin = k;
+    $$('.origin').forEach(b => b.classList.toggle('on', b.dataset.o === k));
+    const pn = $('#worldPanel');
+    if (reduce || !window.gsap) { renderWorld(); return; }
+    gsap.to(pn, { opacity: 0, y: 14, duration: .22, ease: 'power2.in', onComplete: () => { renderWorld(); gsap.to(pn, { opacity: 1, y: 0, duration: .45, ease: 'power3.out' }); } });
+  }
+  function renderTimeline() {
+    $('#timeline').innerHTML = TL.map(t => `<li><b>${t.y}</b><div><h4>${L(t)}</h4><p>${D(t)}</p></div></li>`).join('');
   }
 
   function qtyOf(id) { return cart.filter(c => c.id === id).reduce((a, c) => a + c.qty, 0); }
@@ -91,7 +103,7 @@
   }
   function cardHtml(it) {
     const tag = it.tag ? `<span class="badge ${TAGS[it.tag].c}">${L(TAGS[it.tag])}</span>` : '';
-    const sv = it.serves > 1 ? `<span class="serves">${T(`يكفي ${it.serves} أفراد`, `Serves ${it.serves}`)}</span>` : '';
+    const sv = ORIG[it.o] ? `<span class="serves">${L(ORIG[it.o]).replace(/^و?من /, '')}</span>` : '';
     return `<article class="card" data-id="${it.id}" data-q="${(it.ar + ' ' + it.en + ' ' + it.dAr + ' ' + it.dEn).toLowerCase()}">
       <div class="card__img"><img src="${img(it)}" alt="${L(it)}" loading="lazy" width="640" height="640">${tag}${sv}</div>
       <div class="card__body"><h4>${L(it)}</h4><p>${D(it)}</p>
@@ -116,21 +128,13 @@
       }).join('') + `<a class="chap__all" href="#cat-${cat.id}">${T('كل ' + cat.ar, 'All ' + cat.en)} ${ICON.arrow}</a>`;
     });
   }
-  function renderSecrets() {
-    $('#secretCards').innerHTML = SECRETS.map((s, i) => `<div class="rc reveal" tabindex="0" role="button"><div class="rc__in">
-      <div class="rc__f"><span class="rc__n">0${i + 1}</span><p class="rc__t">${L(s)}</p><p class="rc__q">${lang === 'ar' ? s.qAr : s.qEn}</p><span class="rc__tap">${T('اقلب الكارت', 'Flip the card')} ↻</span></div>
-      <div class="rc__b"><img src="assets/img/logo/leaf-c.webp" alt=""><p>${lang === 'ar' ? s.aAr : s.aEn}</p></div></div></div>`).join('');
-  }
   function renderInfo() {
     const I = [
       { ic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', t: T('مواعيد المطبخ', 'Kitchen hours'), d: L(C.hoursNum) },
       { ic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>', t: T('التوصيل', 'Delivery'), d: `${L(C.area)} · ${T('رسوم التوصيل', 'fee')} ${money(C.deliveryFee)}` },
-      { ic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>', t: T('العزومات', 'Feasts'), d: T('اطلب قبلها بيوم علشان نطبخلك على مهلنا.', 'Order a day ahead so we can cook slowly for you.') }
+      { ic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>', t: T('الطلبات الكبيرة', 'Large orders'), d: T('للعزومات والشركات، ابعتلنا قبلها بيوم.', 'For gatherings and offices, message us a day ahead.') }
     ];
     $('#info').innerHTML = I.map(i => `<div class="reveal">${i.ic}<p><b>${i.t}</b><span>${i.d}</span></p></div>`).join('');
-  }
-  function renderQuotes() {
-    $('#quotes').innerHTML = REVIEWS.map(r => `<figure class="q reveal"><span class="stars">★★★★★</span><p>${lang === 'ar' ? r.ar : r.en}</p><b>${lang === 'ar' ? r.n : r.nEn}</b></figure>`).join('');
   }
   function renderFooter() {
     const msg = T('أهلاً Granny\'s Secrets، عايز أسأل عن…', "Hi Granny's Secrets, I'd like to ask about…");
@@ -146,8 +150,8 @@
     $('#socials').innerHTML = Object.keys(S).map(k => `<a href="${C[k]}" aria-label="${k}" target="_blank" rel="noopener">${S[k]}</a>`).join('');
   }
   function renderAll() {
-    renderMarquee(); renderToday(todayPick && todayPick.id); renderPromise(); renderTabs(); renderMenu(); renderChapters();
-    renderSecrets(); renderInfo(); renderQuotes(); renderFooter(); renderCart(); fillWhen(); fillPay();
+    renderMarquee(); renderOrigins(); renderPromise(); renderTabs(); renderMenu(); renderChapters();
+    renderTimeline(); renderInfo(); renderFooter(); renderCart(); fillWhen(); fillPay();
     observeReveals();
   }
 
@@ -210,7 +214,7 @@
   function refreshBuys() {
     $$('.buy').forEach(b => {
       const host = b.closest('[data-id]'); if (!host) return;
-      const it = byId(host.dataset.id); b.innerHTML = buyHtml(it, !!b.closest('.mini'));
+      const it = byId(host.dataset.id); b.innerHTML = buyHtml(it, !!b.closest('.mini, .wd'));
     });
   }
   function fly(from, it) {
@@ -302,7 +306,8 @@
     $('#shImg').src = img(shItem); $('#shImg').alt = L(shItem);
     $('#shCat').textContent = `${c.no} · ${L(c)}`;
     $('#shName').textContent = L(shItem); $('#shDesc').textContent = D(shItem);
-    $('#shMeta').textContent = shItem.serves > 1 ? T(`يكفي ${shItem.serves} أفراد`, `Serves ${shItem.serves}`) : T('يكفي فرد واحد', 'Serves one');
+    const og = ORIG[shItem.o];
+    $('#shMeta').textContent = og ? T('من مطبخ: ', 'Kitchen: ') + L(og).replace(/^و?من /, '').replace(/^And /, '') : '';
     $('#shNote').value = ''; $('#shNote').placeholder = T('مثلاً: من غير بصل، شطة زيادة…', 'e.g. no onion, extra spicy…');
     updSheet();
     $('#sheet').classList.add('open'); $('#sheet').setAttribute('aria-hidden', 'false');
@@ -327,15 +332,14 @@
         return;
       }
       const card = t.closest('.card'); if (card) { openSheet(card.dataset.id); return; }
-      const mini = t.closest('.mini'); if (mini) { openSheet(mini.dataset.id); return; }
+      const mini = t.closest('.mini, .wd'); if (mini) { openSheet(mini.dataset.id); return; }
+      const org = t.closest('.origin'); if (org) { setOrigin(org.dataset.o); return; }
       const lact = t.closest('[data-lact]');
       if (lact) {
         const i = +lact.closest('[data-line]').dataset.line, line = cart[i];
         line.qty += lact.dataset.lact === 'inc' ? 1 : -1; if (line.qty <= 0) cart.splice(i, 1); saveCart(); return;
       }
       const tab = t.closest('.tab'); if (tab) { goTo('#cat-' + tab.dataset.c, -(isMobile() ? 120 : 140)); return; }
-      const wk = t.closest('.week li'); if (wk) { renderToday(DAILY[wk.dataset.d]); return; }
-      const rc = t.closest('.rc'); if (rc) { rc.classList.toggle('flip'); return; }
       const a = t.closest('a[href^="#"]');
       if (a && a.getAttribute('href').length > 1) {
         e.preventDefault();
@@ -352,7 +356,6 @@
     $('#shMinus').onclick = () => { shQty = Math.max(1, shQty - 1); updSheet(); };
     $('#shPlus').onclick = () => { shQty = Math.min(50, shQty + 1); updSheet(); };
     $('#shAdd').onclick = () => { addToCart(shItem.id, shQty, $('#shNote').value, $('#shAdd')); closeSheet(); };
-    $('#todayAdd').onclick = e => addToCart(todayPick.id, 1, '', e.currentTarget);
     $('#langBtn').onclick = () => { lang = lang === 'ar' ? 'en' : 'ar'; applyLang(); };
     $('#burger').onclick = () => document.body.classList.toggle('menu-open');
     $('#search').addEventListener('input', () => { filterMenu(); ScrollTrigger.refresh(); });
@@ -381,7 +384,7 @@
     const isHero = sec.id === 'hero';
     const cv = $('.scene__cv', sec), ctx = cv.getContext('2d', { alpha: false });
     const frames = new Array(n); let loaded = false, lastKey = -1, lastW = 0, lastH = 0, textRight = true, p = 0;
-    const bar = $('.scene__bar i', sec), chap = $$('.chap > *', sec);
+    const bar = $('.scene__bar i', sec), qChap = () => $$('.chap > *:not(.tl), .tl > li', sec); let chap = qChap();
     function load() {
       if (loaded) return; loaded = true;
       for (let i = 0; i < n; i++) {
@@ -393,7 +396,7 @@
     function layout() {
       const ref = isHero ? $('#heroCopy') : $('.chap', sec);
       if (ref) { const r = ref.getBoundingClientRect(); textRight = r.left + r.width / 2 > innerWidth / 2; }
-      lastW = 0; size();
+      lastW = 0; size(); chap = qChap(); render(p);
     }
     function size() {
       const w = cv.clientWidth, h = cv.clientHeight;
@@ -429,7 +432,7 @@
       const key = i * 20 + Math.round(f * 16) + (frames[i + 1] ? 0 : 5000);
       if (key === lastKey) return; lastKey = key;
       const g = geom(a);
-      ctx.fillStyle = '#1c0a0a'; ctx.fillRect(0, 0, g.W, g.H);
+      ctx.fillStyle = '#1d0f1f'; ctx.fillRect(0, 0, g.W, g.H);
       ctx.drawImage(a, g.dx, g.dy, g.dw, g.dh);
       const b = frames[i + 1]; if (b && f > .03) { ctx.globalAlpha = f; ctx.drawImage(b, g.dx, g.dy, g.dw, g.dh); ctx.globalAlpha = 1; }
       extend(g);
@@ -438,7 +441,7 @@
       p = v; draw();
       if (bar) bar.style.transform = `scaleX(${v})`;
       chap.forEach((el, k) => {
-        const o = clamp((v - (.03 + k * .045)) / .08);
+        const o = clamp((v - (.03 + k * (chap.length > 6 ? .075 : .045))) / .08);
         el.style.opacity = o; el.style.transform = `translateY(${(1 - o) * 30}px)`;
       });
     }
@@ -456,13 +459,20 @@
     const tl = gsap.timeline({ scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom bottom', scrub: .5 } });
     tl.to('#heroCopy', { opacity: 0, y: -60, duration: .16, ease: 'none' }, .1)
       .to('.scroll-hint', { opacity: 0, duration: .05 }, 0)
-      .to('.hero__steam', { opacity: 1, duration: .08 }, .28)
-      .to('.hero__steam path', { strokeDashoffset: 0, duration: .25, stagger: .04, ease: 'none' }, .28)
       .fromTo('#heroSecret', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .14 }, .4)
-      .to('.hero__steam', { opacity: 0, y: -60, duration: .14 }, .7)
       .to('#heroSecret', { opacity: 0, y: -40, duration: .12 }, .78)
       .fromTo('#heroFacts', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12 }, .8)
       .to({}, { duration: .08 }, .92);
+  }
+
+  function storyParallax() {
+    if (reduce) return;
+    const sp = { 'sa--sanaa': -40, 'sa--photos': 70, 'sa--sketch': -90, 'sa--box': 50, 'sa-year': 120 };
+    Object.keys(sp).forEach(k => {
+      const el = $('.' + k); if (!el) return;
+      gsap.fromTo(el, { y: -sp[k] / 2 }, { y: sp[k] / 2, ease: 'none', scrollTrigger: { trigger: '#story', start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+    gsap.from($$('.sa img'), { opacity: 0, scale: .9, duration: 1.2, stagger: .12, ease: 'power3.out', scrollTrigger: { trigger: '#storyArt', start: 'top 75%', once: true } });
   }
 
   function navSpy() {
@@ -486,9 +496,9 @@
       onToggle: s => { if (s.isActive) setTab(m.dataset.c); }
     }));
     // active nav link
-    ['#today', '#menu', '#stories', '#feasts', '#secrets', '#how'].forEach(id => {
+    ['#story', '#world', '#menu', '#stories', '#natural', '#how'].forEach(id => {
       const el = $(id); if (!el) return;
-      ScrollTrigger.create({ trigger: el, start: 'top 50%', end: id === '#stories' ? () => '+=' + ($('#feasts').offsetTop - el.offsetTop) : 'bottom 50%', onToggle: s => $$('.nav__links a').forEach(a => a.classList.toggle('on', s.isActive && a.getAttribute('href') === id)) });
+      ScrollTrigger.create({ trigger: el, start: 'top 50%', end: id === '#stories' ? () => '+=' + ($('#natural').offsetTop - el.offsetTop) : 'bottom 50%', onToggle: s => $$('.nav__links a').forEach(a => a.classList.toggle('on', s.isActive && a.getAttribute('href') === id)) });
     });
   }
   let curTab = '';
@@ -597,6 +607,7 @@
     bind();
     $$('.scene').forEach(makeScene);
     heroScroll();
+    storyParallax();
     navSpy();
     finalLogo();
     intro();
