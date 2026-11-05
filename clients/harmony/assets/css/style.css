@@ -7,8 +7,8 @@
   --r:18px; --hdr:74px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:auto;-webkit-text-size-adjust:100%;overflow-x:clip}
-body{background:var(--night);color:var(--ink);font-family:var(--ar);font-size:16px;line-height:1.7;overflow-x:clip;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:auto;-webkit-text-size-adjust:100%;overflow-x:hidden;overflow-x:clip;max-width:100%}
+body{background:var(--night);color:var(--ink);font-family:var(--ar);font-size:16px;line-height:1.7;overflow-x:hidden;overflow-x:clip;max-width:100%;position:relative;-webkit-font-smoothing:antialiased}
 body.is-loading{overflow:hidden}
 html[lang=en] body{--disp:'Rye',serif}
 img{max-width:100%;display:block}
@@ -86,7 +86,7 @@ html[lang=ar] .l-ar,html[lang=en] .l-en{color:var(--gold)}
 .nav-open .burger i:last-child{transform:translateY(-4px) rotate(-45deg)}
 
 /* ---------- hero ---------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;isolation:isolate}
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;overflow:hidden;isolation:isolate}
 .hero-bg{position:absolute;inset:-4% 0 -4%;z-index:-3}
 .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:70% 50%;transform-origin:70% 60%}
 .hero-lamp{position:absolute;z-index:-2;width:26vmax;height:26vmax;top:43%;left:86%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,214,120,.55),rgba(255,150,40,.12) 40%,transparent 68%);mix-blend-mode:screen;animation:lamp 3.2s ease-in-out infinite}
@@ -122,7 +122,8 @@ html[lang=en] .sign-small{font-size:clamp(1.4rem,3vw,2.2rem)}
 @keyframes cue{to{top:50px}}
 
 /* ---------- marquee ---------- */
-.marquee{background:linear-gradient(180deg,var(--red),var(--maroon));border-block:3px solid var(--gold);overflow:hidden;padding:.7rem 0;position:relative;z-index:2;transform:rotate(-1.2deg);margin:-14px -2vw 0;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.marquee-wrap{overflow:hidden;position:relative;z-index:2;padding:14px 0 6px;margin-top:-20px}
+.marquee{background:linear-gradient(180deg,var(--red),var(--maroon));border-block:3px solid var(--gold);overflow:hidden;padding:.7rem 0;position:relative;z-index:2;transform:rotate(-1.2deg);margin:0 -2vw;box-shadow:0 10px 30px rgba(0,0,0,.4)}
 .marquee-track{display:flex;width:max-content;animation:mq 34s linear infinite}
 html[dir=ltr] .marquee-track{animation-direction:reverse}
 .marquee-track span{font-family:var(--disp);font-size:1.5rem;color:var(--cream);padding:0 1.6rem;display:flex;align-items:center;gap:1.6rem;white-space:nowrap}
@@ -130,8 +131,8 @@ html[dir=ltr] .marquee-track{animation-direction:reverse}
 @keyframes mq{to{transform:translateX(50%)}}
 
 /* ---------- journey / train ---------- */
-.journey{position:relative;background:radial-gradient(ellipse at 50% 0%,#2a0f08,var(--night) 65%)}
-.journey-pin{height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;position:relative}
+.journey{overflow:hidden;position:relative;background:radial-gradient(ellipse at 50% 0%,#2a0f08,var(--night) 65%)}
+.journey-pin{height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;position:relative}
 .journey-head{width:min(1200px,92vw);margin-inline:auto;position:relative;z-index:2}
 .journey-stage{position:relative;height:min(56vh,460px);margin-top:1rem}
 .sky-lamps{position:absolute;inset:0 0 auto;display:flex;justify-content:space-around;pointer-events:none}
@@ -149,7 +150,7 @@ html[dir=rtl] .train{flex-direction:row}
 .loco-dome{position:absolute;left:120px;bottom:150px;width:46px;height:30px;border-radius:24px 24px 0 0;background:linear-gradient(90deg,#9d6f22,var(--gold2),#9d6f22)}
 .loco-chimney{position:absolute;left:46px;bottom:150px;width:34px;height:52px;background:linear-gradient(90deg,#111,#3a3a3a,#111);border-radius:4px 4px 0 0}
 .loco-chimney::before{content:"";position:absolute;top:-8px;left:-8px;right:-8px;height:12px;background:#1a1a1a;border-radius:4px}
-.loco-chimney canvas{position:absolute;left:-63px;bottom:30px;width:560px;height:300px;pointer-events:none}
+.loco-chimney canvas{position:absolute;left:-63px;bottom:30px;width:560px;height:300px;pointer-events:none;-webkit-mask-image:radial-gradient(ellipse 60% 75% at 14% 100%,#000 35%,transparent 100%);mask-image:radial-gradient(ellipse 60% 75% at 14% 100%,#000 35%,transparent 100%)}
 .loco-cab{position:absolute;right:0;bottom:46px;width:104px;height:170px;background:linear-gradient(180deg,var(--red2),var(--maroon));border-radius:10px 10px 4px 4px;border:3px solid #3a0808}
 .loco-cab::before{content:"";position:absolute;top:-16px;left:-10px;right:-10px;height:18px;background:#1a1a1a;border-radius:6px}
 .loco-cab .win{position:absolute;top:22px;left:20px;right:20px;height:52px;border-radius:6px;background:linear-gradient(180deg,#ffe2a0,#f2a43a);box-shadow:inset 0 0 0 4px var(--brass),0 0 22px rgba(255,190,80,.4)}
@@ -181,8 +182,8 @@ html[lang=en] .wg-copy b{font-size:1.45rem}
 .sleepers{position:absolute;inset:12px 0 0;background:repeating-linear-gradient(90deg,#4a2a14 0 22px,transparent 22px 54px);will-change:transform}
 
 /* ---------- scenes ---------- */
-.scene{position:relative;background:var(--night)}
-.scene-pin{height:100svh;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:3vw;width:min(1240px,94vw);margin-inline:auto;position:relative}
+.scene{overflow:hidden;position:relative;background:var(--night)}
+.scene-pin{height:100vh;height:100svh;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:3vw;width:min(1240px,94vw);margin-inline:auto;position:relative}
 .scene-alt .scene-pin{grid-template-columns:1fr 1.1fr}
 .scene-alt .scene-canvas{order:2}
 .scene-glow{position:absolute;width:60vmin;height:60vmin;border-radius:50%;background:radial-gradient(circle,rgba(255,138,28,.28),transparent 65%);top:50%;inset-inline-start:22%;transform:translate(-50%,-50%);pointer-events:none}
@@ -250,7 +251,7 @@ html[dir=rtl] .tk-stub{border-radius:18px 0 0 18px}
 .barcode{width:60px;height:34px;margin-top:.5rem;background:repeating-linear-gradient(90deg,var(--cream) 0 2px,transparent 2px 4px,var(--cream) 4px 5px,transparent 5px 8px)}
 
 /* ---------- deliver ---------- */
-.deliver{padding:110px 0;background:linear-gradient(180deg,var(--night),#180907)}
+.deliver{overflow:hidden;padding:110px 0;background:linear-gradient(180deg,var(--night),#180907)}
 .route{position:relative;height:130px;margin:0 0 2.6rem}
 .route-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .route-svg path{stroke:var(--gold);stroke-width:3;stroke-dasharray:10 10;vector-effect:non-scaling-stroke;opacity:.7}
@@ -375,12 +376,17 @@ html[dir=ltr] .drawer-card{transform:translateX(105%)}
   .hdr-logo img{width:42px;height:42px}
   .hdr-name small{display:none}
   .hdr-name b{font-size:1.15rem}
-  .hero{align-items:flex-end}
+  .hero{align-items:flex-start}
+  .hero-bg img{object-position:50% 100%}
+  .hero-inner{padding:calc(var(--hdr) + 18px) 0 40px}
+  .hero-sub{font-size:1.05rem;margin:.7rem 0 1rem}
+  .hero-ctas{gap:.5rem}
+  .hero-ctas .btn{padding:.75em 1em;font-size:.92rem;flex:1 1 auto}
+  .hero-tickets{display:none}
   .hero-bg img{object-position:50% 50%}
   html[dir=rtl] .hero-bg{transform:none}
-  .hero-shade,html[dir=ltr] .hero-shade,html[dir=rtl] .hero-shade{background:linear-gradient(0deg,var(--night) 8%,rgba(17,7,5,.82) 42%,rgba(17,7,5,.15) 70%,rgba(17,7,5,.5))}
-  .hero-lamp,html[dir=ltr] .hero-lamp,html[dir=rtl] .hero-lamp{left:55%;top:73%;width:40vmax;height:40vmax}
-  .hero-inner{padding-bottom:84px}
+  .hero-shade,html[dir=ltr] .hero-shade,html[dir=rtl] .hero-shade{background:linear-gradient(180deg,rgba(17,7,5,.88) 0%,rgba(17,7,5,.78) 45%,rgba(17,7,5,.1) 66%,transparent 85%,var(--night) 99%)}
+  .hero-lamp,html[dir=ltr] .hero-lamp,html[dir=rtl] .hero-lamp{left:55%;top:80%;width:40vmax;height:40vmax}
   .sign-big{font-size:clamp(4.2rem,22vw,6.4rem)}
   html[lang=en] .sign-big{font-size:clamp(2.8rem,14vw,4rem)}
   .hero-tickets li{min-width:0;flex:1}
