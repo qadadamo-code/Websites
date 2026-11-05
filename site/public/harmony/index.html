@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>محطة الانسجام | مكرونة وطواجن وحواوشي في منيل شيحة</title>
+<meta name="description" content="محطة الانسجام: مكرونة بالصلصة الحمراء، طواجن بالموتزاريلا، حواوشي وميكسات على كيفك. منيل شيحة، الجيزة. توصيل وطلب مباشر عبر واتساب 01140302155.">
+<meta name="theme-color" content="#120806">
+<meta property="og:type" content="website">
+<meta property="og:title" content="محطة الانسجام | ميكسات على كيفك">
+<meta property="og:description" content="مكرونة وطواجن وحواوشي وميكسات على كيفك. اطلب عبر واتساب والطلب يوصلك سخن.">
+<meta property="og:image" content="assets/img/og.jpg">
+<link rel="icon" type="image/png" href="assets/img/icon.png">
+<link rel="apple-touch-icon" href="assets/img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Alexandria:wght@300;400;500;600;700;800&family=Rye&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=1">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Restaurant","name":"محطة الانسجام | Harmony Station","telephone":"+201140302155","email":"abu.ruhaim11@gmail.com","servesCuisine":["Egyptian","Pasta"],"priceRange":"££","openingHours":"Mo-Su 00:00-23:59","address":{"@type":"PostalAddress","streetAddress":"منيل شيحة، شارع النقطة القديمة بجوار الوحدة الصحية - شارع الجرن","addressLocality":"Giza","postalCode":"12511","addressCountry":"EG"},"sameAs":["https://www.facebook.com/profile.php?id=61595898876961","https://www.tiktok.com/@harmony.station1"]}</script>
+</head>
+<body class="is-loading">
+
+<!-- ============ LOADER: departure board ============ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="ld-board">
+    <div class="ld-top"><span class="ld-dot"></span><span data-i18n="ld.dep">رحلة الطعم · القيام حالًا</span><span class="ld-dot"></span></div>
+    <div class="ld-flaps" id="ldFlaps"></div>
+    <div class="ld-track"><i class="ld-rail"></i><span class="ld-train" id="ldTrain">
+      <svg viewBox="0 0 64 32"><path fill="currentColor" d="M6 22h44v-9H38V6h-6v7H18V9h-6v4H6zm46-9v9h6l-2-9zM10 24a4 4 0 1 0 8 0zm14 0a4 4 0 1 0 8 0zm16 0a4 4 0 1 0 8 0z"/></svg>
+    </span></div>
+    <div class="ld-num"><span id="ldNum">0</span>%</div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="hdr" id="hdr">
+  <a href="#top" class="hdr-logo" aria-label="محطة الانسجام">
+    <img src="assets/img/logo.webp" alt="محطة الانسجام" width="48" height="48">
+    <span class="hdr-name"><b data-i18n="brand">محطة الانسجام</b><small data-i18n="brand.tag">مكرونة · طواجن · حواوشي</small></span>
+  </a>
+  <nav class="hdr-nav" id="nav">
+    <a href="#journey" data-i18n="nav.journey">القطر</a>
+    <a href="#oven" data-i18n="nav.oven">الطاجن</a>
+    <a href="#menu" data-i18n="nav.menu">المنيو</a>
+    <a href="#offer" data-i18n="nav.offer">العروض</a>
+    <a href="#visit" data-i18n="nav.visit">العنوان</a>
+  </nav>
+  <div class="hdr-actions">
+    <button class="lang-btn" id="langBtn" aria-label="Language"><span class="l-ar">ع</span><span class="l-sep">/</span><span class="l-en">EN</span></button>
+    <button class="cart-btn" id="cartBtn" aria-label="Cart">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2.5 2.5 0 0 0 0 5v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4a2.5 2.5 0 0 0 0-5Zm11 0h-1.5v2H14Zm0 4h-1.5v2H14Zm0 4h-1.5v2H14Z"/></svg>
+      <b id="cartCount">0</b>
+    </button>
+    <a class="btn btn-gold hdr-cta wa-link" target="_blank" rel="noopener" data-wa-text="hello" data-i18n="cta.order">اطلب دلوقتي</a>
+    <button class="burger" id="burger" aria-label="Menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <picture class="hero-bg">
+    <source media="(max-width: 760px)" srcset="assets/img/hero-m.webp">
+    <img src="assets/img/hero.webp" alt="" id="heroImg">
+  </picture>
+  <div class="hero-lamp" aria-hidden="true"></div>
+  <canvas class="steam" id="steam" aria-hidden="true"></canvas>
+  <div class="hero-shade"></div>
+  <div class="hero-inner">
+    <p class="eyebrow"><span class="dot"></span><span data-i18n="hero.eyebrow">منيل شيحة · الجيزة · مفتوحين 24 ساعة</span></p>
+    <h1 class="sign">
+      <span class="sign-small" data-i18n="hero.small">محطة</span>
+      <span class="sign-big" data-i18n="hero.big">الانسجام</span>
+      <span class="sign-plate" data-i18n="hero.plate">ميكسات</span>
+    </h1>
+    <p class="hero-sub" data-i18n="hero.sub">مكرونة وطواجن وحواوشي وميكسات على كيفك 👌</p>
+    <div class="hero-ctas">
+      <a href="#menu" class="btn btn-gold" data-i18n="cta.menu">شوف المنيو</a>
+      <a class="btn btn-ghost wa-link" target="_blank" rel="noopener" data-wa-text="hello">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2 .9c.3.2.5.2.5.4.1.1.1.7-.1 1.3Z"/></svg>
+        <span data-i18n="cta.wa">اطلب على واتساب</span>
+      </a>
+    </div>
+    <ul class="hero-tickets">
+      <li><b>25</b><span data-i18n="hero.t1">صنف على المنيو</span></li>
+      <li><b>20</b><span data-i18n="hero.t2">ج.م أول سعر</span></li>
+      <li><b>24/7</b><span data-i18n="hero.t3">توصيل لحد البيت</span></li>
+    </ul>
+  </div>
+  <a href="#journey" class="scroll-cue" aria-label="scroll"><span data-i18n="hero.scroll">القطر داخل على الرصيف</span><i></i></a>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+
+<!-- ============ JOURNEY: the train ============ -->
+<section class="journey" id="journey">
+  <div class="journey-pin">
+    <div class="journey-head">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="j.eyebrow">اركب معانا</span></p>
+      <h2 class="h2" data-i18n="j.title">أربع عربيات… <em>وكل عربية طعم</em></h2>
+    </div>
+    <div class="journey-stage">
+      <div class="sky-lamps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="train" id="train">
+        <div class="loco">
+          <div class="loco-chimney"><canvas id="puff"></canvas></div>
+          <div class="loco-dome"></div>
+          <div class="loco-boiler"><span class="loco-light"></span><span class="loco-badge"><img src="assets/img/logo.webp" alt=""></span></div>
+          <div class="loco-cab"><span class="win"></span></div>
+          <div class="loco-cow"></div>
+          <div class="wheels"><i class="wh big"></i><i class="wh big"></i><i class="wh"></i></div>
+          <div class="rod"></div>
+        </div>
+        <div class="wagon" data-cat="box">
+          <div class="wg-roof"></div>
+          <div class="wg-body">
+            <span class="wg-no">01</span>
+            <img src="assets/img/box.webp" alt="" class="wg-dish">
+            <div class="wg-copy"><b data-i18n="cat.box">علب الانسجام</b><span data-i18n="wg.box">مكرونة بالصلصة الحمراء… بطعم لا يقاوم</span><em><span data-i18n="from">من</span> 20 <span data-i18n="cur">ج.م</span></em></div>
+          </div>
+          <div class="wheels"><i class="wh"></i><i class="wh"></i></div>
+        </div>
+        <div class="wagon" data-cat="mix">
+          <div class="wg-roof"></div>
+          <div class="wg-body">
+            <span class="wg-no">02</span>
+            <img src="assets/img/mix.webp" alt="" class="wg-dish">
+            <div class="wg-copy"><b data-i18n="cat.mix">الميكسات</b><span data-i18n="wg.mix">كبدة، سجق، شاورما، سوسيس… على كيفك</span><em><span data-i18n="from">من</span> 30 <span data-i18n="cur">ج.م</span></em></div>
+          </div>
+          <div class="wheels"><i class="wh"></i><i class="wh"></i></div>
+        </div>
+        <div class="wagon" data-cat="tagine">
+          <div class="wg-roof"></div>
+          <div class="wg-body">
+            <span class="wg-no">03</span>
+            <img src="assets/img/tagine.webp" alt="" class="wg-dish">
+            <div class="wg-copy"><b data-i18n="cat.tagine">الطواجن</b><span data-i18n="wg.tagine">طالعة من الفرن… والموتزاريلا بتشد</span><em><span data-i18n="from">من</span> 20 <span data-i18n="cur">ج.م</span></em></div>
+          </div>
+          <div class="wheels"><i class="wh"></i><i class="wh"></i></div>
+        </div>
+        <div class="wagon" data-cat="hawawshi">
+          <div class="wg-roof"></div>
+          <div class="wg-body">
+            <span class="wg-no">04</span>
+            <img src="assets/img/hawawshi.webp" alt="" class="wg-dish">
+            <div class="wg-copy"><b data-i18n="cat.hawawshi">الحواوشي</b><span data-i18n="wg.hawawshi">رغيف مقرمش وحشوة كفتة متبلة</span><em><span data-i18n="from">من</span> 20 <span data-i18n="cur">ج.م</span></em></div>
+          </div>
+          <div class="wheels"><i class="wh"></i><i class="wh"></i></div>
+        </div>
+      </div>
+      <div class="rails" aria-hidden="true"><i class="sleepers" id="sleepers"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCENE: oven tagine ============ -->
+<section class="scene" id="oven" data-seq="tagine">
+  <div class="scene-pin">
+    <div class="scene-glow"></div>
+    <canvas class="scene-canvas" id="seqTagine"></canvas>
+    <div class="scene-copy">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="oven.eyebrow">المحطة الجاية: الفرن</span></p>
+      <h2 class="h2" data-i18n="oven.title">الغزالة رايقة لما <em>الطاجن يبقى واخد حقه في الفرن!</em></h2>
+      <ol class="scene-steps">
+        <li data-i18n="oven.s1">مكرونة بالرد صوص</li>
+        <li data-i18n="oven.s2">كبدة، لحمة، شاورما، سجق أو سوسيس</li>
+        <li data-i18n="oven.s3">طبقة موتزاريلا بتشد معاك لآخر الشارع</li>
+      </ol>
+      <a href="#menu" class="btn btn-gold" data-jump="tagine" data-i18n="oven.cta">اختار طاجنك</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCENE: mix ============ -->
+<section class="scene scene-alt" id="mixes" data-seq="mix">
+  <div class="scene-pin">
+    <div class="scene-glow"></div>
+    <canvas class="scene-canvas" id="seqMix"></canvas>
+    <div class="scene-copy">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="mix.eyebrow">ميكسات على كيفك</span></p>
+      <h2 class="h2" data-i18n="mix.title">علبة مكرونة… <em>وإنت تختار اللي ينزل فوقها</em></h2>
+      <ol class="scene-steps">
+        <li data-i18n="mix.s1">ميكس كبدة إنسجام</li>
+        <li data-i18n="mix.s2">ميكس سجق إنسجام</li>
+        <li data-i18n="mix.s3">ميكس شاورما وسوسيس إنسجام</li>
+      </ol>
+      <a href="#menu" class="btn btn-gold" data-jump="mix" data-i18n="mix.cta">اطلب الميكس</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MENU: departure board ============ -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="menu.eyebrow">لوحة المواعيد · 25 صنف</span></p>
+      <h2 class="h2" data-i18n="menu.title">المنيو <em>كامل بالأسعار</em></h2>
+      <p class="lead" data-i18n="menu.lead">اختار الرصيف، وضيف اللي نفسك فيه للتذكرة. الطواجن والحواوشي ليهم نسخة بالموتزاريلا.</p>
+    </div>
+    <div class="board">
+      <div class="board-top">
+        <div class="board-title"><span class="ld-dot"></span><b data-i18n="menu.board">المغادرة من محطة الانسجام</b></div>
+        <div class="board-clock" id="clock">00:00</div>
+      </div>
+      <div class="platforms" id="tabs" role="tablist"></div>
+      <div class="board-cols"><span data-i18n="menu.col1">الصنف</span><span data-i18n="menu.col2">السعر</span><span></span></div>
+      <div class="rows" id="rows"></div>
+      <p class="board-note" data-i18n="menu.note">* الطواجن والميكسات حسب الطلب. الأسعار بالجنيه المصري.</p>
+    </div>
+    <div class="menu-paper">
+      <button class="paper-btn" id="paperBtn">
+        <img src="assets/img/menu.webp" alt="منيو محطة الانسجام" loading="lazy">
+        <span data-i18n="menu.paper">شوف المنيو المطبوع</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OFFER ============ -->
+<section class="offer" id="offer">
+  <div class="wrap offer-grid">
+    <div class="offer-copy">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="offer.eyebrow">عرض حصري</span></p>
+      <h2 class="h2" data-i18n="offer.title">اطلب 4… <em>والخامس علينا</em></h2>
+      <p class="lead" data-i18n="offer.lead">عرض لفترة محدودة في أيام مختارة. ابعتلنا على واتساب واسأل عن مواعيد العرض الجاي.</p>
+      <a class="btn btn-gold wa-link" target="_blank" rel="noopener" data-wa-text="offer" data-i18n="offer.cta">اسأل عن العرض</a>
+    </div>
+    <div class="ticket offer-ticket" id="offerTicket">
+      <div class="tk-main">
+        <div class="tk-head"><img src="assets/img/logo.webp" alt=""><div><b data-i18n="brand">محطة الانسجام</b><small data-i18n="offer.tk">تذكرة هدية · 4 + 1</small></div></div>
+        <ul class="tk-lines">
+          <li><b>4</b><span data-i18n="offer.l1">علبة انسجام أي مقاس</span><em>+1 <span data-i18n="offer.g1">علبة هدية</span></em></li>
+          <li><b>4</b><span data-i18n="offer.l2">أكياس انسجام</span><em>+1 <span data-i18n="offer.g2">كيس هدية</span></em></li>
+          <li><b>4</b><span data-i18n="offer.l3">رغيف حواوشي</span><em>+1 <span data-i18n="offer.g3">رغيف هدية</span></em></li>
+          <li><b>4</b><span data-i18n="offer.l4">طاجن أي نوع</span><em>+1 <span data-i18n="offer.g4">طاجن هدية</span></em></li>
+        </ul>
+      </div>
+      <div class="tk-stub"><span data-i18n="offer.stub">هدية</span><b>+1</b><i class="barcode"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DELIVERY & PAY ============ -->
+<section class="deliver" id="deliver">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="del.eyebrow">خدمة التوصيل</span></p>
+      <h2 class="h2" data-i18n="del.title">الطلب يتحرك من المحطة… <em>ويوصلك سخن</em></h2>
+    </div>
+    <div class="route" id="route">
+      <svg class="route-svg" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><path id="routePath" d="M20 90 C 200 10, 320 110, 500 60 S 800 20, 980 70" fill="none"/></svg>
+      <span class="route-a" data-i18n="del.a">المحطة</span>
+      <span class="route-b" data-i18n="del.b">بيتك</span>
+      <span class="scooter" id="scooter">🛵</span>
+    </div>
+    <div class="steps">
+      <div class="step"><b>1</b><h3 data-i18n="del.s1t">اختار من المنيو</h3><p data-i18n="del.s1p">ضيف الأصناف للتذكرة واختار توصيل أو استلام.</p></div>
+      <div class="step"><b>2</b><h3 data-i18n="del.s2t">ابعت على واتساب</h3><p data-i18n="del.s2p">الطلب بيتكتب لوحده بالأسعار والإجمالي.</p></div>
+      <div class="step"><b>3</b><h3 data-i18n="del.s3t">ادفع زي ما تحب</h3><p data-i18n="del.s3p">كاش عند الاستلام، أو إنستاباي، أو فودافون كاش.</p></div>
+    </div>
+    <div class="pay">
+      <div class="pay-card">
+        <span class="pay-tag insta">InstaPay</span>
+        <h3 data-i18n="pay.insta">إنستا باي</h3>
+        <button class="copy" data-copy="01043706299"><b>01043706299</b><small data-i18n="pay.copy">انسخ الرقم</small></button>
+      </div>
+      <div class="pay-card">
+        <span class="pay-tag voda">Vodafone Cash</span>
+        <h3 data-i18n="pay.voda">فودافون كاش</h3>
+        <button class="copy" data-copy="01027251247"><b>01027251247</b><small data-i18n="pay.copy">انسخ الرقم</small></button>
+        <button class="copy" data-copy="01064249234"><b>01064249234</b><small data-i18n="pay.copy">انسخ الرقم</small></button>
+      </div>
+      <div class="pay-card hot">
+        <span class="pay-tag">Hotline</span>
+        <h3 data-i18n="pay.hot">الطلبات والتوصيل</h3>
+        <a class="big-num tel-link" href="tel:+201140302155">01140302155</a>
+        <a class="btn btn-gold wa-link" target="_blank" rel="noopener" data-wa-text="hello" data-i18n="cta.wa">اطلب على واتساب</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISIT ============ -->
+<section class="visit" id="visit">
+  <div class="wrap visit-grid">
+    <div class="visit-copy">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="visit.eyebrow">محطتنا</span></p>
+      <h2 class="h2" data-i18n="visit.title">تعالى <em>زورنا</em></h2>
+      <ul class="info">
+        <li><i>📍</i><div><small data-i18n="visit.addr">العنوان</small><b data-i18n="visit.addrV">منيل شيحة، شارع النقطة القديمة بجوار الوحدة الصحية - شارع الجرن، الجيزة</b></div></li>
+        <li><i>🕒</i><div><small data-i18n="visit.hours">مواعيد العمل</small><b data-i18n="visit.hoursV">مفتوحين 24 ساعة، طول أيام الأسبوع</b></div></li>
+        <li><i>📞</i><div><small data-i18n="visit.phone">الطلبات والتوصيل</small><b><a class="tel-link" href="tel:+201140302155">01140302155</a></b></div></li>
+        <li><i>✉️</i><div><small data-i18n="visit.mail">البريد</small><b><a href="mailto:abu.ruhaim11@gmail.com">abu.ruhaim11@gmail.com</a></b></div></li>
+      </ul>
+      <div class="socials">
+        <a href="https://www.facebook.com/profile.php?id=61595898876961" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.tiktok.com/@harmony.station1" target="_blank" rel="noopener">TikTok</a>
+        <a class="wa-link" target="_blank" rel="noopener" data-wa-text="hello">WhatsApp</a>
+      </div>
+    </div>
+    <div class="map">
+      <iframe title="map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=%D9%85%D9%86%D9%8A%D9%84%20%D8%B4%D9%8A%D8%AD%D8%A9%20%D8%A7%D9%84%D8%AC%D9%8A%D8%B2%D8%A9&z=15&output=embed"></iframe>
+      <a class="btn btn-ghost map-btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%86%D9%8A%D9%84%20%D8%B4%D9%8A%D8%AD%D8%A9%20%D8%A7%D9%84%D9%88%D8%AD%D8%AF%D8%A9%20%D8%A7%D9%84%D8%B5%D8%AD%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AC%D9%8A%D8%B2%D8%A9" data-i18n="visit.maps">افتح في خرائط Google</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ftr">
+  <div class="wrap ftr-grid">
+    <div class="ftr-brand"><img src="assets/img/logo.webp" alt="" width="64" height="64"><div><b data-i18n="brand">محطة الانسجام</b><p data-i18n="ftr.about">مكرونة بالصلصة الحمراء… بطعم لا يقاوم. طواجن، حواوشي وميكسات على كيفك.</p></div></div>
+    <div class="ftr-links"><a href="#menu" data-i18n="nav.menu">المنيو</a><a href="#offer" data-i18n="nav.offer">العروض</a><a href="#deliver" data-i18n="nav.deliver">التوصيل والدفع</a><a href="#visit" data-i18n="nav.visit">العنوان</a></div>
+  </div>
+  <div class="wrap ftr-bottom"><span>© <span id="year">2026</span> <span data-i18n="brand">محطة الانسجام</span></span><a href="https://web.theplanetco.com" target="_blank" rel="noopener" class="planet">Website by <b>Planet</b></a></div>
+</footer>
+
+<!-- floating order bar -->
+<button class="fab" id="fab" aria-label="cart"><span class="fab-ic">🎫</span><span><b id="fabCount">0</b> <span data-i18n="cart.items">صنف</span></span><span class="fab-total"><b id="fabTotal">0</b> <span data-i18n="cur">ج.م</span></span><span data-i18n="cart.view">عرض التذكرة</span></button>
+
+<!-- item sheet -->
+<div class="sheet" id="sheet" aria-hidden="true">
+  <div class="sheet-bg" data-close></div>
+  <div class="sheet-card">
+    <button class="x" data-close aria-label="close">×</button>
+    <img id="shImg" alt="">
+    <h3 id="shName"></h3>
+    <div class="opt" id="shOpt"></div>
+    <div class="sh-row">
+      <div class="qty"><button id="shMinus">−</button><b id="shQty">1</b><button id="shPlus">+</button></div>
+      <button class="btn btn-gold" id="shAdd"><span data-i18n="cta.add">ضيف للتذكرة</span> · <b id="shPrice"></b></button>
+    </div>
+  </div>
+</div>
+
+<!-- cart drawer (ticket) -->
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-bg" data-close></div>
+  <div class="drawer-card">
+    <div class="dr-head"><h3><span>🎫</span> <span data-i18n="cart.title">تذكرة طلبك</span></h3><button class="x" data-close aria-label="close">×</button></div>
+    <div class="dr-items" id="drItems"></div>
+    <div class="dr-form">
+      <div class="seg" id="seg"><button class="on" data-type="delivery" data-i18n="cart.delivery">توصيل</button><button data-type="pickup" data-i18n="cart.pickup">استلام من المحطة</button></div>
+      <input id="fName" data-ph="cart.name" placeholder="الاسم">
+      <input id="fAddr" data-ph="cart.addr" placeholder="العنوان بالتفصيل">
+      <textarea id="fNote" rows="2" data-ph="cart.note" placeholder="ملاحظات (اختياري)"></textarea>
+    </div>
+    <div class="dr-foot">
+      <div class="dr-total"><span data-i18n="cart.subtotal">الإجمالي</span><b><span id="drTotal">0</span> <span data-i18n="cur">ج.م</span></b></div>
+      <button class="btn btn-gold btn-block" id="sendWa" data-i18n="cart.send">ابعت الطلب على واتساب</button>
+    </div>
+  </div>
+</aside>
+
+<!-- printed menu lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true"><div class="lb-bg" data-close></div><img src="assets/img/menu.webp" alt=""><button class="x" data-close aria-label="close">×</button></div>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/app.js?v=1"></script>
+</body>
+</html>
