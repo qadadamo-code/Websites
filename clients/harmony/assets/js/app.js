@@ -1,7 +1,7 @@
 /* محطة الانسجام | Harmony Station — site logic (AR/EN, train motion, board menu, ticket cart → WhatsApp) */
 (function () {
   'use strict';
-  const CONFIG = { wa: '201140302155', phone: '+201140302155' };
+  const CONFIG = { wa: '201203101104', phone: '+201203101104' };
 
   /* ---------------- menu data (from the client's printed menu) ---------------- */
   const CATS = [
@@ -64,7 +64,7 @@
       'offer.tk': 'تذكرة هدية · 4 + 1', 'offer.l1': 'علبة انسجام أي مقاس', 'offer.g1': 'علبة هدية', 'offer.l2': 'أكياس انسجام', 'offer.g2': 'كيس هدية', 'offer.l3': 'رغيف حواوشي', 'offer.g3': 'رغيف هدية', 'offer.l4': 'طاجن أي نوع', 'offer.g4': 'طاجن هدية', 'offer.stub': 'هدية',
       'del.eyebrow': 'خدمة التوصيل', 'del.title': 'الطلب يتحرك من المحطة… <em>ويوصلك سخن</em>', 'del.a': 'المحطة', 'del.b': 'بيتك',
       'del.s1t': 'اختار من المنيو', 'del.s1p': 'ضيف الأصناف للتذكرة واختار توصيل أو استلام.', 'del.s2t': 'ابعت على واتساب', 'del.s2p': 'الطلب بيتكتب لوحده بالأسعار والإجمالي.', 'del.s3t': 'ادفع زي ما تحب', 'del.s3p': 'كاش عند الاستلام، أو إنستاباي، أو فودافون كاش.',
-      'pay.insta': 'إنستا باي', 'pay.voda': 'فودافون كاش', 'pay.hot': 'الطلبات والتوصيل', 'pay.copy': 'انسخ الرقم', 'pay.copied': 'اتنسخ الرقم ✓',
+      'pay.ask': 'اطلب الرقم على واتساب', 'wa.pay': 'أهلًا محطة الانسجام 👋 عايز رقم الدفع (إنستاباي / فودافون كاش).', 'pay.insta': 'إنستا باي', 'pay.voda': 'فودافون كاش', 'pay.hot': 'الطلبات والتوصيل', 'pay.copy': 'انسخ الرقم', 'pay.copied': 'اتنسخ الرقم ✓',
       'visit.eyebrow': 'محطتنا', 'visit.title': 'تعالى <em>زورنا</em>', 'visit.addr': 'العنوان', 'visit.addrV': 'منيل شيحة، شارع النقطة القديمة بجوار الوحدة الصحية - شارع الجرن، الجيزة',
       'visit.hours': 'مواعيد العمل', 'visit.hoursV': 'مفتوحين 24 ساعة، طول أيام الأسبوع', 'visit.phone': 'الطلبات والتوصيل', 'visit.mail': 'البريد', 'visit.maps': 'افتح في خرائط Google',
       'ftr.about': 'مكرونة بالصلصة الحمراء… بطعم لا يقاوم. طواجن، حواوشي وميكسات على كيفك.',
@@ -98,7 +98,7 @@
       'offer.tk': 'Gift ticket · 4 + 1', 'offer.l1': 'Harmony boxes, any size', 'offer.g1': 'free box', 'offer.l2': 'Harmony bags', 'offer.g2': 'free bag', 'offer.l3': 'Hawawshi loaves', 'offer.g3': 'free loaf', 'offer.l4': 'Tagines, any kind', 'offer.g4': 'free tagine', 'offer.stub': 'FREE',
       'del.eyebrow': 'Delivery service', 'del.title': 'Your order leaves the station… <em>and arrives hot</em>', 'del.a': 'Station', 'del.b': 'Your home',
       'del.s1t': 'Pick from the menu', 'del.s1p': 'Add items to your ticket and choose delivery or pickup.', 'del.s2t': 'Send on WhatsApp', 'del.s2p': 'Your order is written for you with prices and total.', 'del.s3t': 'Pay your way', 'del.s3p': 'Cash on delivery, InstaPay or Vodafone Cash.',
-      'pay.insta': 'InstaPay', 'pay.voda': 'Vodafone Cash', 'pay.hot': 'Orders & delivery', 'pay.copy': 'Copy number', 'pay.copied': 'Number copied ✓',
+      'pay.ask': 'Ask for the number on WhatsApp', 'wa.pay': 'Hello Harmony Station 👋 Please send me the payment number (InstaPay / Vodafone Cash).', 'pay.insta': 'InstaPay', 'pay.voda': 'Vodafone Cash', 'pay.hot': 'Orders & delivery', 'pay.copy': 'Copy number', 'pay.copied': 'Number copied ✓',
       'visit.eyebrow': 'Our station', 'visit.title': 'Come <em>visit us</em>', 'visit.addr': 'Address', 'visit.addrV': 'Menyal Shiha, Old Police Point St., next to the Health Unit (El Gorn St.), Giza',
       'visit.hours': 'Opening hours', 'visit.hoursV': 'Open 24 hours, 7 days a week', 'visit.phone': 'Orders & delivery', 'visit.mail': 'Email', 'visit.maps': 'Open in Google Maps',
       'ftr.about': 'Red-sauce pasta… irresistible. Tagines, hawawshi and mixes your way.',
@@ -129,7 +129,7 @@
   const waURL = txt => `https://wa.me/${CONFIG.wa}?text=${encodeURIComponent(txt)}`;
   function wireContacts() {
     $$('.wa-link').forEach(a => { a.href = waURL(t('wa.' + (a.dataset.waText || 'hello'))); });
-    $$('.copy').forEach(b => b.addEventListener('click', () => {
+    $$('.copy[data-copy]').forEach(b => b.addEventListener('click', () => {
       const n = b.dataset.copy;
       (navigator.clipboard ? navigator.clipboard.writeText(n) : Promise.reject()).then(() => toast(t('pay.copied'))).catch(() => { prompt('', n); });
     }));
