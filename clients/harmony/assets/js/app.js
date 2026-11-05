@@ -340,7 +340,7 @@
   function motion() {
     const hdr = $('#hdr'); let lastY = 0;
     const onScroll = y => { hdr.classList.toggle('solid', y > 40); hdr.classList.toggle('hide', y > lastY && y > 500 && !document.body.classList.contains('nav-open')); lastY = y; };
-    if (!reduce && window.Lenis) {
+    if (!reduce && window.Lenis && matchMedia('(pointer:fine)').matches) {
       lenis = new Lenis({ lerp: .1, smoothWheel: true });
       lenis.on('scroll', e => { ScrollTrigger.update(); onScroll(e.scroll); });
       gsap.ticker.add(time => lenis.raf(time * 1000)); gsap.ticker.lagSmoothing(0);
@@ -356,10 +356,11 @@
 
     if (!window.gsap) return;
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     // hero steam + parallax
     const hs = steam($('#steam'), {
-      origin: () => { const c = $('#steam'); return isMobile() ? { x: c.clientWidth * .5, y: c.clientHeight * .6 } : { x: c.clientWidth * (LANG === 'en' ? .81 : .19), y: c.clientHeight * .33 }; },
+      origin: () => { const c = $('#steam'); return isMobile() ? { x: c.clientWidth * .5, y: c.clientHeight * .7 } : { x: c.clientWidth * (LANG === 'en' ? .81 : .19), y: c.clientHeight * .33 }; },
       spread: 40, vx: () => (Math.random() - .5) * .5 + (isMobile() ? 0 : (LANG === 'en' ? -.25 : .25)), speed: 1.4, size: 120, rate: 1, max: 90, alpha: .55
     });
     ScrollTrigger.create({ trigger: '#hero', start: 'top top', end: 'bottom top', onLeave: () => hs.stop(), onEnterBack: () => hs.start() });
