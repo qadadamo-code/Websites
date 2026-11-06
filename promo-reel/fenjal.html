@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--navy:#143659;--mint:#92C5B4;--beige:#e8dfd0;--ink:#16243a;--deep:#0c2240;--gold:#c9a24a}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--navy);font-family:'TH',sans-serif;color:var(--ink)}
+.scene{position:absolute;inset:0;display:none;overflow:hidden}
+.cam{position:absolute;inset:0;transform-origin:50% 50%}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.abs{position:absolute}
+.k{font-family:'TH';font-weight:900;line-height:1.18;white-space:nowrap}
+.lt{color:var(--beige);text-shadow:0 10px 34px rgba(0,0,0,.55)}
+.w{display:inline-block}
+.bar{display:inline-block;background:var(--beige);color:var(--ink);padding:6px 26px 14px;transform-origin:100% 50%;font-family:'TH';font-weight:900;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.bar.m{background:var(--mint);color:var(--navy)}
+.bar.n{background:var(--navy);color:var(--beige)}
+.bar.g{background:var(--gold);color:#1b1206}
+.lat{font-family:'Montserrat';font-weight:800;letter-spacing:2px}
+.num{font-family:'Montserrat';font-weight:800;color:var(--mint);line-height:1;text-shadow:0 10px 40px rgba(0,0,0,.5)}
+.card{position:absolute;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.35),0 4px 10px rgba(0,0,0,.25)}
+.card img{width:100%;height:100%;object-fit:cover;display:block}
+.hole{position:absolute;inset:0;overflow:hidden}
+.hole .in{position:absolute;inset:0;transform-origin:536px 952px}
+.swirl{position:absolute;left:356px;top:772px;width:360px;height:360px;border-radius:50%;
+ background:radial-gradient(circle,rgba(0,0,0,0) 0,rgba(0,0,0,0) 18%,rgba(60,30,5,.35) 100%),conic-gradient(from 0deg,#7a4a14,#d39a3c,#8b5718,#e6b45a,#6d4011,#c98a2e,#7a4a14)}
+#grain{position:absolute;inset:-60px;pointer-events:none;opacity:.10;mix-blend-mode:overlay;z-index:50;background-size:300px 300px}
+#vig{position:absolute;inset:0;pointer-events:none;z-index:49;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 62%,rgba(0,0,0,.28) 100%)}
+.cursor{position:absolute;width:64px;height:64px;z-index:20}
+.heart{position:absolute;width:90px;height:90px}
+.chip{display:inline-block;background:var(--mint);color:var(--navy);font-family:'TH';font-weight:900;font-size:44px;padding:4px 22px 10px;border-radius:40px}
+</style></head><body>
+<div id="stage">
+
+<!-- F1 dallah pour -->
+<div class="scene" id="s1" data-a="0" data-b="2.26" data-push="0.05" data-s0="1.04">
+ <div class="cam" style="transform-origin:30% 60%"><img class="bg" src="img/f1.jpg"></div>
+ <div class="abs k lt" style="left:60px;top:470px;width:560px;text-align:right;font-size:132px">
+  <div><span class="w" data-t="0.02">في</span> <span class="w" data-t="0.12">المجلس</span></div></div>
+ <div class="abs" style="left:60px;top:660px;width:560px;text-align:right;font-size:104px">
+  <div><span class="bar" data-k="bar" data-t="0.94">الضيافة</span></div>
+  <div style="margin-top:16px"><span class="bar m" data-k="bar" data-t="1.72" style="font-size:150px">أصول</span></div></div></div>
+
+<!-- F2 souq -->
+<div class="scene" id="s2" data-a="2.26" data-b="5.30" data-enter="neg" data-push="0.05" data-s0="1.03">
+ <div class="cam" style="transform-origin:55% 70%"><img class="bg" src="img/f8.jpg"></div>
+ <div class="abs k lt" style="right:80px;top:170px;text-align:right;font-size:140px">
+  <span class="w" data-t="2.28">وفي</span> <span class="w" data-t="2.88">السوق</span></div>
+ <div class="abs" style="right:80px;top:390px;text-align:right;font-size:118px">
+  <span class="bar n" data-k="bar" data-t="3.76">الحضور</span> <span class="bar m" data-k="bar" data-t="4.38" style="font-size:150px">أصول</span></div></div>
+
+<!-- F3 host pours, first cup -->
+<div class="scene" id="s3" data-a="5.30" data-b="6.52" data-enter="zoom" data-push="0.06" data-s0="1.02">
+ <div class="cam" style="transform-origin:62% 45%"><img class="bg" src="img/f4.jpg"></div>
+ <div class="abs num" data-k="pop" data-t="5.40" style="left:70px;top:190px;font-size:230px">01</div>
+ <div class="abs" style="left:70px;top:450px;font-size:112px;direction:rtl">
+  <span class="bar g" data-k="bar" data-t="5.48">الفنجال</span><br><span class="bar m" data-k="bar" data-t="6.06" style="margin-top:14px">الأول</span></div></div>
+
+<!-- CUP 1 identity -->
+<div class="scene cup" id="s4" data-a="6.52" data-b="8.90" data-enter="negzoom" data-push="0.05" data-s0="1" data-ex="8.42">
+ <div class="cam"><img class="bg" src="img/f3.jpg">
+  <div class="hole"><div class="in" style="background:var(--beige)">
+   <img class="abs" src="assets/mark-navy.png" style="left:416px;top:832px;width:240px">
+   <div class="abs id1" style="left:120px;top:1260px;width:180px;height:180px;border-radius:50%;background:var(--navy)"></div>
+   <div class="abs id1" style="left:330px;top:1260px;width:180px;height:180px;border-radius:50%;background:var(--mint)"></div>
+   <div class="abs id1 lat" style="left:560px;top:1250px;font-size:170px;color:var(--navy)">Aa</div>
+   <img class="abs id1" src="assets/lockup-navy.png" style="left:330px;top:420px;width:420px">
+  </div><div class="swirl"></div></div></div>
+ <div class="abs" style="left:0;right:0;top:300px;text-align:center;font-size:170px"><span class="bar m" data-k="bar" data-t="6.52">هوية</span></div>
+ <div class="abs" style="left:0;right:0;top:1560px;text-align:center;font-size:104px">
+  <span class="bar n" data-k="bar" data-t="7.42">تعرّف</span> <span class="bar n" data-k="bar" data-t="7.98">الناس</span> <span class="bar m" data-k="bar" data-t="8.42">فيك</span></div></div>
+
+<!-- CUP 2 social -->
+<div class="scene cup" id="s5" data-a="8.90" data-b="12.36" data-enter="neg" data-push="0.04" data-s0="1" data-ex="10.80">
+ <div class="cam"><img class="bg" src="img/f3.jpg">
+  <div class="hole"><div class="in" style="background:#fff"><div id="s5grid" class="abs" style="left:0;top:0;width:1080px"></div></div><div class="swirl"></div></div>
+  <div id="s5hearts" class="abs" style="inset:0"></div></div>
+ <div class="abs num" data-k="pop" data-t="8.92" style="left:0;right:0;top:170px;text-align:center;font-size:150px">02</div>
+ <div class="abs" style="left:0;right:0;top:350px;text-align:center;font-size:120px"><span class="bar g" data-k="bar" data-t="8.96">الثاني</span></div>
+ <div class="abs" id="s5t1" style="left:0;right:0;top:1500px;text-align:center;font-size:124px">
+  <span class="bar n" data-k="bar" data-t="9.86">سوشيال</span> <span class="bar m" data-k="bar" data-t="10.40">ميديا</span></div>
+ <div class="abs" id="s5t2" style="left:0;right:0;top:1460px;text-align:center;font-size:118px">
+  <div><span class="bar n" data-k="bar" data-t="10.88">تجمع</span> <span class="bar n" data-k="bar" data-t="11.46">الناس</span></div>
+  <div style="margin-top:16px"><span class="bar m" data-k="bar" data-t="11.82" style="font-size:150px">حولك</span></div></div></div>
+
+<!-- CUP 3 website -->
+<div class="scene cup" id="s6" data-a="12.36" data-b="14.68" data-enter="neg" data-push="0.04" data-s0="1" data-ex="14.30">
+ <div class="cam"><img class="bg" src="img/f3.jpg">
+  <div class="hole"><div class="in" style="background:#fff"><img id="s6site" src="assets/m17.jpg" style="position:absolute;left:0;top:0;width:1080px"></div><div class="swirl"></div></div></div>
+ <div class="abs num" data-k="pop" data-t="12.38" style="left:0;right:0;top:170px;text-align:center;font-size:150px">03</div>
+ <div class="abs" style="left:0;right:0;top:350px;text-align:center;font-size:120px"><span class="bar g" data-k="bar" data-t="12.42">الثالث</span></div>
+ <div class="abs" style="left:0;right:0;top:1500px;text-align:center;font-size:124px">
+  <span class="bar n" data-k="bar" data-t="13.34">موقع</span> <span class="bar m" data-k="bar" data-t="13.98">إلكتروني</span></div></div>
+
+<!-- F9 phone, open 24h -->
+<div class="scene" id="s6b" data-a="14.68" data-b="17.04" data-enter="cut" data-push="0" data-s0="1">
+ <div class="cam" id="s6bcam" style="transform-origin:62% 60%"><img class="bg" src="img/f9.jpg">
+  <div class="abs" style="left:603px;top:1012px;width:132px;height:278px;border-radius:20px;overflow:hidden;background:#fff;transform:rotate(12deg);transform-origin:50% 50%">
+   <img id="s6bsite" src="assets/m17.jpg" style="position:absolute;left:0;top:0;width:100%"></div></div>
+ <div class="abs k lt" style="right:80px;top:170px;text-align:right;font-size:132px">
+  <span class="w" data-t="14.70">يفتح</span> <span class="w" data-t="15.12">بابك</span></div>
+ <div class="abs" style="right:80px;top:370px;text-align:right;direction:rtl">
+  <span class="num" id="s6bnum" style="font-size:260px;display:inline-block;direction:ltr">24</span>
+  <span class="bar m" data-k="bar" data-t="16.40" style="font-size:120px;vertical-align:middle;margin-right:20px">ساعة</span></div></div>
+
+<!-- CUP 4 ads -->
+<div class="scene cup" id="s7" data-a="17.04" data-b="18.68" data-enter="neg" data-push="0.04" data-s0="1" data-ex="18.40">
+ <div class="cam"><img class="bg" src="img/f3.jpg">
+  <div class="hole"><div class="in" style="background:#f3f1ec">
+   <div class="abs" style="left:0;top:300px;width:1080px;height:110px;background:#fff;display:flex;align-items:center;gap:20px;padding:0 40px;direction:rtl">
+    <div style="width:76px;height:76px;border-radius:50%;background:var(--navy)"></div>
+    <div><div style="font:900 40px TH;color:#111">مطعمك</div><div style="font:700 30px TH;color:#777">إعلان ممول</div></div></div>
+   <img class="abs" src="assets/d6.jpg" style="left:0;top:412px;width:1080px;height:1080px;object-fit:cover">
+   <div class="abs chip" style="left:470px;top:760px">إعلان</div>
+   <div class="abs" style="left:0;top:1492px;width:1080px;height:150px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 40px;direction:rtl">
+    <div style="font:900 44px TH;color:#111">اطلب الحين</div><div style="background:var(--navy);color:#fff;font:900 40px TH;padding:8px 36px 14px;border-radius:14px">اطلب</div></div>
+  </div><div class="swirl"></div></div></div>
+ <div class="abs num" data-k="pop" data-t="17.06" style="left:0;right:0;top:170px;text-align:center;font-size:150px">04</div>
+ <div class="abs" style="left:0;right:0;top:350px;text-align:center;font-size:120px"><span class="bar g" data-k="bar" data-t="17.08">والرابع</span></div>
+ <div class="abs" style="left:0;right:0;top:1500px;text-align:center;font-size:150px"><span class="bar m" data-k="bar" data-t="17.84">إعلانات</span></div></div>
+
+<!-- Search -> your ad -->
+<div class="scene" id="s7b" data-a="18.68" data-b="20.48" data-enter="cut" data-push="0.03" data-s0="1" style="background:var(--navy)">
+ <div class="cam">
+  <div class="abs" style="left:80px;right:80px;top:300px;height:130px;background:#fff;border-radius:70px;display:flex;align-items:center;padding:0 50px;gap:24px;direction:rtl;box-shadow:0 30px 70px rgba(0,0,0,.4)">
+   <svg width="56" height="56" viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" fill="none" stroke="#143659" stroke-width="2.6"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="#143659" stroke-width="2.6" stroke-linecap="round"/></svg>
+   <span id="s7btype" style="font:900 58px TH;color:#16243a"></span><span id="s7bcaret" style="width:5px;height:64px;background:#143659;display:inline-block"></span></div>
+  <div id="s7bres" class="abs" style="left:80px;right:80px;top:500px"></div>
+ </div>
+ <svg class="cursor" id="s7bcur" viewBox="0 0 24 24"><path d="M3 2l7 19 2.5-7.5L20 11z" fill="#fff" stroke="#0c2240" stroke-width="1.6" stroke-linejoin="round"/></svg>
+ <div class="abs" style="left:0;right:0;top:1460px;text-align:center;font-size:112px;z-index:21">
+  <div><span class="bar" data-k="bar" data-t="18.70">توصلك</span> <span class="bar" data-k="bar" data-t="19.36">للي</span> <span class="bar" data-k="bar" data-t="19.64">يدوّر</span></div>
+  <div style="margin-top:16px"><span class="bar m" data-k="bar" data-t="19.90" style="font-size:150px">عليك</span></div></div></div>
+
+<!-- F5 shake the cup -->
+<div class="scene" id="s8" data-a="20.48" data-b="23.00" data-enter="neg" data-push="0.05" data-s0="1.03">
+ <div class="cam" id="s8cam" style="transform-origin:90% 25%"><img class="bg" src="img/f5.jpg"></div>
+ <div class="abs k lt" style="left:60px;top:880px;width:620px;text-align:right;font-size:118px">
+  <div><span class="w" data-t="20.50">وإذا</span> <span class="w" data-t="20.80">تبي</span></div>
+  <div><span class="w" data-t="21.02">تكتفي…</span></div></div>
+ <div class="abs" style="left:60px;top:1240px;width:620px;text-align:right;font-size:128px">
+  <span class="bar m" data-k="bar" data-t="21.78">هزّ</span> <span class="bar" data-k="bar" data-t="22.42">الفنجال</span></div></div>
+
+<!-- F7 hero host -->
+<div class="scene" id="s9" data-a="23.00" data-b="26.66" data-enter="zoom" data-push="0.05" data-s0="1.02">
+ <div class="cam" style="transform-origin:50% 40%"><img class="bg" src="img/f7.jpg"></div>
+ <div class="abs k lt" style="left:0;right:0;top:120px;text-align:center;font-size:124px">
+  <span class="w" data-t="23.02">بس</span> <span class="w" data-t="23.66">صدّقني…</span></div>
+ <div class="abs" style="left:0;right:0;top:320px;text-align:center;font-size:104px">
+  <span class="bar n" data-k="bar" data-t="24.26">ما</span> <span class="bar n" data-k="bar" data-t="24.70">راح</span> <span class="bar n" data-k="bar" data-t="24.98">تهزّه</span></div>
+ <div class="abs" style="left:0;right:0;top:1440px;text-align:center;font-size:104px">
+  <div><span class="bar" data-k="bar" data-t="25.42">قبل</span> <span class="bar" data-k="bar" data-t="25.60">ما</span> <span class="bar" data-k="bar" data-t="25.76">تشوف</span></div>
+  <div style="margin-top:16px"><span class="bar m" data-k="bar" data-t="25.96" style="font-size:150px">النتيجة</span></div></div></div>
+
+<!-- F6 tray of four -->
+<div class="scene" id="s10" data-a="26.66" data-b="28.98" data-enter="neg" data-push="0.04" data-s0="1.02">
+ <div class="cam"><img class="bg" src="img/f6.jpg">
+  <div class="abs" style="right:690px;top:478px;text-align:right"><span class="chip" data-k="pop" data-t="26.90">هوية</span></div>
+  <div class="abs" style="right:690px;top:742px;text-align:right"><span class="chip" data-k="pop" data-t="27.06">سوشيال ميديا</span></div>
+  <div class="abs" style="right:690px;top:1008px;text-align:right"><span class="chip" data-k="pop" data-t="27.22">موقع إلكتروني</span></div>
+  <div class="abs" style="right:690px;top:1274px;text-align:right"><span class="chip" data-k="pop" data-t="27.38">إعلانات</span></div></div>
+ <img class="abs" data-k="pop" data-t="26.70" src="assets/lockup-light.png" style="left:340px;top:120px;width:400px">
+ <div class="abs" style="left:0;right:0;top:1600px;text-align:center;font-size:124px">
+  <span class="bar n" data-k="bar" data-t="27.46">حضورك</span> <span class="bar g" data-k="bar" data-t="28.32">بأصوله</span></div></div>
+
+<!-- End card -->
+<div class="scene" id="s11" data-a="28.98" data-b="99" data-enter="cut" data-push="0.02" data-s0="1" style="background:var(--beige)">
+ <div class="cam"><img class="bg" src="img/f10.jpg">
+  <div class="abs k" style="left:0;right:0;top:260px;text-align:center;font-size:140px;color:var(--navy)">
+   <span class="w" data-t="28.98">كلّمنا</span> <span class="w" style="color:#3f8f7d" data-t="29.66">الحين</span></div>
+  <img class="abs" data-k="pop" data-t="30.10" src="assets/lockup-navy.png" style="left:320px;top:560px;width:440px">
+  <div class="abs lat" style="left:0;right:0;top:990px;text-align:center;color:var(--navy);font-size:46px" data-k="up" data-t="30.40">www.theplanetco.com</div>
+  <div class="abs" style="left:0;right:0;top:1075px;text-align:center" data-k="up" data-t="30.55">
+   <span style="display:inline-flex;align-items:center;gap:16px;background:var(--navy);color:#fff;border-radius:60px;padding:16px 40px;font-family:'Montserrat';font-weight:700;font-size:44px;direction:ltr">
+    <svg width="46" height="46" viewBox="0 0 24 24"><path fill="#92C5B4" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.1.1.6-.1 1.2z"/></svg>
+    01203101104</span></div>
+ </div></div>
+
+<div id="vig"></div><div id="grain"></div>
+</div>
+
+<script>
+const S=1.06, OFF=0.15;
+const T=x=>OFF+x/S;
+const cl=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const eo=p=>1-Math.pow(1-p,3), eox=p=>p>=1?1:1-Math.pow(2,-10*p), eio=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const back=p=>{const c=1.9;return 1+(c+1)*Math.pow(p-1,3)+c*Math.pow(p-1,2)};
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+const $=id=>document.getElementById(id);
+const D=[...Array(16)].map((_,i)=>'assets/d'+(i+1)+'.jpg');
+const CX=536,CY=952,R=170;
+
+(function(){const urls=[];for(let k=0;k<4;k++){const c=document.createElement('canvas');c.width=c.height=300;const x=c.getContext('2d');const im=x.createImageData(300,300);for(let i=0;i<im.data.length;i+=4){const v=Math.random()*255;im.data[i]=im.data[i+1]=im.data[i+2]=v;im.data[i+3]=255}x.putImageData(im,0,0);urls.push(c.toDataURL())}window._g=urls})();
+
+/* posts grid */
+(function(){let h='';for(let i=0;i<24;i++){h+=`<img src="${D[(i*5+3)%16]}" style="position:absolute;left:${(i%3)*362}px;top:${Math.floor(i/3)*362}px;width:356px;height:356px;object-fit:cover">`}$('s5grid').innerHTML=h})();
+/* hearts */
+const H5=[];(function(){seed=5;const box=$('s5hearts');for(let i=0;i<14;i++){const el=document.createElement('div');el.className='heart';el.innerHTML='<svg viewBox="0 0 24 24" width="100%" height="100%"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3.1 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4.7-1.2 2.2-2.4 4.3-2.4 3.6 0 5.8 3.7 4.3 7.2C19.5 16.4 12 21 12 21z" fill="'+(i%3?'#92C5B4':'#ff5a6e')+'" stroke="#fff" stroke-width="1.2"/></svg>';box.appendChild(el);H5.push({el,x:80+rnd()*900,y:1300+rnd()*300,s:0.6+rnd()*0.9,t:10.95+i*0.09,dr:-20+rnd()*40})}})();
+/* search results */
+(function(){const items=[['d3','مطعم الديرة','4.6'],['d6','مطعمك','4.9'],['d9','مطعم السوق','4.3']];let h='';items.forEach((it,i)=>{const ad=i===1;h+=`<div class="res" style="position:relative;height:240px;margin-bottom:26px;background:#fff;border-radius:28px;display:flex;align-items:center;gap:28px;padding:0 28px;direction:rtl;${ad?'box-shadow:0 0 0 8px #92C5B4,0 30px 60px rgba(0,0,0,.4)':'opacity:.85'}"><img src="assets/${it[0]}.jpg" style="width:184px;height:184px;border-radius:20px;object-fit:cover"><div><div style="font:900 52px TH;color:#16243a">${it[1]}</div><div style="font:700 36px Montserrat;color:#c9a24a;direction:ltr;text-align:right">★ ${it[2]}</div>${ad?'<span class="chip" style="font-size:34px;margin-top:6px">إعلان</span>':''}</div></div>`});$('s7bres').innerHTML=h})();
+
+/* kashida justify multi-line .jb blocks */
+const NOJOIN='اأإآدذرزوؤةءى';const MARK=/[ً-ْٰ]/;const AR=/[ء-ي]/;
+function kpoints(w){const pts=[];for(let i=0;i<w.length-1;i++){const c=w[i];if(!AR.test(c)||NOJOIN.includes(c))continue;let j=i+1;while(j<w.length&&MARK.test(w[j]))j++;if(j>=w.length||!AR.test(w[j]))continue;if(c==='ل'&&'اأإآ'.includes(w[j]))continue;if(w[j]==='ء')continue;pts.push(j)}return pts}
+function justifyAll(){
+ const saved=[];document.querySelectorAll('.scene').forEach(sc=>{saved.push([sc,sc.style.display]);sc.style.display='block'});
+ document.querySelectorAll('.jb').forEach(b=>{
+  const rows=[...b.children].filter(r=>r.querySelector('.w'));if(rows.length<2)return;
+  const wrap=rows.map(r=>{const sp=document.createElement('span');sp.style.cssText='display:inline-block;white-space:nowrap';while(r.firstChild)sp.appendChild(r.firstChild);r.appendChild(sp);return sp});
+  const target=Math.max(...wrap.map(x=>x.offsetWidth));
+  wrap.forEach(sp=>{const words=[...sp.querySelectorAll('.w')].map(el=>({el,base:el.textContent,pts:kpoints(el.textContent)})).filter(o=>o.pts.length);
+   const slots=[];words.forEach(o=>{o.c=o.pts.map(()=>0);o.pts.forEach((_,i)=>slots.push({o,i,pr:(o.pts.length-1-i)}))});
+   const paint=o=>{let t='',last=0;o.pts.forEach((k,i)=>{t+=o.base.slice(last,k)+'ـ'.repeat(o.c[i]);last=k});o.el.textContent=t+o.base.slice(last)};
+   let guard=0;while(sp.offsetWidth<target-6&&slots.length&&guard++<80){
+     slots.sort((a,b)=>a.o.c[a.i]-b.o.c[b.i]||a.pr-b.pr);const sl=slots[0];if(sl.o.c[sl.i]>=5)break;
+     sl.o.c[sl.i]++;paint(sl.o);if(sp.offsetWidth>target+6){sl.o.c[sl.i]--;paint(sl.o);break}}
+   const r=target/sp.offsetWidth;if(r>1.02){const fs=parseFloat(getComputedStyle(sp).fontSize);sp.style.fontSize=(fs*Math.min(r,1.2))+'px'}
+  });
+ });
+ saved.forEach(([sc,d])=>sc.style.display=d);
+}
+
+const scenes=[...document.querySelectorAll('.scene')].map(el=>({el,a:+el.dataset.a,b:+el.dataset.b,enter:el.dataset.enter||'cut',push:+(el.dataset.push||0.04),s0:+(el.dataset.s0||1),cam:el.querySelector('.cam'),items:[...el.querySelectorAll('[data-t]')],cup:el.classList.contains('cup'),ex:+(el.dataset.ex||0)}));
+scenes.forEach(s=>{s.A=s.a===0?0:T(s.a);s.B=T(s.b)});
+
+function reveal(el,t){const k=el.dataset.k||'w';const t0=T(+el.dataset.t);const dur=k==='bar'?0.2:k==='pop'?0.45:0.2;const p=cl((t-t0)/dur);
+ if(k==='bar'){el.style.transform=`scaleX(${eo(p)})`;el.style.opacity=p>0?1:0;el.style.color=p<0.6?'transparent':''}
+ else if(k==='pop'){const q=back(p);el.style.transform=`scale(${0.6+0.4*q})`;el.style.opacity=cl(p*3)}
+ else if(k==='up'){el.style.transform=`translateY(${(1-eo(p))*40}px)`;el.style.opacity=eo(p)}
+ else {el.style.clipPath=`inset(-20% 0 -20% ${(1-eo(p))*100}%)`;el.style.transform=`translateY(${(1-eo(p))*24}px)`;el.style.opacity=p>0?1:0}}
+
+/* cup: coffee swirls, the service appears inside, then opens to full frame */
+function cup(s,t,lt){const hole=s.el.querySelector('.hole'),inn=hole.querySelector('.in'),sw=hole.querySelector('.swirl');
+ const pin=eo(cl((lt-0.12)/0.55));
+ sw.style.transform=`rotate(${lt*420}deg)`;sw.style.opacity=1-cl((lt-0.25)/0.4);
+ inn.style.transform=`rotate(${(1-pin)*-140}deg) scale(${0.35+0.65*pin})`;inn.style.opacity=cl((lt-0.12)/0.25);
+ const ex=eio(cl((t-T(s.ex))/0.38));const r=R+ex*1500;
+ hole.style.clipPath=`circle(${r}px at ${CX}px ${CY}px)`;
+ return ex}
+
+function render(t){
+ for(const s of scenes){const on=t>=s.A&&t<s.B;s.el.style.display=on?'block':'none';if(!on)continue;const lt=t-s.A;
+  let sc=s.s0+s.push*lt,bl=0,filt='';const e=s.enter;
+  if(e==='zoom'||e==='negzoom'){const p=cl(lt/0.32);sc*=1+0.28*(1-eox(p));bl=(1-p)*10}
+  if((e==='neg'||e==='negzoom')&&lt<0.1)filt='invert(1) hue-rotate(180deg) saturate(1.4)';
+  if(e==='neg'&&lt<0.2){sc*=1+0.12*(1-eo(cl(lt/0.2)))}
+  let rot=0;
+  if(s.cup){const ex=cup(s,t,lt);sc*=1+0.5*ex}
+  if(s.el.id==='s8'){const k=cl((t-T(21.78))/0.75);if(k>0&&k<1)rot=Math.sin(k*Math.PI*7)*3.2*(1-k)}
+  s.cam.style.transform=`scale(${sc}) rotate(${rot}deg)`;s.cam.style.filter=bl>0.1?`blur(${bl}px)`:'';
+  s.el.style.filter=filt;
+  s.items.forEach(el=>reveal(el,t));
+  const f=U[s.el.id];if(f)f(t,lt,s);
+ }
+ const end=t>=scenes[scenes.length-1].A;$('vig').style.opacity=end?0.3:1;
+ const g=$('grain');g.style.backgroundImage=`url(${_g[Math.floor(t*30)%4]})`;g.style.transform=`translate(${(Math.floor(t*30)*37)%60-30}px,${(Math.floor(t*30)*53)%60-30}px)`;
+}
+
+const U={
+ s4(t,lt){const p=eo(cl((t-T(8.42))/0.4));document.querySelectorAll('#s4 .id1').forEach((el,i)=>{const q=eo(cl((t-T(8.50)-i*0.06)/0.35));el.style.opacity=q;el.style.transform=`translateY(${(1-q)*60}px)`})},
+ s5(t,lt){$('s5grid').style.transform=`translateY(${-lt*160}px)`;
+   $('s5t1').style.opacity=t<T(10.88)?1:0;$('s5t2').style.opacity=t>=T(10.88)?1:0;
+   H5.forEach(h=>{const p=cl((t-T(h.t))/1.1);h.el.style.opacity=p>0?(1-cl((p-0.7)/0.3)):0;h.el.style.left=h.x+'px';h.el.style.top=(h.y-p*700)+'px';h.el.style.transform=`scale(${h.s*back(cl(p*3))}) rotate(${h.dr*p}deg)`})},
+ s6(t,lt){$('s6site').style.transform=`translateY(${-lt*200}px)`},
+ s6b(t,lt){const z=eio(cl(lt/2.0));$('s6bcam').style.transform=`scale(${1+0.55*z})`;$('s6bsite').style.transform=`translateY(${-lt*60}px)`;
+   const n=Math.round(24*eo(cl((t-T(15.56))/0.7)));$('s6bnum').textContent=String(n).padStart(2,'0');$('s6bnum').style.opacity=t>=T(15.50)?1:0},
+ s7(t,lt){},
+ s7b(t,lt){const w='أفضل مطعم قريب';const p=cl(lt/0.6);$('s7btype').textContent=w.slice(0,Math.round(w.length*p));$('s7bcaret').style.opacity=(Math.floor(t*4)%2||p<1)?1:0;
+   document.querySelectorAll('#s7bres .res').forEach((el,i)=>{const q=eox(cl((lt-0.55-i*0.1)/0.4));el.style.transform=`translateY(${(1-q)*200}px) scale(${i===1?1+0.05*eo(cl((t-T(19.9))/0.3)):1})`;el.style.visibility=q>0?'visible':'hidden'});
+   const c=$('s7bcur');const q=eio(cl((lt-0.7)/0.6));c.style.left=(980-q*340)+'px';c.style.top=(1400-q*560)+'px';const ck=cl((t-T(19.9))/0.14);c.style.transform=`scale(${1-0.25*Math.sin(ck*Math.PI)})`},
+ s11(t,lt){}
+};
+window.render=render;window.DUR=33;
+document.fonts.ready.then(()=>{justifyAll();window.TYPESET=1});
+</script></body></html>
