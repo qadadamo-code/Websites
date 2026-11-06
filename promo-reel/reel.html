@@ -45,10 +45,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 <!-- S2 card -->
 <div class="scene" id="s2" data-a="1.52" data-b="3.45" data-enter="neg" data-push="0.07" data-s0="1.03">
  <div class="cam"><img class="bg" src="img/s2.jpg">
-  <div class="abs ink k jb" style="left:400px;top:1110px;width:470px;text-align:center;font-size:92px;transform:rotate(-6deg)">
-   <span class="line"><span class="w" data-t="1.60">تبي</span></span>
-   <span class="line" style="font-size:74px"><span class="w" data-t="2.12">سوشيال</span> <span class="w" data-t="2.48">ميديا</span></span>
-   <span class="line"><span class="w" data-t="2.84">تبيع؟</span></span>
+  <div class="abs ink k jb" style="left:395px;top:1150px;width:470px;text-align:center;font-size:80px;transform:rotate(-6deg)">
+   <span class="line"><span class="w" data-t="1.60">تبي</span> <span class="w" data-t="2.12">سوشيال</span></span>
+   <span class="line"><span class="w" data-t="2.48">ميديا</span> <span class="w" data-t="2.84">تبيع؟</span></span>
   </div></div></div>
 
 <!-- S3 globe + bars -->
@@ -298,12 +297,13 @@ function justifyAll(){
   const rows=[...b.children].filter(r=>r.querySelector('.w'));if(rows.length<2)return;
   const wrap=rows.map(r=>{const sp=document.createElement('span');sp.style.cssText='display:inline-block;white-space:nowrap';while(r.firstChild)sp.appendChild(r.firstChild);r.appendChild(sp);return sp});
   const target=Math.max(...wrap.map(x=>x.offsetWidth));
-  wrap.forEach(sp=>{const words=[...sp.querySelectorAll('.w')].map(el=>({el,base:el.textContent,pts:kpoints(el.textContent),n:0})).filter(o=>o.pts.length);
-   let guard=0;while(sp.offsetWidth<target-6&&words.length&&guard++<40){
-     words.sort((a,b)=>a.n-b.n||b.base.length-a.base.length);const o=words[0];if(o.n>=7)break;o.n++;
-     const k=o.pts[o.pts.length-1];o.el.textContent=o.base.slice(0,k)+'ـ'.repeat(o.n)+o.base.slice(k);
-     if(sp.offsetWidth>target+4){o.n--;o.el.textContent=o.base.slice(0,k)+'ـ'.repeat(o.n)+o.base.slice(k);break}}
-   const r=target/sp.offsetWidth;if(r>1.02){const fs=parseFloat(getComputedStyle(sp).fontSize);sp.style.fontSize=(fs*Math.min(r,1.3))+'px'}
+  wrap.forEach(sp=>{const words=[...sp.querySelectorAll('.w')].map(el=>({el,base:el.textContent,pts:kpoints(el.textContent)})).filter(o=>o.pts.length);
+   const slots=[];words.forEach(o=>{o.c=o.pts.map(()=>0);o.pts.forEach((_,i)=>slots.push({o,i,pr:(o.pts.length-1-i)}))});
+   const paint=o=>{let t='',last=0;o.pts.forEach((k,i)=>{t+=o.base.slice(last,k)+'\u0640'.repeat(o.c[i]);last=k});o.el.textContent=t+o.base.slice(last)};
+   let guard=0;while(sp.offsetWidth<target-6&&slots.length&&guard++<80){
+     slots.sort((a,b)=>a.o.c[a.i]-b.o.c[b.i]||a.pr-b.pr);const sl=slots[0];if(sl.o.c[sl.i]>=5)break;
+     sl.o.c[sl.i]++;paint(sl.o);if(sp.offsetWidth>target+6){sl.o.c[sl.i]--;paint(sl.o);break}}
+   const r=target/sp.offsetWidth;if(r>1.02){const fs=parseFloat(getComputedStyle(sp).fontSize);sp.style.fontSize=(fs*Math.min(r,1.2))+'px'}
   });
  });
  saved.forEach(([sc,d])=>sc.style.display=d);
