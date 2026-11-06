@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--navy:#143659;--mint:#92C5B4;--beige:#e8dfd0;--ink:#16243a;--deep:#0c2240}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--navy);font-family:'Reem Kufi',sans-serif;color:var(--ink)}
+.scene{position:absolute;inset:0;display:none;overflow:hidden}
+.cam{position:absolute;inset:0;transform-origin:50% 50%}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.abs{position:absolute}
+.ink{color:var(--ink);mix-blend-mode:multiply;opacity:.93}
+.k{font-family:'Reem Kufi';font-weight:700;line-height:1.18;white-space:nowrap}
+.w{display:inline-block}
+.line{display:block}
+.bar{display:inline-block;background:var(--beige);color:var(--ink);padding:6px 26px 14px;transform-origin:100% 50%;font-family:'Reem Kufi';font-weight:700;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.bar.m{background:var(--mint);color:var(--navy)}
+.bar.n{background:var(--navy);color:var(--beige)}
+.lat{font-family:'Montserrat';font-weight:800;letter-spacing:2px}
+.shadow{box-shadow:0 40px 80px rgba(0,0,0,.35),0 8px 18px rgba(0,0,0,.25)}
+.card{position:absolute;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.35),0 4px 10px rgba(0,0,0,.25)}
+.card img{width:100%;height:100%;object-fit:cover;display:block}
+.phone{position:absolute;background:#0a0f1a;border-radius:84px;padding:20px;box-shadow:0 60px 120px rgba(0,0,0,.55),inset 0 0 0 3px #2a3448}
+.phone .scr{position:relative;width:100%;height:100%;border-radius:66px;overflow:hidden;background:#fff}
+.phone .notch{position:absolute;top:34px;left:50%;width:150px;height:42px;margin-left:-75px;background:#0a0f1a;border-radius:30px;z-index:5}
+.orb{position:absolute;border-radius:50%;background:radial-gradient(circle at 34% 28%,#e8fff6 0,#b9e6d6 14%,#92C5B4 36%,#3f8a86 64%,#143659 100%);box-shadow:0 0 120px rgba(146,197,180,.55),inset -30px -40px 80px rgba(8,25,50,.55)}
+.ring{position:absolute;border:10px solid var(--mint);border-radius:50%;box-shadow:0 0 30px rgba(146,197,180,.7)}
+#grain{position:absolute;inset:-60px;pointer-events:none;opacity:.10;mix-blend-mode:overlay;z-index:50;background-size:300px 300px}
+#vig{position:absolute;inset:0;pointer-events:none;z-index:49;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 55%,rgba(0,0,0,.38) 100%)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:60;pointer-events:none}
+.cursor{position:absolute;width:56px;height:56px;z-index:20}
+</style></head><body>
+<div id="stage">
+
+<!-- S1 paper sign -->
+<div class="scene" id="s1" data-a="0" data-b="1.52" data-push="0.06" data-s0="1.04">
+ <div class="cam"><img class="bg" src="img/s1.jpg">
+  <div class="abs ink k" style="left:110px;top:875px;width:860px;text-align:center;font-size:150px;transform:rotate(-1.2deg)">
+   <span class="line"><span class="w" data-t="0">تبـــي</span> <span class="w" data-t="0.24">بـرانـد</span></span>
+   <span class="line"><span class="w" data-t="0.64">يلفـــت</span></span>
+   <span class="line" style="font-size:132px"><span class="w" data-t="0.94">الانتبـــاه؟</span></span>
+  </div></div></div>
+
+<!-- S2 card -->
+<div class="scene" id="s2" data-a="1.52" data-b="3.45" data-enter="neg" data-push="0.07" data-s0="1.03">
+ <div class="cam"><img class="bg" src="img/s2.jpg">
+  <div class="abs ink k" style="left:400px;top:1110px;width:470px;text-align:center;font-size:92px;transform:rotate(-6deg)">
+   <span class="line"><span class="w" data-t="1.60">تبـــي</span></span>
+   <span class="line" style="font-size:74px"><span class="w" data-t="2.12">سوشيال</span> <span class="w" data-t="2.48">ميديـا</span></span>
+   <span class="line"><span class="w" data-t="2.84">تبيـــع؟</span></span>
+  </div></div></div>
+
+<!-- S3 globe + bars -->
+<div class="scene" id="s3" data-a="3.45" data-b="5.76" data-enter="negzoom" data-push="0.05" data-s0="1.02">
+ <div class="cam"><img class="bg" src="img/s3.jpg"></div>
+ <div class="abs" style="right:70px;top:1380px;text-align:right;font-size:96px">
+  <div><span class="bar" data-k="bar" data-t="3.52">تبـــي</span> <span class="bar" data-k="bar" data-t="3.78">موقـع</span></div>
+  <div style="margin-top:18px"><span class="bar" data-k="bar" data-t="4.14">إلكترونـــي</span> <span class="bar m" data-k="bar" data-t="4.72">بمستـوى</span></div>
+  <div style="margin-top:18px"><span class="bar m" data-k="bar" data-t="5.26" style="font-size:120px">عالمـــي؟</span></div>
+ </div></div>
+
+<!-- S4 navy paper on beige -->
+<div class="scene" id="s4" data-a="5.76" data-b="7.56" data-push="0.04" data-s0="1" style="background:var(--beige)">
+ <div class="cam">
+  <div id="s4paper" class="abs shadow" style="left:110px;top:520px;width:760px;height:880px;background:var(--navy);transform:rotate(-4deg)">
+   <div class="k" style="position:absolute;right:70px;top:80px;color:var(--beige);font-size:140px;line-height:1.22;text-align:right">
+    <div class="w" data-t="5.82">أجـــل</div><br>
+    <div class="w" data-t="6.34">خلّنـــا</div><br>
+    <div class="w" data-t="6.72">نعرّفـــك</div><br>
+    <div class="w" data-t="7.16">علينـــا</div>
+   </div>
+   <div class="orb" style="left:-70px;top:-80px;width:180px;height:180px"></div>
+  </div></div></div>
+
+<!-- S5 we are planet -->
+<div class="scene" id="s5" data-a="7.56" data-b="8.76" data-push="0.05" data-s0="1" style="background:var(--beige)">
+ <div class="cam">
+  <div class="abs k" style="left:0;right:0;top:560px;text-align:center;font-size:170px;color:var(--navy)"><span class="w" data-t="7.62">حنّـــا</span></div>
+  <img class="abs" data-k="pop" data-t="8.30" src="assets/lockup-navy.png" style="left:290px;top:800px;width:500px">
+ </div></div>
+
+<!-- S6a transform idea -->
+<div class="scene" id="s6a" data-a="8.76" data-b="9.97" data-push="0.08" data-s0="1" style="background:var(--beige)">
+ <div class="cam">
+  <div class="abs k" style="left:0;right:0;top:700px;text-align:center;font-size:190px;color:var(--navy);line-height:1.15">
+   <div><span class="w" data-k="blur" data-t="8.80">نحـــوّل</span></div>
+   <div><span class="w" data-k="blur" data-t="9.40">فكرتـــك</span></div>
+  </div></div></div>
+
+<!-- S6b poster construction -->
+<div class="scene" id="s6b" data-a="9.97" data-b="11.97" data-enter="zoom" data-push="0.05" data-s0="1.02">
+ <div class="cam"><img class="bg" src="img/s5.jpg">
+  <svg class="abs" id="cons" style="left:140px;top:470px" width="800" height="800" viewBox="0 0 800 800">
+   <g fill="none" stroke="#2a3a52" stroke-width="2.5" opacity=".55">
+    <circle cx="400" cy="400" r="330"/><circle cx="400" cy="400" r="220"/><circle cx="400" cy="400" r="110"/>
+    <line x1="40" y1="400" x2="760" y2="400"/><line x1="400" y1="40" x2="400" y2="760"/>
+    <line x1="100" y1="100" x2="700" y2="700"/><line x1="700" y1="100" x2="100" y2="700"/>
+   </g></svg>
+  <img class="abs" id="s6mark" src="assets/mark-navy.png" style="left:330px;top:640px;width:420px;mix-blend-mode:multiply">
+  <div class="abs ink k" style="left:90px;width:900px;top:1290px;text-align:center;font-size:96px;line-height:1.2">
+   <div><span class="w" data-t="10.06">لحضـــور</span> <span class="w" data-t="10.46">رقمــي</span></div>
+   <div><span class="w" data-t="10.92">يليـــق</span> <span class="w" data-t="11.42">بطموحـــك</span></div>
+  </div></div></div>
+
+<!-- S7 navy + orb -->
+<div class="scene" id="s7" data-a="11.97" data-b="13.95" data-push="0.04" data-s0="1" style="background:var(--navy)">
+ <div class="cam">
+  <div class="abs k" style="right:90px;top:330px;text-align:right;font-size:150px;color:var(--beige);line-height:1.25">
+   <div><span class="w" data-t="12.04">ونوصّلـــك</span></div>
+   <div><span class="w" data-t="12.90">للنتيجـــة</span></div>
+   <div><span class="w" data-t="13.48">اللـي</span> <span class="w" style="color:var(--mint)" data-t="13.62">تبيهـــا</span></div>
+  </div>
+  <div id="s7orbwrap" class="abs" style="left:230px;top:1180px;width:620px;height:620px">
+   <div class="orb" style="left:120px;top:120px;width:380px;height:380px"></div>
+   <div class="ring" id="s7ring" style="left:0;top:250px;width:620px;height:120px"></div>
+  </div></div></div>
+
+<!-- S8 phone + typing -->
+<div class="scene" id="s8" data-a="13.95" data-b="15.86" data-enter="neg" data-push="0.04" data-s0="1.02">
+ <div class="cam"><img class="bg" src="img/s7.jpg">
+  <div id="s8feed" class="abs" style="left:428px;top:1036px;width:284px;height:616px;border-radius:34px;overflow:hidden;background:#fff">
+   <div id="s8grid" class="abs" style="left:0;top:0;width:284px"></div>
+  </div></div>
+ <div class="abs k" style="right:80px;top:300px;text-align:right;font-size:118px;color:var(--beige)">
+  <div><span class="w" data-t="14.06">مـا</span> <span class="w" data-t="14.54">ننــزّل</span></div>
+  <div style="margin-top:10px"><span id="s8box" class="bar" style="min-width:120px;transform-origin:100% 50%"><span id="s8type"></span><span id="s8caret" style="display:inline-block;width:8px;height:100px;background:var(--navy);vertical-align:middle;margin-right:6px"></span></span></div>
+  <div style="margin-top:10px"><span class="w" data-t="15.34">وخـــلاص</span></div>
+ </div>
+ <svg class="cursor" id="s8cur" viewBox="0 0 24 24"><path d="M3 2l7 19 2.5-7.5L20 11z" fill="#fff" stroke="#0c2240" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</div>
+
+<!-- S9 reading -->
+<div class="scene" id="s9" data-a="15.86" data-b="17.18" data-enter="cut" data-push="0.05" data-s0="1.02">
+ <div class="cam"><img class="bg" src="img/s8.jpg"></div>
+ <div class="abs" style="right:80px;top:300px;text-align:right;font-size:110px">
+  <span class="bar" data-k="bar" data-t="15.88">نفهـــم</span> <span class="bar m" data-k="bar" data-t="16.54">مشروعـــك</span></div></div>
+
+<!-- S10 binoculars -->
+<div class="scene" id="s10" data-a="17.18" data-b="17.97" data-push="0.07" data-s0="1.03">
+ <div class="cam"><img class="bg" src="img/s9.jpg"></div>
+ <div class="abs" style="right:80px;top:250px;text-align:right;font-size:130px"><span class="bar n" data-k="bar" data-t="17.22">وسوقـــك</span></div></div>
+
+<!-- S11 collage + magnifier -->
+<div class="scene" id="s11" data-a="17.97" data-b="18.86" data-enter="whip" data-push="0.04" data-s0="1" style="background:var(--deep)">
+ <div class="cam"><div id="s11col" class="abs" style="inset:0"></div></div>
+ <div id="lens" class="abs" style="width:520px;height:520px;border-radius:50%;overflow:hidden;border:22px solid #c9a24a;box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 0 40px rgba(0,0,0,.4)">
+  <div id="lensin" class="abs" style="width:1080px;height:1920px;transform-origin:0 0"></div></div>
+ <div class="abs" style="left:0;right:0;top:1500px;text-align:center;font-size:150px"><span class="bar m" data-k="bar" data-t="17.98">وجمهـــورك</span></div></div>
+
+<!-- S12 armchair -->
+<div class="scene" id="s12" data-a="18.86" data-b="21.42" data-enter="cut" data-push="0.05" data-s0="1.02">
+ <div class="cam"><img class="bg" src="img/s10.jpg"></div>
+ <div class="abs k" style="right:80px;top:200px;text-align:right;font-size:118px;color:var(--beige);line-height:1.22;text-shadow:0 8px 30px rgba(0,0,0,.35)">
+  <div><span class="w" data-t="18.88">وبعدهـــا</span> <span class="w" data-t="19.58">نبنــي</span></div>
+  <div><span class="w" style="color:var(--mint)" data-t="20.02">خطـــة</span> <span class="w" style="color:var(--mint)" data-t="20.40">تسويـــق</span></div>
+  <div><span class="w" data-t="20.86">متكاملـــة</span></div>
+ </div></div>
+
+<!-- S13a explosion -->
+<div class="scene" id="s13a" data-a="21.42" data-b="23.22" data-push="0.05" data-s0="1" style="background:var(--beige)">
+ <div class="cam"><div id="s13cards" class="abs" style="inset:0"></div></div>
+ <div class="abs" style="left:0;right:0;top:820px;text-align:center;font-size:170px;z-index:10">
+  <span class="bar n" id="s13l1" data-k="bar" data-t="21.48">محتـــوى</span></div>
+ <div class="abs" style="left:0;right:0;top:820px;text-align:center;font-size:170px;z-index:11">
+  <span class="bar m" id="s13l2" data-k="bar" data-t="22.44">إعلانـــات</span></div></div>
+
+<!-- S13b dark designs -->
+<div class="scene" id="s13b" data-a="23.22" data-b="23.80" data-enter="neg" data-push="0.06" data-s0="1.05" style="background:#081627">
+ <div class="cam"><div id="s13grid" class="abs" style="left:-500px;top:-400px;width:2200px;transform:rotate(-14deg)"></div></div>
+ <div class="abs" style="left:0;right:0;top:860px;text-align:center;font-size:170px"><span class="bar" data-k="bar" data-t="23.28">تصاميـــم</span></div></div>
+
+<!-- S13c campaigns -->
+<div class="scene" id="s13c" data-a="23.80" data-b="25.52" data-push="0.05" data-s0="1" style="background:var(--beige)">
+ <div class="cam"><div id="s13fan" class="abs" style="inset:0"></div>
+  <div id="s13note" class="abs shadow" style="left:250px;top:620px;width:580px;height:640px;background:#efe8db;transform:rotate(3deg);z-index:30">
+   <div class="k ink" style="position:absolute;right:56px;top:60px;font-size:112px;line-height:1.3;text-align:right">
+    <div class="w" data-t="23.82">وحمـــلات</div><br><div class="w" data-t="24.58">تجيـــب</div><br><div class="w" style="color:#2f7d6e" data-t="24.96">نتايـــج</div></div></div>
+ </div></div>
+
+<!-- S14 phone website/social/all -->
+<div class="scene" id="s14" data-a="25.52" data-b="29.76" data-enter="cut" data-push="0.03" data-s0="1" style="background:var(--navy)">
+ <div class="cam">
+  <div id="s14burst" class="abs" style="inset:0"></div>
+  <div id="s14phone" class="phone" style="left:280px;top:330px;width:520px;height:1080px">
+   <div class="scr"><div class="notch"></div>
+    <img id="s14site" src="assets/m17.jpg" style="position:absolute;left:0;top:0;width:100%">
+    <div id="s14feed" class="abs" style="inset:0;background:#fff;opacity:0"></div>
+   </div></div>
+ </div>
+ <div class="abs" style="left:0;right:0;top:1500px;text-align:center;font-size:104px;z-index:20">
+  <div id="s14t1"><span class="bar" data-k="bar" data-t="25.56">وموقـــع</span> <span class="bar m" data-k="bar" data-t="26.14">إلكترونـــي</span></div>
+ </div>
+ <div class="abs" style="left:0;right:0;top:1500px;text-align:center;font-size:104px;z-index:21">
+  <div id="s14t2"><span class="bar" data-k="bar" data-t="26.80">وسوشيال</span> <span class="bar m" data-k="bar" data-t="27.30">ميديـــا</span></div>
+ </div>
+ <div class="abs" id="s14t3" style="left:0;right:0;top:1470px;text-align:center;font-size:96px;z-index:22">
+  <div><span class="bar" data-k="bar" data-t="27.76">وكـل</span> <span class="bar" data-k="bar" data-t="28.14">شـي</span> <span class="bar" data-k="bar" data-t="28.50">يحتاجـــه</span></div>
+  <div style="margin-top:16px"><span class="bar m" data-k="bar" data-t="28.94">البزنـــس</span> <span class="bar m" data-k="bar" data-t="29.34">حقّـــك</span></div>
+ </div></div>
+
+<!-- S15 box -->
+<div class="scene" id="s15" data-a="29.76" data-b="30.76" data-enter="neg" data-push="0.05" data-s0="1.03">
+ <div class="cam"><img class="bg" src="img/s14.jpg">
+  <img id="s15mark" class="abs" src="assets/mark-light.png" style="left:420px;top:330px;width:230px;opacity:.92;transform:rotate(-4deg) skewX(-6deg)"></div>
+ <div class="abs" style="left:-40px;right:-40px;top:1080px;text-align:center;font-size:170px;transform:rotate(-7deg)"><span class="bar n" data-k="bar" data-t="29.80" style="padding:10px 80px 22px">والنتيجـــة؟</span></div></div>
+
+<!-- S16 mirror -->
+<div class="scene" id="s16" data-a="30.76" data-b="32.16" data-enter="cut" data-push="0.05" data-s0="1.02">
+ <div class="cam"><img class="bg" src="img/s11.jpg">
+  <div class="abs" id="s16glass" style="left:452px;top:252px;width:520px;height:1000px;border-radius:260px 260px 0 0;overflow:hidden;background:#fff">
+   <img id="s16site" src="assets/m18.jpg" style="position:absolute;left:0;top:0;width:100%">
+   <div class="abs" style="left:0;right:0;bottom:0;height:240px;background:linear-gradient(rgba(255,255,255,0),#fff)"></div></div></div>
+ <div class="abs k" style="right:80px;top:1440px;text-align:right;font-size:120px;color:var(--beige);line-height:1.2">
+  <div><span class="bar n" data-k="bar" data-t="30.78">حضـــور</span></div>
+  <div style="margin-top:12px"><span class="bar" data-k="bar" data-t="31.32">مـا يعجبـــك</span> <span class="bar m" data-k="bar" data-t="31.94">بـس</span></div></div></div>
+
+<!-- S17 mirror closer -->
+<div class="scene" id="s17" data-a="32.16" data-b="33.06" data-enter="zoom" data-push="0.06" data-s0="1.25" style="--ox:62%;--oy:38%">
+ <div class="cam" style="transform-origin:66% 36%"><img class="bg" src="img/s11.jpg">
+  <div class="abs" style="left:452px;top:252px;width:520px;height:1000px;border-radius:260px 260px 0 0;overflow:hidden;background:#fff">
+   <img id="s17site" src="assets/m22.jpg" style="position:absolute;left:0;top:0;width:100%">
+   <div class="abs" style="left:0;right:0;bottom:0;height:240px;background:linear-gradient(rgba(255,255,255,0),#fff)"></div></div></div>
+ <div class="abs" style="left:0;right:0;top:1460px;text-align:center;font-size:190px"><span class="bar m" data-k="bar" data-t="32.30">يمثّلـــك</span></div></div>
+
+<!-- S18 fingerprint -->
+<div class="scene" id="s18" data-a="33.06" data-b="34.62" data-enter="neg" data-push="0.06" data-s0="1.02">
+ <div class="cam"><img class="bg" src="img/s12.jpg"></div>
+ <div class="abs k" style="right:80px;top:180px;text-align:right;font-size:128px;color:var(--beige);line-height:1.22">
+  <div><span class="w" data-t="33.14">يثبـــت</span> <span class="w" data-t="33.82">فـي</span></div>
+  <div><span class="w" data-t="33.92">بـال</span> <span class="bar m" data-k="bar" data-t="34.10">عميلـــك</span></div></div></div>
+
+<!-- S19 shelf -->
+<div class="scene" id="s19" data-a="34.62" data-b="36.27" data-enter="cut" data-push="0.10" data-s0="1.02">
+ <div class="cam" style="transform-origin:52% 52%"><img class="bg" src="img/s13.jpg">
+  <img class="abs" src="assets/mark-light.png" style="left:500px;top:900px;width:68px;opacity:.95">
+  <div class="abs" style="left:643px;top:893px;width:100px;height:218px;border-radius:14px;overflow:hidden;background:#fff"><img src="assets/m17.jpg" style="width:100%"></div>
+ </div>
+ <div class="abs k" style="right:80px;top:300px;text-align:right;font-size:140px;color:var(--beige)">
+  <span class="w" data-t="34.66">ويبـــان</span> <span class="w" data-t="35.26">مـن</span></div>
+ <div class="abs" style="left:0;right:0;top:1330px;text-align:center;font-size:150px">
+  <span class="bar" data-k="bar" data-t="35.44">أول</span> <span class="bar m" data-k="bar" data-t="35.84">نظـــرة</span></div></div>
+
+<!-- S20 end card -->
+<div class="scene" id="s20" data-a="36.27" data-b="99" data-enter="cut" data-push="0.02" data-s0="1" style="background:var(--beige)">
+ <div class="cam">
+  <div id="e1" class="abs k" style="left:0;right:0;top:760px;text-align:center;font-size:118px;color:var(--navy);line-height:1.3">
+   <div><span class="w" data-t="36.32">إذا</span> <span class="w" data-t="36.80">تبـي</span> <span class="w" data-t="36.98">حضـــور</span></div>
+   <div><span class="w" data-t="37.38">يليـــق</span> <span class="w" style="color:#3f8f7d" data-t="37.78">باسمـــك</span></div></div>
+  <div id="e2" class="abs k" style="left:0;right:0;top:560px;text-align:center;font-size:104px;color:var(--navy);line-height:1.3">
+   <div><span class="w" data-t="38.22">كلّمنـا</span> <span class="w" data-t="38.82">الحيـــن</span></div>
+   <div><span class="w" data-t="39.28">وقـول</span> <span class="w" data-t="39.70">إنك</span> <span class="w" data-t="40.10">تبـــي</span></div></div>
+  <img id="e3" class="abs" data-k="pop" data-t="40.50" src="assets/lockup-navy.png" style="left:330px;top:880px;width:420px">
+  <div id="e4" class="abs lat" style="left:0;right:0;top:1380px;text-align:center;color:var(--navy);font-size:46px" data-k="up" data-t="40.80">www.theplanetco.com</div>
+  <div id="e5" class="abs" style="left:0;right:0;top:1460px;text-align:center" data-k="up" data-t="40.95">
+   <span style="display:inline-flex;align-items:center;gap:16px;background:var(--navy);color:#fff;border-radius:60px;padding:16px 40px;font-family:'Montserrat';font-weight:700;font-size:44px;direction:ltr">
+    <svg width="46" height="46" viewBox="0 0 24 24"><path fill="#92C5B4" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.4.2.5.3.1.1.1.6-.1 1.2z"/></svg>
+    01203101104</span></div>
+ </div></div>
+
+<div id="vig"></div><div id="grain"></div><div id="flash"></div>
+</div>
+
+<script>
+const S=1.06, OFF=0.15;
+const T=x=>OFF+x/S;
+const cl=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const eo=p=>1-Math.pow(1-p,3), eox=p=>p>=1?1:1-Math.pow(2,-10*p), eio=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const back=p=>{const c=1.9;return 1+(c+1)*Math.pow(p-1,3)+c*Math.pow(p-1,2)};
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+const $=id=>document.getElementById(id);
+const D=[...Array(16)].map((_,i)=>'assets/d'+(i+1)+'.jpg');
+
+/* build: grain */
+(function(){const g=$('grain');const urls=[];for(let k=0;k<4;k++){const c=document.createElement('canvas');c.width=c.height=300;const x=c.getContext('2d');const im=x.createImageData(300,300);for(let i=0;i<im.data.length;i+=4){const v=Math.random()*255;im.data[i]=im.data[i+1]=im.data[i+2]=v;im.data[i+3]=255}x.putImageData(im,0,0);urls.push(c.toDataURL())}window._g=urls})();
+
+/* S8 feed grid */
+(function(){const g=$('s8grid');let h='';for(let i=0;i<18;i++){h+=`<img src="${D[(i*5)%16]}" style="position:absolute;left:${(i%2)*143}px;top:${Math.floor(i/2)*143}px;width:141px;height:141px;object-fit:cover">`}g.innerHTML=h})();
+/* S11 collage */
+(function(){let h='';seed=11;for(let i=0;i<22;i++){const w=330+rnd()*120,x=-120+(i%4)*300+rnd()*80,y=-100+Math.floor(i/4)*360+rnd()*80,r=-14+rnd()*28;h+=`<div class="card" style="left:${x}px;top:${y}px;width:${w}px;height:${w*0.66}px;transform:rotate(${r}deg)"><img src="${D[i%16]}"></div>`}$('s11col').innerHTML=h;$('lensin').innerHTML=h})();
+/* S13a cards */
+const C13=[];(function(){seed=3;const box=$('s13cards');for(let i=0;i<16;i++){const el=document.createElement('div');el.className='card';const w=360+rnd()*160;el.style.width=w+'px';el.style.height=(w*0.66)+'px';el.style.left=(540-w/2)+'px';el.style.top=(960-w*0.33)+'px';el.innerHTML=`<img src="${D[i]}">`;box.appendChild(el);const ang=rnd()*Math.PI*2,dist=360+rnd()*520;C13.push({el,dx:Math.cos(ang)*dist*0.9,dy:Math.sin(ang)*dist*1.35,r:-30+rnd()*60,d:i*0.05})}})();
+/* S13b grid */
+(function(){let h='';for(let i=0;i<40;i++){h+=`<div style="display:inline-block;width:500px;height:330px;margin:16px;border-radius:16px;overflow:hidden;background:#123;opacity:.9"><img src="${D[(i*7)%16]}" style="width:100%;height:100%;object-fit:cover;filter:saturate(.9)"></div>`}$('s13grid').innerHTML=h})();
+/* S13c fan */
+const F13=[];(function(){seed=21;const box=$('s13fan');for(let i=0;i<12;i++){const el=document.createElement('div');el.className='card';const w=440;el.style.width=w+'px';el.style.height='300px';el.style.left='320px';el.style.top='810px';el.innerHTML=`<img src="${D[(i*3+2)%16]}">`;box.appendChild(el);const ang=-Math.PI/2+(i-5.5)*0.5+rnd()*0.2;F13.push({el,dx:Math.cos(ang)*(520+rnd()*160),dy:Math.sin(ang)*(700+rnd()*200)+ (i%2?500:-200),r:-25+rnd()*50})}})();
+/* S14 feed + burst */
+(function(){let h='';for(let i=0;i<24;i++){h+=`<img src="${D[(i*3)%16]}" style="position:absolute;left:${(i%3)*161+2}px;top:${150+Math.floor(i/3)*161}px;width:157px;height:157px;object-fit:cover">`}$('s14feed').innerHTML='<div style="position:absolute;top:80px;left:0;right:0;text-align:center;font:800 34px Montserrat;color:#143659">theplanetco</div>'+h})();
+const B14=[];(function(){seed=31;const box=$('s14burst');for(let i=0;i<20;i++){const el=document.createElement('div');el.className='card';const sq=i%3==0;const w=sq?260:360;el.style.width=w+'px';el.style.height=(sq?w:w*0.64)+'px';el.style.left=(540-w/2)+'px';el.style.top=(870-w*0.33)+'px';el.innerHTML=`<img src="${D[(i*7+1)%16]}">`;box.appendChild(el);const ang=rnd()*Math.PI*2;const dist=420+rnd()*420;B14.push({el,dx:Math.cos(ang)*dist,dy:Math.sin(ang)*dist*1.4,r:-35+rnd()*70,t:(i<6?26.8+i*0.08:27.76+(i-6)*0.05)})}})();
+
+const scenes=[...document.querySelectorAll('.scene')].map(el=>({el,a:+el.dataset.a,b:+el.dataset.b,enter:el.dataset.enter||'cut',push:+(el.dataset.push||0.04),s0:+(el.dataset.s0||1),cam:el.querySelector('.cam'),items:[...el.querySelectorAll('[data-t]')]}));
+scenes.forEach(s=>{s.A=s.a===0?0:T(s.a);s.B=T(s.b)});
+
+function reveal(el,t){const k=el.dataset.k||'w';const t0=T(+el.dataset.t);const dur=k==='bar'?0.2:k==='pop'?0.45:k==='blur'?0.35:0.2;const p=cl((t-t0)/dur);
+ if(k==='bar'){el.style.transform=`scaleX(${eo(p)})`;el.style.opacity=p>0?1:0;el.style.color=p<0.6?'transparent':''}
+ else if(k==='pop'){const q=back(p);el.style.transform=`scale(${0.6+0.4*q})`;el.style.opacity=cl(p*3)}
+ else if(k==='blur'){el.style.filter=`blur(${(1-eo(p))*24}px)`;el.style.opacity=eo(p);el.style.transform=`scale(${1.15-0.15*eo(p)})`}
+ else if(k==='up'){el.style.transform=`translateY(${(1-eo(p))*40}px)`;el.style.opacity=eo(p)}
+ else {el.style.clipPath=`inset(-20% 0 -20% ${(1-eo(p))*100}%)`;el.style.transform=`translateY(${(1-eo(p))*24}px)`;el.style.opacity=p>0?1:0}}
+
+function render(t){
+ const st=$('stage');let filt='';let flash=0;
+ for(const s of scenes){const on=t>=s.A&&t<s.B;s.el.style.display=on?'block':'none';if(!on)continue;const lt=t-s.A;
+  let sc=s.s0+s.push*lt/Math.max(1,(s.B-s.A)), tx=0, ty=0, bl=0;
+  sc=s.s0+s.push*lt;
+  const e=s.enter;
+  if(e==='zoom'||e==='negzoom'){const p=cl(lt/0.32);sc*=1+0.28*(1-eox(p));bl=(1-p)*10}
+  if(e==='whip'){const p=cl(lt/0.28);ty=(1-eox(p))*900;bl=(1-p)*18}
+  if((e==='neg'||e==='negzoom')&&lt<0.1)filt='invert(1) hue-rotate(180deg) saturate(1.4)';
+  if(e==='neg'&&lt<0.2){sc*=1+0.12*(1-eo(cl(lt/0.2)))}
+  if(e==='cut'&&lt<0.05)flash=0.0;
+  s.cam.style.transform=`translate(${tx}px,${ty}px) scale(${sc})`;s.cam.style.filter=bl>0.1?`blur(${bl}px)`:'';
+  s.items.forEach(el=>reveal(el,t));
+  const f=U[s.el.id];if(f)f(t,lt,s);
+ }
+ st.style.filter=filt;
+ // flash before last scene cut
+ $('flash').style.opacity=flash;
+ const g=$('grain');g.style.backgroundImage=`url(${_g[Math.floor(t*30)%4]})`;g.style.transform=`translate(${(Math.floor(t*30)*37)%60-30}px,${(Math.floor(t*30)*53)%60-30}px)`;
+}
+
+const U={
+ s4(t,lt){const p=eox(cl(lt/0.4));$('s4paper').style.transform=`translate(${(1-p)*700}px,${(1-p)*-120}px) rotate(${-4-(1-p)*14}deg)`},
+ s6b(t,lt){const p=cl((lt-0.05)/0.9);const c=$('cons');c.querySelectorAll('circle,line').forEach((n,i)=>{const L=2200;n.style.strokeDasharray=L;n.style.strokeDashoffset=L*(1-eo(cl(p*1.4-i*0.06)))});const m=cl((lt-0.35)/0.4);$('s6mark').style.opacity=m;$('s6mark').style.transform=`scale(${0.85+0.15*eo(m)})`},
+ s7(t,lt){$('s7ring').style.transform=`rotate(${-12+Math.sin(lt*2)*4}deg)`;$('s7orbwrap').style.transform=`translateY(${Math.sin(lt*2.4)*18}px) scale(${0.8+0.2*eox(cl(lt/0.5))})`},
+ s8(t,lt){const word='بوستـــات';const t0=T(14.90)-0.25;const p=cl((t-t0)/0.32);const n=Math.round(word.length*p);$('s8type').textContent=word.slice(0,n);
+   $('s8caret').style.opacity=(Math.floor(t*4)%2||p<1)?1:0;
+   const box=$('s8box');box.style.background=p>=1&&t>T(15.0)?'var(--mint)':'var(--beige)';
+   const c=$('s8cur');const q=eio(cl((lt-0.1)/0.55));c.style.left=(900-q*420)+'px';c.style.top=(1100-q*640)+'px';const click=cl((t-T(14.86))/0.12);c.style.transform=`scale(${1-0.25*Math.sin(click*Math.PI)})`;
+   $('s8grid').style.transform=`translateY(${-lt*190}px)`},
+ s11(t,lt){const p=eio(cl(lt/0.85));const lx=80+p*420,ly=900-p*520;const L=$('lens');L.style.left=lx+'px';L.style.top=ly+'px';const z=1.9;const inn=$('lensin');inn.style.transform=`translate(${-(lx+260)*z+260-22}px,${-(ly+260)*z+260-22}px) scale(${z})`},
+ s13a(t,lt){C13.forEach(c=>{const p=eox(cl((lt-c.d*0.6)/0.55));c.el.style.transform=`translate(${c.dx*p}px,${c.dy*p}px) rotate(${c.r*p}deg) scale(${0.5+0.5*p})`;c.el.style.opacity=cl((lt-c.d*0.6)*10)});
+   $('s13l1').parentElement.style.opacity=t<T(22.44)?1:0},
+ s13b(t,lt){$('s13grid').style.transform=`rotate(-14deg) translate(${lt*260}px,${-lt*120}px)`},
+ s13c(t,lt){F13.forEach((c,i)=>{const p=eox(cl((lt-i*0.025)/0.6));c.el.style.transform=`translate(${c.dx*p}px,${c.dy*p}px) rotate(${c.r*p}deg)`});const p=back(cl(lt/0.4));$('s13note').style.transform=`rotate(${3}deg) scale(${0.7+0.3*p})`},
+ s14(t,lt){const site=$('s14site');site.style.transform=`translateY(${-Math.max(0,(t-T(25.56)))*230}px)`;
+   const fe=cl((t-T(26.80))/0.15);$('s14feed').style.opacity=fe;$('s14feed').style.transform=`translateY(${-Math.max(0,t-T(26.9))*120}px)`;
+   const ph=$('s14phone');const shr=eio(cl((t-T(27.70))/0.5));const ent=eox(cl(lt/0.45));ph.style.transform=`translateY(${(1-ent)*900}px) scale(${1-0.22*shr}) rotate(${shr*-4}deg)`;
+   B14.forEach(c=>{const p=eox(cl((t-T(c.t))/0.55));c.el.style.opacity=p>0?1:0;c.el.style.transform=`translate(${c.dx*p}px,${c.dy*p}px) rotate(${c.r*p}deg) scale(${0.4+0.6*p})`});
+   $('s14t1').style.opacity=t<T(26.80)?1:0;$('s14t2').style.opacity=(t>=T(26.80)&&t<T(27.76))?1:0;$('s14t3').style.opacity=t>=T(27.76)?1:0},
+ s15(t,lt){const p=eo(cl(lt/0.9));const cam=document.querySelector('#s15 .cam img.bg');},
+ s16(t,lt){$('s16site').style.transform=`translateY(${-lt*110}px)`},
+ s17(t,lt){$('s17site').style.transform=`translateY(${-lt*120}px)`},
+ s20(t,lt){const o1=1-cl((t-T(38.10))/0.2);const e1=$('e1');e1.style.opacity=o1;e1.style.transform=`translateY(${-(1-o1)*80}px)`;
+   const lg=cl((t-T(40.45))/0.3);const e2=$('e2');e2.style.transform=`translateY(${-eo(lg)*120}px) scale(${1-0.15*eo(lg)})`}
+};
+window.render=render;window.DUR=40.5;
+</script></body></html>
