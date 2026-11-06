@@ -27,7 +27,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 .orb{position:absolute;border-radius:50%;background:radial-gradient(circle at 34% 28%,#e8fff6 0,#b9e6d6 14%,#92C5B4 36%,#3f8a86 64%,#143659 100%);box-shadow:0 0 120px rgba(146,197,180,.55),inset -30px -40px 80px rgba(8,25,50,.55)}
 .ring{position:absolute;border:10px solid var(--mint);border-radius:50%;box-shadow:0 0 30px rgba(146,197,180,.7)}
 #grain{position:absolute;inset:-60px;pointer-events:none;opacity:.10;mix-blend-mode:overlay;z-index:50;background-size:300px 300px}
-#vig{position:absolute;inset:0;pointer-events:none;z-index:49;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 55%,rgba(0,0,0,.38) 100%)}
+#vig{position:absolute;inset:0;pointer-events:none;z-index:49;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 62%,rgba(0,0,0,.26) 100%)}
 #flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:60;pointer-events:none}
 .cursor{position:absolute;width:56px;height:56px;z-index:20}
 </style></head><body>
@@ -314,6 +314,7 @@ function render(t){
   const f=U[s.el.id];if(f)f(t,lt,s);
  }
  st.style.filter=filt;
+ const beige=['s4','s5','s6a','s13a','s13c','s20'].some(id=>{const s=scenes.find(x=>x.el.id===id);return t>=s.A&&t<s.B});$('vig').style.opacity=beige?0.35:1;
  // flash before last scene cut
  $('flash').style.opacity=flash;
  const g=$('grain');g.style.backgroundImage=`url(${_g[Math.floor(t*30)%4]})`;g.style.transform=`translate(${(Math.floor(t*30)*37)%60-30}px,${(Math.floor(t*30)*53)%60-30}px)`;
