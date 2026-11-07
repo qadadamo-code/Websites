@@ -187,7 +187,7 @@ document.getElementById('egNile').setAttribute('d','M'+nile.map(p=>pj(...p).join
 const [mx,my]=pj(30.1,28.15); document.getElementById('egMinya').setAttribute('transform',`translate(${mx} ${my})`);
 const lab=document.getElementById('egLabel'); lab.setAttribute('transform',`translate(${mx} ${my})${RTL?' scale(-1 1)':''}`);
 if(RTL){ const t=lab.querySelector('text'); t.setAttribute('transform','scale(-1 1)'); t.setAttribute('x','-150'); t.setAttribute('text-anchor','start'); }
-const [cx,cy]=pj(31.4,30.04); const cairo=document.getElementById('egCairo'); cairo.setAttribute('x',+cx+8); cairo.setAttribute('y',+cy+5);
+const [cx,cy]=pj(31.24,30.04); const cd=document.createElementNS(NS,'circle'); cd.setAttribute('cx',cx); cd.setAttribute('cy',cy); cd.setAttribute('r',4.5); cd.setAttribute('fill','#215834'); document.getElementById('egypt').insertBefore(cd,document.getElementById('egMinya')); const cairo=document.getElementById('egCairo'); cairo.setAttribute('x',+cx+12); cairo.setAttribute('y',+cy+5); cairo.setAttribute('direction','ltr'); cairo.style.direction='ltr';
 
 /* ================= header / menu ================= */
 const hdr=document.getElementById('hdr');
