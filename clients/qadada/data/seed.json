@@ -1,0 +1,271 @@
+{
+ "members": [
+  {
+   "id": "m1",
+   "parent": null,
+   "name": "محمد قدادة",
+   "title": "الجد المشترك بحسب الرواية العائلية",
+   "gender": "m",
+   "place": "غزة",
+   "branch": "",
+   "status": "narrative",
+   "deceased": true,
+   "note": "رأس الشجرة في شجرة الشيخ الطباع، تتفرع منه ذرية العائلة في غزة ويافا. اسم والده غير معروف حتى الآن."
+  },
+  {
+   "id": "m2",
+   "parent": "m1",
+   "name": "علي",
+   "title": "فرع يافا",
+   "gender": "m",
+   "place": "يافا",
+   "branch": "يافا",
+   "status": "narrative",
+   "deceased": true,
+   "note": "بحسب الشهادة العائلية المنشورة في 5 ديسمبر 2025."
+  },
+  {
+   "id": "m3",
+   "parent": "m2",
+   "name": "أحمد",
+   "gender": "m",
+   "place": "يافا",
+   "branch": "يافا",
+   "status": "narrative",
+   "deceased": true
+  },
+  {
+   "id": "m4",
+   "parent": "m3",
+   "name": "علي",
+   "gender": "m",
+   "place": "يافا",
+   "branch": "يافا",
+   "status": "narrative",
+   "deceased": true
+  },
+  {
+   "id": "m5",
+   "parent": "m4",
+   "name": "موسى",
+   "gender": "m",
+   "branch": "يافا",
+   "status": "narrative"
+  },
+  {
+   "id": "m6",
+   "parent": "m5",
+   "name": "معاذ",
+   "gender": "m",
+   "branch": "يافا",
+   "status": "narrative"
+  },
+  {
+   "id": "m7",
+   "parent": "m6",
+   "name": "عمران",
+   "gender": "m",
+   "branch": "يافا",
+   "status": "narrative",
+   "note": "صاحب الشهادة المنشورة في 5 ديسمبر 2025، ويذكر فيها أن أصل العائلة من حي العجمي في يافا."
+  },
+  {
+   "id": "m10",
+   "parent": "m1",
+   "name": "مصطفى",
+   "title": "فرع غزة",
+   "gender": "m",
+   "place": "غزة",
+   "branch": "غزة",
+   "status": "narrative",
+   "deceased": true,
+   "note": "الجد المذكور في الرواية العائلية لفرع غزة."
+  },
+  {
+   "id": "m11",
+   "parent": "m10",
+   "name": "موسى",
+   "gender": "m",
+   "place": "غزة",
+   "branch": "غزة",
+   "status": "narrative",
+   "deceased": true,
+   "note": "لم تُستكمل ذريته بعد."
+  },
+  {
+   "id": "m12",
+   "parent": "m10",
+   "name": "محمد",
+   "gender": "m",
+   "place": "غزة",
+   "branch": "غزة",
+   "status": "narrative",
+   "deceased": true
+  },
+  {
+   "id": "m18",
+   "parent": "m10",
+   "name": "حسين",
+   "gender": "m",
+   "place": "غزة",
+   "branch": "غزة",
+   "status": "narrative",
+   "deceased": true
+  },
+  {
+   "id": "m13",
+   "parent": "m12",
+   "name": "عبد",
+   "gender": "m",
+   "place": "غزة",
+   "branch": "غزة",
+   "status": "narrative"
+  },
+  {
+   "id": "m14",
+   "parent": "m12",
+   "name": "غطاس",
+   "gender": "m",
+   "place": "غزة",
+   "branch": "غزة",
+   "status": "confirmed",
+   "deceased": true,
+   "note": "غطاس محمد قدادة، مختار العائلة رحمه الله، ووالد المختار مصطفى. ويرد اسمه «غطاس محمد قدادة» في وثيقة مؤرخة عام 1953.",
+   "title": "مختار العائلة",
+   "photo": "assets/img/ghattas.webp",
+   "featured": true
+  },
+  {
+   "id": "m15",
+   "parent": "m12",
+   "name": "سعيد",
+   "gender": "m",
+   "place": "غزة",
+   "branch": "غزة",
+   "status": "narrative",
+   "note": "بحسب المعلومات العائلية، أنجب محمدًا وغالبًا."
+  },
+  {
+   "id": "m16",
+   "parent": "m15",
+   "name": "محمد",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "narrative"
+  },
+  {
+   "id": "m17",
+   "parent": "m15",
+   "name": "غالب",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "narrative"
+  },
+  {
+   "id": "m19",
+   "parent": "m18",
+   "name": "حسن",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "narrative"
+  },
+  {
+   "id": "m20",
+   "parent": "m18",
+   "name": "محمد",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "narrative"
+  },
+  {
+   "id": "m21",
+   "parent": "m18",
+   "name": "إبراهيم",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "narrative"
+  },
+  {
+   "id": "m22",
+   "parent": "m18",
+   "name": "حلمي",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "narrative"
+  },
+  {
+   "id": "m30",
+   "parent": "m14",
+   "name": "مصطفى",
+   "title": "مختار العائلة الكبير",
+   "gender": "m",
+   "place": "غزة",
+   "branch": "غزة",
+   "status": "confirmed",
+   "deceased": true,
+   "featured": true,
+   "note": "المختار الكبير مصطفى غطاس قدادة، رحمه الله، خلف والده غطاس في المخترة.",
+   "photo": "assets/img/mustafa.webp"
+  },
+  {
+   "id": "m31",
+   "parent": "m30",
+   "name": "خميس",
+   "title": "المرحوم",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "confirmed",
+   "deceased": true
+  },
+  {
+   "id": "m32",
+   "parent": "m30",
+   "name": "نبيل",
+   "title": "المرحوم",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "confirmed",
+   "deceased": true
+  },
+  {
+   "id": "m33",
+   "parent": "m30",
+   "name": "تيسير",
+   "title": "الأستاذ",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "confirmed",
+   "deceased": false
+  },
+  {
+   "id": "m34",
+   "parent": "m30",
+   "name": "أمين",
+   "title": "اللواء",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "confirmed",
+   "deceased": false
+  },
+  {
+   "id": "m35",
+   "parent": "m30",
+   "name": "تحسين",
+   "title": "المهندس",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "confirmed",
+   "deceased": false
+  },
+  {
+   "id": "m36",
+   "parent": "m30",
+   "name": "محمد",
+   "title": "المهندس",
+   "gender": "m",
+   "branch": "غزة",
+   "status": "confirmed",
+   "deceased": false
+  }
+ ]
+}
