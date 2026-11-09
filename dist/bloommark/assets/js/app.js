@@ -389,7 +389,7 @@ function initAnims(again) {
   // kicker + lead
   $$('.sec .kicker, .sec .lead').forEach(el => gsap.from(el, { opacity: 0, y: 18, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } }));
   // fades in groups
-  ['#firmCols', '#bento', '#terms', '#values-grid', '#news'].forEach(sel => {
+  ['#firmCols', '#bento', '#terms', '#news'].forEach(sel => {
     const items = $$(sel + ' .fade'); if (!items.length) return;
     gsap.from(items, { opacity: 0, y: 50, duration: 1, ease: 'power3.out', stagger: .09, clearProps: 'transform,opacity', scrollTrigger: { trigger: sel, start: 'top 82%', once: true } });
   });
@@ -424,7 +424,7 @@ function initAnims(again) {
   // process cards lift
   $$('.step-card').forEach(c => gsap.from(c, { y: 40, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: c, start: 'top 88%', once: true } }));
   // values cards stagger in 3D
-  gsap.from('.val', { rotateX: -25, y: 60, opacity: 0, transformOrigin: '50% 100%', duration: 1.1, stagger: .1, ease: 'power3.out', scrollTrigger: { trigger: '#values-grid', start: 'top 82%', once: true } });
+  gsap.from('.val', { rotateX: -25, y: 60, opacity: 0, transformOrigin: '50% 100%', duration: 1.1, stagger: .1, ease: 'power3.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: '#values-grid', start: 'top 82%', once: true } });
   // footer word
   gsap.from('.ftr-word', { yPercent: 40, opacity: 0, duration: 1.4, ease: 'power3.out', scrollTrigger: { trigger: '.ftr-word', start: 'top 95%', once: true } });
   if (again) { gsap.set('#heroSub .sw', { opacity: 1, filter: 'blur(0px)', y: 0 }); gsap.set('.reveal-up, .hl > *', { clearProps: 'all' }); $$('.reveal-up').forEach(e => { e.style.opacity = 1; e.style.transform = 'none'; }); }
