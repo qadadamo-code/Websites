@@ -2,7 +2,7 @@
 """BloomMark multi-page generator. Run: python3 src/build.py  (writes *.html in the site root)."""
 import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = '3'
+V = '4'
 
 PAGES = ['index', 'firm', 'practice', 'process', 'egypt', 'insights', 'contact']
 NAV = ['firm', 'practice', 'process', 'egypt', 'insights', 'contact']
@@ -71,7 +71,7 @@ HEAD = '''<!doctype html>
 <main id="top">
 '''
 
-PAGEHEAD = '''<section class="ph dark">
+PAGEHEAD = '''<section class="ph light">
   <canvas class="ph-canvas" aria-hidden="true"></canvas>
   <div class="ph-idx" aria-hidden="true">%(idx)s</div>
   <div class="wrap ph-in">
@@ -126,7 +126,7 @@ FOOT = '''
 
 BODY = {}
 
-BODY['index'] = '''<section class="h3d dark" id="hero">
+BODY['index'] = '''<section class="h3d light" id="hero">
   <canvas id="gl" class="h3d-gl" aria-hidden="true"></canvas>
   <div class="h3d-fallback" aria-hidden="true"><svg id="heroMono"></svg></div>
   <div class="h3d-grid" aria-hidden="true"></div>
@@ -149,7 +149,7 @@ BODY['index'] = '''<section class="h3d dark" id="hero">
   <div class="h3d-coords reveal-up" aria-hidden="true"><span>30.04° N</span><span>31.24° E</span><span>CAIRO · EST. 2007</span></div>
 </section>
 
-<div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+<div class="svc-strip" aria-hidden="true"><div class="wrap svc-strip-in" id="marquee"></div></div>
 
 <section class="sec light hintro">
   <div class="wrap">
@@ -158,7 +158,7 @@ BODY['index'] = '''<section class="h3d dark" id="hero">
   </div>
 </section>
 
-<section class="sec dark hidx" id="hidx">
+<section class="sec paper2 hidx" id="hidx">
   <div class="wrap">
     <div class="sec-head row"><div><p class="kicker" data-t="pg.home.indexK"></p><h2 class="h2 split" data-t="pg.home.indexT"></h2></div></div>
     <ol class="idx-list" id="idxList"></ol>
@@ -245,7 +245,7 @@ BODY['firm'] = '''<section class="sec light" id="firm">
 </section>
 '''
 
-BODY['practice'] = '''<section class="hz dark" id="hz">
+BODY['practice'] = '''<section class="hz light" id="hz">
   <div class="hz-bar"><span class="hz-hint" data-t="pg.practiceHint"></span><div class="hz-dots" id="hzDots"></div><span class="hz-count"><b id="hzNum">01</b> / 06</span></div>
   <div class="hz-track" id="hzTrack"></div>
   <div class="hz-prog"><i id="hzProg"></i></div>

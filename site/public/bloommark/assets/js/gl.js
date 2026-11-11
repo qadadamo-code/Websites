@@ -65,7 +65,7 @@ try {
   const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   const dot = document.createElement('canvas'); dot.width = dot.height = 32;
   const dctx = dot.getContext('2d'); const gr = dctx.createRadialGradient(16, 16, 0, 16, 16, 16); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); dctx.fillStyle = gr; dctx.fillRect(0, 0, 32, 32);
-  const pts = new THREE.Points(pg, new THREE.PointsMaterial({ size: 0.05, map: new THREE.CanvasTexture(dot), transparent: true, opacity: 0.55, depthWrite: false, color: 0xe9e2d2 }));
+  const pts = new THREE.Points(pg, new THREE.PointsMaterial({ size: 0.05, map: new THREE.CanvasTexture(dot), transparent: true, opacity: 0.4, depthWrite: false, color: 0x8d7a58 }));
   scene.add(pts);
 
   /* --- interaction --- */
