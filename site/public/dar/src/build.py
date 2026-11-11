@@ -8,7 +8,7 @@ from legal import TERMS, PRIVACY
 from icons import icon
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = '8'  # cache-buster for css/js
+V = '11'  # cache-buster for css/js
 L = 'ar'
 
 
@@ -62,14 +62,14 @@ def head(page, title, desc):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{H.escape(full)}</title>
 <meta name="description" content="{H.escape(desc)}">
-<meta name="theme-color" content="#030303">
+<meta name="theme-color" content="#050708">
 <meta property="og:title" content="{H.escape(full)}">
 <meta property="og:description" content="{H.escape(desc)}">
 <meta property="og:image" content="{A('assets/img/brand/og.webp')}">
 <link rel="alternate" hreflang="ar" href="{ar_url}">
 <link rel="alternate" hreflang="en" href="{en_url}">
 <link rel="icon" href="{A('assets/img/brand/favicon.png')}">
-<link rel="preload" href="{A('assets/fonts/Figtree-300_800-latin.woff2')}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{A('assets/fonts/Urbanist-300_800-latin.woff2')}" as="font" type="font/woff2" crossorigin>
 {'<link rel="preload" href="' + A('assets/fonts/NotoKufiArabic-300_800-arabic.woff2') + '" as="font" type="font/woff2" crossorigin>' if L == 'ar' else ''}
 <link rel="stylesheet" href="{A('assets/css/fonts.css')}?v={V}">
 <link rel="stylesheet" href="{A('assets/css/dar.css')}?v={V}">
@@ -187,7 +187,7 @@ def intro():
         <mask id="im" maskUnits="userSpaceOnUse" x="-60" y="-60" width="3346" height="813"><g class="im-strokes" fill="none" stroke="#fff" stroke-width="150" stroke-linecap="round" stroke-linejoin="round"></g></mask>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="18" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
-      <g class="im-traces" fill="none" stroke="#E50914" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity=".9"></g>
+      <g class="im-traces" fill="none" stroke="#ED2231" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity=".9"></g>
       <use href="#darme" class="im-fill" mask="url(#im)" style="color:#fff"/>
       <g class="im-sparks" filter="url(#glow)"></g>
     </svg>
@@ -407,7 +407,7 @@ def home():
       <div class="cred-tx">{label(AUTOMATE['bp_l'])}<h3>{e(AUTOMATE['bp_t'])}</h3><p>{e(AUTOMATE['bp_p'])}</p></div>
     </a>
     <a class="cred rv" href="upskill.html">
-      <div class="cred-img ph"><img src="{A('assets/img/brand/isc2.webp')}" alt="ISC2 Official Training Partner" loading="lazy"></div>
+      <div class="cred-img photo"><img src="{A('assets/img/brand/isc2-wide.webp')}" alt="ISC2 Official Training Partner" loading="lazy"></div>
       <div class="cred-tx">{label(UPSKILL['isc_l'])}<h3>{e(UPSKILL['isc_t'])}</h3><p>{e(UPSKILL['isc_p'])}</p></div>
     </a>
   </div>
@@ -625,7 +625,7 @@ def upskill():
 {caps_grid(D['caps'], D['caps_t'])}
 {approach(D['why_l'], D['why_t'], D['why_p'], '<div class="v2030 rv"><span>VISION</span><b dir="ltr">2030</b><em>' + e(('Human Capability Development', 'تنمية القدرات البشرية')) + '</em></div>')}
 <section class="isc">
-  <div class="isc-bg"><img src="{A('assets/img/brand/isc2.webp')}" alt="" loading="lazy"></div>
+  <div class="isc-bg"><img src="{A('assets/img/brand/isc2-wide.webp')}" alt="" loading="lazy"></div>
   <div class="wrap isc-in">
     {label(D['isc_l'])}
     <h2 class="h2 rv-words">{e(D['isc_t'])}</h2>
