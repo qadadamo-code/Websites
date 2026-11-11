@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Alx;src:url(assets/alexandria-arabic-900-normal.woff2);font-weight:900;unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:Alx;src:url(assets/alexandria-latin-900-normal.woff2);font-weight:900}
+@font-face{font-family:Alx;src:url(assets/alexandria-arabic-700-normal.woff2);font-weight:700;unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:Alx;src:url(assets/alexandria-latin-700-normal.woff2);font-weight:700}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#cdeaf6;font-family:Alx,sans-serif}
+#stage{position:absolute;inset:0;overflow:hidden}
+svg#scene{position:absolute;left:0;top:0;direction:ltr}
+.abs{position:absolute}
+#cap{position:absolute;left:0;right:0;top:1440px;text-align:center;font-weight:900;font-size:118px;color:#fff;
+  -webkit-text-stroke:0;text-shadow:0 7px 0 #0b1d33,0 0 28px rgba(0,0,0,.35);white-space:nowrap;letter-spacing:0}
+#cap.latin{direction:ltr}
+/* scoreboard */
+#board{left:90px;top:110px;width:900px;height:230px;background:#16243a;border-radius:34px;border:8px solid #0d1726;
+  box-shadow:0 14px 0 rgba(0,0,0,.18);display:flex;flex-direction:row;padding:18px 16px;gap:14px}
+#board .cell{flex:1;background:#0d1726;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+#board .lbl{font-weight:700;font-size:30px;color:#9fb3c8}
+#board .val{font-weight:900;font-size:76px;line-height:1.05;direction:ltr;color:#fff}
+#board .val.red{color:#ff5a5f}#board .val.green{color:#5fe0a1}#board .val.amber{color:#ffc24b}
+/* phone */
+#phone{left:290px;top:380px;width:500px;height:900px;background:#0e1a2b;border-radius:66px;padding:18px;box-shadow:0 30px 60px rgba(10,25,45,.35)}
+#screen{position:relative;width:100%;height:100%;background:#f3f5f8;border-radius:50px;overflow:hidden}
+.notch{position:absolute;left:50%;top:14px;width:130px;height:34px;margin-left:-65px;background:#0e1a2b;border-radius:20px;z-index:5}
+.fbbar{position:absolute;left:0;right:0;top:0;height:120px;background:#fff;display:flex;align-items:flex-end;padding:0 26px 16px;font-weight:900;font-size:40px;color:#1877f2;direction:ltr}
+.post{position:absolute;left:18px;right:18px;top:140px;background:#fff;border-radius:26px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.post .hd{display:flex;align-items:center;gap:14px}
+.av{width:62px;height:62px;border-radius:50%;background:#143659;color:#92C5B4;font-weight:900;font-size:30px;display:flex;align-items:center;justify-content:center}
+.post .nm{font-weight:900;font-size:28px;color:#1c2b3a}.post .sub{font-weight:700;font-size:20px;color:#8a97a6}
+.post .img{margin-top:16px;height:330px;border-radius:18px;background:linear-gradient(160deg,#ffd6a5,#ff9f80);position:relative;overflow:hidden}
+.post .likes{margin-top:16px;display:flex;align-items:center;gap:12px;font-weight:900;font-size:34px;color:#1c2b3a;direction:rtl}
+.heart{width:48px;height:48px;border-radius:50%;background:#ff4d6d;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px}
+#mama{position:absolute;left:40px;top:690px;background:#fff;border-radius:40px;padding:14px 26px 14px 18px;display:flex;align-items:center;gap:14px;
+  box-shadow:0 10px 26px rgba(0,0,0,.18);font-weight:900;font-size:32px;color:#1c2b3a;white-space:nowrap}
+#mama .face{width:56px;height:56px;border-radius:50%;background:#f6c08f;position:relative;overflow:hidden}
+.dms{position:absolute;left:0;right:0;top:120px;bottom:0;padding:18px}
+.dm{display:flex;align-items:center;gap:12px;margin-bottom:12px;background:#fff;border-radius:22px;padding:12px 14px;box-shadow:0 3px 10px rgba(0,0,0,.05)}
+.dm .a{width:52px;height:52px;border-radius:50%;flex:none}
+.dm .t{font-weight:900;font-size:30px;color:#1c2b3a;flex:1}
+.dm .s{font-weight:700;font-size:20px;color:#1877f2;direction:ltr}
+#adbtn{position:absolute;left:40px;right:40px;bottom:60px;height:110px;border-radius:30px;background:#1877f2;color:#fff;font-weight:900;font-size:40px;display:flex;align-items:center;justify-content:center;gap:16px}
+/* feed (step 2) */
+#feed{position:absolute;left:0;right:0;top:0;height:100%;}
+.reel{position:absolute;left:0;right:0;height:864px;overflow:hidden}
+/* step chip */
+#chip{left:50%;top:380px;transform:translateX(-50%);background:#143659;color:#fff;border-radius:60px;padding:18px 40px 18px 22px;display:flex;align-items:center;gap:22px;
+  font-weight:900;font-size:48px;white-space:nowrap;box-shadow:0 12px 0 rgba(0,0,0,.15)}
+#chip .n{width:84px;height:84px;border-radius:50%;background:#92C5B4;color:#143659;display:flex;align-items:center;justify-content:center;font-size:52px}
+#dots{left:50%;top:505px;transform:translateX(-50%);display:flex;gap:16px;direction:ltr}
+#dots i{display:block;width:60px;height:14px;border-radius:7px;background:rgba(20,54,89,.25)}
+#dots i.on{background:#143659}
+/* plan card */
+#plan{left:240px;top:470px;width:600px;background:#fff;border-radius:40px;padding:40px 46px;box-shadow:0 24px 50px rgba(10,25,45,.25)}
+#plan h3{font-weight:900;font-size:58px;color:#143659;margin-bottom:24px}
+#plan .row{display:flex;align-items:center;gap:20px;margin:18px 0;font-weight:900;font-size:40px;color:#1c2b3a}
+#plan .bx{width:58px;height:58px;border-radius:16px;border:6px solid #143659;display:flex;align-items:center;justify-content:center;color:#fff;font-size:36px}
+#plan .bx.ok{background:#20b26b;border-color:#20b26b}
+/* call */
+#call{left:290px;top:380px;width:500px;height:900px;background:#0e1a2b;border-radius:66px;padding:18px}
+#call .scr{width:100%;height:100%;border-radius:50px;background:linear-gradient(180deg,#143659,#0a1d33);display:flex;flex-direction:column;align-items:center;padding-top:150px;color:#fff}
+#call .logo{width:210px;height:210px;border-radius:50%;background:#92C5B4;display:flex;align-items:center;justify-content:center}
+#call .logo img{width:120px}
+#call .nm{margin-top:40px;font-weight:900;font-size:64px;direction:ltr}
+#call .st{margin-top:10px;font-weight:700;font-size:30px;color:#92C5B4}
+#call .btns{position:absolute;bottom:130px;left:0;right:0;display:flex;justify-content:center;gap:120px}
+#call .b{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+/* offer */
+#offer{inset:0;background:#143659;overflow:hidden}
+#offer .ring{position:absolute;border-radius:50%;border:3px solid rgba(146,197,180,.18)}
+#off-kh{position:absolute;left:0;right:0;top:330px;text-align:center;font-weight:900;font-size:120px;color:#92C5B4}
+#off-pct{position:absolute;left:0;right:0;top:430px;text-align:center;font-weight:900;font-size:470px;line-height:1;color:#fff;direction:ltr;letter-spacing:-12px}
+#off-pct span{font-size:260px;color:#92C5B4;letter-spacing:0}
+#off-sub{position:absolute;left:0;right:0;top:950px;text-align:center;font-weight:900;font-size:74px;color:#fff}
+#off-lim{position:absolute;left:50%;top:1080px;transform:translateX(-50%);background:#ffc24b;color:#143659;font-weight:900;font-size:42px;border-radius:40px;padding:12px 36px;white-space:nowrap}
+#off-wa{position:absolute;left:110px;right:110px;top:1640px;height:150px;border-radius:80px;background:#25D366;display:flex;align-items:center;justify-content:center;gap:24px;color:#fff;font-weight:900;font-size:64px;direction:ltr;box-shadow:0 14px 0 #128c4b}
+#off-logo{position:absolute;left:0;right:0;top:150px;display:flex;justify-content:center;align-items:center;gap:22px;direction:ltr}
+#off-logo img{height:90px}
+#off-logo b{font-weight:900;font-size:76px;color:#fff;letter-spacing:6px}
+#flash{inset:0;background:#fff;opacity:0}
+</style></head>
+<body><div id="stage">
+<svg id="scene" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<div id="board" class="abs">
+  <div class="cell"><div class="lbl" id="l1">صرفت</div><div class="val amber" id="v1">0</div></div>
+  <div class="cell"><div class="lbl" id="l2">رسايل</div><div class="val" id="v2">0</div></div>
+  <div class="cell"><div class="lbl" id="l3">مبيعات</div><div class="val" id="v3">0</div></div>
+</div>
+<div id="chip" class="abs"><div class="n" id="chipn">1</div><div id="chipt">اعرف زبونك</div></div>
+<div id="dots" class="abs"><i></i><i></i><i></i><i></i></div>
+<div id="phone" class="abs"><div id="screen"><div class="notch"></div>
+  <div id="pv-post">
+    <div class="fbbar">facebook</div>
+    <div class="post"><div class="hd"><div class="av">K</div><div><div class="nm">كريم ستور</div><div class="sub">دلوقتي · 🌍</div></div></div>
+      <div class="img" id="postimg"></div>
+      <div class="likes"><div class="heart">♥</div><span id="likes">0</span><span style="color:#8a97a6;font-size:28px">لايك</span></div>
+    </div>
+    <div id="adbtn">⚡ ترويج المنشور</div>
+  </div>
+  <div id="pv-dm" class="dms"></div>
+  <div id="pv-feed"></div>
+</div></div>
+<div id="mama" class="abs"><div class="face"></div><span>ماما ❤️</span></div>
+<div id="plan" class="abs"><h3>خطة تسويق</h3>
+  <div class="row"><div class="bx" id="pb1"></div>جمهور محدد</div>
+  <div class="row"><div class="bx" id="pb2"></div>محتوى وريلز</div>
+  <div class="row"><div class="bx" id="pb3"></div>إعلان مستهدف</div>
+  <div class="row"><div class="bx" id="pb4"></div>قياس وتعديل</div>
+</div>
+<div id="call" class="abs"><div class="scr"><div class="logo"><img src="assets/p-navy.svg"></div><div class="nm">Planet</div><div class="st" id="callst">بيتصل…</div>
+  <div class="btns"><div class="b" style="background:#ff4d4f"><svg width="60" height="60" viewBox="0 0 24 24"><path fill="#fff" d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.996.996 0 010-1.41C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28a11.27 11.27 0 00-2.67-1.85.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg></div>
+  <div class="b" id="callok" style="background:#25D366"><svg width="60" height="60" viewBox="0 0 24 24"><path fill="#fff" d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg></div></div>
+</div></div>
+<div id="offer" class="abs">
+  <div id="off-logo"><img src="assets/p-white.svg"><b>PLANET</b></div>
+  <div id="off-kh">خصم</div>
+  <div id="off-pct">35<span>%</span></div>
+  <div id="off-sub">على باقات التسويق</div>
+  <div id="off-lim">لفترة محدودة</div>
+  <div id="off-wa"><svg width="78" height="78" viewBox="0 0 24 24"><path fill="#fff" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.3-1.96 1.35-.5.05-1.13.07-1.82-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36h.56c.18.01.42-.07.66.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.51-.14.14-.29.3-.13.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.42.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.27.1 1.7.8 1.99.95.29.14.48.22.55.34.07.12.07.7-.17 1.38z"/></svg>01203101104</div>
+</div>
+<div id="cap"></div>
+<div id="flash" class="abs"></div>
+</div>
+<script src="scene.js"></script>
+</body></html>
