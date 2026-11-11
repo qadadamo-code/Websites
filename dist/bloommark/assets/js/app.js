@@ -11,7 +11,7 @@ const hasG = typeof gsap !== 'undefined';
 if (hasG) gsap.registerPlugin(ScrollTrigger);
 const PAGE = document.body.dataset.page;
 
-const LANGS = ['ar', 'en', 'fr', 'zh'];
+const LANGS = ['ar', 'en', 'fr', 'es', 'de', 'zh', 'ru'];
 let lang = (() => {
   const q = new URLSearchParams(location.search).get('lang');
   if (LANGS.includes(q)) return q;
@@ -225,6 +225,18 @@ function setLang(l) {
   leave(u.href);
 }
 
+/* ---------- day / night ---------- */
+const themeBtn = $('#themeBtn');
+if (themeBtn) themeBtn.addEventListener('click', () => {
+  const H = document.documentElement, dark = H.dataset.theme !== 'dark';
+  H.classList.add('theme-anim');
+  if (dark) H.dataset.theme = 'dark'; else delete H.dataset.theme;
+  try { localStorage.setItem('bm-theme', dark ? 'dark' : 'light'); } catch (e) {}
+  const m = $('meta[name=theme-color]'); if (m) m.setAttribute('content', dark ? '#0d0d0f' : '#f4f2ee');
+  dispatchEvent(new Event('bm:theme'));
+  setTimeout(() => H.classList.remove('theme-anim'), 700);
+});
+
 /* ---------- smooth scroll ---------- */
 let lenis = null;
 if (typeof Lenis !== 'undefined' && !reduce) {
@@ -286,7 +298,7 @@ $$('.ph-canvas').forEach(cv => {
   function draw(now) {
     if (!run) return; const t = (now - t0) / 1000; ctx.clearRect(0, 0, w, h);
     for (let i = 0; i < 40; i++) {
-      const k = i / 40; ctx.strokeStyle = `rgba(13,13,15,${0.015 + 0.05 * Math.sin(k * Math.PI)})`; ctx.lineWidth = .7; ctx.beginPath();
+      const k = i / 40; ctx.strokeStyle = document.documentElement.dataset.theme === 'dark' ? `rgba(255,255,255,${0.02 + 0.07 * Math.sin(k * Math.PI)})` : `rgba(13,13,15,${0.015 + 0.05 * Math.sin(k * Math.PI)})`; ctx.lineWidth = .7; ctx.beginPath();
       for (let x = -20; x <= w + 20; x += 16) {
         const p = x / w; const y = h * (.15 + k * .9) + Math.sin(p * 4 + t * .3 + k * 5) * 30 * (1 - k * .5) + Math.sin((p - mx) * 3) * 40 * k - p * 60;
         x === -20 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);

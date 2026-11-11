@@ -2,7 +2,7 @@
 """BloomMark multi-page generator. Run: python3 src/build.py  (writes *.html in the site root)."""
 import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = '4'
+V = '5'
 
 PAGES = ['index', 'firm', 'practice', 'process', 'egypt', 'insights', 'contact']
 NAV = ['firm', 'practice', 'process', 'egypt', 'insights', 'contact']
@@ -19,7 +19,7 @@ HEAD = '''<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>BloomMark IP</title>
 <meta name="description" content="">
-<meta name="theme-color" content="#0d0d0f">
+<meta name="theme-color" content="#f4f2ee">
 <meta property="og:type" content="website">
 <meta property="og:title" content="BloomMark IP | Intellectual Property Services — Cairo">
 <meta property="og:description" content="Trademarks, patents, designs, copyrights and IP litigation in Egypt & MENA since 2007.">
@@ -30,6 +30,7 @@ HEAD = '''<!doctype html>
 <link id="zhFonts" rel="stylesheet" media="none" data-href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="assets/css/style.css?v=%(v)s">
 <link rel="stylesheet" href="assets/css/v3.css?v=%(v)s">
+<script>try{if(localStorage.getItem('bm-theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
 <script>try{var l=new URLSearchParams(location.search).get('lang')||localStorage.getItem('bm-lang');if(l&&l!=='ar'){document.documentElement.lang=l==='zh'?'zh-Hans':l;document.documentElement.dir='ltr'}}catch(e){}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"LegalService","name":"BloomMark for Intellectual Property Services Ltd","alternateName":"بلوم مارك لخدمات الملكية الفكرية","foundingDate":"2007","email":"info@bloommark-ip.com","telephone":"+201207820109","url":"https://bloommark-ip.com","address":{"@type":"PostalAddress","streetAddress":"Building No. 23, Office No. 1, Ground Floor, Green Hills Compound, Nasr City","addressLocality":"Cairo","addressCountry":"EG"}}</script>
 </head>
@@ -52,10 +53,11 @@ HEAD = '''<!doctype html>
 %(nav)s
     </nav>
     <div class="hdr-act">
+      <button class="theme-btn" id="themeBtn" aria-label="Day / night mode"><svg class="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg></button>
       <div class="lang" id="lang">
         <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg><span id="langCur">عربي</span></button>
         <div class="lang-menu" id="langMenu">
-          <button data-lang="ar">العربية</button><button data-lang="en">English</button><button data-lang="fr">Français</button><button data-lang="zh">中文</button>
+          <button data-lang="ar">العربية</button><button data-lang="en">English</button><button data-lang="fr">Français</button><button data-lang="es">Español</button><button data-lang="de">Deutsch</button><button data-lang="zh">中文</button><button data-lang="ru">Русский</button>
         </div>
       </div>
       <a href="contact.html" class="btn btn-shine btn-sm hide-m pl" data-t="nav.cta"></a>
@@ -98,7 +100,7 @@ FOOT = '''
       <nav class="ftr-nav">
 %(fnav)s
       </nav>
-      <div class="ftr-langs" id="ftrLangs"><button data-lang="ar">العربية</button><button data-lang="en">English</button><button data-lang="fr">Français</button><button data-lang="zh">中文</button></div>
+      <div class="ftr-langs" id="ftrLangs"><button data-lang="ar">العربية</button><button data-lang="en">English</button><button data-lang="fr">Français</button><button data-lang="es">Español</button><button data-lang="de">Deutsch</button><button data-lang="zh">中文</button><button data-lang="ru">Русский</button></div>
     </div>
     <div class="ftr-word" aria-hidden="true">BloomMark</div>
     <div class="ftr-bot"><span>© 2007–<span id="yr">2026</span> · <span data-t="footer.rights"></span></span><a href="#top" data-t="footer.top"></a></div>
@@ -118,6 +120,7 @@ FOOT = '''
 <script src="assets/js/vendor/lenis.min.js"></script>
 <script src="assets/js/logo-data.js?v=%(v)s"></script>
 %(extra)s<script src="assets/js/content.js?v=%(v)s"></script>
+<script src="assets/js/content-xl.js?v=%(v)s"></script>
 <script src="assets/js/pages.js?v=%(v)s"></script>
 <script src="assets/js/app.js?v=%(v)s"></script>
 %(module)s</body>
