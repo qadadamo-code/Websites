@@ -2,6 +2,15 @@
 (function(){
   var d=document,w=window,root=d.documentElement,body=d.body;
   var RTL=root.dir==='rtl';
+  var LG=root.lang||'en';
+  var I18N={ar:['من فضلك أكمل الحقول المطلوبة.','الاسم: ','البريد: ','الموضوع: ','شكرًا لك، تم تجهيز رسالتك للإرسال.'],
+    en:['Please complete the required fields.','Name: ','Email: ','Subject: ','Thank you — your message is ready to send.'],
+    fr:['Veuillez remplir les champs obligatoires.','Nom : ','E-mail : ','Objet : ','Merci — votre message est prêt à être envoyé.'],
+    es:['Complete los campos obligatorios.','Nombre: ','Correo: ','Asunto: ','Gracias — su mensaje está listo para enviar.'],
+    de:['Bitte füllen Sie die Pflichtfelder aus.','Name: ','E-Mail: ','Betreff: ','Danke — Ihre Nachricht ist bereit zum Senden.'],
+    zh:['请填写必填项。','姓名：','邮箱：','主题：','谢谢——您的消息已准备好发送。'],
+    ru:['Пожалуйста, заполните обязательные поля.','Имя: ','Эл. почта: ','Тема: ','Спасибо — ваше сообщение готово к отправке.']};
+  var TX=I18N[LG]||I18N.en;
   var reduce=w.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduce)body.classList.add('reduce');
   var hasG=!!w.gsap;
@@ -46,6 +55,19 @@
     var u=new URL(a.href,location.href);
     if(u.pathname===location.pathname&&u.hash&&u.hash.length>1){var t=d.querySelector(u.hash);if(t){e.preventDefault();lenis?lenis.scrollTo(t,{offset:-90}):t.scrollIntoView({behavior:'smooth'})}}
   });
+
+  /* language menu */
+  d.querySelectorAll('.lm').forEach(function(m){
+    var b=m.querySelector('.lm-b');
+    b.addEventListener('click',function(e){e.stopPropagation();var o=!m.classList.contains('open');d.querySelectorAll('.lm.open').forEach(function(x){x.classList.remove('open')});m.classList.toggle('open',o);b.setAttribute('aria-expanded',o)});
+  });
+  d.addEventListener('click',function(){d.querySelectorAll('.lm.open').forEach(function(x){x.classList.remove('open');x.querySelector('.lm-b').setAttribute('aria-expanded','false')})});
+  /* day / night */
+  d.querySelectorAll('.thm').forEach(function(t){t.addEventListener('click',function(){
+    var cur=root.dataset.theme||'light',nx=cur==='dark'?'light':'dark';
+    root.classList.add('thm-anim');root.dataset.theme=nx;try{localStorage.setItem('stern-theme',nx)}catch(e){}
+    setTimeout(function(){root.classList.remove('thm-anim')},600);
+  })});
 
   /* split headings into words */
   function split(el){
@@ -183,12 +205,12 @@
       e.preventDefault();var ok=true,f=cf.elements;
       ['first','last','email','msg'].forEach(function(n){var el=f[n],v=el.value.trim(),bad=!v||(n==='email'&&!/^\S+@\S+\.\S+$/.test(v));el.classList.toggle('bad',bad);if(bad)ok=false});
       var note=d.getElementById('cfn');
-      if(!ok){note.textContent=RTL?'من فضلك أكمل الحقول المطلوبة.':'Please complete the required fields.';return}
+      if(!ok){note.textContent=TX[0];return}
       var name=f.first.value.trim()+' '+f.last.value.trim(),sub=f.subject.value;
-      var txt=(RTL?'الاسم: ':'Name: ')+name+'\n'+(RTL?'البريد: ':'Email: ')+f.email.value.trim()+'\n'+(RTL?'الموضوع: ':'Subject: ')+sub+'\n\n'+f.msg.value.trim();
+      var txt=TX[1]+name+'\n'+TX[2]+f.email.value.trim()+'\n'+TX[3]+sub+'\n\n'+f.msg.value.trim();
       if(via==='wa')w.open('https://wa.me/'+cf.dataset.wa+'?text='+encodeURIComponent(txt),'_blank','noopener');
       else location.href='mailto:'+cf.dataset.mail+'?subject='+encodeURIComponent('STERN IP — '+sub)+'&body='+encodeURIComponent(txt);
-      note.textContent=RTL?'شكرًا لك، تم تجهيز رسالتك للإرسال.':'Thank you — your message is ready to send.';
+      note.textContent=TX[4];
     });
   }
 

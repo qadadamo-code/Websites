@@ -669,3 +669,48 @@ html.h3d .hx-in,html.h3d .hx-meta,html.h3d #hd,html.h3d .hx-word{opacity:0}
 .chair-3d{background:radial-gradient(circle at 50% 40%,#13296a 0%,#071233 55%,var(--night) 100%);border:0;overflow:hidden;box-shadow:0 40px 80px -40px rgba(11,26,72,.6)}
 .chair-3d img{width:92%;height:auto;mix-blend-mode:screen}
 .chair-3d .chair-q{color:rgba(169,193,242,.35)}
+
+/* ================= languages ================= */
+.l-ru{--fd:'Inter',system-ui,sans-serif}
+.l-ru h1,.l-ru h2,.l-ru h3{letter-spacing:-.025em}
+.l-zh{--fd:'Sora','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC','Source Han Sans SC',sans-serif;--fb:'Inter','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',sans-serif}
+.l-zh h1,.l-zh h2,.l-zh h3{letter-spacing:.01em;line-height:1.3;font-weight:700}
+.l-zh .hx .hero-t{letter-spacing:.02em}
+.l-de .hx .hero-t,.l-ru .hx .hero-t,.l-fr .hx .hero-t,.l-es .hx .hero-t{font-size:clamp(42px,6.6vw,124px)}
+.l-de h1,.l-ru h1,.l-fr h1{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+.lm{position:relative}
+.lm-b{display:flex;align-items:center;gap:7px;cursor:pointer}
+.lm-ic{width:15px;fill:none;stroke:currentColor;stroke-width:1.4;opacity:.8}
+.lm-dd{position:absolute;top:calc(100% + 10px);inset-inline-end:0;min-width:180px;padding:8px;background:rgba(8,16,44,.97);border:1px solid var(--line-d);border-radius:14px;opacity:0;visibility:hidden;transform:translateY(6px);transition:.25s var(--ease);backdrop-filter:blur(14px);z-index:60}
+.lm.open .lm-dd{opacity:1;visibility:visible;transform:none}
+.lm-dd a{display:flex;justify-content:space-between;padding:10px 14px;border-radius:9px;color:rgba(255,255,255,.82);font-size:14px}
+.lm-dd a:hover{background:rgba(169,193,242,.1);color:#fff}
+.lm-dd a[aria-current]{color:#fff}
+.lm-dd a[aria-current]::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--sky);align-self:center}
+.mm-langs{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.mm-langs a{padding:8px 13px;border:1px solid var(--line-d);border-radius:99px;font-size:14px;color:var(--silver)}
+.mm-langs a.on{background:#fff;color:var(--navy);border-color:#fff}
+.thm{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-d);display:grid;place-items:center;color:#fff;transition:.25s}
+.thm:hover{border-color:var(--sky)}
+.thm svg{width:17px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;grid-area:1/1;transition:transform .5s var(--ease),opacity .3s}
+.thm-m{opacity:0;transform:rotate(-60deg) scale(.6)}
+[data-theme=dark] .thm-s{opacity:0;transform:rotate(60deg) scale(.6)}
+[data-theme=dark] .thm-m{opacity:1;transform:none}
+@media (max-width:860px){.hd-act .lm-b span{display:none}.hd-act .lm-b{padding:9px 10px}.thm{width:38px;height:38px}}
+
+/* ================= night mode ================= */
+[data-theme=dark]{--paper:#081132;--ice:#0d1a42;--ink:#eaf0fc;--ink2:#c5cfe6;--graphite:#97a4c2;--line:rgba(169,193,242,.14);color-scheme:dark}
+[data-theme=dark] body{background:#050b22;color:var(--ink)}
+[data-theme=dark] .sec-light{background:#060d29}
+[data-theme=dark] .sec-paper{background:#040a20}
+[data-theme=dark] :is(.why-c,.why-n,.px,.treat li,.val,.mem li,.tm,.pc,.sv,.sec-paper .sv,.fx,.ac,.tags span,.rgc,.clc,.nw,.ct-c,.cf input,.cf select,.cf textarea){background:rgba(255,255,255,.035);border-color:var(--line)}
+[data-theme=dark] :is(.why-c:hover,.pc:hover,.sv:hover,.clc:hover,.nw:hover,.cf input:focus,.cf select:focus,.cf textarea:focus){background:rgba(169,193,242,.08)}
+[data-theme=dark] :is(.lnk,.prose a,.px-go,.treat li:hover,.cw,.cw:hover,.sig-s,.tm-b a,.jo,.rgc-h b,.nw details summary,.edu b,.fx b,.drop::first-letter,.why-n,.mv-c b,.ct-c a){color:var(--sky)}
+[data-theme=dark] .px-ic,[data-theme=dark] .why-n svg{stroke:var(--sky)}
+[data-theme=dark] .btn-o{color:#fff;border-color:rgba(169,193,242,.4)}
+[data-theme=dark] .cf select option{background:#0b1638;color:#fff}
+[data-theme=dark] .chair-3d{box-shadow:0 0 0 1px rgba(169,193,242,.12),0 40px 80px -40px #000}
+[data-theme=dark] .cl .cw{opacity:.85}
+[data-theme=dark] .ft{border-top:1px solid var(--line-d)}
+.thm-anim,.thm-anim *{transition:background-color .5s ease,color .5s ease,border-color .5s ease!important}
+.l-zh .ph-t{font-size:clamp(32px,4.4vw,66px)}
