@@ -4,12 +4,34 @@ import os, html
 from data import *
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = "8"
+V = "9"
 LANG = "ar"
 
 
+LANGS = [("ar", "العربية", "AR"), ("en", "English", "EN"), ("fr", "Français", "FR"), ("es", "Español", "ES"), ("de", "Deutsch", "DE"), ("zh", "中文", "中文"), ("ru", "Русский", "RU")]
+FONT_PRELOAD = {"ar": "NotoSansArabic-300_700-arabic.woff2", "ru": "Inter-300_700-cyrillic.woff2"}
+import json as _json
+TR = {}
+for _l in ("fr", "es", "de", "zh", "ru"):
+    _p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", _l + ".json")
+    TR[_l] = _json.load(open(_p, encoding="utf-8")) if os.path.exists(_p) else {}
+MISSING = set()
+
+
 def T(en, ar):
-    return ar if LANG == "ar" else en
+    if LANG == "ar":
+        return ar
+    if LANG == "en" or not isinstance(en, str):
+        return en
+    v = TR[LANG].get(en)
+    if v is None:
+        MISSING.add(en)
+        return en
+    return v
+
+
+def RT(ltr, rtl):
+    return rtl if LANG == "ar" else ltr
 
 
 def esc(s):
@@ -30,12 +52,25 @@ def link(slug):
     return f + ("#" + frag if frag else "")
 
 
-def other_lang_link(slug):
+def lang_link(slug, to):
     page = slug if slug != "index" else ""
     tgt = (page + ".html") if page else ""
-    if LANG == "ar":
-        return "en/" + tgt if tgt else "en/"
-    return "../" + tgt if tgt else "../"
+    base = "" if LANG == "ar" else "../"
+    return base + ("" if to == "ar" else to + "/") + tgt or "./"
+
+
+def other_lang_link(slug):
+    return lang_link(slug, "en" if LANG == "ar" else "ar")
+
+
+def lang_menu(slug, cls="lm"):
+    cur = [x for x in LANGS if x[0] == LANG][0]
+    opts = "".join('<a href="%s" hreflang="%s" lang="%s"%s>%s</a>' % (lang_link(slug, c), c, c, ' aria-current="true"' if c == LANG else "", n) for c, n, _ in LANGS)
+    return '<div class="%s"><button class="lang lm-b" type="button" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" class="lm-ic"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.8 3.8 5.8 3.8 9s-1.3 6.2-3.8 9c-2.5-2.8-3.8-5.8-3.8-9S9.5 5.8 12 3z"/></svg><span>%s</span></button><div class="lm-dd">%s</div></div>' % (cls, cur[2], opts)
+
+
+def theme_btn():
+    return '<button class="thm" type="button" aria-label="%s"><svg class="thm-s" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><svg class="thm-m" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>' % T("Day / night mode", "الوضع الليلي / النهاري")
 
 
 # ---------------------------------------------------------------- brand marks
@@ -127,7 +162,8 @@ def header(slug):
     {logo()}
     <nav class="nav" aria-label="{T('Main','القائمة الرئيسية')}">{''.join(items)}</nav>
     <div class="hd-act">
-      <a class="lang" href="{other_lang_link(slug)}" hreflang="{T('ar','en')}" lang="{T('ar','en')}">{T('العربية','EN')}</a>
+      {theme_btn()}
+      {lang_menu(slug)}
       <a class="btn btn-s" href="{link('contact')}"><span>{T('Contact us','تواصل معنا')}</span></a>
       <button class="burger" id="burger" aria-label="{T('Menu','القائمة')}" aria-expanded="false"><i></i><i></i></button>
     </div>
@@ -136,7 +172,7 @@ def header(slug):
 <div class="mm" id="mm" aria-hidden="true">
   <div class="mm-bg">{eagle('mm-e','light')}</div>
   <div class="mm-in">{''.join(mob)}</div>
-  <div class="mm-ft"><a href="mailto:{EMAIL}">{EMAIL}</a><a href="tel:+{PHONE_RAW}" dir="ltr">{PHONE_INTL}</a><a class="lang" href="{other_lang_link(slug)}">{T('العربية','English')}</a></div>
+  <div class="mm-ft"><a href="mailto:{EMAIL}">{EMAIL}</a><a href="tel:+{PHONE_RAW}" dir="ltr">{PHONE_INTL}</a><div class="mm-langs">{"".join('<a href="%s" lang="%s"%s>%s</a>' % (lang_link(slug, c), c, ' class="on"' if c == LANG else "", n) for c, n, _ in LANGS)}</div></div>
 </div>'''
 
 
@@ -180,7 +216,7 @@ def page(slug, title, desc, body, cls="", extra_js=()):
     alt = other_lang_link(slug)
     js = "".join('<script src="%sjs/%s?v=%s" defer></script>' % (a, j, V) for j in extra_js)
     return f'''<!doctype html>
-<html lang="{LANG}" dir="{T('ltr','rtl')}">
+<html lang="{LANG}" dir="{RT('ltr','rtl')}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -189,9 +225,10 @@ def page(slug, title, desc, body, cls="", extra_js=()):
 <meta name="theme-color" content="#050a1f">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
-<link rel="alternate" hreflang="{T('ar','en')}" href="{alt}">
+{"".join('<link rel="alternate" hreflang="%s" href="%s">' % (c, lang_link(slug, c)) for c, _, _ in LANGS if c != LANG)}
+<script>try{{var t=localStorage.getItem('stern-theme');if(t)document.documentElement.dataset.theme=t}}catch(e){{}}</script>
 <link rel="icon" href="{a}img/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="{a}fonts/{T('Sora-300_700-latin.woff2','NotoSansArabic-300_700-arabic.woff2')}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{a}fonts/{FONT_PRELOAD.get(LANG,'Sora-300_700-latin.woff2')}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{a}css/fonts.css?v={V}">
 <link rel="stylesheet" href="{a}css/stern.css?v={V}">
 {INTRO_GUARD if slug=="index" else ""}</head>
@@ -220,7 +257,7 @@ def page_hero(slug, kick, title, lead, crumbs=None, art=""):
     return f'''
 <section class="ph">
   <canvas class="ph-cv" data-rays></canvas>
-  <div class="ph-eagle ph-3d" aria-hidden="true"><img src="{A()}img/3d/{T('e-34','e-34r')}.webp" alt="" width="1400" height="560" decoding="async"></div>
+  <div class="ph-eagle ph-3d" aria-hidden="true"><img src="{A()}img/3d/{RT('e-34','e-34r')}.webp" alt="" width="1400" height="560" decoding="async"></div>
   <div class="wrap ph-in">
     {cr}
     {kicker(kick)}
@@ -248,17 +285,19 @@ def cta():
 def build():
     global LANG
     import pages
-    for LANG_ in ("ar", "en"):
+    for LANG_, _, _ in LANGS:
         LANG = LANG_
         pages.LANG = LANG_
-        out = ROOT if LANG == "ar" else os.path.join(ROOT, "en")
+        out = ROOT if LANG == "ar" else os.path.join(ROOT, LANG)
         os.makedirs(out, exist_ok=True)
         for slug, fn in pages.PAGES:
             _uid[0] = 0
             html_ = fn()
             with open(os.path.join(out, slug + ".html"), "w", encoding="utf-8") as f:
                 f.write(html_)
-    print("built", len(pages.PAGES) * 2, "pages")
+    print("built", len(pages.PAGES) * len(LANGS), "pages; missing translations:", len(MISSING))
+    with open("/tmp/claude-0/missing.json", "w") as f:
+        _json.dump(sorted(MISSING), f, ensure_ascii=False, indent=0)
 
 
 if __name__ == "__main__":

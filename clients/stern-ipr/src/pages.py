@@ -441,7 +441,7 @@ def jurisdictions():
     rows = ""
     jd = {}
     for en, ar, rg, fil, nice, tm, ex, pr, nu, gr, off in J:
-        tr = (lambda s: AR_TERMS.get(s, s)) if B.LANG == "ar" else (lambda s: s)
+        tr = (lambda s: AR_TERMS.get(s, s)) if B.LANG == "ar" else (lambda s: T(s, s))
         key = J_MAP[en]
         jd[key] = {"n": T(en, ar), "o": off, "r": rg, "f": [
             [T("Filing system", "نظام الإيداع"), tr(fil)],
@@ -530,13 +530,15 @@ MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "Au
 
 def fdate(d):
     y, m, dd = d.split("-")
+    if B.LANG == "zh":
+        return f"{y}年{int(m)}月{int(dd)}日"
     return f"{int(dd)} {T(MONTHS_EN[int(m)-1], MONTHS_AR[int(m)-1])} {y}"
 
 
 def insights():
     cards = ""
     for i, (d, cen, car, ten, tar, pen, par) in enumerate(NEWS):
-        ps = "".join(f"<p>{p}</p>" for p in (par if B.LANG == "ar" else pen))
+        ps = "".join(f"<p>{p}</p>" for p in (par if B.LANG == "ar" else [T(x, x) for x in pen]))
         cards += f'''<article class="nw{' nw-f' if i == 0 else ''}"><div class="nw-m"><span class="nw-c">{T(cen, car)}</span><time datetime="{d}">{fdate(d)}</time></div>
 <h3>{T(ten, tar)}</h3><details><summary>{T('Read','اقرأ')}{icon('plus', 'ac-ic')}</summary><div class="nw-b">{ps}</div></details></article>'''
     body = page_hero("insights", T("Insights", "المستجدات"),
