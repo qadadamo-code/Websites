@@ -92,7 +92,7 @@
     if(ph){gsap.from(ph.querySelectorAll('.crumb,.kk,.ph-l'),{y:24,opacity:0,duration:1,stagger:.1,delay:.15,ease:'power3.out'});
       gsap.from('.ph-eagle',{opacity:0,scale:.9,duration:2,ease:'power2.out'});
       gsap.to('.ph-eagle',{yPercent:18,ease:'none',scrollTrigger:{trigger:ph,start:'top top',end:'bottom top',scrub:true}})}
-    var ce=d.querySelector('.chair-mark .eagle');
+    var ce=d.querySelector('.chair-mark .eagle,.chair-3d img');
     if(ce)gsap.from(ce,{scale:.6,opacity:0,rotate:-6,duration:1.6,ease:'power3.out',scrollTrigger:{trigger:ce,start:'top 85%',once:true}});
     /* stats counter */
     d.querySelectorAll('[data-count]').forEach(function(el){
