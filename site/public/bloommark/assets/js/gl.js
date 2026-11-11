@@ -67,6 +67,8 @@ try {
   const dctx = dot.getContext('2d'); const gr = dctx.createRadialGradient(16, 16, 0, 16, 16, 16); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); dctx.fillStyle = gr; dctx.fillRect(0, 0, 32, 32);
   const pts = new THREE.Points(pg, new THREE.PointsMaterial({ size: 0.05, map: new THREE.CanvasTexture(dot), transparent: true, opacity: 0.4, depthWrite: false, color: 0x8d7a58 }));
   scene.add(pts);
+  const tint = () => { const d = document.documentElement.dataset.theme === 'dark'; pts.material.color.set(d ? 0xe9e2d2 : 0x8d7a58); pts.material.opacity = d ? 0.55 : 0.4; };
+  tint(); addEventListener('bm:theme', tint);
 
   /* --- interaction --- */
   let mx = 0, my = 0, tx = 0, ty = 0, scrollF = 0, intro = 0, introStart = null, run = true;

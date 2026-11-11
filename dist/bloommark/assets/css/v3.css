@@ -428,3 +428,62 @@ html[lang=ar] .svc-strip span,html[lang=zh-Hans] .svc-strip span{font-family:var
 @media (max-width:560px){ .tabs{width:100%} .tab{padding:9px 14px;font-size:13.5px;white-space:normal} }
 .cur.drag .cur-ring{background:rgba(13,13,15,.88);border-color:transparent;backdrop-filter:none}
 .cur.drag .cur-ring span{color:var(--paper)}
+
+/* =====================================================================
+   v5 — day / night toggle + 7 languages
+   ===================================================================== */
+.theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-d);display:grid;place-items:center;transition:border-color .3s,transform .5s var(--ease)}
+.theme-btn:hover{transform:rotate(20deg)}
+.hdr.on-light .theme-btn{border-color:var(--line-l)}
+.theme-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.5;grid-area:1/1}
+.theme-btn .i-moon{display:none}
+html[data-theme=dark] .theme-btn .i-sun{display:none}
+html[data-theme=dark] .theme-btn .i-moon{display:block}
+html.theme-anim *,html.theme-anim *::before,html.theme-anim *::after{transition:background-color .6s,color .6s,border-color .6s!important}
+.lang-menu{min-width:170px}
+.ftr-langs{display:grid;grid-template-columns:repeat(2,max-content);gap:8px 22px}
+html[lang=ru] .kicker,html[lang=de] .kicker{letter-spacing:.14em}
+html[lang=ru] .hero-h,html[lang=de] .hero-h{font-size:clamp(40px,6.2vw,104px)}
+html[lang=ru] .h3d .hero-h,html[lang=de] .h3d .hero-h{max-width:13ch;font-size:clamp(38px,5.8vw,96px)}
+html[lang=ru] .ph-t,html[lang=de] .ph-t{font-size:clamp(46px,8.6vw,150px)}
+html[lang=ru] .hz-h,html[lang=de] .hz-h{font-size:clamp(30px,3.4vw,54px);hyphens:auto}
+html[lang=ru] .idx-t,html[lang=de] .idx-t{font-size:clamp(26px,4vw,62px)}
+
+/* ---- night mode: light sections turn dark ---- */
+html[data-theme=dark] body{background:var(--ink)}
+html[data-theme=dark] :is(.light,.paper2,.next,.svc-strip){
+  --paper:#0f0f12; --paper2:#16161a; --white:#1b1b20; --ink:#f1efea;
+  --char:#d6d6da; --graph:#a3a3aa; --mute:#7c7c84; --line-l:rgba(255,255,255,.1);
+  color:var(--ink)
+}
+html[data-theme=dark] .light{background:var(--paper)}
+html[data-theme=dark] :is(.paper2,.next){background:var(--paper2)}
+html[data-theme=dark] .light .btn-shine,html[data-theme=dark] .paper2 .btn-shine{color:#0d0d0f}
+html[data-theme=dark] .light .btn-shine::before,html[data-theme=dark] .paper2 .btn-shine::before{background:linear-gradient(180deg,#fff,#dcd9d3)}
+html[data-theme=dark] .light .btn-shine::after{background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.95) 48%,transparent 66%);background-size:250% 100%}
+html[data-theme=dark] .req-card li{color:var(--char)}
+html[data-theme=dark] .hdr.on-light{color:#f4f2ee}
+html[data-theme=dark] .hdr.on-light.scrolled{background:rgba(13,13,15,.72);border-color:rgba(255,255,255,.09)}
+html[data-theme=dark] .hdr.on-light .nav a:hover,html[data-theme=dark] .hdr.on-light .nav a.act{background:rgba(255,255,255,.07)}
+html[data-theme=dark] .hdr.on-light .btn-shine{color:#0d0d0f}
+html[data-theme=dark] .hdr.on-light .btn-shine::before{background:linear-gradient(180deg,#fff,#dcd9d3)}
+html[data-theme=dark] .hdr.on-light .btn-shine::after{background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.95) 48%,transparent 66%);background-size:250% 100%}
+html[data-theme=dark] .hdr.on-light :is(.lang-btn,.theme-btn,.burger){border-color:rgba(255,255,255,.12)}
+html[data-theme=dark] .h3d.light{background:radial-gradient(ellipse 60% 70% at 72% 40%,#1a1a1f 0%,#0d0d0f 65%)}
+html[data-theme=dark][dir=rtl] .h3d.light{background:radial-gradient(ellipse 60% 70% at 28% 40%,#1a1a1f 0%,#0d0d0f 65%)}
+html[data-theme=dark] .h3d.light .h3d-grid{background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px)}
+html[data-theme=dark] .h3d.light .h3d-vig{background:linear-gradient(0deg,#0f0f12 0%,rgba(15,15,18,.55) 30%,transparent 60%),linear-gradient(90deg,rgba(15,15,18,.7),transparent 55%)}
+html[data-theme=dark][dir=rtl] .h3d.light .h3d-vig{background:linear-gradient(0deg,#0f0f12 0%,rgba(15,15,18,.55) 30%,transparent 60%),linear-gradient(-90deg,rgba(15,15,18,.7),transparent 55%)}
+html[data-theme=dark] .h3d.light .pill{background:rgba(255,255,255,.04)}
+html[data-theme=dark] .h3d.light .btn-ghost{border-color:rgba(255,255,255,.2)}
+html[data-theme=dark] .h3d.light .btn-ghost:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.04)}
+html[data-theme=dark] .h3d.light .h3d-fallback path{fill:#d8d8dc}
+html[data-theme=dark] .hz-bar{background:rgba(15,15,18,.85)}
+html[data-theme=dark] .hz-big,html[data-theme=dark] .ph.light .ph-idx{-webkit-text-stroke:1px rgba(255,255,255,.1)}
+html[data-theme=dark] .cur.drag .cur-ring{background:rgba(244,242,238,.92)}
+html[data-theme=dark] .cur.drag .cur-ring span{color:#0d0d0f}
+html[data-theme=dark] .portal.p-firm{background:#f1efea;color:#0d0d0f;border-color:#f1efea}
+html[data-theme=dark] .portal.p-firm p{color:#5b5b61}
+html[data-theme=dark] .portal.p-firm .portal-mark path{fill:#0d0d0f}
+html[data-theme=dark] .portal.p-firm .portal-k{color:var(--stone)}
+html[data-theme=dark] .hcta,html[data-theme=dark] .hstats{background:#141417}
