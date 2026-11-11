@@ -6,7 +6,7 @@ import os, html as H
 from content import *
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = '1'
+V = '2'
 L = 'ar'
 
 PAGES = ['index', 'about', 'services', 'protection', 'litigation', 'corporate', 'related',
@@ -414,7 +414,7 @@ def p_index():
 
 <section class="sec ink2 lead-s">
   <div class="wrap lead-in">
-    <div class="medal rv" aria-hidden="true"><canvas class="medal-g"></canvas><span>{d['ini']}</span></div>
+    <div class="medal rv" aria-hidden="true"><canvas class="medal-g"></canvas>{medal_name(d)}</div>
     <div>
       {eyebrow(('Founder', 'المؤسس'), '08')}
       <blockquote class="q rv">“{e(d['role'])}”</blockquote>
@@ -434,6 +434,11 @@ def intro():
   <div class="intro-reg"><span class="intro-c">0000</span><span>/ REG.</span></div>
   <button class="intro-skip">{e(('Skip', 'تخطَّ'))}</button>
 </div>'''
+
+
+def medal_name(d):
+    n = t(d['name']).rsplit(' ', 1)
+    return f'<span class="mn"><b>{H.escape(n[0])}</b><b>{H.escape(n[1])}</b><i></i><small>{e(d["title"])}</small></span>'
 
 
 def p_about():
@@ -604,11 +609,11 @@ def p_jurisdictions():
 
 def p_team():
     dirs = ''.join(f'''<article class="dr rv">
-  <div class="medal" aria-hidden="true"><canvas class="medal-g"></canvas><span>{d['ini']}</span></div>
+  <div class="medal" aria-hidden="true"><canvas class="medal-g"></canvas>{medal_name(d)}</div>
   <div class="dr-m"><span class="dr-k">{e(d['title'])}</span><h2>{e(d['name'])}</h2><p>{e(d['role'])}</p>
   <a class="lnk" href="mailto:{d.get('mail', CONTACT['email'])}">{icon('mail')}<span>{e(('Contact', 'تواصل'))}</span></a></div>
 </article>''' for d in DIRECTORS)
-    team = ''.join(f'''<div class="tm rv" style="--d:{i * 0.04:.2f}s"><div class="tm-m" aria-hidden="true"><span>{ini}</span></div><h3>{e(n)}</h3><p>{e(r)}</p></div>''' for i, (ini, n, r) in enumerate(TEAM))
+    team = ''.join(f'''<div class="tm rv" style="--d:{i * 0.04:.2f}s"><div class="tm-m" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6.2 7.5-6.2s6.7 2.2 7.5 6.2"/></svg></div><h3>{e(n)}</h3><p>{e(r)}</p></div>''' for i, (ini, n, r) in enumerate(TEAM))
     return f'''{page_hero('team', '04', ('Our Team', 'فريق العمل'), ('A well-trained {work group.}', 'فريق عمل {مدرَّب.}'), TRAINING)}
 <section class="sec paper">
   <div class="wrap">
