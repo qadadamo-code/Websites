@@ -88,16 +88,13 @@
   }
 
   /* ---------- hero entrance ---------- */
-  let heroDone = false;
   function heroIn() {
-    if (heroDone) return; heroDone = true;
     const lines = $$('.hero .ttl .ln>span, .ph .ttl .ln>span, .ct .ttl .ln>span, .lg-h .ttl .ln>span');
     if (!hasG || REDUCED) return;
     const tl = gsap.timeline();
     tl.from(lines, { yPercent: 110, duration: 1.3, ease: 'power4.out', stagger: 0.1 })
       .from('.hero .lbl, .ph .lbl, .ct .lbl, .crumb, .ph-sub, .lg-h .lbl', { opacity: 0, y: 14, duration: 0.8, ease: 'power3.out' }, 0.1)
-      .from('.hero-s, .hero-p, .ph-p, .hero-a > *, .ph-a > *, .form', { opacity: 0, y: 24, duration: 1, ease: 'power3.out', stagger: 0.07 }, 0.35)
-      .fromTo('.ct-cards > *', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.08, clearProps: 'opacity,transform' }, 0.45)
+      .from('.hero-s, .hero-p, .ph-p, .hero-a > *, .ph-a > *, .ct-cards > *, .form', { opacity: 0, y: 24, duration: 1, ease: 'power3.out', stagger: 0.07 }, 0.35)
       .from('.hero-hud .hud', { opacity: 0, duration: 1.2, stagger: 0.1 }, 0.6);
     const hs = $('.hero-stats .stats, .ph-stats');
     if (hs) tl.add(() => { hs.classList.add('in'); $$('.cnt', hs).forEach(count); }, 0.7);
