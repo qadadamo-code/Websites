@@ -8,7 +8,7 @@ from legal import TERMS, PRIVACY
 from icons import icon
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = '7'  # cache-buster for css/js
+V = '8'  # cache-buster for css/js
 L = 'ar'
 
 
