@@ -6,7 +6,7 @@ import os, re, json, sys, html as H
 from content import *
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = '3'
+V = '4'
 L = 'ar'
 LANGS = ['ar', 'en', 'fr', 'es', 'de', 'zh', 'ru']
 LNAME = {'ar': 'العربية', 'en': 'English', 'fr': 'Français', 'es': 'Español', 'de': 'Deutsch', 'zh': '中文', 'ru': 'Русский'}
@@ -131,10 +131,10 @@ def guilloche_frame():
 def head(page, title, desc):
     full = f'{t(BRAND)} | {t(TAGLINE)}' if page == 'index' else f'{title} | {t(BRAND)}'
     alts = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{lurl(l, page)}">' for l in LANGS)
-    gf = {'zh': 'family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;600;700',
-          'ru': 'family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@300..800&family=IBM+Plex+Mono:wght@400;500'}.get(L)
+    gf = {'zh': 'family=Noto+Sans+SC:wght@300;400;500;700',
+          'ru': 'family=Manrope:wght@300..800&family=IBM+Plex+Mono:wght@400;500'}.get(L)
     gfl = f'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?{gf}&display=swap">' if gf else ''
-    pre_ar = f'<link rel="preload" href="{A("assets/fonts/ElMessiri-400_700n-arabic.woff2")}" as="font" type="font/woff2" crossorigin>' if ar() else f'<link rel="preload" href="{A("assets/fonts/CormorantGaramond-600n-latin.woff2")}" as="font" type="font/woff2" crossorigin>'
+    pre_ar = f'<link rel="preload" href="{A("assets/fonts/IBMPlexSansArabic-600n-arabic.woff2")}" as="font" type="font/woff2" crossorigin>' if ar() else f'<link rel="preload" href="{A("assets/fonts/InterTight-300_700n-latin.woff2")}" as="font" type="font/woff2" crossorigin>'
     return f'''<!doctype html>
 <html lang="{L}" dir="{'rtl' if ar() else 'ltr'}">
 <head>
