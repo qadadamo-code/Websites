@@ -25,7 +25,7 @@
     /* visible world size at the eagle plane */
     function vis(){var c=ctrl.cam,h=2*Math.tan(c.fov*Math.PI/360)*c.position.z;return{h:h,w:h*c.aspect}}
     /* resting pose in the hero */
-    function heroPose(){var v=vis();small=innerWidth<861;return small?{x:0,y:v.h*0.21,s:1}:{x:0,y:v.h*0.17,s:.86}}
+    function heroPose(){var v=vis();small=innerWidth<861;return small?{x:0,y:v.h*0.21,s:1}:{x:0,y:v.h*(RTL?.2:.17),s:RTL?.82:.86}}
     var p=heroPose();st.offX=p.x;st.offY=p.y;st.scale=p.s;
     if(reduce||!w.gsap){ctrl.assemble=1;st.glow=.6;reveal(0);return}
     /* assembly */
