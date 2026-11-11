@@ -2,12 +2,21 @@
 """Static site generator for AAA For Intellectual Property.
 Run:  python3 src/build.py   -> ./*.html (Arabic, root) and ./en/*.html (English)
 """
-import os, html as H
+import os, re, json, sys, html as H
 from content import *
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = '2'
+V = '3'
 L = 'ar'
+LANGS = ['ar', 'en', 'fr', 'es', 'de', 'zh', 'ru']
+LNAME = {'ar': 'العربية', 'en': 'English', 'fr': 'Français', 'es': 'Español', 'de': 'Deutsch', 'zh': '中文', 'ru': 'Русский'}
+LCODE = {'ar': 'ع', 'en': 'EN', 'fr': 'FR', 'es': 'ES', 'de': 'DE', 'zh': '中', 'ru': 'RU'}
+_I18N = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'i18n')
+sys.path.insert(0, _I18N)
+IDX = {s: i for i, s in enumerate(json.load(open(os.path.join(_I18N, 'keys.json'), encoding='utf-8')))}
+TR = {l: __import__(l).T for l in LANGS[2:]}
+MISS = set()
+HQ = {'ar': 'القاهرة · المقر', 'en': 'CAIRO · HQ', 'fr': 'LE CAIRE · SIÈGE', 'es': 'EL CAIRO · SEDE', 'de': 'KAIRO · SITZ', 'zh': '开罗 · 总部', 'ru': 'КАИР · ШТАБ'}
 
 PAGES = ['index', 'about', 'services', 'protection', 'litigation', 'corporate', 'related',
          'jurisdictions', 'team', 'policies', 'contact']
@@ -16,8 +25,21 @@ SERVICE_PAGES = ('protection', 'litigation', 'corporate', 'related')
 
 def t(x):
     if isinstance(x, tuple):
-        return x[1] if L == 'ar' else x[0]
+        if L == 'ar':
+            return x[1]
+        if L == 'en':
+            return x[0]
+        i = IDX.get(x[0])
+        if i is None:
+            MISS.add(x[0])
+            return x[0]
+        return TR[L][i]
     return x
+
+
+def lurl(lang, page):
+    """Relative link from the current page to `page` in `lang`."""
+    return A('') + ('' if lang == 'ar' else lang + '/') + href(page)
 
 
 def e(x):
@@ -108,8 +130,10 @@ def guilloche_frame():
 # ------------------------------------------------------------------ layout pieces
 def head(page, title, desc):
     full = f'{t(BRAND)} | {t(TAGLINE)}' if page == 'index' else f'{title} | {t(BRAND)}'
-    ar_url = A(href(page)) if L == 'en' else href(page)
-    en_url = ('en/' if ar() else '') + href(page)
+    alts = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{lurl(l, page)}">' for l in LANGS)
+    gf = {'zh': 'family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;600;700',
+          'ru': 'family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@300..800&family=IBM+Plex+Mono:wght@400;500'}.get(L)
+    gfl = f'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?{gf}&display=swap">' if gf else ''
     pre_ar = f'<link rel="preload" href="{A("assets/fonts/ElMessiri-400_700n-arabic.woff2")}" as="font" type="font/woff2" crossorigin>' if ar() else f'<link rel="preload" href="{A("assets/fonts/CormorantGaramond-600n-latin.woff2")}" as="font" type="font/woff2" crossorigin>'
     return f'''<!doctype html>
 <html lang="{L}" dir="{'rtl' if ar() else 'ltr'}">
@@ -122,13 +146,13 @@ def head(page, title, desc):
 <meta property="og:title" content="{H.escape(full)}">
 <meta property="og:description" content="{H.escape(desc)}">
 <meta property="og:image" content="{A('assets/img/og.jpg')}">
-<link rel="alternate" hreflang="ar" href="{ar_url}">
-<link rel="alternate" hreflang="en" href="{en_url}">
-<script>document.documentElement.classList.add('js')</script>
+{alts}
+<script>(function(d){{d.classList.add('js');try{{var m=localStorage.getItem('aaa-theme');if(m==='dark')d.setAttribute('data-theme','dark')}}catch(e){{}}}})(document.documentElement)</script>
 <link rel="icon" href="{A('assets/img/favicon.svg')}" type="image/svg+xml">
 {pre_ar}
 <link rel="preload" href="{A('assets/fonts/Manrope-300_800n-latin.woff2')}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{A('assets/css/fonts.css')}?v={V}">
+{gfl}
 <link rel="stylesheet" href="{A('assets/css/aaa.css')}?v={V}">
 </head>
 <body class="pg-{page}" data-page="{page}">
@@ -151,8 +175,7 @@ def is_cur(k, page):
 
 
 def header(page):
-    other = 'English' if ar() else 'العربية'
-    other_href = ('en/' if ar() else '../') + href(page)
+    langs = ''.join(f'<a href="{lurl(l, page)}" hreflang="{l}" lang="{l}"{" aria-current=true" if l == L else ""}><b>{LCODE[l]}</b><span>{LNAME[l]}</span></a>' for l in LANGS)
     items = ''
     for k, n in NAV[1:]:
         cur = ' aria-current="page"' if is_cur(k, page) else ''
@@ -167,7 +190,8 @@ def header(page):
     <a class="hdr-brand" href="index.html" aria-label="{e(BRAND)}">{brand_mark()}</a>
     <nav class="nav" aria-label="main"><ul>{items}</ul></nav>
     <div class="hdr-act">
-      <a class="lang" href="{other_href}" hreflang="{'en' if ar() else 'ar'}" lang="{'en' if ar() else 'ar'}">{other}</a>
+      <button class="thm" type="button" aria-label="Light / Dark"><svg class="thm-s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="thm-m" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+      <div class="lng"><button class="lang" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Language"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>{LCODE[L]}</span></button><div class="lng-m">{langs}</div></div>
       <a class="btn btn-gold btn-sm hdr-cta" href="contact.html"><span>{e(('Contact Us', 'تواصل معنا'))}</span></a>
       <button class="burger" aria-label="menu" aria-expanded="false"><span></span><span></span></button>
     </div>
@@ -189,6 +213,7 @@ def menu(page):
       <div class="mo-k">{e(('Direct line', 'تواصل مباشر'))}</div>
       <a class="mo-c" href="https://wa.me/{CONTACT['wa']}" target="_blank" rel="noopener" dir="ltr">{CONTACT['phone']}</a>
       <a class="mo-c" href="mailto:{CONTACT['email']}">{CONTACT['email']}</a>
+      <div class="mo-lng">{''.join(f'<a href="{lurl(l, page)}" hreflang="{l}" lang="{l}"{" aria-current=true" if l == L else ""}>{LNAME[l]}</a>' for l in LANGS)}</div>
     </div>
   </div>
 </div>'''
@@ -241,20 +266,24 @@ def eyebrow(txt, n=None):
 
 
 def title(txt, tag='h2', cls=''):
-    """Title with words wrapped for reveal; segment in {braces} gets the gold italic accent."""
+    """Title with words wrapped for reveal; segment in {braces} gets the gold italic accent.
+    Chinese has no spaces, so it is wrapped per character (Latin runs stay whole)."""
     s = t(txt)
     out = []
-    acc = False
-    for w in s.split(' '):
-        o = w.startswith('{')
-        c = w.endswith('}')
-        w2 = H.escape(w.strip('{}'))
-        if o:
-            acc = True
-        out.append(f'<span class="w{" ac" if acc else ""}"><span>{w2}</span></span>')
-        if c:
-            acc = False
-    return f'<{tag} class="tt {cls}">{" ".join(out)}</{tag}>'
+    for seg in re.split(r'(\{[^}]*\})', s):
+        if not seg:
+            continue
+        acc = seg.startswith('{')
+        seg = seg.strip('{}')
+        toks = re.findall(r'[A-Za-z0-9+&.\-]+|\s+|.', seg) if L == 'zh' else re.split(r'(\s+)', seg)
+        for w in toks:
+            if not w:
+                continue
+            if w.isspace():
+                out.append(' ')
+            else:
+                out.append(f'<span class="w{" ac" if acc else ""}"><span>{H.escape(w)}</span></span>')
+    return f'<{tag} class="tt {cls}">{"".join(out).strip()}</{tag}>'
 
 
 def page_hero(page, n, kicker, ttl, lead, crumbs=None):
@@ -398,7 +427,7 @@ def p_index():
 <section class="sec ink map-s">
   <div class="wrap">
     <div class="sh sh-row">{eyebrow(('Jurisdictions', 'النطاق الدولي'), '06')}{title(('Protected {wherever} your client needs.', 'حماية {أينما} احتاج عميلك.'))}</div>
-    <div class="map-box rv"><canvas class="map" data-mode="teaser" aria-label="{e(('World map of AAA jurisdictions', 'خريطة نطاق عمل AAA'))}"></canvas>
+    <div class="map-box rv"><canvas class="map" data-mode="teaser" data-hq="{HQ[L]}" aria-label="{e(('World map of AAA jurisdictions', 'خريطة نطاق عمل AAA'))}"></canvas>
       <div class="map-tabs">{jl}</div>
     </div>
     <p class="map-note rv">{e(NETWORK)} <a class="lnk" href="jurisdictions.html">{e(('Explore jurisdictions', 'استكشف النطاق الدولي'))}{icon('arrow', 'ic flip')}</a></p>
@@ -596,7 +625,7 @@ def p_jurisdictions():
     return f'''{page_hero('jurisdictions', '03', ('Jurisdictions', 'النطاق الدولي'), ('From Cairo, {to anywhere} your client needs.', 'من القاهرة، {إلى أي مكان} يحتاجه عميلك.'), NETWORK)}
 <section class="sec ink map-s jur">
   <div class="wrap">
-    <div class="map-box big"><canvas class="map" data-mode="full" aria-label="{e(('Interactive jurisdictions map', 'خريطة تفاعلية للنطاق الدولي'))}"></canvas></div>
+    <div class="map-box big"><canvas class="map" data-mode="full" data-hq="{HQ[L]}" aria-label="{e(('Interactive jurisdictions map', 'خريطة تفاعلية للنطاق الدولي'))}"></canvas></div>
     <div class="jts" role="tablist">{tabs}</div>
   </div>
 </section>
@@ -705,15 +734,17 @@ META = {
 
 def build():
     global L
-    for L in ('ar', 'en'):
-        out = ROOT if L == 'ar' else os.path.join(ROOT, 'en')
+    for L in LANGS:
+        out = ROOT if L == 'ar' else os.path.join(ROOT, L)
         os.makedirs(out, exist_ok=True)
         for p in PAGES:
             ttl, desc = META[p]
             body = globals()['p_' + p]()
             doc = head(p, t(ttl), t(desc)) + header(p) + f'<main id="main">{body}</main>' + footer() + scripts(p)
             open(os.path.join(out, href(p)), 'w', encoding='utf-8').write(doc)
-    print('built', len(PAGES) * 2, 'pages')
+    print('built', len(PAGES) * len(LANGS), 'pages')
+    if MISS:
+        print('UNTRANSLATED:', *sorted(MISS), sep='\n  ')
 
 
 if __name__ == '__main__':

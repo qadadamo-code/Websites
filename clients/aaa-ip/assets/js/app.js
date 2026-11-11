@@ -49,6 +49,22 @@
     D.body.style.overflow = open ? 'hidden' : '';
   });
 
+  /* language menu + day/night toggle */
+  const lng = $('.lng');
+  if (lng) {
+    const lb = $('.lang', lng);
+    const setL = o => { lng.classList.toggle('open', o); lb.setAttribute('aria-expanded', o); };
+    lb.addEventListener('click', ev => { ev.stopPropagation(); setL(!lng.classList.contains('open')); });
+    D.addEventListener('click', ev => { if (!lng.contains(ev.target)) setL(false); });
+    D.addEventListener('keydown', ev => { if (ev.key === 'Escape') setL(false); });
+  }
+  $$('.thm').forEach(b => b.addEventListener('click', () => {
+    const dark = html.getAttribute('data-theme') !== 'dark';
+    if (dark) html.setAttribute('data-theme', 'dark'); else html.removeAttribute('data-theme');
+    try { localStorage.setItem('aaa-theme', dark ? 'dark' : 'light'); } catch (e) {}
+    W.dispatchEvent(new Event('themechange'));
+  }));
+
   /* ---------------------------------------------------------------- guilloche engine */
   const GOLD = '201,165,116';
   function sizeCanvas(c) {
@@ -390,7 +406,7 @@
         }
       }
       ctx.font = `700 ${Math.max(10, Math.min(13, w / 80))}px Manrope, sans-serif`; ctx.fillStyle = '#E2C89A'; ctx.textAlign = 'center';
-      ctx.textAlign = RTL ? 'left' : 'right'; ctx.fillText(html.lang === 'ar' ? 'القاهرة · المقر' : 'CAIRO · HQ', RTL ? cx + 12 : cx - 12, cy + 4);
+      ctx.textAlign = RTL ? 'left' : 'right'; ctx.fillText(c.dataset.hq || 'CAIRO · HQ', RTL ? cx + 12 : cx - 12, cy + 4);
     }
     requestAnimationFrame(frame);
     if ('IntersectionObserver' in W) new IntersectionObserver(es => vis = es[0].isIntersecting).observe(c);
@@ -445,16 +461,16 @@
       const f = new FormData(form), err = $('.form-err', form);
       const ok = f.get('name').trim() && /\S+@\S+\.\S+/.test(f.get('email')) && f.get('msg').trim();
       err.hidden = !!ok; if (!ok) return;
-      const AR = html.lang === 'ar';
+      const lab = n => { const i = form.elements[n], l = i && i.closest('label'); return (l ? $('span', l).textContent : n) + ': '; };
       const lines = [
-        (AR ? 'استفسار جديد من الموقع' : 'New website inquiry') + ' — AAA/IN-' + (no ? no.textContent : ''),
-        (AR ? 'الاسم: ' : 'Name: ') + f.get('name'),
-        f.get('company') ? (AR ? 'الشركة: ' : 'Company: ') + f.get('company') : '',
-        (AR ? 'البريد: ' : 'Email: ') + f.get('email'),
-        f.get('phone') ? (AR ? 'الهاتف: ' : 'Phone: ') + f.get('phone') : '',
-        (AR ? 'المجال: ' : 'Area: ') + f.get('area'),
+        $('.form-h span', form).textContent + ' — AAA/IN-' + (no ? no.textContent : ''),
+        lab('name') + f.get('name'),
+        f.get('company') ? lab('company') + f.get('company') : '',
+        lab('email') + f.get('email'),
+        f.get('phone') ? lab('phone') + f.get('phone') : '',
+        lab('area') + f.get('area'),
         '', f.get('msg')
-      ].filter(x => x !== null);
+      ];
       const body = lines.join('\n');
       if (via === 'mail') location.href = 'mailto:Info@AAA-IP.com?subject=' + encodeURIComponent('Inquiry — ' + f.get('area')) + '&body=' + encodeURIComponent(body);
       else W.open('https://wa.me/201122417017?text=' + encodeURIComponent(body), '_blank', 'noopener');
