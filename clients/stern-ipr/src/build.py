@@ -4,7 +4,7 @@ import os, html
 from data import *
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = "7"
+V = "8"
 LANG = "ar"
 
 
@@ -172,7 +172,7 @@ def footer():
 <a class="wa" href="https://wa.me/{PHONE_RAW}" target="_blank" rel="noopener" aria-label="WhatsApp">{icon('wa')}</a>'''
 
 
-INTRO_GUARD = "<script>try{if(sessionStorage.getItem('stern-intro')!=='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('io')}catch(e){}setTimeout(function(){document.documentElement.classList.remove('io')},6000)</script>"
+INTRO_GUARD = "<script>document.documentElement.classList.add('h3d');setTimeout(function(){document.documentElement.classList.remove('h3d')},4500)</script>"
 
 
 def page(slug, title, desc, body, cls="", extra_js=()):
@@ -220,7 +220,7 @@ def page_hero(slug, kick, title, lead, crumbs=None, art=""):
     return f'''
 <section class="ph">
   <canvas class="ph-cv" data-rays></canvas>
-  <div class="ph-eagle" aria-hidden="true">{eagle('', 'light')}</div>
+  <div class="ph-eagle ph-3d" aria-hidden="true"><img src="{A()}img/3d/{T('e-34','e-34r')}.webp" alt="" width="1400" height="560" decoding="async"></div>
   <div class="wrap ph-in">
     {cr}
     {kicker(kick)}

@@ -23,30 +23,32 @@ def home():
         f'<a class="rg" href="{link("jurisdictions")}#{k}"><b>{c}</b><span>{T(en, ar)}</span></a>'
         for k, en, ar, _, c in REGIONS[:3])
     body = f'''
-<section class="hero" id="top">
-  <canvas class="sky" id="sky"></canvas>
-  <div class="hero-eagle" aria-hidden="true">{eagle('', 'glow', rays=True)}</div>
-  <div class="wrap hero-in">
-    {kicker(T('Intellectual Property Law Firm · Cairo, since 2008','مكتب محاماة للملكية الفكرية · القاهرة منذ 2008'))}
-    <h1 class="hero-t" data-split>{T('Power in<br>protecting.','قوّةٌ<br>في الحماية.')}</h1>
-    <p class="hero-l">{T('Patents, trademarks, designs and copyrights — protected in Egypt, across Africa and the Middle East, and worldwide through our network of agents in every major city.','براءات الاختراع والعلامات التجارية والنماذج الصناعية وحقوق المؤلف، محميّة في مصر وعبر أفريقيا والشرق الأوسط، وحول العالم من خلال شبكة وكلائنا في كبرى المدن.')}</p>
-    <div class="hero-b">
-      <a class="btn btn-l" href="{link('contact')}"><span>{T('Request a free quotation','اطلب عرض أتعاب مجاني')}</span>{arrow()}</a>
-      <a class="btn btn-g" href="{link('jurisdictions')}"><span>{T('Explore our coverage','استكشف نطاق تغطيتنا')}</span></a>
+<div class="stage">
+<canvas class="e3d" id="e3d" aria-hidden="true"></canvas>
+<section class="hero hx" id="top">
+  <div class="hx-word" aria-hidden="true"><span>STERN</span></div>
+  <div class="hero-eagle hx-fb" aria-hidden="true">{eagle('', 'glow')}</div>
+  <div class="hx-meta wrap" aria-hidden="true"><span>30.0444° N · 31.2357° E</span><span>{T('Cairo · Est. 2008','القاهرة · منذ 2008')}</span></div>
+  <div class="wrap hero-in hx-in">
+    {kicker(T('Intellectual Property Law Firm','مكتب محاماة للملكية الفكرية'))}
+    <h1 class="hero-t" data-split>{T('Power in protecting.','قوّةٌ في الحماية.')}</h1>
+    <div class="hx-row">
+      <p class="hero-l">{T('Patents, trademarks, designs and copyrights — protected in Egypt, across Africa and the Middle East, and worldwide through our network of agents in every major city.','براءات الاختراع والعلامات التجارية والنماذج الصناعية وحقوق المؤلف، محميّة في مصر وعبر أفريقيا والشرق الأوسط، وحول العالم من خلال شبكة وكلائنا في كبرى المدن.')}</p>
+      <div class="hero-b">
+        <a class="btn btn-l" href="{link('contact')}"><span>{T('Request a free quotation','اطلب عرض أتعاب مجاني')}</span>{arrow()}</a>
+        <a class="btn btn-g" href="{link('jurisdictions')}"><span>{T('Explore our coverage','استكشف نطاق تغطيتنا')}</span></a>
+      </div>
     </div>
   </div>
-  <div class="hero-legend" aria-hidden="true"><span><i class="lg-hq"></i>{T('Cairo headquarters','المقر الرئيسي')}</span><span><i class="lg-of"></i>{T('STERN offices','مكاتب ستيرن')}</span><span><i class="lg-co"></i>{T('Correspondents','المراسلون')}</span></div>
-  <div class="hero-tick"><div class="tk">
-    <span>{T('Best IP Firm in Egypt · 2015','أفضل مكتب ملكية فكرية في مصر · 2015')}</span><span>{T('Best IP Firm in Egypt · 2019','أفضل مكتب ملكية فكرية في مصر · 2019')}</span><span>{T('Top 5 IP firms in Egypt — Managing Intellectual Property','ضمن أفضل 5 مكاتب في مصر — Managing Intellectual Property')}</span><span>{T('Member of the Egyptian Patent Attorneys Organization','عضو منظمة وكلاء البراءات المصرية')}</span><span>{T('INTA member','عضو الرابطة الدولية للعلامات التجارية INTA')}</span>
-  </div></div>
+  <div class="hx-scroll" aria-hidden="true"><i></i>{T('Scroll','مرّر')}</div>
 </section>
 
-<section class="intro sec-light">
-  <div class="wrap intro-g">
-    <div>{kicker(T('Welcome to STERN IP','مرحبًا بكم في ستيرن'), '01')}</div>
-    <div>
-      <p class="big-q" data-words>{T('We are STERN IP, an Intellectual Property Law Firm based in Cairo, Egypt, with representations worldwide. Our services cover all aspects of intellectual property matters — and we offer consultancy not only in Egypt, but also in Africa and the Middle East.','نحن ستيرن، مكتب محاماة متخصص في الملكية الفكرية مقرّه القاهرة، وله تمثيل حول العالم. تغطي خدماتنا جميع جوانب الملكية الفكرية، ونقدّم استشاراتنا ليس في مصر فحسب، بل في أفريقيا والشرق الأوسط أيضًا.')}</p>
-      <div class="why">
+<section class="hx-st">
+  <div class="wrap hx-st-g">
+    <div class="hx-st-t">
+      {kicker(T('Welcome to STERN IP','مرحبًا بكم في ستيرن'), '01')}
+      <p class="big-q" data-words>{T('We are STERN IP, an Intellectual Property Law Firm based in Cairo, Egypt, with representations worldwide. Our services cover all aspects of intellectual property — not only in Egypt, but also in Africa and the Middle East.','نحن ستيرن، مكتب محاماة متخصص في الملكية الفكرية مقرّه القاهرة، وله تمثيل حول العالم. تغطي خدماتنا جميع جوانب الملكية الفكرية، ليس في مصر فحسب، بل في أفريقيا والشرق الأوسط أيضًا.')}</p>
+      <div class="why why-d">
         <div class="why-c"><span class="why-n">{icon('shield')}</span><h3>{T('Power in protecting','قوّةٌ في الحماية')}</h3><p>{T('A global IP law company with Egyptian roots, operating with the dynamism of a start-up.','شركة عالمية للملكية الفكرية بجذور مصرية، تعمل بحيوية الشركات الناشئة.')}</p></div>
         <div class="why-c"><span class="why-n">{icon('star')}</span><h3>{T('Creative + Innovative = Quality Service','إبداع + ابتكار = خدمة متميّزة')}</h3><p>{T('Pioneering innovation in all of our practices and confirming our leadership locally and internationally.','نقود الابتكار في جميع مجالات ممارستنا ونؤكد ريادتنا محليًا ودوليًا.')}</p></div>
         <div class="why-c"><span class="why-n">{icon('globe')}</span><h3>{T('A solid worldwide network','شبكة عالمية متينة')}</h3><p>{T('Protect your trademarks, brand names, ideas and inventions through agents in all major cities of the world.','احمِ علاماتك وأسماءك التجارية وأفكارك واختراعاتك عبر وكلائنا في كبرى مدن العالم.')}</p></div>
@@ -54,12 +56,17 @@ def home():
     </div>
   </div>
 </section>
+</div>
+
+<div class="hero-tick hx-tick"><div class="tk">
+    <span>{T('Best IP Firm in Egypt · 2015','أفضل مكتب ملكية فكرية في مصر · 2015')}</span><span>{T('Best IP Firm in Egypt · 2019','أفضل مكتب ملكية فكرية في مصر · 2019')}</span><span>{T('Top 5 IP firms in Egypt — Managing Intellectual Property','ضمن أفضل 5 مكاتب في مصر — Managing Intellectual Property')}</span><span>{T('Member of the Egyptian Patent Attorneys Organization','عضو منظمة وكلاء البراءات المصرية')}</span><span>{T('INTA member','عضو الرابطة الدولية للعلامات التجارية INTA')}</span>
+</div></div>
 
 <section class="stats sec-night">
   <div class="wrap st-g">{stats}</div>
 </section>
 
-<section class="prac sec-light">
+<section class="prac prac-d sec-night">
   <div class="wrap">
     <div class="sh"><div>{kicker(T('Areas of practice','مجالات الممارسة'), '02')}<h2 data-split>{T('Treat your IP.','اعتنِ بملكيتك الفكرية.')}</h2></div>
     <p>{T('Protect your ideas and intellectual property through our professional services and expertise.','احمِ أفكارك وملكيتك الفكرية من خلال خدماتنا المهنية وخبرتنا.')}</p></div>
@@ -83,7 +90,7 @@ def home():
 
 <section class="chair sec-paper">
   <div class="wrap chair-g">
-    <div class="chair-mark" aria-hidden="true">{eagle('', 'brand')}<span class="chair-q">“</span></div>
+    <div class="chair-mark chair-3d" aria-hidden="true"><img src="{B.A()}img/3d/e-front.webp" alt="" width="1400" height="520" loading="lazy"><span class="chair-q">“</span></div>
     <div>
       {kicker(T('Chairman’s message','كلمة رئيس مجلس الإدارة'), '04')}
       <blockquote class="chair-b" data-words>{T('We are not the first IP attorney in Egypt & the Middle East. But we are always trying to be the best ones in this field.','لسنا أول وكيل ملكية فكرية في مصر والشرق الأوسط، لكننا نسعى دائمًا لأن نكون الأفضل في هذا المجال.')}</blockquote>
@@ -102,7 +109,7 @@ def home():
     return page("index", T("STERN IP — Intellectual Property Law Firm, Cairo", "ستيرن للملكية الفكرية — مكتب محاماة متخصص، القاهرة"),
                 T("STERN IP is an Intellectual Property Law Firm based in Cairo, Egypt, covering patents, trademarks, designs and copyrights across Egypt, Africa and the Middle East.",
                   "ستيرن مكتب محاماة متخصص في الملكية الفكرية مقرّه القاهرة، يغطي براءات الاختراع والعلامات التجارية والنماذج الصناعية وحقوق المؤلف في مصر وأفريقيا والشرق الأوسط."),
-                body, "home", ("dots.js", "cities.js", "intro.js", "sky.js"))
+                body, "home", ("dots.js", "cities.js", "eagle3d.js", "home3d.js"))
 
 
 # ================================================================ ABOUT
