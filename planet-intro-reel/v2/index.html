@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Pop;src:url(assets/fonts/poppins-latin-300-normal.woff2);font-weight:300}
+@font-face{font-family:Pop;src:url(assets/fonts/poppins-latin-400-normal.woff2);font-weight:400}
+@font-face{font-family:Pop;src:url(assets/fonts/poppins-latin-600-normal.woff2);font-weight:600}
+@font-face{font-family:Pop;src:url(assets/fonts/poppins-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:Pop;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-300-normal.woff2);font-weight:300;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Pop;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2);font-weight:400;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Pop;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2);font-weight:600;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Pop;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2);font-weight:700;unicode-range:U+0600-06FF,U+FE70-FEFF}
+:root{--mint:#92C5B4;--mintd:#5fa892;--navy:#143659;--ink:#0d1b2a;--paper:#F1F1F1}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--paper)}
+body{font-family:Pop,sans-serif;color:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden;background:var(--paper)}
+.L{position:absolute;inset:0;display:none}
+.line{position:absolute;left:0;right:0;display:flex;justify-content:center;align-items:center;white-space:pre;direction:rtl}
+.cur{display:inline-block;width:6px;height:1.02em;background:var(--mintd);margin:0 4px;vertical-align:middle;border-radius:1px}
+.sel{background:rgba(146,197,180,.55);border-radius:2px}
+.gl{position:absolute;height:3px;border-radius:2px}
+#emoji{position:absolute;font-family:'Noto Color Emoji';filter:grayscale(1) contrast(1.05) brightness(1.08);display:none}
+</style></head>
+<body><div id="stage">
+<svg width="0" height="0" style="position:absolute"><defs>
+  <path id="headp" d=""/>
+  <radialGradient id="irisG" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#0f3d33"/><stop offset=".22" stop-color="#2f7f6a"/><stop offset=".62" stop-color="#7cc3ad"/><stop offset=".9" stop-color="#a9dccb"/><stop offset="1" stop-color="#3f8b75"/>
+  </radialGradient>
+  <radialGradient id="irisShade" cx="40%" cy="30%" r="75%"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></radialGradient>
+  <pattern id="fib" width="1" height="1" patternUnits="objectBoundingBox"></pattern>
+</defs></svg>
+
+<div class="L" id="Lglitch" style="background:#000"><div id="glines"></div><div class="line" id="gH" style="top:900px;height:120px;font-size:96px;font-weight:700;color:#fff"></div></div>
+
+<div class="L" id="Lhello"><div id="hlines"></div><div class="line" id="hello" style="top:890px;height:140px;font-size:132px;font-weight:700;letter-spacing:-1px"></div><div id="emoji">👋</div></div>
+
+<div class="L" id="Lhead">
+  <svg id="headsvg" width="1080" height="1920" style="position:absolute;inset:0"><use href="#headp" id="headuse" fill="#000"/></svg>
+  <div class="line" id="im" style="font-size:150px;font-weight:600;color:#fff"></div>
+  <div class="line" id="nm" style="font-size:52px"></div>
+  <div id="ball" style="position:absolute;border-radius:50%;background:#050505;display:none;box-shadow:0 0 0 0 var(--mint)"></div>
+</div>
+
+<div class="L" id="Leye" style="background:#000">
+  <svg id="eyesvg" width="1080" height="1920" style="position:absolute;inset:0">
+    <defs><clipPath id="eyeclip"><path id="eyepath"/></clipPath><clipPath id="irisclip"><circle id="icc"/></clipPath></defs>
+    <path id="eyewhite" fill="#F1F1F1"/>
+    <g clip-path="url(#eyeclip)">
+      <text id="etxt" x="540" y="960" text-anchor="middle" dominant-baseline="central" font-family="Pop" font-weight="300" font-size="62" fill="#0d1b2a" direction="rtl"></text>
+      <g id="irisg">
+        <circle id="iris" fill="url(#irisG)"/>
+        <g id="fibres" opacity=".35"></g>
+        <circle id="irisSh" fill="url(#irisShade)"/>
+        <ellipse id="pupil" fill="#06110e"/>
+        <circle id="hl" fill="#fff"/>
+        <text id="etxt2" clip-path="url(#irisclip)" x="540" y="960" text-anchor="middle" dominant-baseline="central" font-family="Pop" font-weight="300" font-size="62" fill="#fff" direction="rtl"></text>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<div class="L" id="Lroles"><div class="line" id="roles" style="top:900px;height:120px;font-size:64px"></div></div>
+
+<div class="L" id="Lname">
+  <div class="line" id="nm2" style="top:920px;height:80px;font-size:50px"></div>
+  <div id="circ" style="position:absolute;border-radius:50%;overflow:hidden;display:none;background:#000">
+    <div id="photo" style="position:absolute;width:1080px;height:1920px">
+      <img src="assets/p3d.png" id="pimg" style="position:absolute;inset:0;width:1080px;height:1920px;transform-origin:50% 35%">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 52%,rgba(5,10,16,.75) 70%,#05090e 84%,#05090e 100%)"></div>
+      <div id="card" style="position:absolute;left:0;right:0;top:1290px;text-align:center;color:#fff">
+        <div style="font-size:66px;display:flex;justify-content:center;gap:20px;align-items:baseline;direction:ltr"><span style="font-weight:700">Planet</span><span style="font-weight:300">بلانت</span></div>
+        <div id="titles" style="margin-top:14px;font-size:27px;font-weight:400;color:#c9d4d2;direction:rtl;white-space:pre"></div>
+      </div>
+    </div>
+  </div>
+  <div id="dim" style="position:absolute;inset:0;background:#000;opacity:0"></div>
+</div>
+
+<div class="L" id="Lend" style="background:#000"><div class="line" id="endw" style="top:920px;height:80px;font-size:40px;color:#fff;direction:ltr"></div></div>
+</div>
+<div style="position:absolute;left:-9999px"><span style="font-weight:300">بلانت Pa</span><span style="font-weight:400">بلانت Pa</span><span style="font-weight:600">بلانت Pa</span><span style="font-weight:700">بلانت Pa</span><span style="font-family:'Noto Color Emoji'">👋</span></div>
+<script src="scene.js"></script>
+</body></html>
