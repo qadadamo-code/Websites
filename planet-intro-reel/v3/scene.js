@@ -23,8 +23,6 @@ const dotCur = (on) => `<svg width="22" height="22" viewBox="0 0 10 10" style="a
 
 // glitch dashes
 ['glines', 'hlines'].forEach((id) => { const g = $(id); for (let i = 0; i < 18; i++) { const d = document.createElement('div'); d.className = 'gl'; g.appendChild(d); } });
-// iris fibres
-(function () { const g = $('fibres'); let h = ''; for (let i = 0; i < 90; i++) h += `<line data-a="${(i / 90) * Math.PI * 2 + rnd(i) * 0.05}" data-l="${0.55 + rnd(i + 9) * 0.4}" stroke="${i % 3 ? '#d8f3ea' : '#0d4a3d'}" stroke-width="${1 + rnd(i + 3) * 1.6}" stroke-linecap="round"/>`; g.innerHTML = h; })();
 
 const SIL = { w: 752, h: 1344, top: 112, cx: 377, hw: 337 };
 function head(s, top, cx = 540) { const k = (s * 528 / SIL.hw); const im = $('silimg'); im.style.width = SIL.w * k + 'px'; im.style.height = SIL.h * k + 'px'; im.style.left = (cx - SIL.cx * k) + 'px'; im.style.top = (top - SIL.top * k) + 'px'; }
