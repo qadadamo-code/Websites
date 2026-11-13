@@ -26,7 +26,7 @@ const dotCur = (on) => `<svg width="22" height="22" viewBox="0 0 10 10" style="a
 
 const SIL = { w: 752, h: 1344, top: 112, cx: 377, hw: 337 };
 function head(s, top, cx = 540) { const k = (s * 528 / SIL.hw); const im = $('silimg'); im.style.width = SIL.w * k + 'px'; im.style.height = SIL.h * k + 'px'; im.style.left = (cx - SIL.cx * k) + 'px'; im.style.top = (top - SIL.top * k) + 'px'; }
-const EYE_N = 151, POR_N = 151, EYE_OFF = 2.9, POR_OFF = 3.3;
+const EYE_N = 151, POR_N = 151, EYE_OFF = 2.9, POR_OFF = 1.8;
 let _pend = [];
 function setSrc(img, src) { if (img.getAttribute('src') !== src) { img.setAttribute('src', src); _pend.push(new Promise((r) => { if (img.complete && img.naturalWidth) r(); else { img.onload = img.onerror = () => r(); } })); } }
 function lens(w, h, cx = 540, cy = 960) { return `M ${cx - w / 2} ${cy} Q ${cx} ${cy - h} ${cx + w / 2} ${cy} Q ${cx} ${cy + h} ${cx - w / 2} ${cy} Z`; }
@@ -165,7 +165,7 @@ function draw(t) {
       c.style.background = t < 8.14 ? '#5fa892' : '#000';
       const ph = $('photo'); ph.style.left = (-(cx - r)) + 'px'; ph.style.top = (-(cy - r)) + 'px';
       ph.style.opacity = t < 8.14 ? 0 : 1;
-      setSrc($('pimg'), `assets/por/${String(clamp(Math.floor((t - 8.14) * 30 + POR_OFF * 30), 0, POR_N - 1) + 1).padStart(4, '0')}.jpg`); $('pimg').style.transform = `scale(${lerp(1.12, 1.0, eOut(prog(t, 8.14, 9.5)))})`;
+      setSrc($('pimg'), `assets/por/${String(clamp(Math.floor((POR_OFF + (t - 8.14) * 0.5) * 30), 0, POR_N - 1) + 1).padStart(4, '0')}.jpg`); $('pimg').style.transform = `scale(${lerp(1.12, 1.0, eOut(prog(t, 8.14, 9.5)))})`;
       const ci = prog(t, 8.36, 8.48);
       $('card').style.opacity = ci; $('card').style.transform = `translateY(${(1 - eOut(ci)) * 40}px)`;
       let tt = ''; TITLES.forEach((s, i) => { const a = prog(t, 8.58 + i * 0.19, 8.66 + i * 0.19); if (a > 0) tt += `${i ? '<span style="color:#92C5B4">  •  </span>' : ''}<span style="opacity:${a}">${s}</span>`; });
