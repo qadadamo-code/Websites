@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ar"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-300-normal.woff2);font-weight:300;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2);font-weight:400;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2);font-weight:600;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2);font-weight:700;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Man;src:url(assets/fonts/manrope-latin-300-normal.woff2);font-weight:300}
+@font-face{font-family:Man;src:url(assets/fonts/manrope-latin-500-normal.woff2);font-weight:500}
+@font-face{font-family:Man;src:url(assets/fonts/manrope-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:Man;src:url(assets/fonts/manrope-latin-800-normal.woff2);font-weight:800}
+:root{--or:#F57A0A;--ink:#0A0A0A;--paper:#F1F1F1}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--paper)}
+body{font-family:Man,Plex,sans-serif;color:var(--ink)}
+.scene{position:absolute;inset:0;display:none;overflow:hidden}
+.center{position:absolute;left:0;right:0;display:flex;justify-content:center;align-items:center;white-space:nowrap}
+.cur{display:inline-block;width:.06em;height:1.05em;background:var(--or);margin:0 .06em;vertical-align:-.14em;border-radius:1px}
+.blk{display:inline-block;height:1.1em;background:rgba(245,122,10,.45);vertical-align:-.18em;margin:0 .02em}
+.ar{font-family:Plex;direction:rtl}
+.gv,.gh{position:absolute;background:#dcdcdc}
+.gv{width:2px;top:0;bottom:0}.gh{height:2px;left:0;right:0}
+.glab{position:absolute;font:500 15px Man;color:#b9b9b9}
+#sil{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:50% 100%}
+#portrait{position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover}
+</style></head>
+<body>
+
+<div class="scene" id="s1">
+  <div id="grid"></div>
+  <div class="center ar" id="hello" style="top:820px;height:220px;font-size:180px;font-weight:700"></div>
+</div>
+
+<div class="scene" id="s2">
+  <img id="sil" src="assets/sil.png">
+  <div class="center ar" id="im" style="font-size:150px;font-weight:600;color:#fff;height:200px"></div>
+  <div class="center" id="small" style="font-size:58px;height:100px"></div>
+  <div id="drop" style="position:absolute;width:34px;height:34px;border-radius:50%;background:#0A0A0A;display:none"><i style="position:absolute;right:-6px;top:-6px;width:14px;height:14px;border-radius:50%;background:var(--or)"></i></div>
+</div>
+
+<div class="scene" id="s5" style="background:#000">
+  <svg width="1080" height="1920" style="position:absolute;inset:0">
+    <defs>
+      <radialGradient id="ir" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#FFB25A"/><stop offset=".55" stop-color="#F57A0A"/><stop offset="1" stop-color="#9A3F00"/></radialGradient>
+      <radialGradient id="lens" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#2a3550"/><stop offset=".6" stop-color="#0a0d14"/><stop offset="1" stop-color="#000"/></radialGradient>
+      <clipPath id="eyeclip"><path id="eyeclipP"/></clipPath>
+    </defs>
+    <g id="eyeG">
+      <path id="eyeW" fill="#fff"/>
+      <g clip-path="url(#eyeclip)">
+        <g id="irisG">
+          <circle r="230" fill="url(#ir)"/>
+          <g id="fib"></g>
+          <circle r="232" fill="none" stroke="#7a3200" stroke-width="10"/>
+          <circle r="96" fill="url(#lens)"/>
+          <circle r="96" fill="none" stroke="#1b1b1b" stroke-width="10"/>
+          <circle r="70" fill="none" stroke="#3a4766" stroke-width="3" opacity=".7"/>
+          <circle r="44" fill="none" stroke="#5a6a90" stroke-width="2" opacity=".6"/>
+          <circle cx="56" cy="-120" r="30" fill="#fff"/>
+          <circle cx="-30" cy="-40" r="12" fill="#fff" opacity=".8"/>
+        </g>
+        <text id="etxt" text-anchor="middle" font-family="Plex" font-weight="300" font-size="86" fill="#111" direction="rtl"></text>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<div class="scene" id="s6">
+  <div class="center ar" id="roles" style="top:870px;height:180px;font-size:92px"></div>
+</div>
+
+<div class="scene" id="s7">
+  <div class="center" id="nm" style="top:900px;height:120px;font-size:60px"></div>
+  <div id="ndot" style="position:absolute;border-radius:50%;background:#0A0A0A;overflow:hidden">
+    <div id="mwrap" style="position:absolute;width:1080px;height:1920px">
+      <img id="portrait" src="assets/portrait.jpg">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.75) 72%,#000 100%)"></div>
+      <div id="card" style="position:absolute;left:0;right:0;top:1440px;text-align:center;color:#fff">
+        <div style="font-size:96px;display:flex;justify-content:center;gap:24px;align-items:baseline;direction:ltr"><span style="font-family:Man;font-weight:300">Daniel's</span><span style="font-family:Man;font-weight:800">Phone</span></div>
+        <div id="chips" class="ar" style="margin-top:20px;font-size:38px;font-weight:400;color:#cfcfcf"></div>
+      </div>
+    </div>
+  </div>
+  <div id="fade" style="position:absolute;inset:0;background:#000;opacity:0"></div>
+</div>
+
+<div class="scene" id="s9" style="background:#000">
+  <img id="logo" src="assets/logo-round.png" style="position:absolute;left:50%;top:560px;width:300px;height:300px;margin-left:-150px;border-radius:50%">
+  <div class="center" id="endw" style="top:930px;height:100px;font-size:60px;color:#fff;letter-spacing:.42em;direction:ltr"></div>
+  <div class="center ar" id="end2" style="top:1080px;height:60px;font-size:38px;color:#bdbdbd;font-weight:400"></div>
+  <div class="center ar" id="end3" style="top:1160px;height:60px;font-size:38px;color:#bdbdbd;font-weight:400"></div>
+  <div class="center" id="end4" style="top:1250px;height:60px;font:500 30px Man;color:var(--or);letter-spacing:.04em;direction:ltr"></div>
+</div>
+
+<div style="position:absolute;left:-9999px;top:0"><span class="ar" style="font-weight:300">عنا</span><span class="ar" style="font-weight:400">عنا</span><span class="ar" style="font-weight:600">عنا</span><span class="ar" style="font-weight:700">عنا</span><span style="font-family:Man;font-weight:300">Pa</span><span style="font-family:Man;font-weight:500">Pa</span><span style="font-family:Man;font-weight:700">Pa</span><span style="font-family:Man;font-weight:800">Pa</span></div>
+<script src="scene.js"></script>
+</body></html>
