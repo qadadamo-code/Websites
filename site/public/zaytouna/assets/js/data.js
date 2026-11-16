@@ -255,7 +255,6 @@ window.STORE = {
     { id: 'g10_10', c: 'frozen', ar: "بوظة أصابع شوكولاتة", en: "Choc Ice Bars", s: "6 pcs", p: 18 },
     { id: 'g10_11', c: 'frozen', ar: "مصاصات فواكه", en: "Fruit Popsicles", s: "6 pcs", p: 12 },
     { id: 'g10_15', c: 'frozen', ar: "ثلج مكعبات", en: "Ice Cubes", s: "2 kg", p: 5 },
-    { id: 'H7', c: 'frozen', ar: "كرسبي كريم بوب كورن دجاج", en: "Crispy Kareem Chicken Popcorn", s: "400 g", p: 22, tag: 'hot' },
     { id: 'C4', c: 'frozen', ar: "لودوك أصابع موزاريلا", en: "Leduc Mozzarella Sticks", s: "300 g", p: 18, o: 22 },
     { id: 'I6', c: 'frozen', ar: "بن آند جيريز كوكي دو", en: "Ben & Jerry's Cookie Dough", s: "465 ml", p: 29 },
     { id: 'g11_00', c: 'clean', ar: "سائل جلي", en: "Dish Soap", s: "1 L", p: 8, tag: 'hot' },
