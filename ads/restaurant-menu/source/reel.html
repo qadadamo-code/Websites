@@ -1,0 +1,379 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--mint:#92C5B4;--mint2:#BFE0D4;--mint3:#E6F4EF;--navy:#143659;--ink:#0B1F35;--red:#E5484D;--wa:#25D366;--amber:#F5A524}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#EEF7F3}
+body{font-family:'Readex Pro','Alexandria',sans-serif;color:var(--ink)}
+.num{font-family:'Montserrat',sans-serif;direction:ltr;unicode-bidi:isolate}
+#bg{position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 35%,#F6FBF9 0%,#E3F2EC 55%,#CFE7DE 100%)}
+#dots{position:absolute;inset:0;background-image:radial-gradient(rgba(20,54,89,.10) 2px,transparent 2.5px);background-size:44px 44px;-webkit-mask-image:radial-gradient(70% 55% at 50% 55%,#000 30%,transparent 80%)}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55}
+#disk{position:absolute;width:1000px;height:1000px;left:40px;top:760px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#D6EDE5,#A9D3C5 70%,#92C5B4);box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)}
+#ring{position:absolute;width:1160px;height:1160px;left:-40px;top:680px;border-radius:50%;border:2px dashed rgba(20,54,89,.14)}
+#brand{position:absolute;top:72px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:14px;direction:ltr;z-index:50}
+#brand img{height:58px}
+#brand b{font:900 40px 'Montserrat';letter-spacing:6px;color:var(--navy)}
+#brand span{font:700 26px 'Alexandria';color:#3E8F77;direction:rtl;background:#fff;border-radius:30px;padding:6px 20px;margin-left:8px;box-shadow:0 6px 16px rgba(20,54,89,.1)}
+#prog{position:absolute;top:0;right:0;height:10px;background:linear-gradient(90deg,var(--navy),var(--mint));z-index:60;border-radius:0 0 0 8px}
+#cap{position:absolute;top:190px;left:40px;right:40px;height:260px;display:flex;align-items:center;justify-content:center;z-index:40}
+.ph{position:absolute;left:0;right:0;text-align:center;font:800 82px/1.32 'Alexandria';color:var(--navy);opacity:0}
+.w{display:inline-block;margin:0 10px;opacity:0}
+.w.g{background:var(--navy);color:var(--mint);padding:0 26px 6px;border-radius:26px;box-shadow:0 14px 30px rgba(20,54,89,.25)}
+.w.r{color:var(--red)}
+.w.m{color:#3E8F77}
+#stamp{position:absolute;top:210px;left:0;right:0;text-align:center;font:900 200px 'Alexandria';z-index:45;opacity:0}
+#stamp span{display:inline-block;background:#fff;color:var(--red);padding:0 60px 20px;border-radius:50px;border:8px solid var(--red);box-shadow:16px 16px 0 var(--red)}
+/* phone */
+#phoneWrap{position:absolute;left:230px;top:560px;width:620px;height:1200px;perspective:2200px;z-index:10}
+#phone{position:absolute;inset:0;border-radius:86px;background:#0E1B2E;padding:16px;box-shadow:0 60px 120px rgba(20,54,89,.35),0 0 0 3px #2B3E57 inset,0 20px 40px rgba(0,0,0,.2)}
+#screen{position:absolute;inset:16px;border-radius:70px;background:#fff;overflow:hidden}
+#island{position:absolute;top:22px;left:50%;width:170px;height:46px;margin-left:-85px;background:#0E1B2E;border-radius:30px;z-index:30}
+.sb{position:absolute;top:0;left:0;right:0;height:86px;display:flex;justify-content:space-between;align-items:center;padding:16px 50px 0;font:600 26px 'Montserrat';direction:ltr;z-index:25;color:#111;background:#fff}
+.scr{position:absolute;inset:0;opacity:0}
+/* search */
+.sbar{position:absolute;top:110px;left:28px;right:28px;height:92px;border-radius:46px;background:#F1F4F7;display:flex;align-items:center;padding:0 30px;gap:18px;font:500 29px 'Readex Pro';color:#222}
+.sbar .ic{width:34px;height:34px;border:5px solid var(--navy);border-radius:50%;position:relative;flex:none}
+.sbar .ic:after{content:'';position:absolute;width:5px;height:16px;background:var(--navy);bottom:-14px;left:-6px;transform:rotate(45deg);border-radius:3px}
+.caret{display:inline-block;width:3px;height:36px;background:var(--navy);vertical-align:middle;margin-inline-start:4px}
+.tabs{position:absolute;top:226px;right:36px;left:36px;display:flex;gap:30px;font:500 25px 'Readex Pro';color:#6B7785;border-bottom:2px solid #EEF1F4;padding-bottom:14px}
+.tabs b{color:var(--navy);border-bottom:5px solid var(--navy);padding-bottom:12px;margin-bottom:-16px}
+.res{position:absolute;left:26px;right:26px;border-radius:30px;background:#fff;padding:24px 26px;box-shadow:0 8px 28px rgba(20,54,89,.10);border:2px solid #EEF1F4}
+.res .site{display:flex;align-items:center;gap:14px;font:500 22px 'Readex Pro';color:#55606B}
+.fav{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font:800 26px 'Alexandria';color:#fff;flex:none;overflow:hidden;background:#111}
+.fav img{width:100%;height:100%;object-fit:cover}
+.res h4{font:700 31px/1.35 'Alexandria';color:#1A0DAB;margin:12px 0 6px}
+.res p{font:400 23px/1.5 'Readex Pro';color:#4A5560}
+.stars{color:#F5A524;font-size:24px;letter-spacing:2px}
+.thumbs{display:flex;gap:10px;margin-top:14px}
+.thumbs div{flex:1;height:120px;border-radius:18px;background:#1b1410 center/86% no-repeat}
+.tag{display:inline-block;font:700 20px 'Readex Pro';padding:4px 14px;border-radius:20px;background:var(--mint3);color:#2D7A63;margin-inline-start:8px}
+/* chat */
+.chead{position:absolute;top:86px;left:0;right:0;height:120px;display:flex;align-items:center;gap:18px;padding:0 30px;border-bottom:2px solid #F0F2F5}
+.av{width:74px;height:74px;border-radius:50%;background:#D9DEE4;display:grid;place-items:center;font:700 30px 'Alexandria';color:#7A8590;flex:none}
+.chead b{font:700 30px 'Alexandria';display:block}
+.chead small{font:400 21px 'Readex Pro';color:#8A949E}
+.msg{position:absolute;max-width:470px;padding:22px 34px;border-radius:40px;font:600 36px 'Readex Pro';opacity:0}
+.me{right:28px;background:linear-gradient(135deg,#3B6FF0,#7B4DF2);color:#fff;border-bottom-right-radius:10px}
+.them{left:28px;background:#F0F2F5;color:#222;border-bottom-left-radius:10px}
+.seen{position:absolute;right:34px;font:500 20px 'Montserrat';color:#8A949E;opacity:0;direction:ltr}
+.sys{position:absolute;left:0;right:0;text-align:center;font:500 22px 'Readex Pro';color:#9AA3AD;opacity:0}
+.cbar{position:absolute;bottom:40px;left:26px;right:26px;height:84px;border-radius:42px;background:#F1F4F7;display:flex;align-items:center;padding:0 30px;font:400 26px 'Readex Pro';color:#9AA3AD}
+#pmenu{position:absolute;left:28px;top:300px;width:330px;height:390px;border-radius:30px 30px 30px 8px;overflow:hidden;opacity:0;background:#E9DFC9;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+#pmenu .pp{position:absolute;inset:-10px;padding:34px 30px;transform:rotate(-4deg) scale(1.05);filter:blur(3.6px) contrast(.8) brightness(1.04);background:linear-gradient(160deg,#F4ECD8,#D9CBAE)}
+#pmenu .pp h6{font:900 40px 'Alexandria';color:#5a2a12;text-align:center;margin-bottom:14px}
+#pmenu .pp div{display:flex;justify-content:space-between;font:700 24px 'Readex Pro';color:#3b2a1d;border-bottom:2px dotted #8b7a5c;padding:8px 0}
+#pmenu .glare{position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.55) 45%,rgba(255,255,255,0) 60%)}
+#pmenu .px{position:absolute;bottom:12px;left:14px;font:600 18px 'Montserrat';color:#fff;background:rgba(0,0,0,.45);padding:3px 12px;border-radius:12px;direction:ltr}
+/* site */
+#cover{position:absolute;inset:0;background:var(--navy);border-radius:50%;z-index:20;display:grid;place-items:center}
+#cover img{width:200px}
+.url{position:absolute;top:92px;left:22px;right:22px;height:70px;border-radius:35px;background:#F1F4F7;display:flex;align-items:center;justify-content:center;gap:10px;font:600 25px 'Montserrat';direction:ltr;color:#333;z-index:3}
+.url em{font-style:normal;color:#fff;background:var(--navy);padding:2px 12px;border-radius:10px}
+#siteClip{position:absolute;top:172px;left:0;right:0;bottom:0;overflow:hidden;background:#0d0b0a}
+#siteIn{position:absolute;top:0;left:0;width:588px}
+#siteIn img{display:block;width:588px}
+#tap{position:absolute;width:90px;height:90px;border-radius:50%;background:rgba(245,165,36,.35);border:4px solid rgba(255,255,255,.9);z-index:15;opacity:0}
+#wa{position:absolute;left:0;right:0;bottom:0;height:700px;background:#EFE7DE;border-radius:44px 44px 0 0;z-index:16;box-shadow:0 -20px 60px rgba(0,0,0,.35);overflow:hidden}
+#wa .wh{height:110px;background:#075E54;color:#fff;display:flex;align-items:center;gap:18px;padding:0 30px;font:700 30px 'Alexandria'}
+#wa .wh .av{width:64px;height:64px;background:#111;overflow:hidden}
+#wa .wh .av img{width:100%;height:100%;object-fit:cover}
+.wb{position:absolute;right:30px;width:480px;background:#DCF8C6;border-radius:28px 6px 28px 28px;padding:22px 28px;font:500 25px/1.6 'Readex Pro';color:#111;box-shadow:0 3px 0 rgba(0,0,0,.08);opacity:0}
+.wb b{font:800 28px 'Alexandria';color:#075E54;display:block;margin-bottom:4px}
+.wb .tk{display:block;text-align:left;font:500 20px 'Montserrat';color:#34B7F1;direction:ltr}
+/* chips */
+.chip{position:absolute;z-index:30;opacity:0;background:#fff;border-radius:999px;padding:18px 32px;font:700 34px 'Alexandria';color:var(--navy);box-shadow:0 18px 40px rgba(20,54,89,.18);white-space:nowrap;display:flex;align-items:center;gap:12px;border:3px solid #fff}
+.chip.dark{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chip.red{color:var(--red);border-color:#FFD9DA}
+.chip.mint{background:var(--mint);color:var(--navy);border-color:var(--mint)}
+#meter{position:absolute;z-index:31;top:560px;left:36px;width:300px;background:#fff;border-radius:30px;padding:18px 22px;box-shadow:0 18px 40px rgba(20,54,89,.18);opacity:0}
+#meter .l{display:flex;align-items:center;gap:12px;font:700 24px 'Readex Pro';color:var(--navy)}
+#meter .e{font-size:38px}
+#meter .bar{height:14px;border-radius:8px;background:#EDF1F4;margin-top:12px;overflow:hidden}
+#meter .bar i{display:block;height:100%;border-radius:8px}
+/* wall */
+#wall{position:absolute;inset:0;z-index:12;opacity:0}
+.row{position:absolute;left:0;height:660px;display:flex;gap:34px;direction:ltr}
+.mini{position:relative;width:300px;height:640px;border-radius:52px;background:#0E1B2E;padding:9px;flex:none;box-shadow:0 30px 60px rgba(20,54,89,.28)}
+.mini .sc{position:absolute;inset:9px;border-radius:44px;overflow:hidden;background:#000 center top/cover no-repeat}
+.mini .lb{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.95);color:var(--navy);font:800 25px 'Alexandria';padding:8px 22px;border-radius:30px;white-space:nowrap;direction:rtl;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+#yours{position:absolute;left:330px;top:640px;width:420px;height:860px;border-radius:70px;border:8px dashed var(--navy);background:rgba(255,255,255,.88);z-index:14;opacity:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;box-shadow:0 0 0 30px rgba(146,197,180,.35),0 40px 90px rgba(20,54,89,.3)}
+#yours img{width:150px}
+#yours b{font:900 64px/1.25 'Alexandria';color:var(--navy);text-align:center}
+#yours span{font:700 30px 'Readex Pro';color:#3E8F77}
+/* offer */
+#offer{position:absolute;inset:0;z-index:20;opacity:0}
+#badge{position:absolute;top:470px;left:0;right:0;text-align:center}
+#badge span{display:inline-flex;align-items:center;gap:18px;background:var(--navy);color:#fff;font:800 70px 'Alexandria';padding:22px 56px 32px;border-radius:40px;box-shadow:0 26px 60px rgba(20,54,89,.35)}
+#badge span em{font-style:normal;color:var(--mint)}
+#pkg{position:absolute;top:650px;left:80px;right:80px;background:rgba(255,255,255,.88);border-radius:48px;padding:36px 44px;box-shadow:0 30px 70px rgba(20,54,89,.16);border:3px solid #fff}
+.feat{display:flex;align-items:center;gap:18px;font:600 33px 'Readex Pro';color:#22364C;margin:14px 0;opacity:0}
+.feat i{width:52px;height:52px;border-radius:50%;background:var(--mint);display:grid;place-items:center;font-style:normal;font:900 28px 'Montserrat';color:var(--navy);flex:none}
+#priceBox{position:absolute;top:1110px;left:0;right:0;text-align:center}
+#price{font:900 240px/1 'Montserrat';color:var(--navy);direction:ltr;letter-spacing:-6px;opacity:0}
+#egp{font:800 64px 'Alexandria';color:var(--navy);opacity:0;margin-top:0}
+#egp b{color:var(--red)}
+#conf{position:absolute;inset:0;z-index:35;pointer-events:none}
+.cf{position:absolute;width:20px;height:34px;border-radius:5px}
+/* cta */
+#cta{position:absolute;inset:0;z-index:22;opacity:0}
+#waBtn{position:absolute;top:880px;left:110px;right:110px;height:200px;border-radius:100px;background:var(--wa);display:flex;align-items:center;justify-content:center;gap:28px;color:#fff;font:800 66px 'Alexandria';box-shadow:0 30px 70px rgba(37,211,102,.45)}
+#waBtn svg{width:96px;height:96px}
+#phoneNo{position:absolute;top:1120px;left:0;right:0;text-align:center;font:900 112px 'Montserrat';color:var(--navy);letter-spacing:2px}
+#miniPrice{position:absolute;top:640px;left:0;right:0;text-align:center}
+#miniPrice span{display:inline-flex;align-items:center;gap:20px;background:#fff;border-radius:999px;padding:20px 44px;font:800 46px 'Alexandria';color:var(--navy);box-shadow:0 18px 40px rgba(20,54,89,.15)}
+#endLock{position:absolute;top:1330px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px}
+#endLock img{height:230px}
+#endLock div{font:600 36px 'Montserrat';color:#3E8F77;direction:ltr}
+#ripple{position:absolute;border-radius:100px;border:6px solid var(--wa);top:880px;left:110px;right:110px;height:200px;opacity:0}
+#flash{position:absolute;inset:0;background:#fff;z-index:70;opacity:0;pointer-events:none}
+</style></head><body>
+<div id="bg"></div>
+<div class="blob" id="b1" style="width:520px;height:520px;background:#BFE0D4;left:-120px;top:240px"></div>
+<div class="blob" id="b2" style="width:460px;height:460px;background:#C9DCEB;right:-140px;top:1180px"></div>
+<div id="dots"></div><div id="ring"></div><div id="disk"></div>
+<div id="prog"></div>
+<div id="brand"><img src="img/mark-navy.png"><b>PLANET</b><span>منيو المطاعم</span></div>
+<div id="stamp"><span>بسببك!</span></div>
+<div id="cap"></div>
+
+<div id="meter"><div class="l"><span class="e" id="me">🙂</span><span id="ml">صبر الزبون</span></div><div class="bar"><i id="mb"></i></div></div>
+
+<div id="phoneWrap"><div id="phone"><div id="screen">
+  <div class="sb"><span class="num">9:41</span><span>●●● ▮</span></div>
+  <div class="scr" id="sA">
+    <div class="sbar"><div class="ic"></div><span id="q"></span><span class="caret" id="caret"></span></div>
+    <div class="tabs"><b>الكل</b><span>خرائط</span><span>صور</span><span>منيو</span></div>
+    <div class="res" id="r1" style="top:290px">
+      <div class="site"><div class="fav" style="background:#E8590C">🔥</div><div><b style="color:#222">المطعم اللي جنبك</b> <span class="tag">منيو أونلاين</span><br><span style="font-size:20px">⭐ <span class="num">4.9</span> · مفتوح دلوقتي</span></div></div>
+      <h4>المنيو كامل بالصور والأسعار — اطلب واتساب</h4>
+      <div class="thumbs"><div style="background-image:url(img/d-kebab.png)"></div><div style="background-image:url(img/d-shish.png)"></div><div style="background-image:url(img/d-chicken.png)"></div></div>
+    </div>
+    <div class="res" id="r2" style="top:740px">
+      <div class="site"><div class="fav" style="background:#B8C0C8">؟</div><div><b style="color:#222">مطعمك</b><br><span class="num" style="font-size:20px">facebook.com/yourpage</span></div></div>
+      <h4 style="color:#7A8590">مفيش منيو… بس صورة متصوّرة</h4>
+      <p>آخر بوست من <span class="num">6</span> شهور · مفيش أسعار</p>
+    </div>
+  </div>
+  <div class="scr" id="sB">
+    <div class="chead"><div class="av">م</div><div><b>مطعمك</b><small>آخر ظهور من <span class="num">3</span> ساعات</small></div></div>
+    <div class="sys" id="d1" style="top:240px">النهارده <span class="num">8:15</span> م</div>
+    <div id="pmenu"><div class="pp"><h6>المنيو</h6><div><span>كباب</span><span>...</span></div><div><span>كفتة</span><span>..</span></div><div><span>فراخ</span><span>...</span></div><div><span>سلطات</span><span>..</span></div><div><span>مشروبات</span><span>.</span></div></div><div class="glare"></div><div class="px">IMG_2091.jpg</div></div>
+    <div class="msg me" id="m1" style="top:720px">الوجبة دي بكام؟</div>
+    <div class="seen" id="s1" style="top:846px">Seen 8:16</div>
+    <div class="msg me" id="m2" style="top:900px">فيه دليفري؟</div>
+    <div class="seen" id="s2" style="top:1026px">Seen 10:40</div>
+    <div class="cbar" id="cbar">اكتب رسالة…</div>
+  </div>
+  <div class="scr" id="sC">
+    <div class="url">🔒 www.<em>yourrestaurant</em>.com</div>
+    <div id="siteClip"><div id="siteIn"><img src="img/alshawwa-hero-big.jpg"><img src="img/alshawwa-strip.jpg"></div></div>
+    <div id="tap"></div>
+    <div id="wa"><div class="wh"><div class="av"><img src="img/shawwa-logo.png"></div>مطعمك · واتساب</div>
+      <div class="wb" id="wb1" style="top:140px"><b>🍽️ أوردر جديد!</b>كباب نص كيلو × <span class="num">1</span><br>شيش طاووق × <span class="num">1</span><br>الإجمالي: <span class="num">365</span> ج.م · دليفري<span class="tk">8:15 ✓✓</span></div>
+      <div class="wb" id="wb2" style="top:440px"><b>📅 حجز ترابيزة</b><span class="num">4</span> أفراد · الخميس <span class="num">9:00</span> م<span class="tk">8:16 ✓✓</span></div>
+    </div>
+    <div id="cover"><img src="img/mark-light.png"></div>
+  </div>
+</div><div id="island"></div></div></div>
+
+<!-- chips -->
+<div class="chip red" id="cRival" style="top:800px;left:40px">😋 راح للي عنده منيو</div>
+<div class="chip" id="cNoSite" style="top:1330px;right:30px">❌ مالكش منيو أونلاين</div>
+<div class="chip red" id="cBlur" style="top:900px;right:20px">🔍 مش باينة</div>
+<div class="chip" id="cSeen1" style="top:1110px;left:40px">👀 Seen</div>
+<div class="chip dark" id="cWait" style="top:1420px;right:24px">⏱ ساعتين ومفيش رد</div>
+<div class="chip red" id="cLost" style="top:1500px;left:50px">💔 الأوردر راح لغيرك</div>
+<div class="chip mint" id="cPhoto" style="top:860px;left:20px">📸 كل صنف بصورته</div>
+<div class="chip" id="cPrice" style="top:1080px;right:16px">💰 السعر واضح</div>
+<div class="chip dark" id="cDet" style="top:1300px;left:30px">📝 الأحجام والتفاصيل</div>
+<div class="chip mint" id="cFast" style="top:1500px;left:60px">⚡ الأوردر في ثانية</div>
+
+<!-- wall -->
+<div id="wall">
+  <div class="row" id="row1" style="top:470px"></div>
+  <div class="row" id="row2" style="top:1160px"></div>
+</div>
+<div id="yours"><img src="img/mark-navy.png"><b>مطعمك<br>هنا ✨</b><span>المنيو الجاي بتاعك</span></div>
+
+<!-- offer -->
+<div id="offer">
+  <div id="badge"><span>🍽️ منيو <em>مطعمك</em></span></div>
+  <div id="pkg">
+    <div class="feat" id="f1"><i>✓</i>منيو إلكتروني باسمك بالصور والأسعار</div>
+    <div class="feat" id="f2"><i>✓</i>أوردر وحجز ترابيزة على واتساب</div>
+    <div class="feat" id="f3"><i>✓</i>لوحة تحكم تغيّر أسعارك بنفسك</div>
+    <div class="feat" id="f4"><i>✓</i>QR على الترابيزات + مظبوط على جوجل</div>
+  </div>
+  <div id="priceBox"><div id="price">12,499</div><div id="egp">جنيه <b>بس!</b></div></div>
+  <div class="chip dark" id="cWho" style="top:1520px;left:50%">🍔 مطاعم · ☕ كافيهات · 🏨 فنادق</div>
+</div>
+<div id="conf"></div>
+
+<div id="cta">
+  <div id="miniPrice"><span>منيو مطعمك بـ <span class="num">12,499</span> جنيه</span></div>
+  <div id="ripple"></div>
+  <div id="waBtn"><svg viewBox="0 0 32 32"><path fill="#fff" d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.5.7 4.8 1.9 6.8L3 29l6.8-2.1c1.900 1 4 1.6 6.2 1.6 7 0 12.7-5.7 12.7-12.7S23 3 16 3zm0 23.2c-2 0-3.9-.6-5.5-1.6l-.4-.2-4 1.2 1.3-3.900-.3-.4c-1.1-1.7-1.700-3.6-1.7-5.7C5.4 9.8 10.2 5 16 5s10.6 4.8 10.6 10.6S21.8 26.2 16 26.2zm5.8-7.900c-.3-.2-1.900-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.300-.5-2.500-1.6-.9-.8-1.6-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.100-1.200 2.800s1.200 3.300 1.400 3.500c.2.2 2.4 3.6 5.8 5.1 2.8 1.1 3.4.9 4 .8.6-.1 1.900-.8 2.200-1.500.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>كلّمنا واتساب</div>
+  <div id="phoneNo" class="num">01203101104</div>
+  <div id="endLock"><img src="img/lockup-navy.png"><div>web.theplanetco.com</div></div>
+</div>
+<div id="flash"></div>
+
+<script>
+const D=41, O=0.25;
+const E={lin:x=>x,out:x=>1-Math.pow(1-x,3),out5:x=>1-Math.pow(1-x,5),io:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,
+back:x=>{const c1=2.2,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)},
+el:x=>x<=0?0:x>=1?1:Math.pow(2,-9*x)*Math.sin((x*9-.75)*2.0944)+1};
+const P=(t,a,d,e='out')=>t<=a?0:t>=a+d?1:E[e]((t-a)/d);
+const L=(a,b,k)=>a+(b-a)*k;
+const $=id=>document.getElementById(id);
+function st(el,o,tr){if(typeof el==='string')el=$(el);el.style.opacity=o;if(tr!==undefined)el.style.transform=tr;}
+function pop(id,t,a,b,o={}){const el=$(id);const k=P(t,a,.5,o.e||'back');const f=P(t,a,.18,'lin');let out=b?P(t,b,.3,'io'):0;
+ const dx=(o.dx||0)*(1-k),dy=(o.dy===undefined?40:o.dy)*(1-k)+(o.ody||-30)*out,s=L(o.s0===undefined?.6:o.s0,1,k)*(1-.15*out);
+ const fl=o.float?Math.sin((t-a)*2.2+(o.ph||0))*8:0;
+ el.style.opacity=f*(1-out);el.style.transform=(o.pre||'')+`translate(${dx}px,${dy+fl}px) scale(${s}) rotate(${(o.r||0)*(1-k)+(o.rr||0)}deg)`;}
+
+/* captions (VO times) */
+const CAP=[
+ [['عرفت',.08],['إن',.56],['زبونك',.68],['سابك…',1.2,'r']],
+ [['وطلب',1.84],['من',2.2],['المطعم',2.32],['اللي',2.72],['جنبك؟',2.88,'r']],
+ [['وده',3.8],['حصل…',4.0]],
+ [['ليه؟',5.64]],
+ [['عشان',6.16],['المنيو',6.4],['بتاعك',6.8],['صورة',7.24,'g'],['مش',7.6],['باينة…',7.76,'r']],
+ [['والزبون',8.4],['بيسأل:',8.8]],
+ [['"الوجبة',9.52],['دي',9.88],['بكام؟"',10.04],['…',10.8],['سين',10.96,'r']],
+ [['"فيه',11.4],['دليفري؟"',11.52],['…',12.42],['سين',12.62,'r']],
+ [['وفي',13.36],['الآخر',13.6],['جاع…',14.08],['وطلب',14.8],['من',15.2],['غيرك',15.44,'r']],
+ [['مع',16.29],['<span class="num" style="font-weight:900">Planet</span>',16.4,'g']],
+ [['مطعمك',17.04,'m'],['أو',17.56],['الكافيه',17.68,'m'],['بتاعك',18.08]],
+ [['ياخد',18.56],['منيو',18.96,'g'],['إلكتروني',19.2,'g'],['باسمه',19.92,'m']],
+ [['كل',20.4],['صنف',20.76],['بصورته',21.0,'m'],['وسعره',21.6,'m'],['وتفاصيله',22.24,'m']],
+ [['والأوردر',23.08],['يوصلك',23.6],['على',24.16],['الواتساب',24.28,'g'],['على',24.8],['طول',25.04]],
+ [['وحجز',25.56],['الترابيزة',25.84,'g'],['بضغطة',26.64,'m']],
+ [['وده',27.36],['شغلنا',27.6],['الحقيقي',28.0,'g']],
+ [['لمطاعم',28.48],['وكافيهات',29.12],['زيّك…',29.6,'m']],
+ [['والدور',30.28],['عليك!',30.64,'g']],
+ [['المنيو',31.36],['كامل',31.8,'m']],
+ [['بـ',32.16],['<span class="num">12,499</span>',32.2,'g'],['جنيه',34.4],['بس',34.88,'r']],
+ [['كلّمنا',35.36],['واتساب',35.8,'g'],['دلوقتي',36.16]],
+ [['وخلّي',36.76],['الزبون',37.1],['الجاي',37.52],['يطلب',38.0],['منك',38.4],['إنت',38.8,'g']],
+];
+const capEl=$('cap');const PH=[];
+CAP.forEach((c,i)=>{const d=document.createElement('div');d.className='ph';d.innerHTML=c.map(w=>`<span class="w ${w[2]||''}">${w[0]}</span>`).join(' ');capEl.appendChild(d);
+ PH.push({el:d,ws:[...d.querySelectorAll('.w')],times:c.map(w=>w[1]),start:c[0][1],end:i+1<CAP.length?CAP[i+1][0][1]:99});});
+function caps(v){PH.forEach(p=>{const on=v>=p.start-0.08&&v<p.end-0.06;p.el.style.opacity=on?1:0;if(!on)return;
+ p.ws.forEach((w,j)=>{const a=p.times[j]-0.08;const k=P(v,a,.35,'back');const f=P(v,a,.12,'lin');w.style.opacity=f;
+ w.style.transform=`translateY(${(1-k)*50}px) scale(${L(.7,1,k)})`;});});}
+
+/* wall */
+const W1=[['alshawwa','الشوّا'],['harmony','محطة الانسجام'],['westeros','ويستروس'],['ciao7','تشاو 7'],['grannys','جراني سيكرتس'],['barcode','باركود كافيه'],['cookies','كوكيز كافيه'],['dishas','ديشا كيترينج']];
+function mk(row,tag,order){const r=$(row);[...order,...order].forEach(([k,n])=>{const m=document.createElement('div');m.className='mini';m.innerHTML=`<div class="sc" style="background-image:url(img/${k}-${tag}.jpg)"></div><div class="lb">${n}</div>`;r.appendChild(m);});}
+mk('row1','h',W1);mk('row2','m',[...W1.slice(4),...W1.slice(0,4)]);
+
+/* confetti */
+let seed=7;const R=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const CF=[];const cols=['#92C5B4','#143659','#FFFFFF','#3E8F77','#F5A524'];
+for(let i=0;i<70;i++){const d=document.createElement('div');d.className='cf';d.style.background=cols[i%5];$('conf').appendChild(d);
+ const ang=-Math.PI/2+(R()-.5)*2.6,sp=900+R()*1300;CF.push({d,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,r0:R()*360,vr:(R()-.5)*900,x:540,y:1250,s:.6+R()*.8});}
+function conf(t,a){CF.forEach(c=>{const dt=t-a;if(dt<0||dt>2.6){c.d.style.opacity=0;return;}
+ const x=c.x+c.vx*dt*.85,y=c.y+c.vy*dt+1500*dt*dt;c.d.style.opacity=dt>2?1-(dt-2)/.6:1;
+ c.d.style.transform=`translate(${x}px,${y}px) rotate(${c.r0+c.vr*dt}deg) scale(${c.s}) rotateX(${dt*600}deg)`;});}
+
+const Q='مطعم مشويات قريب مني';
+function render(T){
+ $('prog').style.width=(T/D*1080)+'px';
+ const t=T-O; // VO time
+ st('b1',.55,`translate(${Math.sin(T*.5)*60}px,${Math.cos(T*.4)*50}px)`);
+ st('b2',.5,`translate(${Math.cos(T*.45)*60}px,${Math.sin(T*.35)*60}px)`);
+ st('ring',1,`rotate(${T*6}deg)`);
+ st('disk',1-P(t,27.2,.4,'lin')*.6,`scale(${1+.02*Math.sin(T*1.6)+.12*P(t,16.1,.6,'back')*(1-P(t,17.3,.8))})`);
+ // stamp
+ const hs=P(t,4.5,.45,'el');const ho=P(t,5.45,.2,'io');
+ st('stamp',P(t,4.5,.1,'lin')*(1-ho),`scale(${L(2.4,1,hs)*(1-ho*.3)}) rotate(${L(-14,-4,hs)}deg)`);
+ const sh=t>4.55&&t<5.05?Math.sin(t*90)*14*(1-(t-4.55)/.5):(t>1.2&&t<1.55?Math.sin(t*90)*8*(1-(t-1.2)/.35):0);
+ document.body.style.transform=`translate(${sh}px,${sh*.6}px)`;
+ caps(t);
+ capEl.style.opacity=(t>4.45&&t<5.55)?0:1;
+ st('flash',Math.max(0,1-Math.abs(t-16.2)/.18,1-Math.abs(t-27.3)/.15,1-Math.abs(t-31.3)/.15)*.85);
+
+ /* phone */
+ const pin=P(t,-.25,.7,'out5');const pout=P(t,26.9,.55,'io');
+ const ry=Math.sin(T*.9)*5,rx=Math.cos(T*.7)*3;
+ const pz=1+.06*P(t,2.9,.6,'back')*(1-P(t,4.8,.4))+.05*P(t,17.0,.5)*(1-P(t,18.2,.4));
+ const pdrop=P(t,15.2,.5,'io')*(1-P(t,16.1,.4,'out'));
+ st('phoneWrap',1-P(t,27.3,.25,'lin'),`translateY(${L(900,0,pin)-pout*1400+pdrop*60}px) scale(${pz*(1-pdrop*.06)}) rotateY(${ry}deg) rotateX(${rx}deg) rotate(${L(8,0,pin)+pout*-10}deg)`);
+ $('phone').style.filter=`grayscale(${pdrop})`;
+ st('sA',t<5.5?1:0);st('sB',t>=5.5&&t<16.2?1:0);st('sC',t>=16.2?1:0);
+ // A
+ const n=Math.floor(P(t,0,1.4,'lin')*Q.length);$('q').textContent=Q.slice(0,n);
+ $('caret').style.opacity=(Math.floor(T*3)%2||t<1.5)?1:0;
+ pop('r1',t,1.5,0,{dy:80,s0:.9});pop('r2',t,1.7,0,{dy:80,s0:.9});
+ const hl=P(t,2.3,.4,'back');$('r1').style.boxShadow=`0 0 0 ${hl*8}px rgba(146,197,180,.95),0 20px 50px rgba(20,54,89,${.1+hl*.2})`;
+ $('r1').style.transform+=` scale(${1+hl*.04})`;
+ $('r2').style.filter=`grayscale(1) opacity(${1-.5*P(t,2.9,.5)})`;
+ pop('cRival',t,2.4,4.8,{dx:-120,r:-12,rr:-4});
+ pop('cNoSite',t,3.0,4.85,{dx:120,r:10,rr:3});
+ // B
+ pop('d1',t,5.6,0,{dy:10,s0:1});
+ pop('pmenu',t,7.1,0,{dx:-60,s0:.6});
+ pop('m1',t,9.45,0,{dx:60,s0:.6});pop('s1',t,10.9,0,{dy:10,s0:1});
+ pop('m2',t,11.4,0,{dx:60,s0:.6});pop('s2',t,12.6,0,{dy:10,s0:1});
+ pop('cBlur',t,7.7,9.3,{dx:120,r:8,rr:4,float:1});
+ pop('cSeen1',t,10.96,12.5,{dx:-120,r:-10,rr:-5,float:1});
+ pop('cWait',t,12.7,15.0,{dx:120,r:6,rr:2,float:1});
+ pop('cLost',t,15.4,16.15,{dy:60,r:-8,rr:-3});
+ // meter
+ const mOn=P(t,5.6,.4)*(1-P(t,26.8,.3));
+ const pat=t<16.1?1-P(t,8.4,6.4,'lin'):P(t,16.8,1.6,'out');
+ st('meter',mOn,`translateX(${(1-P(t,5.6,.5,'back'))*-200}px) rotate(-3deg)`);
+ $('mb').style.width=(Math.max(.04,pat)*100)+'%';
+ $('mb').style.background=t<16.1?(pat>.5?'#3E8F77':pat>.25?'#F5A524':'#E5484D'):'linear-gradient(90deg,#3E8F77,#92C5B4)';
+ $('me').textContent=t<16.1?(pat>.66?'🙂':pat>.33?'😐':'😤'):'😋';
+ $('ml').textContent=t<16.1?'صبر الزبون':'شهية الزبون';
+ // C
+ const cv=P(t,16.2,.35,'out');const cvo=P(t,16.95,.4,'io');
+ const cov=$('cover');cov.style.opacity=t<16.2?0:1-cvo;cov.style.transform=`scale(${L(0,2.2,cv)})`;cov.style.borderRadius=(50*(1-cvo))+'%';
+ cov.querySelector('img').style.transform=`scale(${L(.3,1,P(t,16.3,.5,'back'))/2.2}) rotate(${(1-P(t,16.3,.5))*-30}deg)`;
+ const scroll=P(t,19.2,1.1,'io')*-1290+P(t,20.6,2.4,'io')*-760;
+ $('siteIn').style.transform=`translateY(${scroll}px)`;
+ st(document.querySelector('#sC .url'),1,`scale(${1+.12*P(t,17.0,.4,'back')*(1-P(t,18.0,.4))})`);
+ const tp=P(t,23.0,.25);const tpo=P(t,23.35,.3);
+ const tap=$('tap');tap.style.opacity=t<22.9?0:(1-tpo)*Math.min(1,(t-22.9)/.1);tap.style.left='44px';tap.style.top=(L(560,545,tp))+'px';tap.style.transform=`scale(${L(1.4,.8,tp)+tpo*.8})`;
+ const wa=P(t,23.4,.55,'back');$('wa').style.transform=`translateY(${(1-wa)*760}px)`;
+ pop('wb1',t,23.75,0,{dy:30,s0:.5});pop('wb2',t,25.75,0,{dy:30,s0:.5});
+ pop('cPhoto',t,20.9,23.0,{dx:-120,r:-10,rr:-4,float:1});
+ pop('cPrice',t,21.6,23.0,{dx:120,r:10,rr:3,float:1});
+ pop('cDet',t,22.24,23.1,{dx:-120,r:-6,rr:-2,float:1});
+ pop('cFast',t,24.3,26.8,{dx:-100,r:-6,rr:2,float:1});
+ // D wall
+ const wl=P(t,27.3,.3,'lin')*(1-P(t,31.2,.3,'io'));
+ st('wall',wl);
+ const e1=P(t,27.3,.8,'out5'),dim=P(t,30.2,.4);
+ $('row1').style.transform=`translateX(${L(1200,-200,e1)-(t-27.3)*90}px)`;
+ $('row2').style.transform=`translateX(${L(-3300,-1900,e1)+(t-27.3)*90}px)`;
+ $('wall').style.filter=`blur(${dim*6}px) brightness(${1-dim*.15})`;
+ pop('yours',t,30.25,31.2,{dy:120,s0:.5});
+ // E offer
+ const of=P(t,31.3,.3,'lin')*(1-P(t,35.2,.35,'io'));
+ st('offer',of,`translateY(${-P(t,35.2,.35,'io')*120}px)`);
+ const bd=P(t,31.35,.6,'el');$('badge').style.transform=`translateY(${(1-bd)*-260}px) scale(${L(1.6,1,bd)}) rotate(${(1-bd)*-8}deg)`;$('badge').style.opacity=P(t,31.35,.1,'lin');
+ pop('pkg',t,31.6,0,{dy:120,s0:.85});
+ ['f1','f2','f3','f4'].forEach((f,i)=>pop(f,t,31.8+i*.2,0,{dx:80,dy:0,s0:.9}));
+ const pr=P(t,32.2,.6,'back');const pe=$('price');pe.style.opacity=P(t,32.2,.1,'lin');
+ pe.style.transform=`scale(${L(2.8,1,pr)+.05*Math.max(0,Math.sin((t-32.8)*5))*(t>32.8&&t<34.3?1:0)})`;
+ const roll=P(t,32.2,1.0,'out');pe.textContent=Math.round(L(0,12499,roll)).toLocaleString('en-US');
+ pe.style.color=roll<1?'#3E8F77':'#143659';
+ st('egp',P(t,34.4,.3,'lin'),`translateY(${(1-P(t,34.4,.4,'back'))*30}px)`);
+ pop('cWho',t,33.3,0,{pre:'translateX(-50%) ',dy:60,s0:.7,float:1});
+ conf(t,33.2);
+ // F cta
+ st('cta',P(t,35.35,.4,'lin'));
+ pop('miniPrice',t,35.4,0,{dy:-60,s0:.8});
+ const wb=P(t,35.5,.6,'back');$('waBtn').style.transform=`scale(${L(.4,1,wb)*(1+.035*Math.sin((t-36)*7)*(t>36?1:0))})`;$('waBtn').style.opacity=P(t,35.5,.15,'lin');
+ const rp=(((t-36)%1.1)+1.1)%1.1/1.1;st('ripple',t>36?(1-rp)*.9:0,`scale(${1+rp*.25},${1+rp*.6})`);
+ pop('phoneNo',t,36.0,0,{dy:50,s0:.7});
+ pop('endLock',t,37.0,0,{dy:60,s0:.7});
+}
+window.render=render;render(0);
+</script>
+</body></html>
