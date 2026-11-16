@@ -126,7 +126,7 @@ const SC = {
     L.style.filter = `blur(${(1 - p) * 14}px) drop-shadow(0 0 ${40 + 25 * Math.sin(u * 3)}px rgba(245,122,10,.45))`;
     inn('o1', seg(u, 0.8, 0.5)); inn('o2', seg(u, 1.05, 0.55, ob), 30, 0.3);
     $('o3').style.width = `${560 * seg(u, 1.4, 0.6, io)}px`;
-    inn('o4', seg(u, 1.6, 0.5)); inn('o5', seg(u, 1.85, 0.5)); inn('o6', seg(u, 2.1, 0.5));
+    inn('o4', seg(u, 1.6, 0.5)); inn('o5', seg(u, 1.85, 0.5)); inn('o6', seg(u, 2.1, 0.5)); inn('o7', seg(u, 2.35, 0.5));
     if (u > 4.1) { const o = 1 - seg(u, 4.1, 0.4); document.getElementById('s12').style.opacity = o; } else document.getElementById('s12').style.opacity = 1;
   },
 };
