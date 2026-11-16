@@ -1,0 +1,34 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../assets/css/fonts.css">
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"../assets/js/vendor/three.module.min.js"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from '../assets/js/vendor/RoomEnvironment.js';
+import { BUILDERS, studio } from '../assets/js/models.js';
+const S = +(new URLSearchParams(location.search).get('s') || 800);
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(S, S);
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+await document.fonts.load('700 40px "Inter Tight"'); await document.fonts.ready;
+const scene = await studio(renderer, { RoomEnvironment });
+const cam = new THREE.PerspectiveCamera(28, 1, .1, 50);
+let obj;
+window.shot = (spec) => {
+  if (obj) scene.remove(obj);
+  obj = BUILDERS[spec.b](spec.o || {});
+  const piv = new THREE.Group(); piv.add(obj); obj = piv;
+  if (spec.r) obj.rotation.set(...spec.r);
+  scene.add(obj);
+  const box = new THREE.Box3().setFromObject(obj), c = box.getCenter(new THREE.Vector3()), sph = box.getBoundingSphere(new THREE.Sphere());
+  obj.position.sub(c);
+  const d = sph.radius / Math.sin(THREE.MathUtils.degToRad(14)) * (spec.z || .86);
+  cam.position.set(0, d * .12, d); cam.lookAt(0, 0, 0);
+  renderer.render(scene, cam);
+  return renderer.domElement.toDataURL('image/png');
+};
+window.ready = true;
+</script></body></html>
