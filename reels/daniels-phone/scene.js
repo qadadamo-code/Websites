@@ -190,8 +190,8 @@ window.renderAt = function (t) {
   $('logo').style.transform = `scale(${lg})`; $('logo').style.opacity = clamp(lg);
   const e2 = eOut(prog(t, 13.5, 13.8)), e3 = eOut(prog(t, 13.7, 14.0)), e4 = eOut(prog(t, 13.9, 14.2));
   $('end2').textContent = 'بيت جالا · شارع معصرة الزيتون'; $('end2').style.opacity = e2; $('end2').style.transform = `translateY(${(1 - e2) * 20}px)`;
-  $('end3').innerHTML = 'واتساب&nbsp; <span style="font-family:Man;direction:ltr;unicode-bidi:isolate">01203101104</span>'; $('end3').style.opacity = e3; $('end3').style.transform = `translateY(${(1 - e3) * 20}px)`;
-  $('end4').textContent = 'web.theplanetco.com/daniels-phone'; $('end4').style.opacity = e4;
+  $('end3').innerHTML = 'واتساب&nbsp; <span style="font-family:Man;direction:ltr;unicode-bidi:isolate">+970 599 996 762</span>'; $('end3').style.opacity = e3; $('end3').style.transform = `translateY(${(1 - e3) * 20}px)`;
+  $('end4').innerHTML = '<span style="display:inline-flex;align-items:center;gap:12px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F57A0A" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#F57A0A"/></svg>@daniels.phone7</span><span style="display:inline-flex;align-items:center;gap:12px;margin-left:56px"><svg width="30" height="30" viewBox="0 0 24 24" fill="#F57A0A"><path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v8h4v-8h3l.5-4h-3.5V8.8c0-.5.3-.8.5-.8z"/></svg>Daniel\'s Phone</span>'; $('end4').style.opacity = e4;
 };
 
 document.fonts.ready.then(() => Promise.all(Array.from(document.images).map((i) => i.complete ? 1 : new Promise((r) => (i.onload = i.onerror = r))))).then(() => { window.ready = true; });
