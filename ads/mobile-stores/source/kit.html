@@ -1,0 +1,119 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--mint:#92C5B4;--mint3:#E6F4EF;--navy:#143659;--ink:#0B1F35;--red:#E5484D;--wa:#25D366;--or:#F57A0A}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#888;font-family:'Readex Pro',sans-serif;color:var(--ink)}
+.num{font-family:'Montserrat',sans-serif;direction:ltr;unicode-bidi:isolate}
+.card{position:relative;overflow:hidden;background:radial-gradient(120% 80% at 50% 30%,#F6FBF9 0%,#E3F2EC 55%,#CFE7DE 100%)}
+.sq{width:1080px;height:1080px}.pt{width:1080px;height:1350px}.st{width:1080px;height:1920px}
+.dots{position:absolute;inset:0;background-image:radial-gradient(rgba(20,54,89,.10) 2px,transparent 2.5px);background-size:44px 44px;-webkit-mask-image:radial-gradient(70% 60% at 50% 60%,#000 30%,transparent 80%)}
+.disk{position:absolute;border-radius:50%;background:radial-gradient(circle at 40% 35%,#D6EDE5,#A9D3C5 70%,#92C5B4)}
+.brand{position:absolute;top:54px;right:64px;display:flex;align-items:center;gap:12px;direction:ltr}
+.brand img{height:46px}.brand b{font:900 32px 'Montserrat';letter-spacing:5px;color:var(--navy)}
+.pg{position:absolute;top:58px;left:64px;font:800 26px 'Montserrat';color:var(--navy);background:#fff;border-radius:30px;padding:8px 22px;box-shadow:0 10px 24px rgba(20,54,89,.12)}
+h1{font:800 76px/1.3 'Alexandria';color:var(--navy)}
+h1 .r{color:var(--red)}h1 .m{color:#3E8F77}
+h1 .g{background:var(--navy);color:var(--mint);padding:0 22px 6px;border-radius:22px;display:inline-block}
+.sub{font:500 36px/1.6 'Readex Pro';color:#33485F}
+.ph{position:absolute;filter:drop-shadow(0 40px 60px rgba(20,54,89,.35))}
+.chip{position:absolute;background:#fff;border-radius:999px;padding:16px 30px;font:700 32px 'Alexandria';color:var(--navy);box-shadow:0 18px 40px rgba(20,54,89,.18);white-space:nowrap;display:flex;align-items:center;gap:12px}
+.chip.red{color:var(--red)}.chip.dark{background:var(--navy);color:#fff}.chip.mint{background:var(--mint)}
+.list{display:flex;flex-direction:column;gap:22px}
+.li{display:flex;align-items:center;gap:20px;background:#fff;border-radius:30px;padding:24px 30px;font:700 36px 'Alexandria';color:var(--navy);box-shadow:0 14px 30px rgba(20,54,89,.10)}
+.li i{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:32px;flex:none}
+.li.bad i{background:#FFE4E5}.li.good i{background:var(--mint)}
+.wa{display:flex;align-items:center;justify-content:center;gap:20px;background:var(--wa);color:#fff;font:800 50px 'Alexandria';border-radius:80px;height:130px;box-shadow:0 24px 50px rgba(37,211,102,.4)}
+.wa svg{width:70px;height:70px}
+.price{font:900 200px/1 'Montserrat';color:var(--navy);direction:ltr;letter-spacing:-5px}
+.swipe{position:absolute;bottom:50px;right:64px;font:700 28px 'Readex Pro';color:var(--navy);display:flex;align-items:center;gap:10px}
+.foot{position:absolute;bottom:48px;right:64px;font:600 26px 'Montserrat';color:#3E8F77;direction:ltr}
+.tagline{display:inline-block;background:var(--navy);color:#fff;font:700 30px 'Readex Pro';padding:10px 26px;border-radius:30px}
+</style></head><body>
+<template id="wasvg"><svg viewBox="0 0 32 32"><path fill="#fff" d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.5.7 4.8 1.9 6.8L3 29l6.8-2.1c1.9 1 4 1.6 6.2 1.6 7 0 12.7-5.7 12.7-12.7S23 3 16 3zm0 23.2c-2 0-3.9-.6-5.5-1.6l-.4-.2-4 1.2 1.3-3.900-.3-.4c-1.1-1.7-1.7-3.6-1.7-5.7C5.4 9.8 10.2 5 16 5s10.6 4.8 10.6 10.6S21.8 26.2 16 26.2zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.6-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5.1 2.8 1.1 3.4.9 4 .8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg></template>
+
+<!-- C1 hook -->
+<div class="card sq" id="c1"><div class="dots"></div><div class="disk" style="width:760px;height:760px;left:-200px;top:420px"></div>
+ <div class="brand"><img src="img/mark-navy.png"><b>PLANET</b></div><div class="pg">1/5</div>
+ <div style="position:absolute;top:170px;right:64px;width:600px"><h1 style="font-size:70px">الزبون سألك<br><span style="white-space:nowrap">«الآيفون بكام؟»</span><br><span class="r">واشتراه من<br>محل تاني</span> 💔</h1>
+ <p class="sub" style="margin-top:26px">وده حصل… <b style="color:var(--red)">بسببك!</b></p></div>
+ <img class="ph" src="kit/ph-chat.png" style="width:400px;left:70px;top:230px;transform:rotate(-6deg)">
+ <div class="chip red" style="left:300px;top:880px">👀 Seen… ومفيش رد</div>
+ <div class="swipe">اسحب ← </div></div>
+
+<!-- C2 problem -->
+<div class="card sq" id="c2"><div class="dots"></div>
+ <div class="brand"><img src="img/mark-navy.png"><b>PLANET</b></div><div class="pg">2/5</div>
+ <div style="position:absolute;top:170px;right:64px;left:64px"><h1>صفحة الفيسبوك<br><span class="r">مش متجر!</span></h1>
+ <div class="list" style="margin-top:44px;width:640px">
+  <div class="li bad"><i>❌</i>مفيش أسعار واضحة</div>
+  <div class="li bad"><i>⏱</i>الزبون يستنى ساعات للرد</div>
+  <div class="li bad"><i>🌙</i>بتقفل… والبيع يقف</div>
+  <div class="li bad"><i>💸</i>بيعتك تروح للي جنبك</div></div></div>
+ <div style="position:absolute;left:60px;top:420px;font-size:300px;transform:rotate(-12deg);opacity:.9">📱</div>
+ <div class="swipe">اسحب ← </div></div>
+
+<!-- C3 solution -->
+<div class="card sq" id="c3"><div class="dots"></div><div class="disk" style="width:820px;height:820px;left:-260px;top:300px"></div>
+ <div class="brand"><img src="img/mark-navy.png"><b>PLANET</b></div><div class="pg">3/5</div>
+ <div style="position:absolute;top:170px;right:64px;width:560px"><h1>مع <span class="g num">Planet</span><br>محلك ياخد<br><span class="m">متجر إلكتروني</span><br>باسمه</h1>
+ <div class="list" style="margin-top:30px;width:470px;margin-right:0">
+  <div class="li good" style="font-size:32px;padding:18px 26px"><i>📱</i>موبايلات</div>
+  <div class="li good" style="font-size:32px;padding:18px 26px"><i>💻</i>لابتوبات</div>
+  <div class="li good" style="font-size:32px;padding:18px 26px"><i>🎧</i>إكسسوارات وإلكترونيات</div></div></div>
+ <img class="ph" src="kit/ph-store.png" style="width:420px;left:60px;top:190px;transform:rotate(-4deg)">
+ <div class="chip mint" style="left:250px;top:150px">⭐ من أعمالنا</div>
+ <div class="swipe">اسحب ← </div></div>
+
+<!-- C4 order -->
+<div class="card sq" id="c4"><div class="dots"></div><div class="disk" style="width:820px;height:820px;right:-260px;top:300px"></div>
+ <div class="brand"><img src="img/mark-navy.png"><b>PLANET</b></div><div class="pg">4/5</div>
+ <div style="position:absolute;top:170px;right:64px;width:560px"><h1 style="font-size:68px">الزبون يطلب<br>على <span class="g">الواتساب</span><br>على طول…</h1>
+ <p class="sub" style="margin-top:26px;width:500px">حتى وإنت قافل 🌙<br>صور وأسعار وزرار طلب.</p>
+ <div class="chip dark" style="position:relative;display:inline-flex;margin-top:30px">✅ بيعة جديدة · <span class="num">2:14</span> ص</div></div>
+ <img class="ph" src="kit/ph-order.png" style="width:420px;left:60px;top:190px;transform:rotate(-4deg)">
+ <div class="swipe">اسحب ← </div></div>
+
+<!-- C5 offer -->
+<div class="card sq" id="c5"><div class="dots"></div><div class="disk" style="width:900px;height:900px;left:90px;top:330px;opacity:.7"></div>
+ <div class="brand"><img src="img/mark-navy.png"><b>PLANET</b></div><div class="pg">5/5</div>
+ <div style="position:absolute;top:160px;left:0;right:0;text-align:center">
+  <span class="tagline">🛒 متجرك الإلكتروني كامل</span>
+  <p style="font:800 54px 'Alexandria';color:#3E8F77;margin-top:40px">يبدأ من</p>
+  <div class="price">11,999</div>
+  <p style="font:800 60px 'Alexandria';color:var(--navy);margin-top:6px">جنيه بس</p>
+  <p class="sub" style="margin-top:18px;font-size:30px">متجر باسم محلك · لوحة تحكم · أوردرات واتساب · مظبوط على جوجل</p>
+  <div class="wa" style="margin:44px 140px 0" id="wa5"></div>
+  <p class="num" style="font:900 74px 'Montserrat';color:var(--navy);margin-top:26px">01203101104</p></div></div>
+
+<!-- static post 4:5 -->
+<div class="card pt" id="p1"><div class="dots"></div><div class="disk" style="width:1000px;height:1000px;left:-280px;top:420px"></div>
+ <div class="brand"><img src="img/mark-navy.png"><b>PLANET</b></div>
+ <div style="position:absolute;top:150px;right:64px;width:560px">
+  <h1 style="font-size:70px">بتبيع موبايلات<br>ولابتوبات؟</h1>
+  <h1 style="font-size:70px;margin-top:10px"><span class="m">خلّي محلك</span><br>متجر إلكتروني<br><span class="g">باسمك</span></h1>
+  <div class="list" style="margin-top:34px">
+   <div class="li good" style="font-size:30px;padding:16px 24px"><i style="width:52px;height:52px">✓</i>منتجاتك بصورها وأسعارها</div>
+   <div class="li good" style="font-size:30px;padding:16px 24px"><i style="width:52px;height:52px">✓</i>طلبات مباشرة على واتساب</div>
+   <div class="li good" style="font-size:30px;padding:16px 24px"><i style="width:52px;height:52px">✓</i>بيع <span class="num">24</span> ساعة يومياً</div></div>
+ </div>
+ <img class="ph" src="kit/ph-grid.png" style="width:440px;left:56px;top:200px;transform:rotate(-5deg)">
+ <div class="chip red" style="left:70px;top:1000px">💔 الزبون مش هيستنى ردك</div>
+ <div style="position:absolute;left:64px;right:64px;bottom:60px;background:var(--navy);border-radius:44px;padding:30px 40px;display:flex;align-items:center;justify-content:space-between">
+  <div style="color:#fff"><div style="font:700 30px 'Readex Pro';color:var(--mint)">يبدأ من</div><div style="font:900 84px/1 'Montserrat';direction:ltr;text-align:right">11,999 <span style="font:800 36px 'Alexandria'">جنيه</span></div></div>
+  <div class="wa" id="wap" style="height:110px;font-size:40px;padding:0 40px"></div></div>
+</div>
+
+<!-- story 9:16 -->
+<div class="card st" id="s1"><div class="dots"></div><div class="disk" style="width:1100px;height:1100px;left:-10px;top:760px"></div>
+ <div class="brand" style="right:0;left:0;justify-content:center;top:90px"><img src="img/mark-navy.png"><b>PLANET</b></div>
+ <div style="position:absolute;top:220px;left:0;right:0;text-align:center"><h1 style="font-size:84px">محل موبايلات؟<br><span class="m">خليه متجر إلكتروني</span><br><span class="g">باسمك</span></h1></div>
+ <img class="ph" src="kit/ph-store.png" style="width:440px;left:320px;top:600px;transform:rotate(-3deg)">
+ <div class="chip mint" style="right:30px;top:1060px">📱💻🎧 كل الأقسام</div>
+ <div class="chip dark" style="left:40px;top:1300px">✅ أوردر واتساب · <span class="num">2:14</span> ص</div>
+ <div style="position:absolute;left:70px;right:70px;bottom:80px;text-align:center">
+  <div style="font:800 46px 'Alexandria';color:var(--navy);margin-bottom:20px">يبدأ من <span class="num" style="font-weight:900;font-size:64px">11,999</span> جنيه</div>
+  <div class="wa" id="was"></div>
+  <p class="num" style="font:900 64px 'Montserrat';color:var(--navy);margin-top:20px">01203101104</p></div>
+</div>
+<script>const t=document.getElementById('wasvg').innerHTML;['wa5','wap','was'].forEach(i=>document.getElementById(i).innerHTML=t+'كلّمنا واتساب');</script>
+</body></html>

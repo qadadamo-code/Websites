@@ -1,0 +1,419 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--mint:#92C5B4;--mint2:#BFE0D4;--mint3:#E6F4EF;--navy:#143659;--ink:#0B1F35;--red:#E5484D;--wa:#25D366}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#EEF7F3}
+body{font-family:'Readex Pro','Alexandria',sans-serif;color:var(--ink)}
+.abs{position:absolute}
+.num{font-family:'Montserrat',sans-serif;direction:ltr;unicode-bidi:isolate}
+#bg{position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 35%,#F6FBF9 0%,#E3F2EC 55%,#CFE7DE 100%)}
+#dots{position:absolute;inset:0;background-image:radial-gradient(rgba(20,54,89,.10) 2px,transparent 2.5px);background-size:44px 44px;-webkit-mask-image:radial-gradient(70% 55% at 50% 55%,#000 30%,transparent 80%)}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55}
+#disk{position:absolute;width:1000px;height:1000px;left:40px;top:760px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#D6EDE5,#A9D3C5 70%,#92C5B4);box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)}
+#ring{position:absolute;width:1160px;height:1160px;left:-40px;top:680px;border-radius:50%;border:2px dashed rgba(20,54,89,.14)}
+/* brand */
+#brand{position:absolute;top:72px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:14px;direction:ltr}
+#brand img{height:58px}
+#brand b{font:900 40px 'Montserrat';letter-spacing:6px;color:var(--navy)}
+#prog{position:absolute;top:0;right:0;height:10px;background:linear-gradient(90deg,var(--navy),var(--mint));z-index:60;border-radius:0 0 0 8px}
+/* captions */
+#cap{position:absolute;top:190px;left:50px;right:50px;height:260px;display:flex;align-items:center;justify-content:center;z-index:40}
+.ph{position:absolute;left:0;right:0;text-align:center;font:800 84px/1.32 'Alexandria';color:var(--navy);opacity:0}
+.w{display:inline-block;margin:0 10px;opacity:0;will-change:transform,opacity}
+.w.g{background:var(--navy);color:var(--mint);padding:0 26px 6px;border-radius:26px;box-shadow:0 14px 30px rgba(20,54,89,.25)}
+.w.r{color:var(--red)}
+.w.m{color:#3E8F77}
+#stamp{position:absolute;top:210px;left:0;right:0;text-align:center;font:900 200px 'Alexandria';color:var(--navy);z-index:45;opacity:0}
+#stamp span{display:inline-block;background:var(--mint);padding:0 60px 20px;border-radius:50px;border:8px solid var(--navy);box-shadow:16px 16px 0 var(--navy)}
+/* phone */
+#phoneWrap{position:absolute;left:230px;top:560px;width:620px;height:1200px;perspective:2200px;z-index:10}
+#phone{position:absolute;inset:0;border-radius:86px;background:#0E1B2E;padding:16px;box-shadow:0 60px 120px rgba(20,54,89,.35),0 0 0 3px #2B3E57 inset,0 20px 40px rgba(0,0,0,.2);transform-style:preserve-3d}
+#screen{position:absolute;inset:16px;border-radius:70px;background:#fff;overflow:hidden}
+#island{position:absolute;top:22px;left:50%;width:170px;height:46px;margin-left:-85px;background:#0E1B2E;border-radius:30px;z-index:30}
+.sb{position:absolute;top:0;left:0;right:0;height:86px;display:flex;justify-content:space-between;align-items:center;padding:16px 50px 0;font:600 26px 'Montserrat';direction:ltr;z-index:25;color:#111}
+.scr{position:absolute;inset:0;opacity:0}
+/* search screen */
+.sbar{position:absolute;top:110px;left:28px;right:28px;height:92px;border-radius:46px;background:#F1F4F7;display:flex;align-items:center;padding:0 30px;gap:18px;font:500 30px 'Readex Pro';color:#222;box-shadow:0 2px 0 #E2E7EC}
+.sbar .ic{width:34px;height:34px;border:5px solid var(--navy);border-radius:50%;position:relative;flex:none}
+.sbar .ic:after{content:'';position:absolute;width:5px;height:16px;background:var(--navy);bottom:-14px;left:-6px;transform:rotate(45deg);border-radius:3px}
+.caret{display:inline-block;width:3px;height:36px;background:var(--navy);vertical-align:middle;margin-inline-start:4px}
+.tabs{position:absolute;top:226px;right:36px;left:36px;display:flex;gap:30px;font:500 25px 'Readex Pro';color:#6B7785;border-bottom:2px solid #EEF1F4;padding-bottom:14px}
+.tabs b{color:var(--navy);border-bottom:5px solid var(--navy);padding-bottom:12px;margin-bottom:-16px}
+.res{position:absolute;left:26px;right:26px;border-radius:30px;background:#fff;padding:26px 28px;box-shadow:0 8px 28px rgba(20,54,89,.10);border:2px solid #EEF1F4}
+.res .site{display:flex;align-items:center;gap:14px;font:500 22px 'Readex Pro';color:#55606B}
+.fav{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 26px 'Alexandria';color:#fff;flex:none}
+.res h4{font:700 32px/1.35 'Alexandria';color:#1A0DAB;margin:14px 0 6px}
+.res p{font:400 23px/1.5 'Readex Pro';color:#4A5560}
+.stars{color:#F5A524;font-size:24px;letter-spacing:2px}
+.thumbs{display:flex;gap:10px;margin-top:16px}
+.thumbs div{flex:1;height:120px;border-radius:18px;background-size:cover;background-position:center}
+.tag{display:inline-block;font:700 20px 'Readex Pro';padding:4px 14px;border-radius:20px;background:var(--mint3);color:#2D7A63;margin-inline-start:8px}
+/* chat screen */
+.chead{position:absolute;top:86px;left:0;right:0;height:120px;display:flex;align-items:center;gap:18px;padding:0 30px;border-bottom:2px solid #F0F2F5}
+.av{width:74px;height:74px;border-radius:50%;background:#D9DEE4;display:grid;place-items:center;font:700 30px 'Alexandria';color:#7A8590;flex:none}
+.chead b{font:700 30px 'Alexandria';display:block}
+.chead small{font:400 21px 'Readex Pro';color:#8A949E}
+.msg{position:absolute;max-width:460px;padding:24px 36px;border-radius:40px;font:600 38px 'Readex Pro';opacity:0}
+.me{right:28px;background:linear-gradient(135deg,#3B6FF0,#7B4DF2);color:#fff;border-bottom-right-radius:10px}
+.seen{position:absolute;right:34px;font:500 20px 'Montserrat';color:#8A949E;opacity:0;direction:ltr}
+.sys{position:absolute;left:0;right:0;text-align:center;font:500 22px 'Readex Pro';color:#9AA3AD;opacity:0}
+.cbar{position:absolute;bottom:40px;left:26px;right:26px;height:84px;border-radius:42px;background:#F1F4F7;display:flex;align-items:center;padding:0 30px;font:400 26px 'Readex Pro';color:#9AA3AD}
+/* site screen */
+#cover{position:absolute;inset:0;background:var(--navy);border-radius:50%;z-index:20;display:grid;place-items:center}
+#cover img{width:200px}
+.url{position:absolute;top:96px;left:22px;right:22px;height:70px;border-radius:35px;background:#F1F4F7;display:flex;align-items:center;justify-content:center;gap:10px;font:600 26px 'Montserrat';direction:ltr;color:#333;z-index:3}
+.url em{font-style:normal;color:#fff;background:var(--navy);padding:2px 12px;border-radius:10px}
+#siteClip{position:absolute;top:176px;left:0;right:0;bottom:0;overflow:hidden}#siteIn{position:absolute;top:0;left:0;right:0}
+.nav{height:90px;display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.nav b{font:800 34px 'Alexandria';color:var(--navy)}
+.nav i{font-style:normal;font:500 22px 'Readex Pro';color:#55606B}
+.hero{margin:0 22px;height:420px;border-radius:36px;background:url(img/store-hero.jpg) center/cover;position:relative;overflow:hidden}
+.hero:after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,31,53,.75),rgba(11,31,53,0) 60%)}
+.hero div{position:absolute;bottom:30px;right:30px;z-index:2;color:#fff}
+.hero h3{font:800 46px 'Alexandria'}
+.hero span{display:inline-block;margin-top:12px;background:var(--mint);color:var(--navy);font:700 24px 'Readex Pro';padding:10px 26px;border-radius:30px}
+.secT{display:flex;justify-content:space-between;align-items:center;padding:30px 32px 16px;font:700 32px 'Alexandria';color:var(--navy)}
+.secT small{font:500 22px 'Readex Pro';color:#3E8F77}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:0 22px}
+.card{border-radius:28px;background:#F6F9F8;overflow:hidden;border:2px solid #EAF1EE}
+.card .im{height:230px;background-size:cover;background-position:center}
+.card .t{padding:14px 18px 6px;font:600 24px 'Readex Pro'}
+.card .pr{padding:0 18px;font:800 26px 'Montserrat';color:var(--navy)}
+.card .pr small{font:600 18px 'Readex Pro'}
+.card .bt{margin:12px 14px 16px;height:58px;border-radius:29px;background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font:700 21px 'Readex Pro'}
+#tap{position:absolute;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.45);border:5px solid #fff;box-shadow:0 0 30px rgba(255,255,255,.7);z-index:15;opacity:0}
+#wa{position:absolute;left:0;right:0;bottom:0;height:640px;background:#EFE7DE;border-radius:44px 44px 0 0;z-index:16;box-shadow:0 -20px 60px rgba(0,0,0,.25);overflow:hidden}
+#wa .wh{height:110px;background:#075E54;color:#fff;display:flex;align-items:center;gap:18px;padding:0 30px;font:700 30px 'Alexandria'}
+#wa .wh .av{width:64px;height:64px;background:var(--mint);color:var(--navy);font-size:26px}
+#wa .wb{position:absolute;top:150px;right:30px;width:470px;background:#DCF8C6;border-radius:28px 6px 28px 28px;padding:24px 28px;font:500 25px/1.6 'Readex Pro';color:#111;box-shadow:0 3px 0 rgba(0,0,0,.08)}
+#wa .wb b{font:800 28px 'Alexandria';color:#075E54;display:block;margin-bottom:6px}
+#wa .wb .tk{display:block;text-align:left;font:500 20px 'Montserrat';color:#34B7F1;direction:ltr}
+/* chips */
+.chip{position:absolute;z-index:30;opacity:0;background:#fff;border-radius:999px;padding:18px 32px;font:700 34px 'Alexandria';color:var(--navy);box-shadow:0 18px 40px rgba(20,54,89,.18);white-space:nowrap;display:flex;align-items:center;gap:12px;border:3px solid #fff}
+.chip.dark{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chip.red{background:#fff;color:var(--red);border-color:#FFD9DA}
+.chip.mint{background:var(--mint);color:var(--navy);border-color:var(--mint)}
+#meter{position:absolute;z-index:31;top:560px;left:36px;width:300px;background:#fff;border-radius:30px;padding:18px 22px;box-shadow:0 18px 40px rgba(20,54,89,.18);opacity:0}
+#meter .l{display:flex;align-items:center;gap:12px;font:700 24px 'Readex Pro';color:var(--navy)}
+#meter .e{font-size:38px}
+#meter .bar{height:14px;border-radius:8px;background:#EDF1F4;margin-top:12px;overflow:hidden}
+#meter .bar i{display:block;height:100%;border-radius:8px}
+/* offer */
+#offer{position:absolute;inset:0;z-index:20;opacity:0}
+#badge{position:absolute;top:470px;left:0;right:0;text-align:center}
+#badge span{display:inline-flex;align-items:center;gap:18px;background:var(--navy);color:#fff;font:800 76px 'Alexandria';padding:22px 56px 32px;border-radius:40px;box-shadow:0 26px 60px rgba(20,54,89,.35)}
+#badge span em{font-style:normal;color:var(--mint)}
+#pkg{position:absolute;top:650px;left:90px;right:90px;background:rgba(255,255,255,.85);border-radius:48px;padding:40px 46px;box-shadow:0 30px 70px rgba(20,54,89,.16);border:3px solid #fff}
+#pkg h5{font:800 46px 'Alexandria';color:var(--navy);margin-bottom:18px}
+.feat{display:flex;align-items:center;gap:18px;font:600 34px 'Readex Pro';color:#22364C;margin:14px 0;opacity:0}
+.feat i{width:52px;height:52px;border-radius:50%;background:var(--mint);display:grid;place-items:center;font-style:normal;font:900 28px 'Montserrat';color:var(--navy);flex:none}
+#priceBox{position:absolute;top:1080px;left:0;right:0;text-align:center}
+#old{font:700 60px 'Readex Pro';color:#6B7785;opacity:0;position:relative;display:inline-block}
+#old .num{font-weight:800}
+#strike{position:absolute;height:9px;background:var(--red);top:52%;right:-10px;border-radius:6px;transform:rotate(-6deg);width:0}
+#price{font:900 250px/1 'Montserrat';color:var(--navy);direction:ltr;letter-spacing:-6px;opacity:0;margin-top:6px}
+#egp{font:800 64px 'Alexandria';color:var(--navy);opacity:0;margin-top:-6px}
+#egp b{color:#3E8F77}
+#conf{position:absolute;inset:0;z-index:35;pointer-events:none}
+.cf{position:absolute;width:20px;height:34px;border-radius:5px}
+/* cta */
+#cta{position:absolute;inset:0;z-index:22;opacity:0}
+#waBtn{position:absolute;top:880px;left:110px;right:110px;height:200px;border-radius:100px;background:var(--wa);display:flex;align-items:center;justify-content:center;gap:28px;color:#fff;font:800 66px 'Alexandria';box-shadow:0 30px 70px rgba(37,211,102,.45)}
+#waBtn svg{width:96px;height:96px}
+#phoneNo{position:absolute;top:1120px;left:0;right:0;text-align:center;font:900 112px 'Montserrat';color:var(--navy);letter-spacing:2px}
+#miniPrice{position:absolute;top:640px;left:0;right:0;text-align:center}
+#miniPrice span{display:inline-flex;align-items:center;gap:20px;background:#fff;border-radius:999px;padding:20px 44px;font:800 48px 'Alexandria';color:var(--navy);box-shadow:0 18px 40px rgba(20,54,89,.15)}
+#miniPrice s{color:#8A949E;font:700 38px 'Montserrat';text-decoration-color:var(--red);text-decoration-thickness:5px}
+#endLock{position:absolute;top:1330px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px}
+#endLock img{height:230px}
+#endLock div{font:600 36px 'Montserrat';color:#3E8F77;direction:ltr}
+#ripple{position:absolute;border-radius:100px;border:6px solid var(--wa);top:880px;left:110px;right:110px;height:200px;opacity:0}
+#flash{position:absolute;inset:0;background:#fff;z-index:70;opacity:0;pointer-events:none}
+/* ---- mobile-store additions ---- */
+.dsite{background:#0B0B0D;color:#fff}
+#sC{background:#0B0B0D}
+#sC .url{background:#1C1C20;color:#ddd;font-size:22px}
+#sC .url em{background:#F57A0A;color:#111}
+.dnav{height:96px;display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.dnav .lg{display:flex;align-items:center;gap:12px;direction:ltr}
+.dnav .lg img{height:62px}
+.dnav .lg b{font:800 30px 'Montserrat';color:#fff;font-style:italic}
+.dnav .lg b span{color:#F57A0A}
+.dnav i{font-style:normal;font:600 22px 'Readex Pro';color:#bbb;background:#1C1C20;padding:10px 18px;border-radius:24px}
+.dhero{margin:0 22px;height:360px;border-radius:36px;background:radial-gradient(90% 90% at 25% 30%,#3a2208,#0B0B0D 70%);position:relative;overflow:hidden;border:2px solid #222}
+.dhero img{position:absolute;left:10px;top:14px;height:340px;filter:drop-shadow(0 20px 30px rgba(245,122,10,.35))}
+.dhero div{position:absolute;right:30px;top:60px;text-align:right}
+.dhero h3{font:800 44px/1.25 'Alexandria';color:#fff}
+.dhero h3 em{font-style:normal;color:#F57A0A}
+.dhero span{display:inline-block;margin-top:18px;background:#F57A0A;color:#111;font:700 24px 'Readex Pro';padding:10px 26px;border-radius:30px}
+.cats{display:flex;gap:12px;padding:26px 22px 8px}
+.cat{flex:1;height:76px;border-radius:24px;background:#1C1C20;border:2px solid #2A2A30;display:flex;align-items:center;justify-content:center;gap:8px;font:700 24px 'Readex Pro';color:#ccc}
+.cat.on{background:#F57A0A;color:#111;border-color:#F57A0A}
+.dsecT{display:flex;justify-content:space-between;align-items:center;padding:22px 30px 14px;font:700 30px 'Alexandria';color:#fff}
+.dsecT small{font:500 22px 'Readex Pro';color:#F57A0A}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 22px}
+.dcard{border-radius:28px;background:#17171B;overflow:hidden;border:2px solid #24242A;position:relative}
+.dcard .im{height:240px;background:#E9E9EB center/contain no-repeat}
+.dcard .t{padding:14px 18px 4px;font:600 23px 'Montserrat';color:#fff;direction:ltr;text-align:right}
+.dcard .pr{padding:0 18px;font:800 26px 'Montserrat';color:#F57A0A}
+.dcard .pr small{font:600 18px 'Readex Pro';color:#aaa}
+.dcard .bt{margin:12px 14px 16px;height:58px;border-radius:29px;background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font:700 21px 'Readex Pro'}
+.dcard .bd{position:absolute;top:14px;right:14px;background:#F57A0A;color:#111;font:800 18px 'Readex Pro';padding:4px 14px;border-radius:16px}
+#night{position:absolute;inset:0;background:rgba(5,10,30,.0);z-index:14;pointer-events:none}
+.res.dp h4{color:#1A0DAB}
+</style></head><body>
+<div id="bg"></div>
+<div class="blob" id="b1" style="width:520px;height:520px;background:#BFE0D4;left:-120px;top:240px"></div>
+<div class="blob" id="b2" style="width:460px;height:460px;background:#C9DCEB;right:-140px;top:1180px"></div>
+<div id="dots"></div>
+<div id="ring"></div>
+<div id="disk"></div>
+<div id="prog"></div>
+<div id="brand"><img src="img/mark-navy.png"><b>PLANET</b></div>
+
+<div id="stamp"><span style="background:#fff;color:var(--red);border-color:var(--red);box-shadow:16px 16px 0 var(--red)">بسببك!</span></div>
+<div id="cap"></div>
+
+<div id="meter"><div class="l"><span class="e" id="me">🙂</span><span id="ml">صبر الزبون</span></div><div class="bar"><i id="mb"></i></div></div>
+
+<div id="phoneWrap"><div id="phone"><div id="screen">
+  <div class="sb" id="sbar"><span class="num" id="clock">10:02</span><span>●●● ▮</span></div>
+  <div class="scr" id="sA">
+    <div class="sbar"><div class="ic"></div><span id="q"></span><span class="caret" id="caret"></span></div>
+    <div class="tabs"><b>الكل</b><span>خرائط</span><span>صور</span><span>تسوّق</span></div>
+    <div class="res dp" id="r1" style="top:290px">
+      <div class="site"><div class="fav" style="background:#111;overflow:hidden"><img src="img/dp-logo.png" style="width:52px"></div><div><b style="color:#222" class="num">Daniel's Phone</b> <span class="tag">متجر رسمي</span><br><span class="num" style="font-size:20px">www.danielsphone.store</span></div></div>
+      <h4>موبايلات وإكسسوارات — اطلب أونلاين</h4>
+      <p><span class="stars">★★★★★</span> <span class="num">4.9</span> · أسعار واضحة · طلب على واتساب</p>
+      <div class="thumbs"><div style="background:#ECECEE url(img/p/m01.webp) center/contain no-repeat"></div><div style="background:#ECECEE url(img/p/m04.webp) center/contain no-repeat"></div><div style="background:#ECECEE url(img/p/m08.webp) center/contain no-repeat"></div></div>
+    </div>
+    <div class="res" id="r2" style="top:790px">
+      <div class="site"><div class="fav" style="background:#B8C0C8">؟</div><div><b style="color:#222">محلك</b><br><span class="num" style="font-size:20px">facebook.com/yourshop</span></div></div>
+      <h4 style="color:#7A8590">مفيش متجر… بس صفحة</h4>
+      <p>آخر بوست من <span class="num">6</span> شهور · مفيش أسعار</p>
+    </div>
+  </div>
+  <div class="scr" id="sB">
+    <div class="chead"><div class="av">م</div><div><b>محلك</b><small>آخر ظهور من <span class="num">4</span> ساعات</small></div></div>
+    <div class="sys" id="d1" style="top:240px">النهارده <span class="num">10:02</span> م</div>
+    <div class="msg me" id="m0" style="top:300px">مساء الخير 👋</div>
+    <div class="msg me" id="m1" style="top:430px">الآيفون <span class="num">17</span> بكام؟</div>
+    <div class="seen" id="s1" style="top:556px">Seen 10:03</div>
+    <div class="sys" id="d2" style="top:620px">بعد <span class="num">3</span> ساعات</div>
+    <div class="msg me" id="m2" style="top:680px">متوفر؟</div>
+    <div class="seen" id="s2" style="top:806px">Seen 1:15</div>
+    <div class="msg me" id="m3" style="top:870px">خلاص… لقيته في محل تاني</div>
+    <div class="sys" id="d3" style="top:1040px;color:var(--red);font-weight:700">الزبون خرج من المحادثة</div>
+    <div class="cbar">اكتب رسالة…</div>
+  </div>
+  <div class="scr dsite" id="sC">
+    <div class="url">🔒 www.<em>danielsphone</em>.store</div>
+    <div id="siteClip"><div id="siteIn">
+      <div class="dnav"><div class="lg"><img src="img/dp-logo.png"><b>Daniel's <span>Phone</span></b></div><i>🛒 <span class="num">2</span></i></div>
+      <div class="dhero"><img src="img/p/m01.webp"><div><h3>أحدث<br><em>الأجهزة</em><br>بين إيديك</h3><span>تسوّق دلوقتي</span></div></div>
+      <div class="cats"><div class="cat" id="k1">📱 موبايلات</div><div class="cat" id="k2">💻 لابتوبات</div><div class="cat" id="k3">🎧 إكسسوارات</div></div>
+      <div class="dsecT">الأكثر مبيعاً <small>عرض الكل ←</small></div>
+      <div class="dgrid">
+        <div class="dcard"><span class="bd">جديد</span><div class="im" style="background-image:url(img/p/m01.webp)"></div><div class="t">iPhone 17 Pro Max</div><div class="pr"><span class="num">74,999</span> <small>ج.م</small></div><div class="bt" id="btn1">اطلب واتساب</div></div>
+        <div class="dcard"><div class="im" style="background-image:url(img/p/laptop.jpg)"></div><div class="t">Laptop Air 15"</div><div class="pr"><span class="num">52,500</span> <small>ج.م</small></div><div class="bt">اطلب واتساب</div></div>
+        <div class="dcard"><span class="bd">عرض</span><div class="im" style="background-image:url(img/p/m04.webp)"></div><div class="t">Galaxy S26 Ultra</div><div class="pr"><span class="num">68,900</span> <small>ج.م</small></div><div class="bt">اطلب واتساب</div></div>
+        <div class="dcard"><div class="im" style="background-image:url(img/p/m08.webp)"></div><div class="t">AirPods Pro</div><div class="pr"><span class="num">11,250</span> <small>ج.م</small></div><div class="bt">اطلب واتساب</div></div>
+        <div class="dcard"><div class="im" style="background-image:url(img/p/m09.webp)"></div><div class="t">Smart Watch</div><div class="pr"><span class="num">18,400</span> <small>ج.م</small></div><div class="bt">اطلب واتساب</div></div>
+        <div class="dcard"><div class="im" style="background-image:url(img/p/m12.webp)"></div><div class="t">Power Bank 20K</div><div class="pr"><span class="num">1,450</span> <small>ج.م</small></div><div class="bt">اطلب واتساب</div></div>
+      </div>
+    </div></div>
+    <div id="tap"></div><div id="night"></div>
+    <div id="wa"><div class="wh"><div class="av">م</div>متجرك · واتساب</div>
+      <div class="wb" id="wbx"><b>🛍️ أوردر جديد!</b><span class="num">iPhone 17 Pro Max</span> × <span class="num">1</span><br><span class="num">256GB</span> · برتقالي<br>الإجمالي: <span class="num">74,999</span> ج.م<br>الاسم: كريم · المعادي<span class="tk" id="tk">10:02 ✓✓</span></div>
+    </div>
+    <div id="cover"><img src="img/mark-light.png"></div>
+  </div>
+</div><div id="island"></div></div></div>
+
+<div class="chip red" id="cRival" style="top:820px;left:40px">😬 اشترى من محل تاني</div>
+<div class="chip" id="cNoSite" style="top:1360px;right:30px">❌ مالكش متجر</div>
+<div class="chip red" id="cNoPrice" style="top:900px;right:20px">مفيش أسعار</div>
+<div class="chip" id="cSeen1" style="top:1080px;left:40px">👀 Seen</div>
+<div class="chip dark" id="cWait" style="top:1400px;right:24px">⏱ <span class="num">3</span> ساعات ومفيش رد</div>
+<div class="chip red" id="cLost" style="top:1500px;left:60px">💸 بيعة راحت عليك</div>
+<div class="chip mint" id="cWork" style="top:600px;right:30px">⭐ من أعمالنا</div>
+<div class="chip mint" id="cCats" style="top:860px;left:20px">📱💻🎧 كل الأقسام</div>
+<div class="chip" id="cProd" style="top:1160px;right:16px">🏷️ صور وأسعار واضحة</div>
+<div class="chip dark" id="cNight" style="top:1420px;left:30px">🌙 <span class="num">2:14</span> ص · وإنت قافل</div>
+<div class="chip mint" id="cNew" style="top:1540px;left:70px">✅ بيعة جديدة</div>
+
+<div id="offer">
+  <div id="badge"><span>🛒 متجرك <em>الإلكتروني</em></span></div>
+  <div id="pkg"><h5>باكدج كاملة لمحلك</h5>
+    <div class="feat" id="f1"><i>✓</i>متجر إلكتروني باسم محلك</div>
+    <div class="feat" id="f2"><i>✓</i>موبايلات · لابتوبات · إكسسوارات</div>
+    <div class="feat" id="f3"><i>✓</i>أوردرات مباشرة على واتساب</div>
+    <div class="feat" id="f4"><i>✓</i>لوحة تحكم تغيّر الأسعار بنفسك</div>
+  </div>
+  <div id="priceBox">
+    <div id="old" style="color:#3E8F77">يبدأ من</div>
+    <div id="price">11,999</div>
+    <div id="egp">جنيه <b>بس!</b></div>
+  </div>
+  <div class="chip mint" id="cSave" style="top:1500px;left:110px">⚡ جاهز في أيام</div>
+  <div class="chip dark" id="cLimited" style="top:1500px;right:100px">📈 بيع <span class="num">24</span> ساعة</div>
+</div>
+<div id="conf"></div>
+
+<div id="cta">
+  <div id="miniPrice"><span>متجرك من <span class="num">11,999</span> جنيه</span></div>
+  <div id="ripple"></div>
+  <div id="waBtn"><svg viewBox="0 0 32 32"><path fill="#fff" d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.5.7 4.8 1.9 6.8L3 29l6.8-2.1c1.9 1 4 1.6 6.2 1.6 7 0 12.7-5.7 12.7-12.7S23 3 16 3zm0 23.2c-2 0-3.9-.6-5.5-1.6l-.4-.2-4 1.2 1.3-3.9-.3-.4c-1.1-1.700-1.7-3.6-1.7-5.7C5.4 9.8 10.2 5 16 5s10.6 4.8 10.6 10.6S21.8 26.2 16 26.2zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.6-1.8-1.700-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.200 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5.1 2.8 1.1 3.4.9 4 .8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>كلّمنا واتساب</div>
+  <div id="phoneNo" class="num">01203101104</div>
+  <div id="endLock"><img src="img/lockup-navy.png"><div>web.theplanetco.com</div></div>
+</div>
+<div id="flash"></div>
+<script>
+const D=37;
+const E={lin:x=>x,out:x=>1-Math.pow(1-x,3),out5:x=>1-Math.pow(1-x,5),io:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,
+back:x=>{const c1=2.2,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)},
+el:x=>x<=0?0:x>=1?1:Math.pow(2,-9*x)*Math.sin((x*9-.75)*2.0944)+1};
+const P=(t,a,d,e='out')=>t<=a?0:t>=a+d?1:E[e]((t-a)/d);
+const L=(a,b,k)=>a+(b-a)*k;
+const $=id=>document.getElementById(id);
+function st(el,o,tr){if(typeof el==='string')el=$(el);el.style.opacity=o;if(tr!==undefined)el.style.transform=tr;}
+function pop(id,t,a,b,o={}){const el=typeof id==='string'?$(id):id;const k=P(t,a,.5,o.e||'back');const f=P(t,a,.18,'lin');let out=b?P(t,b,.3,'io'):0;
+ const dx=(o.dx||0)*(1-k),dy=(o.dy===undefined?40:o.dy)*(1-k)+(o.ody||-30)*out,s=L(o.s0===undefined?.6:o.s0,1,k)*(1-.15*out);
+ const fl=o.float?Math.sin((t-a)*2.2+(o.ph||0))*8:0;
+ el.style.opacity=f*(1-out);el.style.transform=(o.pre||'')+`translate(${dx}px,${dy+fl}px) scale(${s}) rotate(${(o.r||0)*(1-k)+(o.rr||0)}deg)`;}
+const O=.3;const TS=x=>x+O;
+const CAP=[
+ [['عرفت',0.0],['إن',0.52],['الزبون',0.64],['سابك',0.98,'r']],
+ [['واشترى',1.54],['الموبايل',2.14],['من',2.5],['محل',2.62],['تاني؟',2.95,'r']],
+ [['وده',3.38],['حصل…',3.84]],
+ [['ليه؟',5.04]],
+ [['عشان',5.76],['كل',6.06],['اللي',6.3],['عندك',6.56],['صفحة…',6.88,'g']],
+ [['وواحد',7.44],['بيسأل:',7.84]],
+ [['"الآيفون',8.52],['بكام؟"',9.04],['…',9.3],['سين',9.48,'r']],
+ [['"متوفر؟"',10.12],['…',10.6],['سين',10.98,'r']],
+ [['وفي',11.96],['الآخر…',12.2],['اشتراه',12.62,'r']],
+ [['من',13.46],['المحل',13.6],['اللي',14.02],['جنبك',14.26,'r']],
+ [['مع',14.72],['<span class="num" style="font-weight:900">Planet</span>',15.16,'g']],
+ [['محلك',15.7],['ياخد',16.32],['متجر',16.62,'g'],['إلكتروني',17.02,'g'],['باسمه',17.6,'m']],
+ [['الموبايلات',18.16,'m']],
+ [['واللابتوبات',19.0,'m']],
+ [['والإكسسوارات',19.74,'m']],
+ [['بصورها',20.6],['وأسعارها',21.26,'m']],
+ [['والزبون',22.0],['يطلب',22.62],['على',22.96],['الواتساب',23.16,'g'],['على',23.64],['طول',23.86]],
+ [['حتى',24.22],['وإنت',24.76],['قافل!',25.06,'g']],
+ [['متجرك',25.52],['الإلكتروني',26.2,'g'],['كامل',26.88,'m']],
+ [['يبدأ',27.38],['من',27.88],['<span class="num">11,999</span>',28.02,'g']],
+ [['جنيه',29.92],['بس!',31.0,'r']],
+ [['كلّمنا',31.38],['واتساب',32.06,'g'],['دلوقتي',32.46]],
+ [['وخلّي',32.96],['الزبون',33.48],['الجاي',33.86]],
+ [['يشتري',34.26],['منك',34.82],['إنت',35.16,'g']],
+];
+const capEl=$('cap');const PH=[];
+CAP.forEach((c,i)=>{const d=document.createElement('div');d.className='ph';d.innerHTML=c.map(w=>`<span class="w ${w[2]||''}">${w[0]}</span>`).join(' ');capEl.appendChild(d);
+ const ws=[...d.querySelectorAll('.w')];PH.push({el:d,ws,times:c.map(w=>TS(w[1])),start:TS(c[0][1]),end:i+1<CAP.length?TS(CAP[i+1][0][1]):D});});
+function caps(t){PH.forEach(p=>{const on=t>=p.start-0.05&&t<p.end-0.02;p.el.style.opacity=on?1:0;if(!on)return;
+ p.ws.forEach((w,j)=>{const a=p.times[j]-0.06;const k=P(t,a,.35,'back');const f=P(t,a,.12,'lin');w.style.opacity=f;
+ w.style.transform=`translateY(${(1-k)*50}px) scale(${L(.7,1,k)})`;});});}
+let seed=7;const R=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const CF=[];const cols=['#92C5B4','#143659','#FFFFFF','#3E8F77','#F57A0A'];
+for(let i=0;i<70;i++){const d=document.createElement('div');d.className='cf';d.style.background=cols[i%5];$('conf').appendChild(d);
+ const ang=-Math.PI/2+(R()-.5)*2.6,sp=900+R()*1300;CF.push({d,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,r0:R()*360,vr:(R()-.5)*900,x:540,y:1300,s:.6+R()*.8});}
+function conf(t,a){CF.forEach(c=>{const dt=t-a;if(dt<0||dt>2.6){c.d.style.opacity=0;return;}
+ const x=c.x+c.vx*dt*.85,y=c.y+c.vy*dt+1500*dt*dt;c.d.style.opacity=dt>2?1-(dt-2)/.6:1;
+ c.d.style.transform=`translate(${x}px,${y}px) rotate(${c.r0+c.vr*dt}deg) scale(${c.s}) rotateX(${dt*600}deg)`;});}
+const Q='محل موبايلات قريب مني';
+const SCR=-575;
+function render(t){
+ $('prog').style.width=(t/D*1080)+'px';
+ st('b1',.55,`translate(${Math.sin(t*.5)*60}px,${Math.cos(t*.4)*50}px)`);
+ st('b2',.5,`translate(${Math.cos(t*.45)*60}px,${Math.sin(t*.35)*60}px)`);
+ st('ring',1,`rotate(${t*6}deg)`);
+ st('disk',1,`scale(${1+.02*Math.sin(t*1.6)+.12*P(t,14.9,.6,'back')*(1-P(t,16.1,.8))})`);
+ const hs=P(t,4.52,.45,'el');const ho=P(t,5.25,.2,'io');
+ st('stamp',P(t,4.52,.1,'lin')*(1-ho),`scale(${L(2.4,1,hs)*(1-ho*.3)}) rotate(${L(-14,-4,hs)}deg)`);
+ const sh=t>4.6&&t<5.1?Math.sin(t*90)*14*(1-(t-4.6)/.5):(t>1.28&&t<1.63?Math.sin(t*90)*8*(1-(t-1.28)/.35):0);
+ document.body.style.transform=`translate(${sh}px,${sh*.6}px)`;
+ caps(t);capEl.style.opacity=(t>4.55&&t<5.3)?0:1;
+ const fl=Math.max(1-Math.abs(t-15.02)/.18,1-Math.abs(t-25.82)/.15,0);st('flash',Math.max(0,fl)*.85);
+ // phone
+ const pin=P(t,0,.7,'out5');const pout=P(t,25.6,.6,'io');
+ const ry=Math.sin(t*.9)*5,rx=Math.cos(t*.7)*3;
+ const pz=1+.06*P(t,3.1,.6,'back')*(1-P(t,4.9,.4))+.04*P(t,16.9,.5)*(1-P(t,18,.4));
+ const pdrop=P(t,13.95,.5,'io')*(1-P(t,14.9,.4,'out'));
+ st('phoneWrap',1-P(t,25.95,.3,'lin'),`translateY(${L(900,0,pin)+pout*1300+pdrop*60}px) scale(${pz*(1-pdrop*.06)}) rotateY(${ry}deg) rotateX(${rx}deg) rotate(${L(8,0,pin)}deg)`);
+ $('phone').style.filter=`grayscale(${pdrop})`;
+ st('sA',t<5.05?1:0);st('sB',t>=5.05&&t<15.02?1:0);st('sC',t>=15.02?1:0);
+ $('sbar').style.color=t>=15.02?'#fff':'#111';
+ const n=Math.floor(P(t,.2,1.3,'lin')*Q.length);$('q').textContent=Q.slice(0,n);
+ $('caret').style.opacity=(Math.floor(t*3)%2||t<1.5)?1:0;
+ pop('r1',t,1.6,0,{dy:80,s0:.9});pop('r2',t,1.78,0,{dy:80,s0:.9});
+ const hl=P(t,2.4,.4,'back');$('r1').style.boxShadow=`0 0 0 ${hl*8}px rgba(146,197,180,.9),0 20px 50px rgba(20,54,89,${.1+hl*.2})`;
+ $('r1').style.transform+=` scale(${1+hl*.04})`;
+ $('r2').style.filter=`grayscale(1) opacity(${1-.5*P(t,2.8,.5)})`;
+ pop('cRival',t,2.6,4.9,{dx:-120,r:-12,rr:-4});
+ pop('cNoSite',t,3.3,4.95,{dx:120,r:10,rr:3});
+ // chat
+ pop('d1',t,5.2,0,{dy:10,s0:1});pop('m0',t,5.45,0,{dx:60,s0:.7});
+ pop('m1',t,8.78,0,{dx:60,s0:.6});pop('s1',t,9.78,0,{dy:10,s0:1});
+ pop('d2',t,10.25,0,{dy:10,s0:1});pop('m2',t,10.38,0,{dx:60,s0:.6});pop('s2',t,11.28,0,{dy:10,s0:1});
+ pop('m3',t,12.85,0,{dx:60,s0:.6});pop('d3',t,13.9,0,{dy:10,s0:1.3});
+ pop('cNoPrice',t,7.15,8.7,{dx:120,r:8,rr:4,float:1});
+ pop('cSeen1',t,9.78,11.3,{dx:-120,r:-10,rr:-5,float:1});
+ pop('cWait',t,11.6,14.4,{dx:120,r:6,rr:2,float:1});
+ pop('cLost',t,13.95,14.9,{dy:60,r:-8,rr:-3});
+ const mOn=P(t,5.2,.4)*(1-P(t,25.5,.3));
+ const pat=t<15.6?1-P(t,7.8,6.2,'lin'):P(t,15.8,1.6,'out');
+ st('meter',mOn,`translateX(${(1-P(t,5.2,.5,'back'))*-200}px) rotate(-3deg)`);
+ $('mb').style.width=(Math.max(.04,pat)*100)+'%';
+ $('mb').style.background=t<15.6?(pat>.5?'#3E8F77':pat>.25?'#F5A524':'#E5484D'):'linear-gradient(90deg,#3E8F77,#92C5B4)';
+ $('me').textContent=t<15.6?(pat>.66?'🙂':pat>.33?'😐':'😤'):'😍';
+ $('ml').textContent=t<15.6?'صبر الزبون':'ثقة الزبون';
+ // site
+ const cv=P(t,15.02,.35,'out');const cvo=P(t,15.75,.4,'io');
+ const cov=$('cover');cov.style.opacity=t<15.02?0:1-cvo;cov.style.transform=`scale(${L(0,2.2,cv)})`;cov.style.borderRadius=(50*(1-cvo))+'%';
+ cov.querySelector('img').style.transform=`scale(${L(.3,1,P(t,15.1,.5,'back'))/2.2}) rotate(${(1-P(t,15.1,.5))*-30}deg)`;
+ const scroll=P(t,20.75,1.1,'io')*SCR;
+ $('siteIn').style.transform=`translateY(${scroll}px)`;
+ st(document.querySelector('#sC .url'),1,`scale(${1+.12*P(t,16.9,.4,'back')*(1-P(t,17.9,.4))})`);
+ [['k1',18.42],['k2',19.26],['k3',20.0]].forEach(([k,a],i,arr)=>{const on=t>=a&&(i==2?t<21.2:t<arr[i+1][1]);const el=$(k);el.classList.toggle('on',on);el.style.transform=`scale(${on?1+.08*(1-P(t,a,.35,'back')):1})`;});
+ const tp=P(t,22.6,.25);const tpo=P(t,23.0,.3);
+ const tap=$('tap');tap.style.opacity=t<22.5?0:(1-tpo)*Math.min(1,(t-22.5)/.1);
+ const b1=$('btn1').getBoundingClientRect(),sr=$('screen').getBoundingClientRect();const sc=sr.width/1;
+ tap.style.left='389px';tap.style.top=(L(552,536,tp))+'px';tap.style.transform=`scale(${L(1.4,.8,tp)+tpo*.8})`;
+ $('btn1').style.transform=`scale(${1-.08*tp*(1-tpo)})`;
+ const wa=P(t,23.1,.55,'back');$('wa').style.transform=`translateY(${(1-wa)*700}px)`;
+ pop('wbx',t,23.45,0,{dy:30,s0:.5});
+ const nt=P(t,24.45,.4)*(1-P(t,25.5,.3));$('night').style.background=`rgba(8,14,40,${nt*.45})`;
+ $('clock').textContent=t>24.6?'2:14':'10:02';$('tk').textContent=(t>24.6?'2:14':'10:02')+' ✓✓';
+ pop('cWork',t,15.7,18.2,{dx:120,r:10,rr:3,float:1});
+ pop('cCats',t,18.4,20.6,{dx:-120,r:-10,rr:-4,float:1});
+ pop('cProd',t,20.9,22.5,{dx:120,r:10,rr:3,float:1});
+ pop('cNight',t,24.5,25.7,{dx:-100,r:-6,rr:-3});
+ pop('cNew',t,24.9,25.7,{dx:-100,r:-6,rr:2});
+ // offer
+ const of=P(t,25.82,.3,'lin')*(1-P(t,31.3,.35,'io'));
+ st('offer',of,`translateY(${-P(t,31.3,.35,'io')*120}px)`);
+ const bd=P(t,26.0,.6,'el');$('badge').style.transform=`translateY(${(1-bd)*-260}px) scale(${L(1.6,1,bd)}) rotate(${(1-bd)*-8}deg)`;$('badge').style.opacity=P(t,26.0,.1,'lin');
+ pop('pkg',t,26.5,0,{dy:120,s0:.85});
+ ['f1','f2','f3','f4'].forEach((f,i)=>pop(f,t,26.8+i*.2,0,{dx:80,dy:0,s0:.9}));
+ st('old',P(t,27.65,.2,'lin'),`translateY(${(1-P(t,27.65,.4,'back'))*-30}px)`);
+ const pr=P(t,28.3,.55,'back');const pe=$('price');pe.style.opacity=P(t,28.3,.1,'lin');
+ pe.style.transform=`scale(${L(2.6,1,pr)+.06*Math.max(0,Math.sin((t-28.9)*5))*(t>28.9&&t<31?1:0)})`;
+ const roll=P(t,28.3,1.3,'out');pe.textContent=Math.round(L(0,11999,roll)).toLocaleString('en-US');
+ pe.style.color=roll<1?'#3E8F77':'#143659';
+ st('egp',P(t,30.15,.3,'lin'),`translateY(${(1-P(t,30.15,.4,'back'))*30}px)`);
+ pop('cSave',t,30.5,0,{dx:-80,r:-20,rr:-6,float:1});
+ pop('cLimited',t,30.8,0,{dy:60,r:8,rr:3,float:1});
+ conf(t,29.6);
+ // cta
+ st('cta',P(t,31.5,.4,'lin'));
+ pop('miniPrice',t,31.55,0,{dy:-60,s0:.8});
+ const wb=P(t,31.75,.6,'back');$('waBtn').style.transform=`scale(${L(.4,1,wb)*(1+.035*Math.sin((t-32.3)*7)*(t>32.3?1:0))})`;$('waBtn').style.opacity=P(t,31.75,.15,'lin');
+ const rp=((t-32.3)%1.1)/1.1;st('ripple',t>32.3?(1-rp)*.9:0,`scale(${1+rp*.25},${1+rp*.6})`);
+ pop('phoneNo',t,32.3,0,{dy:50,s0:.7});
+ pop('endLock',t,33.3,0,{dy:60,s0:.7});
+}
+window.render=render;render(0);
+</script>
+</body></html>
