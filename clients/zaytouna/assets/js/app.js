@@ -478,7 +478,7 @@
 
   /* ---------- search overlay (mobile + shortcut) ---------- */
   const sov = $('#sov');
-  const POP = [['رز', 'Rice'], ['حليب', 'Milk'], ['زيت زيتون', 'Olive oil'], ['دجاج', 'Chicken'], ['خبز', 'Bread'], ['قهوة', 'Coffee'], ['حفاضات', 'Diapers'], ['شوكولاتة', 'Chocolate'], ['منظفات', 'Cleaner'], ['برينجلز', 'Pringles']];
+  const POP = [['رز', 'Rice'], ['حليب', 'Milk'], ['زيت زيتون', 'Olive oil'], ['جبنة', 'Cheese'], ['تونة', 'Tuna'], ['قهوة', 'Coffee'], ['حفاضات', 'Diapers'], ['شوكولاتة', 'Chocolate'], ['منظفات', 'Cleaner'], ['برينجلز', 'Pringles']];
   function renderPopular() { $('#sPop').innerHTML = `<small>${T('الأكثر بحثًا', 'Popular searches')}</small>` + POP.map(([a, b]) => `<button type="button" data-pop="${T(a, b)}">${T(a, b)}</button>`).join(''); }
   $('#sPop').addEventListener('click', e => { const b = e.target.closest('[data-pop]'); if (b) { $('#sq').value = b.dataset.pop; renderSres(b.dataset.pop); } });
   function openSearch() { closeCart(); doc.classList.remove('nav-open'); sov.classList.add('open'); lockScroll(true); setTimeout(() => $('#sq').focus(), 120); renderSres($('#sq').value); }
