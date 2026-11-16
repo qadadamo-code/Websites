@@ -228,7 +228,8 @@
     $('#zones').innerHTML = S.zones.map(z => {
       const zz = ZONE[z.id], items = inZone(z.id), cats = S.cats.filter(c => c.z === z.id);
       const PIC = { care: 'g13_02' };
-      const pics = cats.slice(0, 4).map(c => P[PIC[c.id]] || inCat(c.id)[0]).map(p => `<img src="${img(p.id)}" alt="" loading="lazy">`).join('');
+      const pool = []; for (let i = 0; pool.length < 4 && i < 20; i++) cats.forEach(c => { const x = i === 0 && P[PIC[c.id]] ? P[PIC[c.id]] : inCat(c.id)[i]; if (x && pool.length < 4 && !pool.includes(x)) pool.push(x); });
+      const pics = pool.map(p => `<img src="${img(p.id)}" alt="" loading="lazy">`).join('');
       return `<article class="zone z-${z.id}">
         <header class="zone-hd"><span class="zone-l">${zz.letter}</span><div><small>${T('جناح', 'Wing')} ${zz.letter}</small><h3>${z[lang]}</h3></div><span class="zone-n"><b>${items.length}</b> ${T('صنف', 'items')}</span></header>
         <div class="zone-pics">${pics}</div>
