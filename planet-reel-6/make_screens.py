@@ -22,8 +22,8 @@ d.text((70, 186), 'P', font=fb(84), fill=MINT)
 for i, (n, l) in enumerate([('248', 'posts'), ('36.4K', 'followers'), ('312', 'following')]):
     x = 210 + i * 125
     d.text((x, 190), n, font=fb(30), fill=INK); d.text((x, 230), l, font=fr(20), fill=(90, 98, 110))
-d.text((24, 320), 'Planet | Full-service marketing agency', font=fb(21), fill=INK)
-d.text((24, 352), 'Marketing · Social · Branding · Web · Apps', font=fr(20), fill=(70, 80, 95))
+d.text((24, 320), 'Planet Creative Marketing', font=fb(21), fill=INK)
+d.text((24, 352), 'Full-service agency · Social · Branding · Web · Apps', font=fr(20), fill=(70, 80, 95))
 d.text((24, 384), 'theplanetco.com', font=fb(20), fill=(0, 55, 107))
 d.rounded_rectangle((24, 428, 290, 476), 10, fill=(56, 151, 240)); d.text((120, 438), 'Follow', font=fb(22), fill='white')
 d.rounded_rectangle((300, 428, 561, 476), 10, fill=(239, 239, 239)); d.text((380, 438), 'Message', font=fb(22), fill=INK)
