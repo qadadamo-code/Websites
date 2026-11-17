@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="ar"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:F;src:url(assets/fonts/manrope-latin-300-normal.woff2);font-weight:300}
+@font-face{font-family:F;src:url(assets/fonts/manrope-latin-500-normal.woff2);font-weight:400}
+@font-face{font-family:F;src:url(assets/fonts/manrope-latin-500-normal.woff2);font-weight:500}
+@font-face{font-family:F;src:url(assets/fonts/manrope-latin-700-normal.woff2);font-weight:600}
+@font-face{font-family:F;src:url(assets/fonts/manrope-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:F;src:url(assets/fonts/manrope-latin-800-normal.woff2);font-weight:800}
+@font-face{font-family:F;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-300-normal.woff2);font-weight:300;unicode-range:U+0020,U+00A0,U+060C,U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:F;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2);font-weight:400;unicode-range:U+0020,U+00A0,U+060C,U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:F;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2);font-weight:500;unicode-range:U+0020,U+00A0,U+060C,U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:F;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2);font-weight:600;unicode-range:U+0020,U+00A0,U+060C,U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:F;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2);font-weight:700;unicode-range:U+0020,U+00A0,U+060C,U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:F;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2);font-weight:800;unicode-range:U+0020,U+00A0,U+060C,U+0600-06FF,U+FE70-FEFF}
+:root{--mint:#92C5B4;--mintd:#3d9a80;--navy:#143659;--ink:#0d1b2a}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
+body{font-family:F,sans-serif;color:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden}
+.L{position:absolute;inset:0;display:none;overflow:hidden}
+.abs{position:absolute}
+.rtl{direction:rtl}
+.c{display:flex;align-items:center;justify-content:center}
+/* chat */
+#Lchat{background:#0a1420}
+#world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.bub{position:absolute;padding:10px 18px 8px;border-radius:14px;font-size:26px;line-height:1.35;direction:rtl;white-space:nowrap;transform-origin:100% 100%;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.bub.out{background:var(--mint);color:var(--navy);border-top-right-radius:4px}
+.bub.in{background:#1d2b3a;color:#e9eef3;border-top-left-radius:4px;transform-origin:0 100%}
+.bub .meta{display:block;font-size:12px;opacity:.65;text-align:left;margin-top:2px;font-family:F;direction:ltr}
+.bub .lnk{color:#0b3d78;text-decoration:underline;font-family:F;direction:ltr;font-size:22px;white-space:normal;width:430px;display:block;text-align:left;word-break:break-all}
+.dots{position:absolute;background:#1d2b3a;border-radius:14px;padding:12px 16px;display:flex;gap:7px}
+.dots i{width:9px;height:9px;border-radius:50%;background:#9fb0c0;display:block}
+/* cursor */
+.cursor{position:absolute;width:44px;height:52px;z-index:50;filter:drop-shadow(0 3px 5px rgba(0,0,0,.35))}
+/* misc */
+.card{position:absolute;background:#fff;border-radius:22px;box-shadow:0 18px 50px rgba(20,54,89,.12),0 2px 6px rgba(20,54,89,.06)}
+.blob{position:absolute;border-radius:50%;filter:blur(70px)}
+.w{display:inline-block;white-space:pre}
+.btn{border-radius:10px;padding:8px 0;text-align:center;font-weight:600}
+</style></head>
+<body><div id="stage">
+<svg width="0" height="0" style="position:absolute"><defs>
+  <path id="headp" d=""/>
+  <symbol id="cur" viewBox="0 0 24 28"><path d="M2 1 L2 22 L7.5 17 L11 25.5 L14.6 24 L11.2 15.8 L18.5 15.8 Z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="hand" viewBox="0 0 32 36"><path d="M11 3.5c0-1.6 1.2-2.6 2.6-2.6s2.6 1 2.6 2.6v11l.3-.1c.2-1.5 1.3-2.3 2.5-2.3 1.3 0 2.4.9 2.5 2.4l.1.4c.4-1.2 1.4-1.9 2.5-1.9 1.4 0 2.5 1 2.5 2.6v1.2c.4-.9 1.3-1.4 2.2-1.4 1.4 0 2.4 1.1 2.4 2.6v7.6c0 6.1-4.2 10.5-10.3 10.5h-2.2c-3.5 0-5.8-1.3-7.9-4.1L5 22.6c-.9-1.2-.7-2.8.4-3.6 1.1-.8 2.6-.6 3.6.5L11 22V3.5z" fill="#fff" stroke="#111" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.2 15v6M21 15.5v5.5M26 16.5v4.5" stroke="#111" stroke-width="1.3" stroke-linecap="round"/></symbol>
+  <symbol id="pmark" viewBox="0 0 419 414"><path id="ppath" d=""/></symbol>
+</defs></svg>
+
+<!-- 1-3 chat -->
+<div class="L" id="Lchat">
+  <svg class="abs" id="doodle" width="1920" height="1080" style="inset:0"></svg>
+  <div id="world">
+    <div class="bub out" id="b1">أهلاً! 👋<span class="meta">12:00 PM ✓✓</span></div>
+    <div class="bub out" id="b2">موقعك جاهز..<span class="meta">12:00 PM ✓✓</span></div>
+    <div class="bub out" id="b3"><span class="lnk">https://web.theplanetco.com/your-brand</span><span class="meta">12:00 PM ✓✓</span></div>
+    <div class="bub out" id="b4">إيه رأيك؟<span class="meta">12:01 PM ✓✓</span></div>
+    <div class="dots" id="d1"><i></i><i></i><i></i></div>
+    <div class="bub in" id="r1">حلو.. بس<span class="meta">12:10 PM</span></div>
+    <div class="dots" id="d2"><i></i><i></i><i></i></div>
+    <div class="bub in" id="r2">إيه يا عم الجمال ده!<br>إنتو فنانين 🔥🔥<span class="meta">12:10 PM</span></div>
+  </div>
+</div>
+
+<!-- 4 title -->
+<div class="L" id="Ltitle" style="background:#f6f7f8">
+  <div class="abs rtl" id="tt" style="left:0;right:0;top:300px;text-align:center"></div>
+  <div class="abs" id="ic1"></div><div class="abs" id="ic2"></div><div class="abs" id="ic3"></div><div class="abs" id="ic4"></div><div class="abs" id="ic5"></div>
+</div>
+
+<!-- 5 ai chat -->
+<div class="L" id="Lai" style="background:#0c1118">
+  <div class="abs" id="aiVig" style="inset:0;background:radial-gradient(ellipse 60% 75% at 50% 50%,rgba(0,0,0,0) 55%,rgba(146,197,180,.22) 100%)"></div>
+  <div class="abs" id="aiCam" style="inset:0;transform-origin:50% 52%">
+    <div class="abs rtl c" id="aiHead" style="left:0;right:0;top:330px;gap:22px;font-size:58px;font-weight:300;color:#e8ece9"><svg width="58" height="58"><use href="#pmark" fill="#92C5B4"/></svg><span>مساء الخير، يا صاحب المشروع</span></div>
+    <div class="abs" id="aiBox" style="left:510px;top:450px;width:900px;height:190px;border-radius:26px;background:#1a222c;border:1px solid #2a3542;box-shadow:0 20px 60px rgba(0,0,0,.4)">
+      <div class="abs rtl" id="aiTxt" style="right:34px;left:34px;top:28px;font-size:30px;color:#dfe5ea;line-height:1.45"></div>
+      <div class="abs" style="left:30px;bottom:22px;font-size:30px;color:#8a97a3">+</div>
+      <div class="abs" style="right:94px;bottom:28px;font-size:20px;color:#8a97a3;font-family:F">Planet AI · Pro ⌄</div>
+      <div class="abs c" id="aiSend" style="right:26px;bottom:20px;width:48px;height:42px;border-radius:12px;background:var(--mint);color:var(--navy);font-size:26px;font-weight:700">↑</div>
+    </div>
+  </div>
+  <div class="abs" id="aiChat" style="inset:0;display:none">
+    <div class="abs rtl" style="left:610px;right:610px;top:180px;font-size:30px;color:#dfe5ea;line-height:1.5;text-align:right">ساعدني أعمل موقع لمشروعي يجيب عملاء من جوجل وفيسبوك</div>
+    <div class="abs rtl" style="left:640px;width:640px;top:820px;height:96px;border-radius:22px;background:#1a222c;border:1px solid #2a3542"><div class="abs" style="right:28px;top:30px;font-size:24px;color:#6f7c88">اكتب رسالة...</div><div class="abs c" style="left:20px;top:26px;width:44px;height:40px;border-radius:11px;background:var(--mint);color:var(--navy);font-weight:700;font-size:24px">↑</div></div>
+  </div>
+</div>
+
+<!-- 6 glow card -->
+<div class="L" id="Lglow" style="background:#05080c">
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse 45% 55% at 50% 45%,rgba(146,197,180,.25),rgba(0,0,0,0) 70%)"></div>
+  <div class="abs" id="gCard" style="left:560px;top:150px;width:800px;height:500px;border-radius:26px;overflow:hidden;border:3px solid var(--mint);box-shadow:0 0 60px rgba(146,197,180,.55),0 0 160px rgba(146,197,180,.25)"><img src="assets/img/site1.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.82)"></div>
+  <div class="abs c" id="gTile" style="left:860px;top:300px;width:200px;height:200px;border-radius:44px;background:var(--mint);box-shadow:0 20px 60px rgba(0,0,0,.5)"><svg width="120" height="120"><use href="#pmark" fill="#143659"/></svg></div>
+  <div class="abs rtl" id="gTxt" style="left:0;right:0;top:700px;text-align:center;font-size:62px;font-weight:600;color:#fff;line-height:1.25"></div>
+</div>
+
+<!-- 7 hire cards -->
+<div class="L" id="Lhire" style="background:#fff">
+  <div class="card" id="h1" style="left:640px;top:330px;width:290px;height:390px;background:#f3f6fb"></div>
+  <div class="card" id="h2" style="left:990px;top:330px;width:290px;height:390px;background:#f3f6fb"></div>
+</div>
+
+<!-- 8 chart -->
+<div class="L" id="Lchart" style="background:#03060f">
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse 50% 45% at 80% 90%,rgba(40,90,255,.35),rgba(0,0,0,0) 70%)"></div>
+  <div class="abs" id="chBox" style="left:200px;top:110px;width:1520px;height:860px;border-radius:30px;border:2px solid rgba(90,140,255,.35);box-shadow:0 0 50px rgba(60,110,255,.3) inset">
+    <svg id="chSvg" width="1520" height="860" class="abs" style="inset:0"></svg>
+    <div class="abs rtl c" style="left:210px;top:40px;height:70px;gap:14px;padding:0 22px;border-radius:14px;background:#e9eefb;font-size:26px;font-weight:600;color:#143659"><span class="c" style="width:40px;height:40px;border-radius:50%;background:#143659"><svg width="22" height="22"><use href="#pmark" fill="#92C5B4"/></svg></span>موقع بلانت</div>
+    <div class="abs rtl c" style="left:520px;top:40px;height:70px;gap:14px;padding:0 22px;border-radius:14px;background:#e3fbf2;font-size:26px;font-weight:600;color:#0f5a45"><span style="width:40px;height:40px;border-radius:50%;background:#3ee0b0;display:block"></span>عملاء أكتر</div>
+  </div>
+</div>
+
+<!-- 9 booking -->
+<div class="L" id="Lbook" style="background:#eef3f8">
+  <div class="abs" id="bkCam" style="inset:0;transform-origin:50% 50%"></div>
+</div>
+
+<!-- 10-13 light scenes -->
+<div class="L" id="Llight" style="background:#fbfcfc">
+  <div class="blob" style="left:1300px;top:-160px;width:520px;height:420px;background:rgba(146,197,180,.55)"></div>
+  <div class="blob" style="left:-120px;top:700px;width:560px;height:420px;background:rgba(146,197,180,.45)"></div>
+  <div class="blob" style="left:1450px;top:760px;width:420px;height:360px;background:rgba(20,54,89,.12)"></div>
+  <div id="lightIn" class="abs" style="inset:0"></div>
+</div>
+
+<!-- 14 code -->
+<div class="L" id="Lcode" style="background:#07090d">
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse 40% 40% at 70% 40%,rgba(146,197,180,.14),rgba(0,0,0,0) 70%)"></div>
+  <div class="abs" id="codeCam" style="left:0;top:0;width:1920px;height:1080px;transform-origin:0 0"><pre id="code" class="abs" style="left:640px;top:330px;font-family:F;font-size:26px;line-height:1.55;color:#e8e8ef;font-weight:500"></pre></div>
+</div>
+
+<!-- 15 head -->
+<div class="L" id="Lhead" style="background:#fff">
+  <svg class="abs" width="1920" height="1080" style="inset:0"><use href="#headp" id="headuse" fill="#050505"/></svg>
+  <div class="abs rtl" id="hdTxt" style="left:0;right:0;text-align:center;white-space:pre"></div>
+  <div class="abs" id="hdDot" style="border-radius:50%"></div>
+</div>
+
+<!-- 16 eye + end -->
+<div class="L" id="Leye" style="background:#000">
+  <svg class="abs" width="1920" height="1080" style="inset:0">
+    <defs><clipPath id="eyeClip"><path id="eyeP" d=""/></clipPath>
+    <radialGradient id="irG" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#cfeee3"/><stop offset=".55" stop-color="#92C5B4"/><stop offset="1" stop-color="#3d7f6c"/></radialGradient></defs>
+    <path id="eyeBg" d="" fill="#3a3d42"/>
+    <g clip-path="url(#eyeClip)"><circle id="iris" cx="960" cy="540" r="105" fill="url(#irG)"/><circle id="pupil" cx="960" cy="540" r="44" fill="#0b1a2a"/><circle id="glint" cx="935" cy="512" r="13" fill="#fff" opacity=".85"/></g>
+  </svg>
+</div>
+<div class="L" id="Lend" style="background:var(--navy)">
+  <div class="abs c" id="endLogo" style="left:0;right:0;top:250px"><svg width="190" height="188"><use href="#pmark" fill="#ffffff"/></svg></div>
+  <div class="abs rtl" id="endName" style="left:0;right:0;top:470px;text-align:center;font-size:92px;font-weight:700;color:#fff">بلانت <span style="font-family:F;font-weight:800;color:var(--mint)">Planet</span></div>
+  <div class="abs rtl" id="endTag" style="left:0;right:0;top:600px;text-align:center;font-size:38px;font-weight:400;color:#c9dbe7">مواقع ومتاجر إلكترونية تجيب لك عملاء</div>
+  <div class="abs c" id="endRow" style="left:0;right:0;top:720px;gap:26px">
+    <div style="font-family:F;font-weight:700;font-size:34px;color:var(--navy);background:var(--mint);padding:16px 34px;border-radius:999px">www.theplanetco.com</div>
+    <div class="rtl" style="font-weight:600;font-size:34px;color:#fff;border:2px solid var(--mint);padding:14px 32px;border-radius:999px">واتساب <span style="font-family:F">01203101104</span></div>
+  </div>
+</div>
+
+<div class="cursor" id="cursor" style="display:none"><svg width="44" height="52"><use id="curuse" href="#hand"/></svg></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const P = (t, a, b) => cl((t - a) / (b - a));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eb = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const lerp = (a, b, x) => a + (b - a) * x;
+const LAYERS = ['Lchat', 'Ltitle', 'Lai', 'Lglow', 'Lhire', 'Lchart', 'Lbook', 'Llight', 'Lcode', 'Lhead', 'Leye', 'Lend'];
+function show(...ids) { LAYERS.forEach((l) => { $(l).style.display = ids.includes(l) ? 'block' : 'none'; }); }
+function cursor(x, y, on = true, type = 'hand', press = 0) {
+  const c = $('cursor'); c.style.display = on ? 'block' : 'none'; if (!on) return;
+  $('curuse').setAttribute('href', '#' + type);
+  c.style.left = (x - (type === 'hand' ? 14 : 4)) + 'px'; c.style.top = (y - 3) + 'px';
+  c.style.transform = `scale(${1 - 0.15 * press})`;
+}
+function pop(el, t, t0, dur = .32, from = .55) {
+  const p = P(t, t0, t0 + dur); el.style.display = t >= t0 ? '' : 'none';
+  const s = lerp(from, 1, eb(p)); el.style.opacity = cl(p * 2.2); el.style.transform = `scale(${s})`;
+}
+// words reveal: blur + rise
+function words(el, list, t, t0, step, opts = {}) {
+  if (el._k !== list.join('|')) {
+    el.innerHTML = list.map((w, i) => `<span class="w" data-i="${i}" style="${(opts.style && opts.style[i]) || ''}">${w}</span>`).join(opts.sep ?? ' ');
+    el._k = list.join('|');
+  }
+  el.querySelectorAll('.w').forEach((s, i) => {
+    const ti = Array.isArray(step) ? step[i] : t0 + i * step; const p = P(t, ti, ti + .22);
+    s.style.opacity = eo(p); s.style.filter = `blur(${(1 - p) * 10}px)`; s.style.transform = `translateY(${(1 - eo(p)) * 18}px)`;
+  });
+}
+
+// ---------- doodle background
+(function () {
+  const g = $('doodle'); let s = ''; let seed = 7; const R = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  for (let y = -40; y < 1120; y += 120) for (let x = -40; x < 1980; x += 130) {
+    const cx = x + R() * 60, cy = y + R() * 60, k = Math.floor(R() * 6), r = 14 + R() * 16, rot = R() * 360;
+    const st = 'fill="none" stroke="#1a2a3b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"';
+    let sh = '';
+    if (k === 0) sh = `<circle cx="0" cy="0" r="${r}" ${st}/><ellipse cx="0" cy="0" rx="${r * 1.7}" ry="${r * .45}" ${st}/>`;
+    else if (k === 1) sh = `<path d="M0 ${-r} L${r * .3} ${-r * .3} L${r} 0 L${r * .3} ${r * .3} L0 ${r} L${-r * .3} ${r * .3} L${-r} 0 L${-r * .3} ${-r * .3}Z" ${st}/>`;
+    else if (k === 2) sh = `<rect x="${-r}" y="${-r * .7}" width="${r * 2}" height="${r * 1.4}" rx="5" ${st}/><path d="M${-r} ${-r * .3} H${r}" ${st}/>`;
+    else if (k === 3) sh = `<path d="M${-r} 0 Q0 ${-r * 1.4} ${r} 0 Q0 ${r * 1.4} ${-r} 0Z" ${st}/><circle r="${r * .3}" ${st}/>`;
+    else if (k === 4) sh = `<path d="M${-r * .6} ${r} V${-r} H${r * .2} A${r * .55} ${r * .55} 0 0 1 ${r * .2} ${r * .1} H${-r * .6}" ${st}/>`;
+    else sh = `<path d="M0 ${r * .8} C${-r * 1.4} ${-r * .2} ${-r * .4} ${-r * 1.2} 0 ${-r * .3} C${r * .4} ${-r * 1.2} ${r * 1.4} ${-r * .2} 0 ${r * .8}Z" ${st}/>`;
+    s += `<g transform="translate(${cx} ${cy}) rotate(${rot})">${sh}</g>`;
+  }
+  g.innerHTML = s;
+})();
+
+// ---------- chat layout (world coords, wide shot = scale 1)
+const RX = 1830; // right edge of outgoing
+const CH = { b1: [RX, 300], b2: [RX, 372], b3: [RX, 444], b4: [RX, 560], d1: [480, 690], r1: [480, 690], d2: [480, 770], r2: [480, 770] };
+const T = { b1: 0.0, b2: 0.55, b3: 1.25, b4: 2.0, d1: 3.35, r1: 4.85, d2: 5.85, r2: 9.0 };
+function chat(t) {
+  show('Lchat');
+  for (const k in CH) {
+    const el = $(k); const [x, y] = CH[k];
+    if (el.classList.contains('out')) { el.style.right = (1920 - x) + 'px'; el.style.left = 'auto'; } else el.style.left = x + 'px';
+    el.style.top = y + 'px';
+  }
+  ['b1', 'b2', 'b3', 'b4', 'r1'].forEach((k) => pop($(k), t, T[k]));
+  // r2 appears with zoom-in cut
+  pop($('r2'), t, T.r2 - 0.05, .3);
+  // typing dots
+  const d1on = t >= T.d1 && t < T.r1, d2on = t >= T.d2 && t < T.r2 - 0.05;
+  [['d1', d1on, T.d1], ['d2', d2on, T.d2]].forEach(([id, on, t0]) => {
+    const el = $(id); el.style.display = on ? 'flex' : 'none'; if (!on) return;
+    pop(el, t, t0, .25); el.style.display = 'flex';
+    el.querySelectorAll('i').forEach((d, i) => { const ph = Math.sin((t - t0) * 9 - i * 0.9); d.style.transform = `translateY(${-Math.max(0, ph) * 6}px)`; d.style.opacity = .5 + .5 * Math.max(0, ph); });
+  });
+  // camera
+  const W = 1920, H = 1080; let s, fx, fy, ax, ay;
+  const focus = (k) => { const el = $(k); const w = el.offsetWidth, h = el.offsetHeight; const [x, y] = CH[k]; return el.classList.contains('out') ? [x - w / 2, y + h / 2] : [x + w / 2, y + h / 2]; };
+  if (t < 3.0) {
+    // close-up following the newest bubble
+    const keys = ['b1', 'b2', 'b3', 'b4']; let f = focus('b1');
+    for (let i = 1; i < keys.length; i++) { const p = eio(P(t, T[keys[i]] - .05, T[keys[i]] + .35)); const f2 = focus(keys[i]); f = [lerp(f[0], f2[0], p), lerp(f[1], f2[1], p)]; }
+    const z = eio(P(t, 2.55, 3.0));
+    const sc = 2.55 + t * 0.04;
+    s = lerp(sc, 1.35, z); fx = lerp(f[0], 1150, z); fy = lerp(f[1] - 15, 560, z); ax = lerp(W * .6, W / 2, z); ay = lerp(H * .52, H / 2, z);
+  } else if (t < 9.0) {
+    s = 1.35 + (t - 3) * 0.008; fx = 1150 - (t - 3) * 4; fy = 560 + (t - 3) * 3; ax = W / 2; ay = H / 2;
+  } else {
+    const z = eo(P(t, 8.85, 9.15));
+    const [r1x, r1y] = CH.r1; const tx = r1x + 260, ty = r1y + 70;
+    const sc = 2.35 + (t - 9) * 0.05;
+    s = lerp(1.398, sc, z); fx = lerp(1126, tx, z); fy = lerp(578, ty, z); ax = lerp(W / 2, W * .36, z); ay = H / 2;
+  }
+  $('world').style.transform = `translate(${ax - fx * s}px,${ay - fy * s}px) scale(${s})`;
+  $('doodle').style.transform = `translate(${(960 - fx) * 0.05 * s}px,${(540 - fy) * 0.05 * s}px) scale(${1 + (s - 1) * 0.12})`;
+  cursor(0, 0, false);
+}
+
+// ---------- title
+const ICONS = {
+  fb: '<svg width="96" height="96" viewBox="0 0 96 96"><rect width="96" height="96" rx="22" fill="#1877F2"/><path d="M52 78V52h9l1.5-10H52v-6.5c0-3 1-5 5.2-5H63v-9c-1-.1-4.3-.4-8.2-.4-8 0-13.3 4.9-13.3 13.8V42H33v10h8.5v26z" fill="#fff"/></svg>',
+  ig: '<svg width="96" height="96" viewBox="0 0 96 96"><defs><linearGradient id="igg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".35" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient></defs><rect width="96" height="96" rx="24" fill="url(#igg)"/><rect x="22" y="22" width="52" height="52" rx="15" fill="none" stroke="#fff" stroke-width="6"/><circle cx="48" cy="48" r="12" fill="none" stroke="#fff" stroke-width="6"/><circle cx="64" cy="32" r="4" fill="#fff"/></svg>',
+  wa: '<svg width="96" height="96" viewBox="0 0 96 96"><rect width="96" height="96" rx="48" fill="#25D366"/><path d="M48 20a27 27 0 0 0-23.3 40.7L21 75l14.7-3.8A27 27 0 1 0 48 20z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><path d="M38 36c1-1 2.5-1 3 .3l2 4.6c.3.8 0 1.7-.6 2.3l-1.4 1.4c1.6 3.4 4.3 6 7.6 7.6l1.4-1.4c.6-.6 1.5-.8 2.3-.5l4.6 2c1.3.6 1.4 2 .4 3-2 2.2-4.6 3-7.6 2C42 57 36 51 34.5 43.4c-.6-3 .8-5.6 3.5-7.4z" fill="#fff"/></svg>',
+  gg: '<svg width="96" height="96" viewBox="0 0 96 96"><rect width="96" height="96" rx="22" fill="#fff" stroke="#e3e6ea" stroke-width="2"/><path d="M71 49.5c0-1.7-.2-3.3-.5-4.9H48v9.3h12.9a11 11 0 0 1-4.8 7.2v6h7.8C68.4 63 71 56.8 71 49.5z" fill="#4285F4"/><path d="M48 73c6.5 0 12-2.1 15.9-5.8l-7.8-6c-2.1 1.4-4.9 2.3-8.1 2.3-6.2 0-11.5-4.2-13.4-9.9h-8v6.2A24 24 0 0 0 48 73z" fill="#34A853"/><path d="M34.6 53.6a14.4 14.4 0 0 1 0-9.2v-6.2h-8a24 24 0 0 0 0 21.6z" fill="#FBBC05"/><path d="M48 32.5c3.5 0 6.7 1.2 9.2 3.6l6.9-6.9A24 24 0 0 0 26.6 38.2l8 6.2c1.9-5.7 7.2-9.9 13.4-11.9z" fill="#EA4335"/></svg>',
+  pl: '<svg width="120" height="120" viewBox="0 0 120 120"><ellipse cx="60" cy="60" rx="56" ry="16" fill="none" stroke="#3d9a80" stroke-width="5" transform="rotate(-18 60 60)"/><circle cx="60" cy="60" r="30" fill="#92C5B4"/><path d="M33 72 A30 30 0 0 0 87 52" fill="none" stroke="#3d9a80" stroke-width="5" transform="rotate(-18 60 60)" opacity="0"/></svg>'
+};
+function title(t) {
+  show('Ltitle'); cursor(0, 0, false);
+  const tt = $('tt');
+  if (!tt._i) {
+    tt.innerHTML = `<div id="tA" style="font-size:52px;font-weight:300;color:#444;margin-right:-420px">عشان</div>
+    <div id="tB" style="font-size:66px;font-weight:300;color:#333;margin:-10px -330px 0 0">تكسب</div>
+    <div id="tC" style="font-size:180px;font-weight:700;color:#141a22;line-height:1.05;letter-spacing:-2px">عملاء أكتر</div>
+    <div id="tD" style="font-size:56px;font-weight:300;color:#444;margin-top:6px">في <span style="font-family:F;font-weight:500">2026</span></div>`;
+    tt._i = 1;
+    const pos = { ic1: ['fb', 610, 200], ic2: ['wa', 230, 520], ic3: ['ig', 1500, 760], ic4: ['gg', 900, 830], ic5: ['pl', 1560, 60] };
+    for (const k in pos) { $(k).innerHTML = ICONS[pos[k][0]]; $(k).style.left = pos[k][1] + 'px'; $(k).style.top = pos[k][2] + 'px'; }
+  }
+  const t0 = 12.62;
+  [['tA', 0], ['tB', .06], ['tC', .1], ['tD', .18]].forEach(([id, d]) => { const p = eo(P(t, t0 + d, t0 + d + .35)); const e = $(id); e.style.opacity = p; e.style.transform = `translateY(${(1 - p) * 30}px) scale(${lerp(.92, 1, p)})`; e.style.filter = `blur(${(1 - p) * 8}px)`; });
+  const sc = 1 + (t - t0) * 0.03; tt.style.transform = `scale(${sc})`;
+  ['ic1', 'ic2', 'ic3', 'ic4'].forEach((k, i) => { const p = P(t, t0 + .05 + i * .07, t0 + .4 + i * .07); const e = $(k); e.style.opacity = cl(p * 2); const fl = Math.sin((t - t0) * 3 + i * 1.7) * 8; e.style.transform = `translateY(${fl}px) scale(${lerp(.3, 1, eb(p))}) rotate(${Math.sin((t - t0) * 2 + i) * 6}deg)`; });
+  // planet flies across like the sword
+  const pp = P(t, t0 + .1, t0 + 1.9); const e5 = $('ic5');
+  e5.style.opacity = cl(pp * 5) * cl((1 - pp) * 6);
+  e5.style.transform = `translate(${lerp(-60, 180, eio(pp))}px,${pp * 520 - Math.sin(pp * Math.PI) * 120}px) rotate(${pp * 140}deg) scale(${lerp(.8, 1.1, pp)})`;
+}
+
+// ---------- AI chat
+const PROMPT = 'ساعدني أعمل موقع لمشروعي يجيب عملاء من جوجل وفيسبوك';
+function ai(t) {
+  show('Lai');
+  const t0 = 14.6;
+  if (t < 16.35) {
+    $('aiCam').style.display = 'block'; $('aiChat').style.display = 'none';
+    const p = eo(P(t, t0, t0 + .3)); $('aiHead').style.opacity = p; $('aiBox').style.opacity = p;
+    const z = 1.0 + eio(P(t, t0, 16.35)) * 0.32; $('aiCam').style.transform = `scale(${z}) translateY(${-(z - 1) * 60}px)`;
+    const n = Math.floor(PROMPT.length * P(t, 14.85, 15.85));
+    $('aiTxt').innerHTML = (n ? PROMPT.slice(0, n) : 'ساعدني') + (Math.floor(t * 4) % 2 ? '<span style="opacity:.0">|</span>' : '<span style="color:#92C5B4">|</span>');
+    $('aiTxt').style.color = n ? '#dfe5ea' : '#6f7c88';
+    // cursor: map send button screen pos under camera scale
+    const bx = 1410 - 26 - 24, by = 640 - 20 - 21; // center of send btn (unscaled)
+    const sx = 960 + (bx - 960) * z, sy = 540 * 1.04 + (by - 540 * 1.04) * z - (z - 1) * 60 * z;
+    const mp = eio(P(t, 15.55, 16.15));
+    const press = t > 16.18 && t < 16.32 ? 1 : 0;
+    cursor(lerp(sx - 330, sx, mp), lerp(sy + 260, sy, mp) + 6, true, 'hand', press);
+    $('aiSend').style.transform = `scale(${press ? .9 : 1})`; $('aiSend').style.background = press ? '#b9e2d4' : '#92C5B4';
+  } else {
+    $('aiCam').style.display = 'none'; $('aiChat').style.display = 'block';
+    cursor(1290 + (t - 16.35) * 40, 610 + (t - 16.35) * 60, true, 'hand');
+  }
+}
+
+// ---------- glow card
+function glow(t) {
+  show('Lglow'); cursor(0, 0, false);
+  const t0 = 16.83;
+  const p = eo(P(t, t0, t0 + .25)); $('gCard').style.transform = `scale(${lerp(.85, 1.02, p) + (t - t0) * .04})`; $('gCard').style.opacity = p;
+  const q = eb(P(t, t0 + .05, t0 + .3)); $('gTile').style.transform = `scale(${lerp(.4, 1, q)})`; $('gTile').style.opacity = cl(q * 2);
+  words($('gTxt'), ['إنك', 'تعمل', 'موقعك', 'لوحدك<br>', 'كان', 'بيأخّرك'], t, t0 + .04, .07, { style: { 4: 'color:#9fb3c4;font-weight:400', 5: 'color:#92C5B4' } });
+}
+
+// ---------- hire cards
+const BLD = '<svg width="70" height="80" viewBox="0 0 70 80"><rect x="12" y="6" width="46" height="68" rx="6" fill="#5b8def"/>' + [0, 1, 2, 3].map((r) => [0, 1, 2].map((c) => `<rect x="${20 + c * 11}" y="${14 + r * 12}" width="7" height="7" rx="1.5" fill="#cfe0ff"/>`).join('')).join('') + '<rect x="29" y="60" width="12" height="14" fill="#cfe0ff"/></svg>';
+const PPL = '<svg width="90" height="80" viewBox="0 0 90 80"><circle cx="45" cy="24" r="12" fill="#5b8def"/><path d="M25 62c0-12 9-20 20-20s20 8 20 20z" fill="#5b8def"/><circle cx="20" cy="30" r="9" fill="#8fb0f5"/><path d="M4 62c0-9 7-15 16-15 4 0 7 1 9 3-3 3-5 7-5 12z" fill="#8fb0f5"/><circle cx="70" cy="30" r="9" fill="#8fb0f5"/><path d="M86 62c0-9-7-15-16-15-4 0-7 1-9 3 3 3 5 7 5 12z" fill="#8fb0f5"/></svg>';
+function hire(t) {
+  show('Lhire'); const t0 = 17.35;
+  const card = (el, ic, a, b) => { if (!el._i) { el.innerHTML = `<div class="abs c" style="left:85px;top:50px;width:120px;height:120px;border-radius:28px;background:#dfe9fb">${ic}</div><div class="abs rtl" style="left:0;right:0;top:200px;text-align:center;font-size:30px;color:#333;font-weight:400">${a}</div><div class="abs rtl" style="left:0;right:0;top:240px;text-align:center;font-size:44px;color:#3b6fe0;font-weight:700">${b}</div><div class="abs btn rtl" style="left:45px;right:45px;top:318px;background:#6d9bf5;color:#fff;font-size:26px">تعيين</div>`; el._i = 1; } };
+  card($('h1'), BLD, 'وكالة', 'رخيصة'); card($('h2'), PPL, 'فريق', 'مؤقت');
+  pop($('h1'), t, t0, .25, .7); pop($('h2'), t, t0 + .15, .25, .7);
+  const mp = eio(P(t, t0 + .05, t0 + .45));
+  cursor(lerp(870, 1150, mp), lerp(700, 680, mp), true, 'hand');
+}
+
+// ---------- chart
+function chart(t) {
+  show('Lchart'); cursor(0, 0, false); const t0 = 18.0;
+  const svg = $('chSvg');
+  if (!svg._i) {
+    let s = '';
+    ['100%', '75%', '50%', '25%', '0%'].forEach((l, i) => { s += `<text x="70" y="${150 + i * 140}" fill="#8ea0c8" font-size="22" font-family="F">${l}</text>`; });
+    s += `<path d="M160 120 V 710 H 1440" stroke="#d9e2ff" stroke-width="3" fill="none"/>`;
+    [2022, 2023, 2024, 2025, 2026, 2027].forEach((y, i) => { s += `<text x="${180 + i * 245}" y="760" fill="#8ea0c8" font-size="22" font-family="F">${y}</text>`; });
+    s += `<path id="c1" d="M180 680 C 700 660, 1050 520, 1400 160" stroke="#3ee0b0" stroke-width="7" fill="none" stroke-linecap="round" style="filter:drop-shadow(0 0 10px #3ee0b0)"/>`;
+    s += `<path id="c2" d="M180 695 C 760 690, 1130 600, 1420 330" stroke="#3d7bff" stroke-width="7" fill="none" stroke-linecap="round" style="filter:drop-shadow(0 0 10px #3d7bff)"/>`;
+    s += `<g id="tags" opacity="0"><rect x="210" y="40" width="250" height="70" rx="14" fill="#e9eefb"/><circle cx="420" cy="75" r="20" fill="#5b8def"/><text x="390" y="83" fill="#fff" font-size="20" font-family="F" font-weight="700" text-anchor="middle" transform="translate(30 0)">P</text><text x="390" y="84" fill="#143659" font-size="26" font-family="F" font-weight="600" text-anchor="end" direction="rtl">موقع بلانت</text>`;
+    s += `<rect x="480" y="40" width="270" height="70" rx="14" fill="#e3fbf2"/><circle cx="710" cy="75" r="20" fill="#3ee0b0"/><text x="680" y="84" fill="#0f5a45" font-size="26" font-family="F" font-weight="600" text-anchor="end" direction="rtl">عملاء أكتر</text></g>`;
+    svg.innerHTML = s; svg._i = 1;
+  }
+  const p = eio(P(t, t0 + .05, t0 + .55));
+  ['c1', 'c2'].forEach((id) => { const e = $(id); const L = e.getTotalLength(); e.style.strokeDasharray = L; e.style.strokeDashoffset = L * (1 - p); });
+  const z = eo(P(t, t0, t0 + .2)); $('chBox').style.transform = `scale(${lerp(1.15, 1, z)})`; $('chBox').style.opacity = z;
+}
+
+// ---------- booking
+function book(t) {
+  show('Lbook'); const t0 = 18.55; const cam = $('bkCam');
+  if (!cam._i) {
+    let cols = ''; const days = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء']; const nums = [14, 15, 16, 17, 18];
+    const blocks = [[0, 0, 1, '#2f6fd6'], [0, 2, 2, '#c8b6f5'], [1, 0, 2, '#e9eef5'], [1, 3, 1, '#2f6fd6'], [2, 0, 3, '#e9eef5'], [2, 4, 1, '#c8b6f5'], [3, 0, 1, '#2f6fd6'], [3, 2, 3, '#2f6fd6'], [4, 0, 2, '#e9eef5'], [4, 3, 3, '#2f6fd6']];
+    days.forEach((d, i) => { cols += `<div class="abs rtl" style="right:${120 + i * 250}px;top:130px;width:230px;text-align:center;font-size:20px;color:#667"><div>${d}</div><div style="font-family:F;font-size:30px;color:#223;font-weight:600">${nums[i]}</div></div>`; });
+    blocks.forEach(([c, r, h, col]) => { cols += `<div class="abs" style="right:${120 + c * 250}px;top:${215 + r * 75}px;width:230px;height:${h * 75 - 8}px;border-radius:8px;background:${col}">${col === '#e9eef5' ? '<div style="padding:10px 14px;font-size:18px;color:#556" class="rtl">متاح</div>' : ''}</div>`; });
+    let mini = ''; for (let i = 1; i <= 30; i++) { const hl = [15, 16, 18].includes(i); mini += `<div class="c" style="width:44px;height:40px;font-family:F;font-size:18px;color:${hl ? '#143659' : '#556'};${hl ? 'background:#d8ece5;border-radius:50%;font-weight:700' : ''}">${i}</div>`; }
+    cam.innerHTML = `<div class="abs" style="left:230px;top:80px;width:1460px;height:920px;background:#fff;border-radius:22px;border:3px solid #92C5B4;box-shadow:0 30px 80px rgba(20,54,89,.15);overflow:hidden">
+      <div class="abs" style="left:0;right:0;top:0;height:54px;background:#f3f5f8;display:flex;align-items:center;gap:10px;padding:0 20px"><i style="width:14px;height:14px;border-radius:50%;background:#ff6058;display:block"></i><i style="width:14px;height:14px;border-radius:50%;background:#ffbd2e;display:block"></i><i style="width:14px;height:14px;border-radius:50%;background:#28c840;display:block"></i><div style="margin-left:20px;width:760px;height:30px;border-radius:8px;background:#e5e9ef;font-family:F;font-size:16px;color:#778;padding:5px 14px">theplanetco.com/book</div></div>
+      <div class="abs rtl" style="right:40px;top:76px;font-size:40px;font-weight:700;color:#143659">مواعيد <span style="color:#3d9a80">بلانت</span></div>
+      ${cols}
+      <div class="abs rtl" id="bkPop" style="left:200px;top:390px;width:900px;height:500px;background:#fff;border-radius:22px;border:2px solid #92C5B4;box-shadow:0 20px 60px rgba(20,54,89,.2)">
+        <div class="abs c" style="right:40px;top:40px;width:80px;height:80px;border-radius:50%;background:#143659"><svg width="44" height="44"><use href="#pmark" fill="#92C5B4"/></svg></div>
+        <div class="abs" style="right:40px;top:140px;font-size:24px;color:#556">فريق بلانت</div>
+        <div class="abs" style="right:40px;top:180px;font-size:38px;color:#2f6fd6;font-weight:700;width:360px">مكالمة تعارف</div>
+        <div class="abs" style="right:40px;top:250px;font-size:22px;color:#556">⏱ <span style="font-family:F">30</span> دقيقة</div>
+        <div class="abs" style="right:40px;top:290px;font-size:22px;color:#556">📞 واتساب أو مكالمة</div>
+        <div class="abs" style="left:40px;top:40px;width:420px"><div style="font-size:24px;font-weight:600;color:#223;margin-bottom:14px">اختار اليوم والميعاد</div><div style="font-size:18px;color:#556;margin-bottom:10px">نوفمبر</div><div style="display:flex;flex-wrap:wrap;width:320px;direction:rtl">${mini}</div></div>
+      </div></div>`;
+    cam._i = 1;
+  }
+  const z = 1 + eio(P(t, t0, t0 + .45)) * .08; cam.style.transform = `scale(${z})`;
+  const p = eb(P(t, t0 + .05, t0 + .3)); $('bkPop').style.transform = `scale(${lerp(.8, 1, p)})`; $('bkPop').style.opacity = cl(p * 2);
+  cursor(0, 0, false);
+}
+
+// ---------- light scenes 19.0 - 22.65
+function light(t) {
+  show('Llight'); const L = $('lightIn');
+  if (t < 20.45) {
+    if (L._s !== 1) {
+      L.innerHTML = `<div class="card" id="pc" style="left:610px;top:330px;width:700px;height:380px;border:1px solid #edf0f2">
+        <div class="abs c" style="right:40px;top:40px;width:64px;height:64px;border-radius:16px;background:#143659"><svg width="36" height="36"><use href="#pmark" fill="#92C5B4"/></svg></div>
+        <div class="abs rtl" style="right:124px;top:46px;font-size:38px;font-weight:700;color:#141a22">مشروعك أونلاين</div>
+        <div class="abs" style="left:34px;top:40px;width:36px;height:36px;border-radius:9px;background:#e3f2ec"></div>
+        <div class="abs rtl" style="right:40px;left:40px;top:135px;font-size:25px;color:#666;line-height:1.5">أغلب المشاريع مش بتخسر عشان المنتج..<br>بتخسر عشان شكلها أونلاين.</div>
+        <div class="abs btn rtl" id="pb1" style="right:40px;top:270px;width:300px;background:#eef1f3;color:#888;font-size:24px;padding:14px 0">صفحة سوشيال بس</div>
+        <div class="abs btn rtl" id="pb2" style="left:40px;top:270px;width:300px;background:#eef1f3;color:#888;font-size:24px;padding:14px 0">موقع احترافي</div></div>`; L._s = 1;
+    }
+    const t0 = 19.0; const p = eb(P(t, t0, t0 + .3)); $('pc').style.transform = `scale(${lerp(.75, 1, p) + (t - t0) * .02})`; $('pc').style.opacity = cl(p * 2);
+    const mp = eio(P(t, 19.3, 19.85)); const press = t > 19.88 && t < 20.0 ? 1 : 0; const on = t > 19.9;
+    $('pb1').style.background = on ? '#3d9a80' : '#eef1f3'; $('pb1').style.color = on ? '#fff' : '#888';
+    const sc = lerp(.75, 1, p) + (t - t0) * .02; const bx = 960 + (1310 - 40 - 150 - 960) * sc, by = 540 + (330 + 300 - 540) * sc;
+    cursor(lerp(bx + 200, bx, mp), lerp(by + 240, by, mp), true, 'hand', press);
+    return;
+  }
+  cursor(0, 0, false);
+  if (t < 21.2) {
+    if (L._s !== 2) { L.innerHTML = `<div class="abs rtl" id="st" style="left:0;right:0;top:480px;text-align:center;font-size:72px;font-weight:400;color:#2a2f36"></div>`; L._s = 2; }
+    words($('st'), ['وكلنا', 'عارفين', 'الرقم'], t, 20.5, [20.5, 20.62, 20.8], { style: { 2: 'color:#3d9a80;font-weight:700' } });
+    $('st').style.transform = `scale(${1 + (t - 20.45) * .04})`;
+    return;
+  }
+  if (t < 21.65) {
+    if (L._s !== 3) {
+      L.innerHTML = `<div class="abs rtl" id="bigW" style="left:0;right:0;top:300px;text-align:center;font-size:400px;font-weight:700;color:rgba(61,154,128,.45);line-height:1">الثقة</div>
+      <div class="card" id="rc" style="left:770px;top:250px;width:380px;height:520px">
+        <div class="abs rtl" style="right:34px;top:30px;font-size:24px;font-weight:600;color:#222"><span style="color:#3d9a80">●</span> الثقة</div>
+        <div class="abs rtl" style="right:34px;left:34px;top:74px;font-size:19px;color:#777;line-height:1.5">الناس بتحكم على مصداقية الشركة من شكل موقعها</div>
+        <svg class="abs" style="left:65px;top:190px" width="250" height="250"><circle cx="125" cy="125" r="100" stroke="#e6efec" stroke-width="26" fill="none"/><circle id="ring" cx="125" cy="125" r="100" stroke="#3d9a80" stroke-width="26" fill="none" stroke-linecap="round" transform="rotate(-90 125 125)" stroke-dasharray="628.3"/><text id="pct" x="125" y="140" text-anchor="middle" font-family="F" font-weight="700" font-size="50" fill="#222"></text></svg>
+        <div class="abs" style="left:0;right:0;bottom:24px;text-align:center;font-family:F;font-size:14px;color:#aaa">Stanford Web Credibility Research</div></div>`; L._s = 3;
+    }
+    const p = eo(P(t, 21.2, 21.55)); const v = Math.round(75 * p);
+    $('ring').style.strokeDashoffset = 628.3 * (1 - v / 100); $('pct').textContent = v + '%';
+    const q = eb(P(t, 21.2, 21.4)); $('rc').style.transform = `scale(${lerp(.8, 1, q)})`; $('rc').style.opacity = cl(q * 2);
+    const b = eo(P(t, 21.38, 21.55)); $('bigW').style.opacity = b; $('bigW').style.transform = `scale(${lerp(.9, 1, b)})`;
+    return;
+  }
+  if (L._s !== 4) {
+    let bars = ''; for (let i = 0; i < 26; i++) { const h = 30 + i * 9 + (i % 3) * 18; const up = i % 4 !== 2; bars += `<div class="abs bar" data-i="${i}" style="left:${i * 17}px;bottom:0;width:9px;height:${h}px;border-radius:2px;background:${up ? '#3d9a80' : '#e08a8a'}"></div>`; }
+    L.innerHTML = `<div class="abs" id="bl" style="left:40px;bottom:60px;width:460px;height:400px">${bars}</div><div class="abs" id="br" style="right:0px;top:20px;width:460px;height:400px;transform:scaleY(-1) scaleX(-1)">${bars}</div>
+    <div class="abs rtl" id="bt" style="left:0;right:0;top:440px;text-align:center;font-size:66px;font-weight:600;color:#2a2f36;line-height:1.35"></div>`; L._s = 4;
+  }
+  words($('bt'), ['بس', 'المشكلة', 'مش', 'في', 'منتجك..<br>', 'المشكلة', 'في', 'موقعك'], t, 0, [21.68, 21.76, 21.86, 21.95, 22.03, 22.2, 22.28, 22.36], { style: { 3: 'color:#9aa;font-weight:400', 4: 'color:#9aa;font-weight:400', 5: 'color:#3d9a80', 6: 'color:#3d9a80', 7: 'color:#3d9a80;font-weight:700' } });
+  const g = P(t, 21.65, 22.65);
+  document.querySelectorAll('.bar').forEach((b) => { const i = +b.dataset.i; const on = g * 30 > i; b.style.opacity = on ? 1 : 0; });
+  $('bt').style.transform = `scale(${1 + (t - 21.65) * .04})`;
+}
+
+// ---------- code
+const CODE = [
+  ['k', 'import'], ['w', ' { website, store } '], ['k', 'from'], ['s', ' "planet"\n'],
+  ['k', 'import'], ['w', ' { brand } '], ['k', 'from'], ['s', ' "./your-business"\n\n'],
+  ['w', 'SITE_URL '], ['o', '= '], ['s', '"https://www.theplanetco.com"\n'],
+  ['w', 'WHATSAPP '], ['o', '= '], ['s', '"01203101104"\n\n'],
+  ['k', 'const'], ['w', ' site '], ['o', '= '], ['f', 'website.build'], ['w', '({\n'],
+  ['w', '    brand,\n'], ['w', '    languages: '], ['s', '["ar", "en"]'], ['w', ',\n'],
+  ['w', '    pages: '], ['s', '["home", "menu", "shop", "contact"]'], ['w', ',\n'],
+  ['w', '    goal: '], ['s', '"more clients"'], ['w', ',\n'], ['w', '})\n\n'],
+  ['f', 'site.launch'], ['w', '()  '], ['c', '// 🚀 live']
+];
+const COL = { k: '#c792ea', w: '#e8e8ef', s: '#f0a36a', o: '#92C5B4', f: '#82aaff', c: '#6b7a8a' };
+const CODELEN = CODE.reduce((a, [, s]) => a + s.length, 0);
+function code(t) {
+  show('Lcode'); cursor(0, 0, false); const t0 = 22.65;
+  const n = Math.floor(CODELEN * eo(P(t, t0, t0 + 1.1)) * 1.0); let left = n, h = '';
+  for (const [k, s] of CODE) { if (left <= 0) break; const part = s.slice(0, left); left -= part.length; h += `<span style="color:${COL[k]}">${part.replace(/</g, '&lt;')}</span>`; }
+  h += `<span style="display:inline-block;width:3px;height:30px;background:#f0a36a;vertical-align:middle;opacity:${Math.floor(t * 5) % 2 ? 1 : .2}"></span>`;
+  $('code').innerHTML = h;
+  // camera zoom toward the url line
+  const z = eio(P(t, t0 + .2, t0 + 1.95)); const s = lerp(1, 2.7, z); const fx = lerp(960, 900, z), fy = lerp(540, 330 + 26 * 1.55 * 3.5, z);
+  $('codeCam').style.transform = `translate(${960 - fx * s}px,${540 - fy * s}px) scale(${s})`;
+  $('codeCam').style.filter = `blur(${z > .85 ? (z - .85) * 8 : 0}px)`;
+}
+
+// ---------- head
+let HB = null;
+function head(t) {
+  show('Lhead'); cursor(0, 0, false); const t0 = 24.65;
+  const use = $('headuse'); if (!HB) HB = use.getBBox();
+  const hw = HB.width, hh = HB.height;
+  const place = (sc, cx, top) => use.setAttribute('transform', `translate(${cx - (HB.x + hw / 2) * sc} ${top - HB.y * sc}) scale(${sc})`);
+  const tx = $('hdTxt'), dot = $('hdDot');
+  // background darkening
+  const dk = P(t, 25.95, 26.85); const bgv = Math.round(lerp(255, 70, eio(dk)));
+  $('Lhead').style.background = `rgb(${bgv},${bgv},${bgv + 2})`;
+  dot.style.display = 'none';
+  if (t < 24.95) {
+    const sc = 1180 / hh * (1 + (t - t0) * .08); place(sc, 960, 100);
+    tx.style.top = '330px'; tx.style.fontSize = '230px'; tx.style.fontWeight = '700'; tx.style.color = '#fff';
+    tx.innerHTML = '<span style="display:inline-block;width:10px;height:200px;background:#92C5B4;vertical-align:middle;margin-left:20px"></span>إحنا';
+    return;
+  }
+  const sc = 600 / hh; place(sc, 960, 1080 - 520);
+  tx.style.top = '330px'; tx.style.fontSize = '64px'; tx.style.fontWeight = '400'; tx.style.color = '#111';
+  if (t < 25.85) {
+    const full = 'بلانت | Planet';
+    const typed = P(t, 25.0, 25.35), del = P(t, 25.62, 25.85);
+    const n = Math.round(full.length * typed * (1 - del));
+    tx.innerHTML = full.slice(0, n).replace('Planet', '<span style="font-family:F;font-weight:600">Planet</span>') + '<span style="display:inline-block;width:3px;height:60px;background:#3d9a80;vertical-align:middle;margin:0 6px"></span>';
+    return;
+  }
+  // جاهز : write "جاهر" and drop the mint dot as the dot of ز
+  tx.style.fontSize = '120px'; tx.style.fontWeight = '700'; tx.style.top = '270px';
+  const wp = eo(P(t, 25.85, 26.0));
+  tx.innerHTML = `<span id="jh" style="opacity:${wp}">جاهر<i id="jbl" style="display:inline-block;width:0;height:0"></i></span>`;
+  const jh = $('jh').getBoundingClientRect(); const bl = $('jbl').getBoundingClientRect().top;
+  const ZD = zdot(); const tx0 = jh.left + ZD.dx, ty0 = bl + ZD.dy;
+  dot.style.display = 'block';
+  const ring = P(t, 25.85, 26.0);
+  const fall = P(t, 26.0, 26.32);
+  const bounce = fall < 1 ? 0 : Math.abs(Math.sin(P(t, 26.32, 26.6) * Math.PI)) * (1 - P(t, 26.32, 26.6)) * 26;
+  const startY = ty0 - 170; const y = lerp(startY, ty0, fall * fall) - bounce;
+  const r = ZD.r * 1.05;
+  dot.style.width = dot.style.height = (r * 2) + 'px';
+  dot.style.left = (tx0 - r - lerp(60, 0, fall)) + 'px'; dot.style.top = (y - r) + 'px';
+  dot.style.background = fall > 0 ? 'radial-gradient(circle at 35% 35%,#d4f1e6,#92C5B4 55%,#3d9a80)' : 'transparent';
+  dot.style.border = fall > 0 ? 'none' : '3px solid #555';
+  dot.style.boxShadow = fall > 0 ? '0 0 22px rgba(146,197,180,.8)' : 'none';
+  dot.style.opacity = ring;
+}
+
+let ZDc = null;
+function zdot() {
+  if (ZDc) return ZDc;
+  const c = document.createElement('canvas'); c.width = 700; c.height = 320; const x = c.getContext('2d');
+  const draw = (s) => { x.clearRect(0, 0, 700, 320); x.font = '700 120px F'; x.direction = 'rtl'; x.textAlign = 'left'; x.fillStyle = '#000'; x.fillText(s, 100, 220); return x.getImageData(0, 0, 700, 320).data; };
+  const A = draw('جاهز'), B = draw('جاهر');
+  let x0 = 1e9, y0 = 1e9, x1 = -1, y1 = -1;
+  for (let y = 0; y < 320; y++) for (let xx = 0; xx < 700; xx++) { const i = (y * 700 + xx) * 4 + 3; if (A[i] > 140 && B[i] < 40) { x0 = Math.min(x0, xx); x1 = Math.max(x1, xx); y0 = Math.min(y0, y); y1 = Math.max(y1, y); } }
+  ZDc = { dx: (x0 + x1) / 2 - 100, dy: (y0 + y1) / 2 - 220, r: Math.max(8, (x1 - x0) / 2) };
+  return ZDc;
+}
+// ---------- eye + end
+function eye(t) {
+  const t0 = 26.9;
+  if (t < 27.65) {
+    show('Leye'); cursor(0, 0, false);
+    const o = eo(P(t, t0, t0 + .3)); const cx = 960, cy = 540, w = 330, hTop = 135 * o, hBot = 105 * o;
+    const d = `M${cx - w} ${cy} Q${cx} ${cy - hTop * 2} ${cx + w} ${cy} Q${cx} ${cy + hBot * 2} ${cx - w} ${cy}Z`;
+    $('eyeP').setAttribute('d', d); $('eyeBg').setAttribute('d', d);
+    const look = Math.sin(P(t, 27.15, 27.4) * Math.PI) * 30;
+    const grow = eio(P(t, 27.42, 27.65)); const R = lerp(105, 1300, grow);
+    ['iris', 'pupil', 'glint'].forEach((id) => { const e = $(id); e.setAttribute('cx', (id === 'glint' ? 935 : 960) + look); });
+    $('iris').setAttribute('r', R); $('pupil').setAttribute('r', lerp(44, 900, grow)); $('pupil').setAttribute('fill', grow > 0 ? '#143659' : '#0b1a2a');
+    $('glint').setAttribute('opacity', .85 * (1 - grow));
+    if (grow > 0) { $('eyeP').setAttribute('d', 'M0 0H1920V1080H0Z'); $('eyeBg').setAttribute('d', 'M0 0H1920V1080H0Z'); }
+    return;
+  }
+  show('Lend'); cursor(0, 0, false); const e0 = 27.65;
+  const a = eb(P(t, e0, e0 + .4)); $('endLogo').style.transform = `scale(${lerp(.4, 1, a)})`; $('endLogo').style.opacity = cl(a * 2);
+  [['endName', .12], ['endTag', .25], ['endRow', .38]].forEach(([id, d]) => { const p = eo(P(t, e0 + d, e0 + d + .4)); $(id).style.opacity = p; $(id).style.transform = `translateY(${(1 - p) * 30}px)`; });
+}
+
+window.renderAt = function (t) {
+  if (t < 12.62) chat(t);
+  else if (t < 14.6) title(t);
+  else if (t < 16.83) ai(t);
+  else if (t < 17.35) glow(t);
+  else if (t < 18.0) hire(t);
+  else if (t < 18.55) chart(t);
+  else if (t < 19.0) book(t);
+  else if (t < 22.65) light(t);
+  else if (t < 24.65) code(t);
+  else if (t < 26.9) head(t);
+  else eye(t);
+};
+window.DURATION = 30.0;
+Promise.all([
+  fetch('assets/head.path').then((r) => r.text()).then((d) => $('headp').setAttribute('d', d.trim())),
+  fetch('assets/p.svg').then((r) => r.text()).then((s) => { const m = s.match(/ d="([^"]+)"/); $('ppath').setAttribute('d', m[1]); }),
+]).then(() => Promise.all([300, 400, 500, 600, 700, 800].flatMap((w) => [document.fonts.load(`${w} 40px F`, 'Planet 0123 abc'), document.fonts.load(`${w} 40px F`, 'بلانت')]))).then(() => document.fonts.ready).then(() => { renderAt(0); window.ready = true; });
+</script>
+</body></html>
