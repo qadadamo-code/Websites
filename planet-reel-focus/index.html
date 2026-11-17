@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ar"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2);font-weight:400;unicode-range:U+0020,U+0600-06FF,U+FE70-FEFF,U+200C-200F}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2);font-weight:600;unicode-range:U+0020,U+0600-06FF,U+FE70-FEFF,U+200C-200F}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2);font-weight:700;unicode-range:U+0020,U+0600-06FF,U+FE70-FEFF,U+200C-200F}
+@font-face{font-family:Plex;src:url(assets/fonts/manrope-latin-500-normal.woff2);font-weight:400;unicode-range:U+0021-024F}
+@font-face{font-family:Plex;src:url(assets/fonts/manrope-latin-700-normal.woff2);font-weight:600;unicode-range:U+0021-024F}
+@font-face{font-family:Plex;src:url(assets/fonts/manrope-latin-800-normal.woff2);font-weight:700;unicode-range:U+0021-024F}
+@font-face{font-family:Man;src:url(assets/fonts/manrope-latin-500-normal.woff2);font-weight:500}
+@font-face{font-family:Man;src:url(assets/fonts/manrope-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:Man;src:url(assets/fonts/manrope-latin-800-normal.woff2);font-weight:800}
+:root{--mint:#92C5B4;--navy:#143659;--ink:#04070c}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden}
+.layer{position:absolute;inset:0;display:none}
+#bg{position:absolute;inset:0;width:1920px;height:1080px}
+#bars div{position:absolute;background:var(--mint);mix-blend-mode:hard-light;opacity:.92}
+/* captions */
+#cap{position:absolute;left:0;right:0;bottom:150px;text-align:center;direction:rtl;font-family:Plex;color:#fff}
+#cap .tag{font-family:Man;font-weight:700;font-size:26px;letter-spacing:.32em;color:var(--mint);direction:ltr;margin-bottom:14px}
+#cap .t{font-weight:700;font-size:118px;line-height:1.1;text-shadow:0 6px 40px rgba(0,0,0,.65),0 2px 6px rgba(0,0,0,.5)}
+#cap .t b{color:var(--mint);font-weight:700}
+#cap .line{display:inline-block;height:6px;background:var(--mint);margin-top:18px;border-radius:3px}
+/* HUD */
+#hud{font-family:Man;color:rgba(255,255,255,.82);font-weight:700;font-size:22px;letter-spacing:.22em}
+#hud .tl{position:absolute;left:64px;top:52px;display:flex;align-items:center;gap:16px}
+#hud .tl i{width:14px;height:14px;border-radius:50%;background:var(--mint);display:inline-block;box-shadow:0 0 14px var(--mint)}
+#hud .tr{position:absolute;right:64px;top:52px}
+#hud .bl{position:absolute;left:64px;bottom:52px;color:rgba(255,255,255,.55);font-size:18px}
+#hud .br{position:absolute;right:64px;bottom:52px;color:rgba(255,255,255,.55);font-size:18px}
+#hud .corner{position:absolute;width:46px;height:46px;border:3px solid rgba(255,255,255,.45)}
+#grain{position:absolute;inset:0;mix-blend-mode:overlay;opacity:.28}
+#flash{position:absolute;inset:0;background:#fff;opacity:0}
+/* dial */
+#dial{background:radial-gradient(120% 90% at 50% 100%,#1b3550 0%,#0b1724 55%,#05090f 100%)}
+#dialWrap{position:absolute;left:50%;top:560px;width:1500px;height:1500px;margin-left:-750px;border-radius:50%;background:radial-gradient(circle,#101a26 0 56%,#0c141e 56% 100%);box-shadow:0 -10px 80px rgba(0,0,0,.6),inset 0 0 0 2px rgba(146,197,180,.18)}
+#dialScale{position:absolute;inset:0}
+#dialPtr{position:absolute;left:50%;top:520px;margin-left:-22px;width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-top:34px solid var(--mint);filter:drop-shadow(0 0 12px var(--mint))}
+#dialRead{position:absolute;left:0;right:0;top:250px;text-align:center;font-family:Man;font-weight:800;color:#fff;font-size:150px;letter-spacing:-.02em}
+#dialRead span{color:var(--mint)}
+#dialLbl{position:absolute;left:0;right:0;top:170px;text-align:center;font-family:Plex;font-weight:600;color:rgba(255,255,255,.75);font-size:54px;direction:rtl}
+/* board */
+#board{background:#05090f;perspective:1400px}
+.felt{position:absolute;background-color:#173a5e;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.4px),radial-gradient(rgba(0,0,0,.18) 1px,transparent 1.6px);background-size:7px 7px,11px 11px}
+.pol{position:absolute;background:#f4f2ec;padding:22px 22px 78px;box-shadow:0 18px 40px rgba(0,0,0,.45);border-radius:3px}
+.pol img{display:block;width:100%;height:100%;object-fit:cover;filter:contrast(1.05) saturate(.9)}
+.pin{position:absolute;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9f0e7,var(--mint) 45%,#4f8a77 100%);box-shadow:0 6px 10px rgba(0,0,0,.5)}
+.note{position:absolute;background:#f7f5ef;color:#143659;font-family:Plex;font-weight:700;direction:rtl;padding:10px 26px;box-shadow:0 10px 20px rgba(0,0,0,.35)}
+#boardSvg{position:absolute;inset:0;overflow:visible}
+/* ring */
+#ring{background:radial-gradient(80% 80% at 50% 50%,#1a222c,#07090d)}
+.btn{position:absolute;border-radius:50%;background:radial-gradient(circle at 40% 35%,#3a4350,#161b22 70%);box-shadow:0 10px 30px rgba(0,0,0,.7),inset 0 2px 3px rgba(255,255,255,.12)}
+/* end */
+#end{background:radial-gradient(90% 90% at 50% 40%,#1d4a76 0%,#143659 55%,#0d2540 100%);direction:rtl}
+#endLogo{position:absolute;left:50%;top:96px;width:330px;height:326px;margin-left:-165px}
+#endName{position:absolute;left:0;right:0;top:470px;text-align:center;font-family:Man;font-weight:800;color:#fff;font-size:124px;letter-spacing:-.01em;direction:ltr;white-space:nowrap}
+#endName span{color:var(--mint)}
+#endTag{position:absolute;left:0;right:0;top:640px;text-align:center;font-family:Plex;font-weight:600;color:var(--mint);font-size:50px}
+#endPills{position:absolute;left:0;right:0;top:778px;display:flex;justify-content:center;gap:34px}
+#endPills div{font-family:Plex;font-weight:700;font-size:58px;color:#143659;background:#fff;border-radius:999px;padding:14px 50px 20px}
+#endPills div.m{background:var(--mint)}
+#endRing{position:absolute;left:50%;top:259px;width:10px;height:10px;border-radius:50%;border:6px solid var(--mint)}
+</style></head>
+<body><div id="stage">
+<img id="bg">
+<div id="bars"></div>
+
+<div class="layer" id="dial">
+  <div id="dialLbl">وصول إعلاناتك</div>
+  <div id="dialRead"><span>×</span>2.0</div>
+  <div id="dialWrap"><svg id="dialScale" viewBox="-750 -750 1500 1500"></svg></div>
+  <div id="dialPtr"></div>
+</div>
+
+<div class="layer" id="board"><div id="boardCam" style="position:absolute;inset:0;transform-style:preserve-3d"></div></div>
+
+<div class="layer" id="ring"><div id="ringBody" style="position:absolute;inset:0"></div></div>
+
+<div class="layer" id="end">
+  <div id="endRing"></div>
+  <svg id="endLogo" viewBox="0 0 419 414"><path id="pPath" fill="#fff"/><circle cx="364" cy="362" r="51" fill="#92C5B4"/></svg>
+  <div id="endName">Planet <span>Creative</span> Marketing</div>
+  <div id="endTag">تسويق · سوشيال ميديا · براندينج · مواقع · تطبيقات</div>
+  <div id="endPills"><div class="m">واتساب 01203101104</div><div style="direction:ltr">theplanetco.com</div></div>
+</div>
+
+<div id="cap"></div>
+<div id="hud" class="layer"></div>
+<canvas id="grain" width="960" height="540"></canvas>
+<div id="flash"></div>
+</div>
+<script>
+const FPS=30, $=s=>document.querySelector(s);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), ss=(a,b,x)=>{const u=cl((x-a)/(b-a));return u*u*(3-2*u)};
+const eo=u=>1-Math.pow(1-cl(u),3), eio=u=>{u=cl(u);return u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2};
+const rnd=s=>{let x=Math.sin(s*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+
+/* ---------- captions ---------- */
+const CAPS=[
+ [0.00,0.80,'01 · FOCUS','ده شكل <b>التركيز</b>'],
+ [0.80,1.64,'02 · THE TEAM','لما فريقك هو <b>بلانت</b>'],
+ [2.16,3.08,'03 · WEB & APPS','<b>مواقع</b> وتطبيقات'],
+ [3.08,4.00,'04 · BRANDING','<b>هوية</b> بصرية'],
+ [4.04,4.40,'05 · IDEAS','<b>أفكار</b> بتولّع'],
+ [4.40,4.92,'06 · SOCIAL & ADS','سوشيال ميديا و<b>إعلانات</b>'],
+ [4.92,5.52,'07 · STRATEGY','<b>خطة</b> تسويق كاملة'],
+ [6.60,7.36,'08 · CONTENT','<b>تصوير</b> ومحتوى'],
+];
+function caption(t){
+  const c=CAPS.find(c=>t>=c[0]&&t<c[1]); const el=$('#cap');
+  if(!c){el.innerHTML='';return}
+  const k=t-c[0], out=c[1]-t, a=eo(k/0.12);
+  el.innerHTML=`<div class="tag" style="opacity:${a}">${c[2]}</div><div class="t" style="clip-path:inset(0 0 ${100-100*a}% 0);transform:translateY(${(1-a)*30}px) scale(${1+0.04*(1-a)+0.02*k})">${c[3]}</div><div class="line" style="width:${eo(k/0.25)*260}px"></div>`;
+  el.style.opacity = out<0.03?0.0:1;
+}
+
+/* ---------- HUD ---------- */
+function hud(t){
+  const h=$('#hud'); if(t>=7.36){h.style.display='none';return} h.style.display='block';
+  const f=Math.floor(t*FPS), tc=`00:00:${String(Math.floor(t)).padStart(2,'0')}:${String(f%FPS).padStart(2,'0')}`;
+  const blink=(Math.floor(t*2)%2)?1:.25;
+  h.innerHTML=`<div class="tl"><i style="opacity:${blink}"></i>REC</div><div class="tr">PLANET CREATIVE MARKETING</div><div class="bl">${tc}</div><div class="br">4K · 25 FPS · ISO 800</div>`;
+}
+
+/* ---------- glitch bars (mint replaces the reference's pink) ---------- */
+const BARS=[ // t0,t1, list of [x,y,w,h] in %
+ [0.20,0.24,[[11,30,3,65]]],[0.24,0.28,[[48,30,24,6]]],[0.28,0.32,[[62,0,5,55]]],[0.32,0.36,[[24,52,21,48]]],
+ [0.84,0.88,[[29,28,46,9]]],[0.88,0.92,[[37,28,44,9]]],[0.92,0.96,[[46,22,7,52]]],[1.00,1.04,[[46,0,8,70]]],[1.08,1.12,[[30,40,16,60]]],
+ [1.96,2.00,[[58,10,4,80]]],[4.24,4.28,[[20,60,30,5]]],[6.84,6.88,[[52,0,6,100]]],
+];
+function bars(t){
+  const b=BARS.find(b=>t>=b[0]&&t<b[1]); $('#bars').innerHTML=b?b[2].map(r=>`<div style="left:${r[0]}%;top:${r[1]}%;width:${r[2]}%;height:${r[3]}%"></div>`).join(''):'';
+}
+function bgFx(t){
+  let f='';
+  if(t>=0.04&&t<0.12) f='invert(1) grayscale(1) brightness(1.15)';
+  if((t>=0.96&&t<1.00)||(t>=1.04&&t<1.08)) f='invert(1) hue-rotate(180deg) saturate(1.4) brightness(.9)';
+  $('#bg').style.filter=f;
+}
+
+/* ---------- grain ---------- */
+const gctx=$('#grain').getContext('2d'); const gimg=gctx.createImageData(960,540);
+function grain(t){ let s=Math.floor(t*FPS)*9973+1; const d=gimg.data;
+  for(let i=0;i<d.length;i+=4){ s=(s*1103515245+12345)&0x7fffffff; const v=(s>>16)&255; d[i]=d[i+1]=d[i+2]=v; d[i+3]=255 }
+  gctx.putImageData(gimg,0,0); $('#grain').style.opacity = t>=7.6?0.12:0.28;
+}
+
+/* ---------- growth dial ---------- */
+(function buildDial(){
+  const g=$('#dialScale'); let s='';
+  const vals=[1,1.5,2,3,4,6,8,12,16,24];
+  for(let i=0;i<=180;i++){ const a=i*2; const big=i%10===0, mid=i%5===0; const r1=700, r2=big?640:mid?660:678;
+    const x1=Math.sin(a*Math.PI/180)*r1, y1=-Math.cos(a*Math.PI/180)*r1, x2=Math.sin(a*Math.PI/180)*r2, y2=-Math.cos(a*Math.PI/180)*r2;
+    s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${big?'#e8eef0':'rgba(232,238,240,.45)'}" stroke-width="${big?6:3}"/>`; }
+  vals.forEach((v,k)=>{ const a=k*36; const x=Math.sin(a*Math.PI/180)*560, y=-Math.cos(a*Math.PI/180)*560;
+    s+=`<text x="${x}" y="${y}" fill="${v===8?'#92C5B4':'#e8eef0'}" font-family="Man" font-weight="800" font-size="${v===8?96:76}" text-anchor="middle" dominant-baseline="middle" transform="rotate(${a} ${x} ${y})">${v}</text>`; });
+  s+=`<circle r="470" fill="none" stroke="rgba(146,197,180,.25)" stroke-width="2"/>`;
+  g.innerHTML=s;
+})();
+function dial(t){
+  const u=eio((t-1.64)/0.30); const val=2+6*u; // 2x -> 8x
+  const idx=Math.log2(val)*2-0; // index in vals (approx: 1->0,2->2,4->4,8->6)
+  const ang=-(idx*36); const speed=Math.abs(eio((t-1.64)/0.30+0.03)-u)*400;
+  $('#dialScale').style.transform=`rotate(${ang}deg)`; $('#dialScale').style.filter=`blur(${Math.min(6,speed*0.25)}px)`;
+  $('#dialRead').innerHTML=`<span>×</span>${val.toFixed(1)}`;
+  $('#dialWrap').style.transform=`scale(${1.04-0.04*u})`;
+}
+
+/* ---------- campaign board ---------- */
+const IM=n=>`assets/img/a${n}.jpg`;
+function pol(x,y,w,h,img,rot,z=0,extra=''){return `<div class="pol" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;transform:rotate(${rot}deg) translateZ(${z}px);${extra}"><img src="${IM(img)}"></div>`}
+function board(t){
+  const cam=$('#boardCam'); let h='';
+  if(t<5.52){ // table, low angle, dolly in, strings being tied
+    const u=(t-4.92)/0.60;
+    h+=`<div style="position:absolute;left:-600px;top:120px;width:3120px;height:1500px;transform:rotateX(62deg) translateY(${-80-160*u}px) translateZ(${40+120*u}px);transform-origin:50% 0;transform-style:preserve-3d">
+      <div class="felt" style="inset:0"></div>`;
+    const P=[[700,180,4,-6],[1080,140,1,4],[1460,200,3,-3],[1840,150,11,5],[880,560,5,3],[1290,520,2,-5],[1700,580,6,2],[2100,520,8,-4],[540,620,9,6],[2280,220,10,-2]];
+    P.forEach((p,i)=>h+=pol(p[0],p[1],300,250,p[2],p[3]));
+    // strings as svg on table
+    const L=[[850,300,1230,260],[1230,260,1610,320],[1610,320,1990,270],[850,300,1030,680],[1440,640,1230,260],[1440,640,1850,700],[1990,270,2250,640],[690,740,1030,680]];
+    h+=`<svg style="position:absolute;inset:0;overflow:visible" width="3120" height="1500">`+L.map((l,i)=>{const k=cl(u*1.6-i*0.12);return `<line x1="${l[0]}" y1="${l[1]}" x2="${l[0]+(l[2]-l[0])*k}" y2="${l[1]+(l[3]-l[1])*k}" stroke="#92C5B4" stroke-width="7" stroke-linecap="round"/>`}).join('')+`</svg>`;
+    L.forEach(l=>h+=`<div class="pin" style="left:${l[0]-17}px;top:${l[1]-17}px"></div>`);
+    h+=`</div>`;
+    // hand-like dark vignette top
+    h+=`<div style="position:absolute;inset:0;background:linear-gradient(#05090f 0%,rgba(5,9,15,.0) 30%,rgba(5,9,15,0) 75%,rgba(5,9,15,.7) 100%)"></div>`;
+  } else if(t<6.12){ // close-ups of pinned polaroids
+    const subs=[[5.52,5.72,2,'v'],[5.72,5.92,1,'n'],[5.92,6.04,3,'v'],[6.04,6.12,8,'d']];
+    const s=subs.find(s=>t>=s[0]&&t<s[1]); const u=(t-s[0])/(s[1]-s[0]);
+    h+=`<div class="felt" style="inset:-40px;transform:scale(${1.05+0.05*u}) translateX(${-20*u}px)"></div>`;
+    const cx= s[3]==='n'?560:960;
+    h+=`<div style="position:absolute;left:0;top:0;width:1920px;height:1080px;transform:scale(${1.0+0.06*u})">`;
+    h+=pol(cx-430,150,860,700,s[2],s[3]==='n'?-2:1.5);
+    if(s[3]==='v') h+=`<div style="position:absolute;left:${cx-6}px;top:-20px;width:12px;height:1120px;background:linear-gradient(90deg,#6fa592,#b9e3d4,#6fa592);box-shadow:0 6px 10px rgba(0,0,0,.5)"></div><div class="pin" style="left:${cx-30}px;top:120px;width:60px;height:60px"></div>`;
+    if(s[3]==='n') h+=`<div class="note" style="left:1240px;top:520px;font-size:96px;transform:rotate(-6deg)">عملاؤنا</div><div class="pin" style="left:1460px;top:500px;width:60px;height:60px"></div><svg style="position:absolute;inset:0" width="1920" height="1080"><line x1="${cx+300}" y1="0" x2="1480" y2="530" stroke="#92C5B4" stroke-width="12"/></svg>`;
+    if(s[3]==='d') h+=`<div class="pin" style="left:${cx-30}px;top:120px;width:60px;height:60px"></div><svg style="position:absolute;inset:0" width="1920" height="1080"><line x1="0" y1="80" x2="${cx}" y2="150" stroke="#92C5B4" stroke-width="12"/><line x1="${cx}" y1="150" x2="1920" y2="40" stroke="#92C5B4" stroke-width="12"/></svg>`;
+    h+=`</div><div style="position:absolute;inset:0;box-shadow:inset 0 0 260px 60px rgba(0,0,0,.75)"></div>`;
+  } else { // wall board wide, push in
+    const u=(t-6.12)/0.48;
+    h+=`<div style="position:absolute;inset:0;background:radial-gradient(70% 80% at 50% 45%,#dfe3e2,#9aa3a6)"></div>`;
+    h+=`<div style="position:absolute;left:300px;top:70px;width:1320px;height:940px;transform:scale(${1+0.07*u});transform-origin:50% 55%">`;
+    h+=`<div style="position:absolute;inset:0;background:#b58b5a;border-radius:6px;box-shadow:0 30px 60px rgba(0,0,0,.35)"></div><div class="felt" style="left:34px;top:34px;right:34px;bottom:34px"></div>`;
+    const cols=[ ['تسويق',[1,5,9]],['سوشيال',[2,6,10]],['براندينج',[3,7,11]],['مواقع',[4,8,12]],['تطبيقات',[13,14,15]] ];
+    const nodes=[];
+    cols.forEach((c,ci)=>{ const x=110+ci*230; h+=`<div class="note" style="left:${x-6}px;top:70px;font-size:34px;transform:rotate(${ci%2?3:-3}deg)">${c[0]}</div>`;
+      c[1].forEach((im,ri)=>{ const y=170+ri*235; h+=pol(x,y,180,150,im,(rnd(ci*7+ri)-.5)*8,0,'padding:12px 12px 40px'); nodes.push([x+102,y+12]); }); });
+    h+=`<div class="note" style="left:560px;top:850px;font-size:44px;background:#92C5B4">بلانت</div>`;
+    h+=`<svg style="position:absolute;inset:0;overflow:visible" width="1320" height="940">`+nodes.map((n,i)=>{const k=cl(u*2.2-(i%5)*0.1);const ex=640,ey=860;return `<line x1="${n[0]}" y1="${n[1]}" x2="${n[0]+(ex-n[0])*k}" y2="${n[1]+(ey-n[1])*k}" stroke="#92C5B4" stroke-width="4" opacity=".9"/>`}).join('')+`</svg>`;
+    nodes.forEach(n=>h+=`<div class="pin" style="left:${n[0]-12}px;top:${n[1]-12}px;width:24px;height:24px"></div>`);
+    h+=`</div>`;
+  }
+  cam.innerHTML=h;
+}
+
+/* ---------- ring button ---------- */
+function ring(t){
+  const u=(t-7.36)/0.24, on=ss(7.42,7.48,t);
+  let h=`<div style="position:absolute;inset:0;transform:rotate(-24deg) scale(${1.15+0.12*u}) translate(${-30*u}px,${10*u}px)">`;
+  const B=[[560,380,190],[880,560,150],[1200,330,170],[640,760,140],[1150,760,120]];
+  B.forEach((b,i)=>{ h+=`<div class="btn" style="left:${b[0]-b[2]/2}px;top:${b[1]-b[2]/2}px;width:${b[2]}px;height:${b[2]}px"></div>`;
+    h+=`<div style="position:absolute;left:${b[0]-14}px;top:${b[1]-20}px;font-family:Man;font-weight:800;font-size:34px;color:rgba(255,255,255,.55)">${i+1}</div>`; });
+  const r=B[1]; h+=`<div style="position:absolute;left:${r[0]-r[2]/2-14}px;top:${r[1]-r[2]/2-14}px;width:${r[2]+28}px;height:${r[2]+28}px;border-radius:50%;border:12px solid rgba(146,197,180,${0.15+0.85*on});box-shadow:0 0 ${60*on}px ${10*on}px rgba(146,197,180,${.6*on}),inset 0 0 ${30*on}px rgba(146,197,180,${.5*on})"></div>`;
+  h+=`</div><div style="position:absolute;inset:0;box-shadow:inset 0 0 300px 80px rgba(0,0,0,.85)"></div>`;
+  $('#ringBody').innerHTML=h;
+}
+
+/* ---------- end card ---------- */
+function end(t){
+  const k=t-7.60;
+  const lg=eo(k/0.45); $('#endLogo').style.transform=`scale(${0.7+0.3*lg})`; $('#endLogo').style.opacity=lg;
+  const rr=eo(k/0.7); const R=30+900*rr; const e=$('#endRing'); e.style.width=e.style.height=R+'px'; e.style.marginLeft=e.style.marginTop=(-R/2)+'px'; e.style.opacity=1-rr; e.style.borderWidth=(8-6*rr)+'px';
+  const n=eo((k-0.18)/0.4); $('#endName').style.opacity=n; $('#endName').style.transform=`translateY(${(1-n)*40}px)`;
+  const g=eo((k-0.32)/0.4); $('#endTag').style.opacity=g; $('#endTag').style.transform=`translateY(${(1-g)*30}px)`;
+  const p=eo((k-0.46)/0.4); $('#endPills').style.opacity=p; $('#endPills').style.transform=`translateY(${(1-p)*30}px)`;
+}
+
+/* ---------- main ---------- */
+function show(id,on){$(id).style.display=on?'block':'none'}
+window.renderAt=async function(t){
+  const f=Math.round(t*FPS);
+  const img=$('#bg'); img.src=`bg/f${String(f).padStart(5,'0')}.jpg`; try{await img.decode()}catch(e){}
+  bgFx(t); bars(t);
+  const inDial=t>=1.64&&t<1.96, inBoard=t>=4.92&&t<6.60, inRing=t>=7.36&&t<7.60, inEnd=t>=7.60;
+  show('#dial',inDial); if(inDial) dial(t);
+  show('#board',inBoard); if(inBoard) board(t);
+  show('#ring',inRing); if(inRing) ring(t);
+  show('#end',inEnd); if(inEnd) end(t);
+  caption(t); hud(t); grain(t);
+  // white flash into the end card, and micro flash at lighter spark
+  let fl=0; if(t>=7.54&&t<7.60) fl=ss(7.54,7.59,t); if(t>=7.60) fl=Math.max(0,1-(t-7.60)/0.12); if(t>=4.04&&t<4.10) fl=Math.max(fl,0.5*(1-(t-4.04)/0.06));
+  $('#flash').style.opacity=fl;
+  await Promise.all([...document.images].map(i=>i.complete?0:i.decode().catch(()=>0)));
+};
+(async()=>{
+  const svg=await (await fetch('assets/p.svg')).text(); $('#pPath').setAttribute('d',svg.match(/ d="([^"]+)"/)[1]);
+  await document.fonts.load('700 50px Plex','بلانت'); await document.fonts.load('800 50px Man','P'); await document.fonts.load('600 50px Plex','مواقع');
+  for(let n=1;n<=16;n++){const i=new Image();i.src=IM(n);await i.decode().catch(()=>0)}
+  window.ready=true;
+})();
+</script></body></html>
