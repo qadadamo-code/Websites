@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ar"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-300-normal.woff2);font-weight:300;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2);font-weight:400;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2);font-weight:600;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2);font-weight:700;unicode-range:U+0600-06FF,U+FE70-FEFF}
+@font-face{font-family:Man;src:url(assets/fonts/manrope-latin-500-normal.woff2);font-weight:500}
+@font-face{font-family:Man;src:url(assets/fonts/manrope-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:Man;src:url(assets/fonts/manrope-latin-800-normal.woff2);font-weight:800}
+:root{--mint:#92C5B4;--mintd:#4E9C84;--navy:#143659;--ink:#0E1E30;--paper:#F4F4F2}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--paper)}
+body{font-family:Man,Plex,sans-serif;color:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden;background:var(--paper)}
+.scene{position:absolute;inset:0;display:none;overflow:hidden}
+.cam{position:absolute;inset:0;transform-origin:540px 960px}
+.abs{position:absolute}
+.bgfill{position:absolute;left:-1500px;top:-1500px;width:4080px;height:4920px;background:var(--paper)}
+.ar{font-family:Plex,Man;direction:rtl}
+.obj{position:absolute}
+.objsq{position:absolute}
+.mul{mix-blend-mode:multiply;filter:brightness(1.046)}
+.para{font-family:Plex;direction:rtl;font-size:23px;line-height:1.55;color:#3c4652;font-weight:400}
+.para b{display:block;font-weight:700;color:var(--ink);font-size:30px;margin-bottom:4px}
+.tiny{font-family:Plex;direction:rtl;font-size:15px;line-height:1.5;color:#7b838c;text-align:center}
+.lbl{font-family:Man;font-size:22px;color:#6c757e;font-weight:500;letter-spacing:1px}
+.hash{font-family:Man;font-weight:800;color:#111;font-size:330px;line-height:1;text-shadow:-7px 0 0 rgba(146,197,180,.9),7px 0 0 rgba(20,54,89,.55)}
+.big{font-family:Plex;font-weight:700;color:var(--navy);white-space:nowrap;direction:rtl}
+.brk{position:absolute;width:44px;height:44px;border-color:#151b22;border-style:solid;filter:drop-shadow(4px 6px 5px rgba(0,0,0,.22))}
+#grain{position:absolute;inset:-50px;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");mix-blend-mode:multiply}
+#vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(40,50,60,.12) 100%)}
+.brick{position:absolute;height:56px;border-radius:3px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
+.pill{position:absolute;border-radius:40px;background:#f6f6f5;box-shadow:0 10px 24px rgba(0,0,0,.12),inset 0 2px 0 #fff,inset 0 -3px 6px rgba(0,0,0,.06)}
+</style></head>
+<body><div id="stage">
+
+<!-- ================= S1: invisible ================= -->
+<div class="scene" id="s1"><div class="cam" id="c1"><div class="bgfill"></div>
+  <svg class="abs" id="bp1" width="1080" height="1920" style="left:0;top:0"></svg>
+  <div class="tiny abs" id="s1top" style="left:250px;top:120px;width:580px">الظهور على الإنترنت هو أن يجدك العميل في اللحظة التي يبحث فيها عنك. موقع واضح وسريع يجعل مشروعك حاضرًا وموثوقًا وسهل الوصول إليه في أي وقت، ويحوّل كل زيارة إلى فرصة حقيقية للتواصل والبيع.</div>
+  <div class="lbl abs" style="left:440px;top:300px">PLANET · WEB—01</div>
+  <div id="shards1"></div>
+  <div class="ar abs" id="t_small" style="right:300px;top:600px;font-size:72px;font-weight:400;color:#2a3440"></div>
+  <div class="ar abs" id="t_mid" style="right:250px;top:675px;font-size:150px;font-weight:700;color:#1b2430;letter-spacing:-2px"></div>
+  <div class="abs" id="bigwrap" style="left:0;width:1080px;top:880px;height:300px">
+    <div class="big abs" id="t_big" style="width:1080px;text-align:center;font-size:300px;line-height:300px;letter-spacing:-6px">مختفي</div>
+    <div class="abs" id="line1" style="left:40px;width:1000px;top:178px;height:7px;background:var(--mint);box-shadow:0 0 18px 4px rgba(146,197,180,.95),0 0 50px 10px rgba(146,197,180,.5);transform-origin:right center"></div>
+  </div>
+  <div class="hash abs" id="h1" style="right:20px;top:-10px">#</div>
+  <div class="hash abs" id="h2" style="left:30px;top:1520px">#</div>
+  <img class="obj mul" id="glasses" src="assets/img/glasses.jpg" style="width:720px;height:720px;left:180px;top:420px">
+  <div class="ar abs" id="t_not" style="left:150px;top:1180px;width:520px;text-align:right">
+    <span id="t_not1" style="font-size:62px;font-weight:400;color:#2a3440"></span><br>
+    <span id="t_not2" style="font-size:96px;font-weight:700;color:var(--ink);line-height:1.1"></span>
+  </div>
+  <div class="para abs" id="def1" style="left:150px;top:1440px;width:520px"><b>الإعلانات —</b>وسيلة لجلب الزوار إلى مشروعك، لكنها لا تُقنعهم وحدها. القرار الحقيقي يُتخذ داخل موقعك، في أول ثلاث ثوانٍ.</div>
+</div></div>
+
+<!-- ================= S2: column ================= -->
+<div class="scene" id="s2"><div class="cam" id="c2"><div class="bgfill"></div>
+  <svg class="abs" id="bp2" width="1080" height="1920" style="left:0;top:0"></svg>
+  <div class="brk" id="b2a" style="left:120px;top:540px;border-width:7px 0 0 7px"></div>
+  <div class="brk" id="b2b" style="right:120px;bottom:330px;border-width:0 7px 7px 0"></div>
+  <img class="objsq" id="col1" src="assets/img/column-intact.jpg" style="width:880px;left:100px;top:880px">
+  <div class="abs" id="tag" style="left:540px;top:640px;height:92px;transform:translateX(-50%);background:#1a1f26;border-radius:10px;box-shadow:0 14px 26px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;overflow:hidden">
+    <span class="ar" id="tagt" style="color:#fff;font-size:60px;font-weight:600;padding:0 34px;white-space:nowrap"></span></div>
+  <img class="objsq" id="cap" src="assets/img/capital.jpg" style="width:1100px;left:400px;top:820px">
+  <div id="debris"></div>
+  <div class="ar abs" id="w_a" style="right:330px;top:470px;font-size:120px;font-weight:400;color:#2b3542;white-space:nowrap"></div>
+  <div class="ar abs" id="w_b" style="right:150px;top:590px;font-size:170px;font-weight:700;color:var(--navy);white-space:nowrap;line-height:1.15"></div>
+  <div class="abs" id="ul2" style="right:150px;top:812px;width:330px;height:9px;background:var(--mint);box-shadow:0 0 16px 3px rgba(146,197,180,.8);transform-origin:right center"></div>
+  <div class="para abs" id="def2" style="left:60px;top:1040px;width:390px"><b>الموقع —</b>هو الأساس الذي يقوم عليه مشروعك على الإنترنت: يعرض خدماتك، يبني الثقة، ويحوّل الزائر إلى عميل. إذا ضعف الأساس، سقط كل ما فوقه.</div>
+</div></div>
+
+<!-- ================= S3: notepad ================= -->
+<div class="scene" id="s3"><div class="cam" id="c3"><div class="bgfill"></div>
+  <img class="obj" id="pen1" src="assets/img/pen.jpg" style="width:800px;height:800px;left:-330px;top:-210px">
+  <img class="obj" id="pen2" src="assets/img/pen.jpg" style="width:800px;height:800px;left:620px;top:1380px">
+  <div class="abs" id="padTop" style="left:0;top:0;width:1080px;height:1920px">
+    <img class="objsq" src="assets/img/notepad.jpg" style="width:1180px;left:-50px;top:370px">
+    <div class="abs" style="left:752px;top:500px;width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4f7aa6,#143659 60%,#0a1d33);box-shadow:6px 10px 10px rgba(0,0,0,.3)"></div>
+    <div class="ar abs" id="n1" style="left:0;width:1080px;text-align:center;top:640px;font-size:76px;font-weight:300;color:#3a4048"></div>
+    <div class="abs" style="left:0;width:1080px;top:790px;height:160px">
+      <div class="ar abs" id="n2" style="left:0;width:1080px;text-align:center;top:0;font-size:116px;font-weight:700;color:#1d232b"></div>
+      <svg class="abs" width="1080" height="200" style="left:0;top:-20px;overflow:visible"><path id="oval" d="M 700 40 C 820 60 790 175 540 180 C 300 182 250 120 290 70 C 330 25 520 18 640 26 C 700 30 740 40 760 52" fill="none" stroke="#4E9C84" stroke-width="9" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+  <div class="abs" id="padBot" style="left:0;top:0;width:1080px;height:1920px;clip-path:inset(1020px 0 0 0)">
+    <img class="objsq" src="assets/img/notepad.jpg" style="width:1180px;left:-50px;top:370px">
+    <div class="ar abs" id="n3" style="left:0;width:1080px;text-align:center;top:1040px;font-size:104px;font-weight:700;color:#2a2f36;letter-spacing:-1px"></div>
+  </div>
+  <div class="abs" id="tear" style="left:180px;width:720px;top:1005px;height:30px"></div>
+  <div class="big abs" id="useless" style="left:0;width:1080px;text-align:center;top:1060px;font-size:200px;line-height:1.1">على الفاضي</div>
+</div></div>
+
+<!-- ================= S4: wall + magnifier ================= -->
+<div class="scene" id="s4"><div class="cam" id="c4"><div class="bgfill"></div>
+  <div class="tiny abs" style="left:240px;top:250px;width:600px">كثرة الإعلانات على موقع ضعيف تشبه طلاء جدار متشقق: يلمع من بعيد، لكن المشكلة تظل موجودة وتكبر مع كل زيارة لا تتحول إلى عميل.</div>
+  <div class="big abs" id="over" style="left:0;width:1080px;text-align:center;top:440px;font-size:150px;line-height:1.1">كُتر الإعلانات</div>
+  <div class="abs" id="wall" style="left:0;top:760px;width:1080px;height:420px"></div>
+  <div class="abs" id="lens" style="left:0;top:0;width:0;height:0">
+    <div class="abs" id="lensIn" style="left:367px;top:747px;width:466px;height:466px;border-radius:50%;overflow:hidden;background:#fbfbfa;box-shadow:inset 0 0 40px rgba(0,0,0,.12)">
+      <div class="brk" style="left:60px;top:120px;width:34px;height:34px;border-width:5px 0 0 5px;filter:none"></div>
+      <div class="brk" style="right:60px;bottom:120px;width:34px;height:34px;border-width:0 5px 5px 0;filter:none"></div>
+      <div class="ar abs" id="hides" style="right:96px;top:150px;font-size:52px;font-weight:600;color:#fff;background:#1a1f26;padding:0 14px;border-radius:6px"></div>
+      <div class="ar abs" id="prob" style="left:0;width:466px;text-align:center;top:228px;font-size:82px;font-weight:700;color:var(--ink)"></div>
+    </div>
+    <img class="objsq mul" id="mag" src="assets/img/magnifier.jpg" style="width:1500px;left:-69px;top:367px">
+  </div>
+</div></div>
+
+<!-- ================= S5: key ================= -->
+<div class="scene" id="s5"><div class="cam" id="c5"><div class="bgfill"></div>
+  <div class="brk" style="left:70px;top:560px;border-width:7px 0 0 7px"></div>
+  <div class="brk" style="right:70px;top:560px;border-width:7px 7px 0 0"></div>
+  <div class="brk" style="left:70px;bottom:440px;border-width:0 0 7px 7px"></div>
+  <div class="brk" style="right:70px;bottom:440px;border-width:0 7px 7px 0"></div>
+  <div class="big abs" id="struct" style="right:90px;top:570px;font-size:186px;line-height:1.1">الموقع الصح</div>
+  <div class="ar abs" id="solves" style="right:100px;top:790px;font-size:88px;font-weight:300;color:#3a424c"></div>
+  <div class="abs" id="ul5" style="right:100px;top:905px;width:300px;height:7px;background:var(--mint);box-shadow:0 0 14px 3px rgba(146,197,180,.8);transform-origin:right center"></div>
+  <div class="para abs" id="def5" style="right:100px;top:990px;width:440px"><b>الموقع الصح —</b>تصميم احترافي، سرعة، ووضوح، ورسالة تقود العميل لخطوة واحدة: أن يتواصل معك.</div>
+  <div class="abs" style="left:0;top:0">
+    <div class="abs" style="left:770px;top:1030px;color:#4E9C84;font-size:64px;font-family:Man;font-weight:500">+</div>
+  </div>
+  <img class="obj mul" id="key" src="assets/img/key.jpg" style="width:900px;height:900px;left:-170px;top:760px">
+</div></div>
+
+<!-- ================= S6: CTA ================= -->
+<div class="scene" id="s6"><div class="cam" id="c6"><div class="bgfill"></div>
+  <svg class="abs" id="rings" width="1080" height="1920" style="left:0;top:0"></svg>
+  <div class="ar abs" id="want" style="left:0;width:1080px;text-align:center;top:560px;font-size:70px;font-weight:600;color:#1d2530"></div>
+  <svg class="abs" id="dash" width="780" height="780" style="left:150px;top:620px"><circle cx="390" cy="390" r="360" fill="none" stroke="#9aa3a8" stroke-width="5" stroke-dasharray="34 30" stroke-linecap="round"/></svg>
+  <div class="abs" id="book" style="left:0;top:0;width:1080px;height:1920px;transform-origin:540px 1010px">
+    <img class="objsq" src="assets/img/booklet.jpg" style="width:1280px;left:-100px;top:370px">
+    <div class="abs" style="left:356px;top:760px;width:380px;text-align:center">
+      <img src="assets/p.svg" style="width:70px;height:70px;filter:invert(17%) sepia(36%) saturate(1500%) hue-rotate(185deg) brightness(70%)">
+      <div class="big" style="font-size:118px;line-height:1.15;margin-top:6px">موقعك</div>
+      <div class="ar" style="font-size:44px;font-weight:300;color:#3a424c;margin-top:-6px">من بلانت</div>
+      <div style="width:240px;height:6px;margin:22px auto 0;background:var(--mint)"></div>
+      <div style="width:250px;height:150px;margin:40px auto 0;border:3px solid #c9cfd3;border-radius:6px"></div>
+    </div>
+  </div>
+  <div class="pill" id="pill" style="left:240px;top:1480px;width:600px;height:96px;display:flex;align-items:center;justify-content:center">
+    <span id="url" style="font-family:Man;font-size:46px;font-weight:700;color:var(--navy);letter-spacing:.3px;white-space:nowrap"></span></div>
+  <div class="ar abs" id="wa" style="left:0;width:1080px;text-align:center;top:1610px;font-size:40px;font-weight:600;color:#3a424c"></div>
+</div></div>
+
+<div id="grain"></div><div id="vig"></div>
+<div class="abs" id="fade" style="inset:0;background:#0a1626;opacity:0"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, b) => cl((t - a) / (b - a));
+const eo = (x) => 1 - Math.pow(1 - x, 3), ei = (x) => x * x * x, eio = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eback = (x) => { const c = 1.70158; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const typed = (s, t, a, cps) => { const n = Math.floor(cl((t - a) * cps, 0, s.length)); return t < a ? '' : s.slice(0, n); };
+const rnd = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+// ---------- static decoration ----------
+function blueprint(svg, seed, dense) {
+  let h = '';
+  const L = (x1, y1, x2, y2, w = 2, c = '#b9bfc3') => h += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}"/>`;
+  const T = (x, y, s, sz = 22) => h += `<text x="${x}" y="${y}" font-family="Man" font-size="${sz}" fill="#7d868d">${s}</text>`;
+  if (seed === 1) {
+    L(150, 410, 930, 410); L(540, 330, 540, 470); L(150, 400, 150, 420); L(930, 400, 930, 420);
+    L(140, 760, 260, 760); L(200, 700, 200, 820); T(105, 745, 'X1'); T(105, 790, 'X2');
+    L(820, 760, 940, 760); L(880, 700, 880, 820); T(950, 745, 'XZ'); T(950, 790, 'X4');
+    L(110, 1330, 110, 1420); L(110, 1420, 240, 1420); h += `<rect x="232" y="1412" width="16" height="16" fill="none" stroke="#9aa1a6" stroke-width="2"/>`;
+    for (let i = 0; i < 4; i++) { T(180, 1560 + i * 60, '∨ ', 24); T(300, 1560 + i * 60, 'ɑ', 24); }
+    T(390, 1290, '· ⁚ ∶ ⁖ ⁘ ∴ ⁙', 30);
+  } else {
+    // architectural sketch top-right
+    const x0 = 640, y0 = 80;
+    h += `<rect x="${x0 + 80}" y="${y0 + 20}" width="200" height="200" fill="none" stroke="#a9b0b4" stroke-width="3"/><rect x="${x0 + 110}" y="${y0 + 50}" width="140" height="140" fill="none" stroke="#a9b0b4" stroke-width="2"/><rect x="${x0 + 140}" y="${y0 + 80}" width="80" height="80" fill="none" stroke="#b9bfc3" stroke-width="2"/>`;
+    for (let i = 0; i < 9; i++) L(x0 + 20 + i * 45, y0 + 260, x0 + 20 + i * 45, y0 + 420, 1.5, '#c4c9cc');
+    L(x0, y0 + 260, 1080, y0 + 260, 2); L(x0, y0 + 300, 1080, y0 + 300, 1.5, '#c4c9cc'); L(x0 + 180, y0 + 260, x0 + 180, y0 + 560, 2);
+    T(x0 + 210, y0 + 360, 'A4—01', 20); T(x0 + 40, y0 + 520, 'H4.00', 20);
+    for (let i = 0; i < 6; i++) L(30 + i * 22, 1600 + i * 30, 180 + i * 22, 1560 + i * 34, 1.5, '#c9ced1');
+    h += `<path d="M40 1700 l120 -40 l40 120 l-120 40 z" fill="none" stroke="#b9bfc3" stroke-width="2"/>`;
+    T(60, 1790, 'C—1', 22); T(200, 1850, '0.40', 22);
+  }
+  svg.innerHTML = h;
+}
+blueprint($('bp1'), 1); blueprint($('bp2'), 2);
+// glass shards
+(function () {
+  let h = '';
+  const pos = [[300, 640, 70], [700, 560, 50], [560, 1060, 40], [830, 980, 60], [120, 1100, 55], [900, 1300, 40], [400, 1650, 70], [760, 1700, 50], [180, 300, 40], [960, 520, 45], [620, 1480, 35]];
+  pos.forEach(([x, y, s], i) => {
+    const pts = []; const n = 3 + (i % 2);
+    for (let k = 0; k < n; k++) { const a = k / n * Math.PI * 2 + rnd(i * 7 + k); const r = s * (0.4 + rnd(i * 13 + k)); pts.push(`${(s + Math.cos(a) * r).toFixed(1)},${(s * 1.4 + Math.sin(a) * r * 1.6).toFixed(1)}`); }
+    h += `<svg class="abs shard" data-i="${i}" data-x="${x}" data-y="${y}" width="${s * 2}" height="${s * 2.8}" style="left:${x}px;top:${y}px;overflow:visible"><polygon points="${pts.join(' ')}" fill="rgba(235,240,242,.55)" stroke="#8d969c" stroke-width="2.2" stroke-linejoin="round"/><polyline points="${pts.slice(0, 2).join(' ')}" fill="none" stroke="#fff" stroke-width="3"/></svg>`;
+  });
+  $('shards1').innerHTML = h;
+})();
+// debris for column
+(function () {
+  let h = '';
+  for (let i = 0; i < 16; i++) { const s = 10 + rnd(i) * 26; h += `<div class="abs deb" style="width:${s}px;height:${s * 0.8}px;background:linear-gradient(135deg,#f2f2f0,#a8acad);clip-path:polygon(10% 0,100% 20%,80% 100%,0 70%);box-shadow:2px 3px 4px rgba(0,0,0,.2)"></div>`; }
+  $('debris').innerHTML = h;
+})();
+// bricks
+const BR = [];
+(function () {
+  let h = ''; const greys = ['#8a8e92', '#6f7377', '#9a9ea2', '#5d6165', '#a7abaf', '#7c8084'];
+  const rows = [[[430, 140, '#2e3136']], [[60, 260], [330, 240], [580, 260], [850, 230]], [[0, 180], [190, 260], [460, 250], [720, 300], [1030, 120]], [[60, 240], [310, 270], [590, 240], [840, 260]], [[0, 300], [310, 200], [520, 290], [820, 260]]];
+  let k = 0;
+  rows.forEach((r, ri) => r.forEach(([x, w, c]) => { const col = c || greys[(k * 5 + ri) % greys.length]; h += `<div class="brick" id="br${k}" style="left:${x}px;top:${ri * 64}px;width:${w - 8}px;background:${col}"></div>`; BR.push({ k, ri, x }); k++; }));
+  $('wall').innerHTML = h;
+})();
+// rings
+(function () {
+  let h = ''; for (let i = 0; i < 6; i++) h += `<circle cx="540" cy="1010" r="${430 + i * 230}" fill="none" stroke="rgba(160,168,172,${0.5 - i * 0.06})" stroke-width="3"/>`;
+  $('rings').innerHTML = `<defs><radialGradient id="rg" cx="50%" cy="52%" r="60%"><stop offset="0" stop-color="#f7f7f6"/><stop offset="1" stop-color="#e9eaea"/></radialGradient></defs><rect width="1080" height="1920" fill="url(#rg)"/>` + h;
+})();
+
+// ---------- render ----------
+const SC = [['s1', 0, 4.1], ['s2', 4.1, 6.62], ['s3', 6.62, 10.12], ['s4', 10.12, 12.62], ['s5', 12.62, 14.32], ['s6', 14.32, 19]];
+function blurAt(t) { // transition blurs
+  const bumps = [[0.82, 0.18, 10], [4.0, 0.22, 26], [6.58, 0.22, 26], [10.08, 0.14, 22], [12.56, 0.2, 26], [14.25, 0.22, 30]];
+  let b = 0; bumps.forEach(([c, w, m]) => { const d = Math.abs(t - c) / w; if (d < 1) b = Math.max(b, m * (1 - d * d)); });
+  return b;
+}
+function renderAt(t) {
+  SC.forEach(([id, a, b]) => $(id).style.display = (t >= a && t < b) ? 'block' : 'none');
+  const bl = blurAt(t);
+  document.querySelectorAll('.cam').forEach((c) => c.style.filter = bl > 0.3 ? `blur(${bl.toFixed(1)}px)` : 'none');
+  $('fade').style.opacity = P(t, 18.45, 18.7);
+
+  // ===== S1 =====
+  if (t < 4.1) {
+    // camera push at 2.2 (to upper-left, like the ref pan) -> mirrored for RTL: focus right side
+    const cp = eio(P(t, 2.18, 2.55));
+    const s = 1 + 0.45 * cp, tx = -190 * cp, ty = 170 * cp;
+    $('c1').style.transform = `translate(${tx}px,${ty}px) scale(${s + 0.02 * P(t, 0, 4)})`;
+    // glasses fly-in
+    const g = eo(P(t, 0, 0.55));
+    const gx = (-520 * (1 - g)), gy = (-520 * (1 - g)), gs = 2.6 - 1.6 * g, gr = -38 * (1 - g) + 4 * Math.sin(P(t, 0.55, 1.4) * Math.PI) * (1 - P(t, 0.55, 1.4));
+    const drift = 14 * Math.sin(t * 1.3);
+    const gfx = P(t, 2.2, 2.55); // glasses move down-left with camera relative
+    $('glasses').style.transform = `translate(${gx - 120 * gfx}px,${gy + drift + 180 * gfx}px) rotate(${gr - 10 * gfx}deg) scale(${gs})`;
+    $('glasses').style.filter = `brightness(1.046)` + (g < 1 ? ` blur(${(1 - g) * 14}px)` : '');
+    // words
+    $('t_small').textContent = typed('مشروعك', t, 0.22, 26);
+    $('t_mid').textContent = typed('على النت', t, 0.42, 22);
+    const tm = P(t, 0.15, 0.3); $('t_small').style.opacity = tm; $('t_mid').style.opacity = P(t, 0.4, 0.5);
+    // big word
+    const bg = P(t, 0.95, 1.3);
+    $('t_big').style.opacity = bg; $('t_big').style.filter = `blur(${(1 - eo(bg)) * 18}px)`;
+    $('t_big').style.transform = `scale(${1.15 - 0.15 * eo(bg)})`;
+    $('t_big').style.color = '#143659';
+    const lp = eo(P(t, 1.05, 1.4)); $('line1').style.transform = `scaleX(${lp})`; $('line1').style.opacity = lp > 0 ? 0.65 + 0.35 * Math.abs(Math.sin(t * 9)) : 0;
+    // hashtags
+    const hv = t > 1.0 && t < 2.25; ['h1', 'h2'].forEach((h, i) => { const e = $(h); e.style.opacity = hv ? 1 : 0; const j = P(t, 1.0, 1.12); e.style.transform = `translate(${(1 - j) * (i ? -60 : 60)}px,0) skewX(${(1 - j) * -15}deg)`; });
+    $('s1top').style.opacity = P(t, 0.3, 0.6);
+    // shards drift
+    document.querySelectorAll('.shard').forEach((e) => { const i = +e.dataset.i; const k = P(t, 0, 1.0); e.style.opacity = eo(k) * 0.95; e.style.transform = `translate(${Math.sin(t * 0.8 + i) * 12 + (1 - eo(k)) * (i % 2 ? 140 : -140)}px,${Math.cos(t * 0.7 + i * 2) * 14 - t * 6}px) rotate(${i * 33 + t * (i % 2 ? 9 : -7)}deg)`; });
+    // not an ad problem
+    $('t_not1').textContent = typed('مش مشكلة', t, 2.95, 30);
+    $('t_not2').textContent = typed('إعلانات', t, 3.15, 30);
+    $('def1').style.opacity = P(t, 3.3, 3.55); $('def1').style.transform = `translateY(${(1 - eo(P(t, 3.3, 3.6))) * 30}px)`;
+  }
+  // ===== S2 =====
+  if (t >= 4.1 && t < 6.62) {
+    const broken = t >= 4.88;
+    $('col1').style.display = broken ? 'none' : 'block';
+    $('tag').style.display = broken ? 'none' : 'flex';
+    $('cap').style.display = broken ? 'block' : 'none';
+    $('b2a').style.opacity = 1; $('b2b').style.opacity = 1;
+    const ci = eo(P(t, 4.1, 4.5));
+    if (!broken) {
+      $('c2').style.transform = `scale(${1.08 - 0.08 * ci})`;
+      $('col1').style.transform = `translateY(${(1 - ci) * 60}px)`;
+      const tg = eback(P(t, 4.18, 4.34)); $('tag').style.transform = `translateX(-50%) scale(${tg})`;
+      $('tagt').textContent = typed('دي', t, 4.36, 18);
+      $('tag').style.minWidth = '170px';
+      $('w_a').textContent = ''; $('w_b').textContent = ''; $('ul2').style.transform = 'scaleX(0)'; $('def2').style.opacity = 0;
+      document.querySelectorAll('.deb').forEach((e) => e.style.display = 'none');
+    } else {
+      const k = P(t, 4.88, 6.6);
+      const sh = t < 5.15 ? (1 - P(t, 4.88, 5.15)) * 14 : 0;
+      $('c2').style.transform = `translate(${Math.sin(t * 90) * sh}px,${Math.cos(t * 77) * sh}px) scale(${1.0 + 0.06 * k})`;
+      $('cap').style.transform = `translate(${-40 * eo(P(t, 4.88, 5.3))}px,${30 * eo(P(t, 4.88, 5.3))}px) rotate(${-2 * k}deg)`;
+      document.querySelectorAll('.deb').forEach((e, i) => {
+        const tt = cl(t - 4.88 - rnd(i + 3) * 0.2, 0, 3); e.style.display = 'block';
+        const vx = (rnd(i) - 0.65) * 520, vy = -380 - rnd(i + 9) * 400;
+        const x = 760 + rnd(i + 1) * 160 + vx * tt, y = 760 + rnd(i + 2) * 80 + vy * tt + 900 * tt * tt;
+        e.style.transform = `translate(${x}px,${y}px) rotate(${tt * 400 * (rnd(i) - .5)}deg)`; e.style.opacity = tt > 0 ? 1 : 0;
+      });
+      $('w_a').textContent = typed('مشكلة', t, 5.05, 24);
+      $('w_b').textContent = typed('موقع', t, 5.3, 22);
+      $('ul2').style.transform = `scaleX(${eo(P(t, 5.55, 5.85))})`;
+      $('def2').style.opacity = P(t, 5.2, 5.45);
+    }
+  }
+  // ===== S3 =====
+  if (t >= 6.62 && t < 10.12) {
+    const k = eo(P(t, 6.62, 6.95));
+    $('c3').style.transform = `scale(${1.06 - 0.06 * k + (t > 9.05 ? 0.12 * eo(P(t, 9.05, 9.5)) : 0)}) translateY(${t > 9.05 ? -120 * eo(P(t, 9.05, 9.5)) : 0}px)`;
+    $('pen1').style.transform = `translate(${-120 * (1 - k)}px,0) rotate(-4deg)`;
+    $('pen2').style.transform = `translate(${120 * (1 - k)}px,0) rotate(-4deg)`;
+    $('n1').textContent = typed('لو موقعك', t, 6.78, 20);
+    const w = P(t, 7.3, 7.5); $('n2').textContent = t >= 7.3 ? 'ضعيف' : ''; $('n2').style.opacity = w; $('n2').style.filter = `blur(${(1 - w) * 8}px)`;
+    const ov = $('oval'); const L = 1500; ov.style.strokeDasharray = L; ov.style.strokeDashoffset = L * (1 - eio(P(t, 7.5, 7.85)));
+    // typed with flicker
+    const s3 = typed('الإعلانات', t, 8.1, 16); $('n3').textContent = s3; $('n3').style.opacity = (t < 8.75 && Math.floor(t * 30) % 4 === 0) ? 0.45 : 1;
+    // tear at 9.05
+    const tr = P(t, 9.05, 9.6);
+    $('padBot').style.transform = `translate(${60 * ei(tr)}px,${1300 * ei(tr)}px) rotate(${14 * ei(tr)}deg)`;
+    $('padBot').style.filter = tr > 0 ? `blur(${tr * 16}px)` : 'none';
+    $('padTop').style.transform = `translateY(${-50 * eo(P(t, 9.05, 9.25))}px)`;
+    const u = P(t, 9.12, 9.3); $('useless').style.opacity = u; $('useless').style.transform = `scale(${1.8 - 0.8 * eo(u)})`; $('useless').style.filter = `blur(${(1 - u) * 14}px)`;
+    $('pen2').style.opacity = 1 - P(t, 9.05, 9.3);
+  }
+  // ===== S4 =====
+  if (t >= 10.12 && t < 12.62) {
+    const k = P(t, 10.12, 12.62);
+    $('c4').style.transform = `scale(${1.0 + 0.04 * k})`;
+    const o = P(t, 10.12, 10.3); $('over').style.opacity = 0.35 + 0.65 * o; $('over').style.transform = `translateY(${(1 - eo(o)) * 20}px)`;
+    BR.forEach((b) => { const e = $('br' + b.k); const st = 10.12 + b.ri * 0.05 + (b.x / 1080) * 0.12; const p = eo(P(t, st, st + 0.18)); e.style.transform = `translateX(${(1 - p) * -260}px)`; e.style.opacity = p; });
+    const m = eo(P(t, 10.42, 10.78)); const LT = `translate(${(1 - m) * 760}px,${(1 - m) * 220}px) rotate(${(1 - m) * 12}deg)`; $('mag').style.transform = LT; $('mag').style.transformOrigin = '669px 613px';
+    const hb = $('hides'); hb.textContent = typed('بيخبّي', t, 10.72, 26); hb.style.opacity = t > 10.7 ? 1 : 0;
+    $('prob').textContent = typed('المشكلة', t, 10.86, 28);
+    const sway = Math.sin(t * 2.2) * 6 * P(t, 10.8, 11.2);
+    $('lensIn').style.transform = LT + ` translate(${sway}px,0)`; $('lensIn').style.transformOrigin = '233px 233px';
+  }
+  // ===== S5 =====
+  if (t >= 12.62 && t < 14.32) {
+    const k = eo(P(t, 12.62, 12.9));
+    $('c5').style.transform = `translateX(${(1 - k) * 300}px) scale(${1 + 0.05 * P(t, 12.62, 14.3)})`;
+    $('struct').style.opacity = 1;
+    // key "rotates" (Y flip illusion)
+    const r = P(t, 12.7, 13.6); const sx = Math.cos(eio(r) * Math.PI * 2);
+    $('key').style.transform = `scaleX(${(Math.abs(sx) * 0.85 + 0.15) * (sx < 0 ? -1 : 1)}) rotate(${-6 + 6 * r}deg)`;
+    $('solves').textContent = typed('هو الحل', t, 13.45, 22);
+    $('ul5').style.transform = `scaleX(${eo(P(t, 13.75, 14.0))})`;
+    $('def5').style.opacity = P(t, 12.8, 13.1);
+  }
+  // ===== S6 =====
+  if (t >= 14.32) {
+    const z = eo(P(t, 14.32, 14.9));
+    $('book').style.transform = `scale(${0.35 + 0.65 * z}) rotate(${(1 - z) * -8}deg)`;
+    $('rings').style.transform = `scale(${1.6 - 0.6 * z})`; $('rings').style.transformOrigin = '540px 1010px';
+    $('dash').style.transform = `rotate(${t * 12}deg) scale(${0.6 + 0.4 * z})`; $('dash').style.opacity = z;
+    $('want').textContent = typed('عايز موقع احترافي؟', t, 14.6, 34);
+    const pl = eback(P(t, 16.05, 16.3)); $('pill').style.transform = `scale(${pl})`; $('pill').style.opacity = P(t, 16.05, 16.15);
+    $('url').textContent = typed('www.theplanetco.com', t, 16.45, 26);
+    $('wa').textContent = typed('واتساب 01203101104', t, 17.3, 30);
+    $('c6').style.transform = `scale(${1 + 0.03 * P(t, 15, 18.7)})`;
+  }
+  $('grain').style.transform = `translate(${(Math.floor(t * 24) * 37) % 50}px,${(Math.floor(t * 24) * 53) % 50}px)`;
+}
+window.renderAt = renderAt;
+document.fonts.ready.then(() => { Promise.all([...document.images].map((i) => i.complete ? 1 : new Promise((r) => i.onload = i.onerror = r))).then(() => { renderAt(0); window.ready = true; }); });
+</script>
+</body></html>
