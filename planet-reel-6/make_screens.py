@@ -15,7 +15,7 @@ p = Image.new('RGB', (W, H), 'white'); d = ImageDraw.Draw(p)
 fb = lambda s: ImageFont.truetype(FB, s); fr = lambda s: ImageFont.truetype(FR, s)
 d.text((24, 40), '9:41', font=fb(24), fill=INK)
 d.text((24, 96), 'theplanetco', font=fb(34), fill=INK)
-d.ellipse((232, 104, 256, 128), fill=(56, 151, 240)); d.text((238, 104), '✓', font=fb(18), fill='white')
+d.ellipse((232, 104, 256, 128), fill=(56, 151, 240)); d.line([(238, 116), (243, 122), (251, 110)], fill='white', width=3)
 # avatar
 d.ellipse((24, 160, 164, 300), fill=NAVY); d.ellipse((30, 166, 158, 294), outline=MINT, width=6)
 d.text((70, 186), 'P', font=fb(84), fill=MINT)
