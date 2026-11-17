@@ -115,7 +115,7 @@ def laptop_shot(f, imgname):
 
 # ---------- silhouette + x-ray ----------
 def sil_mask():
-    f = frames(42838, 4.0, 1)[0]
+    f = frames(42838, float(os.environ.get('SILT', '8.85')), 1)[0]
     l = f.mean(2); m = (l < 0.35).astype(np.uint8)
     n, lab, st, cen = cv2.connectedComponentsWithStats(m)
     big = 1 + np.argmax(st[1:, cv2.CC_STAT_AREA]); m = (lab == big).astype(np.uint8) * 255
@@ -150,16 +150,16 @@ def xray_pattern(mask):
     hx = xs[ys < top + 200].mean(); hy = top + 150
     nz = cv2.GaussianBlur(rng.random((H, W)).astype(np.float32), (0, 0), 9)
     nz = (nz - nz.min()) / (nz.max() - nz.min())
-    bands = ((nz * 28) % 1 < 0.18).astype(np.uint8) * 255
+    bands = ((nz * 16) % 1 < 0.22).astype(np.uint8) * 255
     edges = cv2.Canny(bands, 50, 150).astype(np.float32) / 255
-    ell = ((xx - hx) / 175) ** 2 + ((yy - hy) / 130) ** 2 < 1
+    ell = ((xx - hx) / 150) ** 2 + ((yy - hy) / 112) ** 2 < 1
     pat += edges * ell
     # nerves / skeleton: coarse noise contours across the whole body
     nz2 = cv2.GaussianBlur(rng.random((H, W)).astype(np.float32), (0, 0), 22)
     nz2 = (nz2 - nz2.min()) / (nz2.max() - nz2.min())
-    b2 = ((nz2 * 14) % 1 < 0.12).astype(np.uint8) * 255
+    b2 = ((nz2 * 6) % 1 < 0.10).astype(np.uint8) * 255
     e2 = cv2.Canny(b2, 50, 150).astype(np.float32) / 255
-    pat += e2 * (~ell) * 0.75
+    pat += e2 * (~ell) * 0.40
     # spine line
     for y in range(int(hy + 120), H, 2):
         cv2.circle(pat, (int(hx + 60 + (y - hy) * 0.18), y), 3, 1.0, -1)
@@ -183,7 +183,7 @@ def sil_frame(mask, pat, t, xr):
         f = f + (p[..., None] * 1.2 + glow[..., None]) * col
     return np.clip(f, 0, 1)
 
-def bar(f, t, x0=640, x1=1230, yc=372, h=120):
+def bar(f, t, x0=640, x1=1250, yc=388, h=116):
     out = f.copy()
     sh = int(rng.integers(-14, 14))
     y0, y1 = yc - h // 2, yc + h // 2
@@ -255,7 +255,7 @@ def main():
                 f = np.clip(f * VIG + rng.normal(0, 0.012, (H, W, 1)).astype(np.float32), 0, 1)
             if spec == 'bar': f = bar(f, t)
             if spec == 'flicker' and k in (2, 4): f = np.clip(f * 1.9 + 0.08, 0, 1)
-            if spec == 'start' and k >= n - 2: f = np.clip(f + (k - n + 3) * 0.35, 0, 1)
+            if spec == 'start' and k == n - 1: f = np.clip(f * 1.6 + 0.35, 0, 1)
             enc.stdin.write((f * 255 + 0.5).astype(np.uint8).tobytes()); written += 1
         print('seg', t0, cid, flush=True)
     # end card frames rendered by Playwright (PNG sequence)
