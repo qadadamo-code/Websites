@@ -1,0 +1,9 @@
+node_modules
+frames*
+test
+*.wav
+*.raw
+*.log
+need*.txt
+e?.txt
+*.mp4
