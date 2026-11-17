@@ -229,6 +229,23 @@ EDL = [
     (7.50, 7.70, 21516, 2.20, 1.0, 1.15, 1.25, 0.55, 0.5, 1.00, 'start'),
 ]
 END0, END1 = 7.70, 9.70
+CAPT = [(0.00, 0.70, 0), (0.70, 1.64, 1), (1.64, 2.24, 2), (2.24, 3.08, 3), (3.08, 4.00, 4), (4.00, 4.92, 5), (4.92, 6.04, 6), (6.04, 7.50, 7)]
+_capc = {}
+def caption(f, t):
+    d = os.environ.get('CAPDIR')
+    if not d: return f
+    for a, b, i in CAPT:
+        if a - 1e-6 <= t < b - 1e-6:
+            if i not in _capc:
+                _capc[i] = cv2.imread(f'{d}/cap{i}.png', cv2.IMREAD_UNCHANGED).astype(np.float32) / 255
+            im = _capc[i]; k = (t - a) * FPS
+            e = min(1.0, (k + 1) / 3)
+            s = 1.10 - 0.10 * (1 - (1 - e) ** 3)
+            M = np.float32([[s, 0, (1 - s) * W / 2], [0, s, (1 - s) * (H - 190) + (1 - e) * 24]])
+            w = cv2.warpAffine(im, M, (W, H), flags=cv2.INTER_LINEAR)
+            al = w[..., 3:4] * e
+            return np.clip(f * (1 - al) + w[..., :3] * al, 0, 1)
+    return f
 
 def main():
     TOT = int(round(END1 * FPS))
@@ -258,6 +275,7 @@ def main():
             else:
                 f = np.clip(f * VIG + rng.normal(0, 0.012, (H, W, 1)).astype(np.float32), 0, 1)
             if spec == 'bar': f = bar(f, t)
+            f = caption(f, t)
             if spec == 'flicker' and k in (2, 4): f = np.clip(f * 1.9 + 0.08, 0, 1)
             if spec == 'start' and k == n - 1: f = np.clip(f * 1.6 + 0.35, 0, 1)
             enc.stdin.write((f * 255 + 0.5).astype(np.uint8).tobytes()); written += 1
