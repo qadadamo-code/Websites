@@ -65,7 +65,7 @@ function sIm(t) {
     const typing = n < full.length;
     h += `<div class="c lt" style="top:850px;height:200px;font-size:128px;color:${INK};letter-spacing:-.025em"><span style="font-weight:300;white-space:pre">${a}</span><span style="font-weight:700">${b}</span>${typing ? cur(MINT) : ''}</div>`;
     // mono subtitle
-    if (t > 3.45 && t < 4.55) h += `<div class="c mono" style="top:1035px;height:40px;font-size:22px;color:rgba(14,21,32,.62)">${typed('WEBSITES · BRANDING · MARKETING', t, 3.45, 40)}</div>`;
+    if (t > 3.45 && t < 4.55) h += `<div class="c mono" style="top:1035px;height:40px;font-size:22px;color:rgba(14,21,32,.62)">${typed('MARKETING · BRANDING · WEB · APPS', t, 3.45, 40)}</div>`;
   }
   // silhouette rises at 4.0, then jumps to the right-bottom at 5.33
   if (t >= 3.95 && HEAD) {
@@ -86,10 +86,10 @@ function silhouette(x, y, sc) {
 }
 
 const ROLES = [
-  { a: 'تصميم', b: 'مواقع', bg: PAPER, fg: INK, acc: MINT, shape: 'sq' },
-  { a: 'متاجر', b: 'إلكترونية', bg: DARK, fg: '#fff', acc: MINT, shape: 'sq' },
+  { a: 'تسويق', b: 'إلكتروني', bg: PAPER, fg: INK, acc: MINT, shape: 'sq' },
+  { a: 'إدارة', b: 'منصات', bg: DARK, fg: '#fff', acc: MINT, shape: 'sq' },
   { a: 'هوية', b: 'بصرية', bg: MINT, fg: NAVY, acc: '#fff', shape: 'tri' },
-  { a: 'شريك', b: 'نجاحك', bg: NAVY, fg: '#fff', acc: MINT, shape: 'plus' },
+  { a: 'مواقع', b: 'وتطبيقات', bg: NAVY, fg: '#fff', acc: MINT, shape: 'plus' },
 ];
 function sRoles(t) {
   const i = clamp(Math.floor((t - 5.87) / B), 0, 3), r = ROLES[i];
@@ -182,7 +182,7 @@ function sCreativity(t) {
   return h;
 }
 
-const SERV = ['مواقع احترافية', 'متاجر إلكترونية', 'هوية بصرية', 'سوشيال ميديا', 'إعلانات ممولة', 'منيو ذكي', 'تصوير منتجات', 'موشن جرافيك', 'تحسين محركات البحث', 'كتابة محتوى', 'استراتيجية تسويق'];
+const SERV = ['تسويق إلكتروني', 'إدارة منصات التواصل', 'إعلانات ممولة', 'هوية بصرية', 'صناعة محتوى', 'تصوير منتجات', 'موشن جرافيك', 'مواقع احترافية', 'تطبيقات موبايل', 'متاجر إلكترونية', 'تحسين محركات البحث'];
 function wheel(t) {
   // rotating drum list left of "نلعب •"
   const fade = prog(t, 14.3, 14.8);
@@ -220,7 +220,7 @@ function circlesComp(bgc, line, txt) {
 function lineComp(bgc, line, txt) {
   return bg(bgc) + `<div class="ab" style="left:539px;top:300px;width:3px;height:520px;background:${line}"></div><div class="ab" style="left:539px;top:1100px;width:3px;height:520px;background:${line}"></div>
   <div class="ab" style="left:526px;top:282px;width:28px;height:28px;border-radius:50%;border:3px solid ${line}"></div><div class="ab" style="left:528px;top:1610px;width:24px;height:24px;border-radius:50%;background:${line}"></div>` +
-    mono('WEB', 540 - 24, 236, line, 16) + mono('BRAND', 540 - 36, 1652, line, 16) + WM(txt);
+    mono('BRAND', 540 - 36, 236, line, 16) + mono('GROWTH', 540 - 42, 1652, line, 16) + WM(txt);
 }
 function paletteComp(variant) {
   const rows = variant ? [['NAVY', NAVY, '#143659'], ['DEEP', '#0B2440', '#0B2440'], ['NIGHT', DARK, '#0E1520'], ['PAPER', PAPER, '#E7EAE8'], ['INK', '#1A2230', '#1A2230']]
@@ -246,7 +246,7 @@ function linesArcComp(bgc, line, txt) {
 function posterComp(bgc, txt, lab, pat) {
   let p = '';
   for (let r = 0; r < 4; r++) for (let i = 0; i < 18; i++) p += `<div class="ab" style="left:${20 + i * 60}px;top:${1500 + r * 60}px;width:40px;height:14px;border-radius:7px;background:${pat}"></div>`;
-  return bg(bgc) + mono('BUILT TO BE SEEN.<br>BUILT TO SELL.', 60, 540, lab, 22) + WM(txt) + mono('WEB · BRAND · MARKETING — 2026', 60, 1360, lab, 18) + `<div class="ab" style="left:0;top:1460px;width:${W}px;height:460px;background:rgba(0,0,0,.18)"></div>` + p;
+  return bg(bgc) + mono('BUILT TO BE SEEN.<br>BUILT TO SELL.', 60, 540, lab, 22) + WM(txt) + mono('FULL-SERVICE MARKETING AGENCY — 2026', 60, 1360, lab, 18) + `<div class="ab" style="left:0;top:1460px;width:${W}px;height:460px;background:rgba(0,0,0,.18)"></div>` + p;
 }
 function tiltComp(bgc, card, dot, sh, txt) {
   let d = '';
@@ -255,10 +255,10 @@ function tiltComp(bgc, card, dot, sh, txt) {
   <div class="ab" style="left:140px;top:560px;width:900px;height:800px;background:${card};transform:rotate(28deg) skewX(-16deg);box-shadow:0 60px 80px rgba(0,0,0,.35);overflow:hidden">${d}</div>` + WM(txt, 92);
 }
 function cardComp(g1, g2, card, txt, lab) {
-  return `<div class="ab" style="inset:0;background:linear-gradient(${g1},${g2})"></div><div class="ab" style="left:120px;top:690px;width:840px;height:540px;background:${card};border-radius:14px;box-shadow:0 40px 90px rgba(0,0,0,.28)">${mono('WEB · BRAND · MARKETING', 40, 34, lab, 15)}${mono('2026', 800, 34, lab, 15, 'right')}${mono('THEPLANETCO.COM', 800, 490, lab, 15, 'right')}<div class="ab" style="left:40px;top:494px;width:14px;height:14px;border-radius:50%;background:${MINT}"></div></div>` + WM(txt, 92);
+  return `<div class="ab" style="inset:0;background:linear-gradient(${g1},${g2})"></div><div class="ab" style="left:120px;top:690px;width:840px;height:540px;background:${card};border-radius:14px;box-shadow:0 40px 90px rgba(0,0,0,.28)">${mono('MARKETING · BRANDING · APPS', 40, 34, lab, 15)}${mono('2026', 800, 34, lab, 15, 'right')}${mono('THEPLANETCO.COM', 800, 490, lab, 15, 'right')}<div class="ab" style="left:40px;top:494px;width:14px;height:14px;border-radius:50%;background:${MINT}"></div></div>` + WM(txt, 92);
 }
 function selectComp(bgc, line, txt) {
-  return bg(bgc) + mono('WEBSITE 01', 540 - 80, 560, line, 16) + `<div class="ab" style="left:250px;top:880px;width:580px;height:160px;border:2.5px solid ${line}"></div>` +
+  return bg(bgc) + mono('CAMPAIGN 01', 540 - 84, 560, line, 16) + `<div class="ab" style="left:250px;top:880px;width:580px;height:160px;border:2.5px solid ${line}"></div>` +
     [[250, 880], [830, 880], [250, 1040], [830, 1040]].map(([x, y]) => `<div class="ab" style="left:${x - 8}px;top:${y - 8}px;width:16px;height:16px;background:${bgc};border:2.5px solid ${line}"></div>`).join('') + WM(txt, 92) +
     `<div class="c" style="top:1400px;height:20px;gap:12px">${[1, 0, 0, 0].map(a => `<span style="width:10px;height:10px;border-radius:50%;background:${line};opacity:${a ? 1 : .4}"></span>`).join('')}</div>`;
 }
@@ -313,7 +313,7 @@ function sEnd(t) {
   const s = lerp(92, 128, g);
   const up = eio(prog(t, 26.45, 26.7)) * 26;
   h += `<div class="c" style="top:${960 - s * .75 - up}px;height:${s * 1.5}px">${WORD('#F3F4F4', s)}</div>`;
-  if (t > 26.6) h += `<div class="c mono" style="top:${1020}px;height:40px;font-size:24px;color:rgba(255,255,255,.62)">${typed('WEBSITES · BRANDING · MARKETING', t, 26.6, 38)}</div>`;
+  if (t > 26.6) h += `<div class="c mono" style="top:${1020}px;height:40px;font-size:24px;color:rgba(255,255,255,.62)">${typed('MARKETING · BRANDING · WEB · APPS', t, 26.6, 38)}</div>`;
   // guides flash 27.35 - 28.6
   if (t > 27.35 && t < 28.6) {
     const k = eo(prog(t, 27.35, 27.6)), o = 1 - prog(t, 28.3, 28.6);
