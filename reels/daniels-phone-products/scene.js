@@ -58,7 +58,7 @@ window.renderAt = async function (t) {
     const img = el.querySelector('img.bg[data-clip]');
     if (img) {
       const c = img.dataset.clip; const n = CLIPFR[c];
-      const fr = Math.min(n, 1 + Math.floor(u * FPS));
+      const fr = Math.min(n, 1 + Math.floor((t - a) * FPS * 1.2));
       setImg(img, `clips/${c}/${String(fr).padStart(4, '0')}.jpg`);
       const punch = 1 + 0.07 * (1 - seg(t, a, 0.45, oq));
       img.style.transform = `scale(${punch * (1 + 0.03 * (t - a) / (b - a))})`;
