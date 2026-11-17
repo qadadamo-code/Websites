@@ -37,5 +37,5 @@ function render(t){ // t seconds from end-card start (0..2)
   const p=ease((t-0.75)/0.4); row.style.opacity=p; row.style.transform=`translateY(${(1-p)*30}px)`;
   const z=1+0.03*t; document.body.style.transform=`scale(${z})`;
 }
-fetch('assets/p.svg').then(r=>r.text()).then(s=>{logo.innerHTML=s;window.READY=1});
+
 </script></body></html>
