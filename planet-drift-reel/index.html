@@ -1,0 +1,382 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2);font-weight:600;unicode-range:U+0020,U+0600-06FF,U+200C-200F,U+FE70-FEFF,U+060C}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-latin-600-normal.woff2);font-weight:600;unicode-range:U+0000-00FF}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2);font-weight:700;unicode-range:U+0020,U+0600-06FF,U+200C-200F,U+FE70-FEFF,U+060C}
+@font-face{font-family:Plex;src:url(assets/fonts/ibm-plex-sans-arabic-latin-700-normal.woff2);font-weight:700;unicode-range:U+0000-00FF}
+@font-face{font-family:Antonio;src:url(assets/fonts/antonio-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:Manrope;src:url(assets/fonts/manrope-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:Manrope;src:url(assets/fonts/manrope-latin-800-normal.woff2);font-weight:800}
+html,body{margin:0;background:#000;overflow:hidden}
+canvas{position:absolute;left:0;top:0;width:1080px;height:1920px}
+</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+</head><body>
+<canvas id="out" width="1080" height="1920"></canvas>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const W = 1080, H = 1920;
+const MINT = '#92C5B4', NAVY = '#143659';
+const out = document.getElementById('out'), o = out.getContext('2d');
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const eio = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eo5 = (x) => 1 - Math.pow(1 - x, 5);
+const ei = (x) => x * x * x;
+const mk = (w = W, h = H) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+
+// ---------- texts ----------
+const L1 = 'كل براند بيبدأ من مكان.';
+const L2a = 'واحنا بنبدأ من ', L2b = 'فكرتك', L2c = '.';
+const STRIPS = ['ونحوّلها', 'لقصة', 'نجاح', 'تتحكي'];
+const SUBS = ['تسويق رقمي وإدارة منصات', 'براندينج وهوية بصرية', 'مواقع وتطبيقات'];
+const FS1 = 60;
+
+// P logo path
+const P_D = 'M 3 207.045 L 3 414.158 43.250 413.754 C 77.062 413.414, 84.460 413.080, 89.500 411.666 C 111.693 405.440, 127.708 389.436, 136.199 365 L 139.500 355.500 139.772 225.750 L 140.044 96 196.862 96 C 257.722 96, 261.970 96.313, 272.099 101.551 C 290.101 110.860, 297.302 138.725, 287.074 159.500 C 280.128 173.610, 266.280 180.974, 246.614 181.015 C 223.776 181.062, 206.885 192.216, 198.931 212.500 C 196.693 218.209, 196.561 219.896, 196.209 247.250 L 195.839 276 230.170 275.997 C 278.250 275.992, 297.667 273.770, 322.756 265.403 C 372.722 248.739, 402.968 215.662, 413.674 165.976 C 416.199 154.254, 416.203 123.352, 413.681 110.730 C 401.841 51.485, 360.489 15.813, 288.500 2.743 C 276.614 0.585, 275.206 0.561, 139.750 0.248 L 3 -0.068 3 207.045';
+const P_PATH = new Path2D(P_D);
+function drawP(c, x, y, size) { // size = height in px; x,y = top-left
+  const s = size / 414; c.save(); c.translate(x, y); c.scale(s, s);
+  c.fillStyle = NAVY; c.fill(P_PATH, 'evenodd');
+  c.beginPath(); c.arc(364, 362, 51, 0, Math.PI * 2); c.fillStyle = MINT; c.fill(); c.restore();
+}
+
+// ================= SCENE A (0 – 5.1) =================
+const layer = mk(), lc = layer.getContext('2d');
+let w1, w2a, w2b, w2c, w2;
+function measure() {
+  o.font = `600 ${FS1}px Plex`; o.direction = 'rtl';
+  w1 = o.measureText(L1).width; w2a = o.measureText(L2a).width; w2b = o.measureText(L2b).width; w2c = o.measureText(L2c).width; w2 = w2a + w2b + w2c;
+}
+const CY = 960;
+function ballX(t) {
+  const r1 = 540 + w1 / 2 + 26, l1 = 540 - w1 / 2 - 4;
+  if (t < 0.2) return null;
+  if (t < 1.05) { const u = lin(t, 0.2, 1.05); return r1 + (l1 - r1) * (0.15 * u + 0.85 * eo(u)); }
+  if (t < 2.12) return l1;
+  if (t < 2.7) { const u = lin(t, 2.12, 2.7); const l2 = Math.min(l1, 540 - w2 / 2 - 4); return l1 + (1500 - l1) * (0.25 * u + 0.75 * ei(u)) + (l2 - l1) * 0; }
+  return null;
+}
+function drawBall(c, x, y, vx, scale = 1, alpha = 1) {
+  c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha = alpha;
+  // big soft glow
+  let g = c.createRadialGradient(x, y, 0, x, y, 260 * scale);
+  g.addColorStop(0, 'rgba(146,197,180,0.55)'); g.addColorStop(0.25, 'rgba(146,197,180,0.18)'); g.addColorStop(1, 'rgba(146,197,180,0)');
+  c.fillStyle = g; c.fillRect(x - 300 * scale, y - 300 * scale, 600 * scale, 600 * scale);
+  // streak
+  const len = Math.min(900, Math.abs(vx) * 0.09);
+  if (len > 4) {
+    const dir = vx > 0 ? -1 : 1; const x2 = x + dir * len;
+    const sg = c.createLinearGradient(x, 0, x2, 0);
+    sg.addColorStop(0, 'rgba(210,245,232,0.95)'); sg.addColorStop(0.35, 'rgba(146,197,180,0.55)'); sg.addColorStop(1, 'rgba(146,197,180,0)');
+    c.fillStyle = sg; const hh = 26 * scale;
+    c.beginPath(); c.moveTo(x, y - hh); c.lineTo(x2, y - hh * 0.35); c.lineTo(x2, y + hh * 0.35); c.lineTo(x, y + hh); c.closePath();
+    c.filter = 'blur(6px)'; c.fill(); c.filter = 'none';
+  }
+  // core
+  g = c.createRadialGradient(x, y, 0, x, y, 30 * scale);
+  g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.45, 'rgba(225,250,240,1)'); g.addColorStop(0.7, 'rgba(146,197,180,0.8)'); g.addColorStop(1, 'rgba(146,197,180,0)');
+  c.fillStyle = g; c.beginPath(); c.arc(x, y, 30 * scale, 0, Math.PI * 2); c.fill();
+  c.restore();
+}
+function bgDark(c, glowA = 1) {
+  c.fillStyle = '#04070b'; c.fillRect(0, 0, W, H);
+  let g = c.createRadialGradient(-120, -160, 0, -120, -160, 1500);
+  g.addColorStop(0, `rgba(146,197,180,${0.34 * glowA})`); g.addColorStop(0.45, `rgba(60,110,110,${0.10 * glowA})`); g.addColorStop(1, 'rgba(0,0,0,0)');
+  c.fillStyle = g; c.fillRect(0, 0, W, H);
+}
+function textLine(c, which, x0, y) { // draws centred line (rtl)
+  c.font = `600 ${FS1}px Plex`; c.direction = 'rtl'; c.textAlign = 'right'; c.textBaseline = 'middle';
+  if (which === 1) { c.fillStyle = 'rgba(240,246,244,0.94)'; c.fillText(L1, 540 + w1 / 2, y); }
+  else {
+    const R = 540 + w2 / 2;
+    c.fillStyle = 'rgba(240,246,244,0.94)'; c.fillText(L2a, R, y);
+    c.font = `700 ${FS1}px Plex`; c.fillStyle = MINT; c.fillText(L2b, R - w2a, y);
+    c.font = `600 ${FS1}px Plex`; c.fillStyle = 'rgba(240,246,244,0.94)'; c.fillText(L2c, R - w2a - w2b, y);
+  }
+}
+function sceneText(t) {
+  // zoom
+  const z = 1 + 0.16 * eio(lin(t, 0, 2.7));
+  bgDark(o);
+  o.save(); o.translate(540, CY); o.scale(z, z); o.translate(-540, -CY);
+  const bx = ballX(t), dt = 1 / 120;
+  const bxp = ballX(t - dt); const vx = (bx != null && bxp != null) ? (bx - bxp) / dt : 0;
+  // text layer
+  lc.clearRect(0, 0, W, H);
+  if (t < 2.12) {
+    textLine(lc, 1, 0, CY);
+    if (bx != null && t < 1.05) { // reveal right of ball
+      lc.globalCompositeOperation = 'destination-in';
+      const g = lc.createLinearGradient(bx, 0, bx + 120, 0); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,1)');
+      lc.fillStyle = g; lc.fillRect(0, 0, W, H); lc.globalCompositeOperation = 'source-over';
+    }
+  } else if (bx != null) {
+    // left of ball: new line, right: old line
+    lc.save(); lc.beginPath(); lc.rect(bx + 10, 0, W * 2, H); lc.clip(); textLine(lc, 1, 0, CY); lc.restore();
+    lc.save(); lc.beginPath(); lc.rect(-W, 0, bx + W - 10, H); lc.clip(); textLine(lc, 2, 0, CY); lc.restore();
+  } else textLine(lc, 2, 0, CY);
+  // fade text slightly near the end (before strips cover)
+  o.drawImage(layer, 0, 0);
+  // blurred smear right behind the ball while writing
+  if (bx != null && Math.abs(vx) > 50) {
+    o.save(); o.filter = 'blur(10px)'; o.globalAlpha = 0.6; o.beginPath();
+    if (vx < 0) o.rect(bx, CY - 60, 160, 120); else o.rect(bx - 160, CY - 60, 160, 120);
+    o.clip(); o.drawImage(layer, 0, 0); o.restore();
+  }
+  if (bx != null) {
+    let sc = 1; if (t > 1.0 && t < 1.5) sc = 1 + 0.45 * Math.sin(Math.PI * lin(t, 1.0, 1.5)) * (1 - lin(t, 1.0, 1.5) * 0.3);
+    sc *= 1 + 0.03 * Math.sin(t * 9);
+    drawBall(o, bx, CY, vx, sc);
+  }
+  o.restore();
+}
+
+// strips
+const SW = 230;
+function sceneStrips(t) {
+  bgDark(o);
+  // leftover: the previous line drifting off? (ref: text still visible at left briefly)
+  if (t < 2.95) { o.save(); o.globalAlpha = 1 - lin(t, 2.62, 2.95); const z = 1.16; o.translate(540, CY); o.scale(z, z); o.translate(-540, -CY); o.translate(260 * eo(lin(t, 2.62, 3.1)), 0); textLine(o, 2, 0, CY); o.restore(); }
+  // strip layout (final x of left edge), mirrored: first word ends right-most
+  const finals = [700, 470, 240, 10]; // left edges; 4th is text-only on bg
+  const colors = ['mint', 'dark', 'mint', 'bg'];
+  const drift = 36 * lin(t, 3.1, 4.45);
+  // collapse (ball from right to left)
+  const cb0 = 4.42, cb1 = 5.02;
+  const ballx = t > cb0 ? 1250 + (470 - 1250) * eo(lin(t, cb0, cb1)) : null;
+  const xc = 470; // collapse line
+  for (let i = 0; i < 4; i++) {
+    const t0 = 2.62 + i * 0.075;
+    const u = lin(t, t0, t0 + 0.5);
+    let x = -SW - 40 + (finals[i] + SW + 40) * eo5(u) + drift;
+    let w = SW;
+    if (u <= 0) continue;
+    // collapse: when ball passes strip, squeeze toward xc
+    if (ballx != null && i < 3) {
+      const cx = x + w / 2;
+      const k = clamp((cx + 140 - ballx) / 260); // ball passed centre -> 1
+      const kk = eio(k);
+      const nx = x + (xc - x) * kk, nw = w * (1 - kk) + 3 * kk;
+      x = nx; w = nw;
+    }
+    if (colors[i] !== 'bg') {
+      o.save();
+      // shadow
+      o.fillStyle = 'rgba(0,0,0,0.55)'; o.filter = 'blur(18px)'; o.fillRect(x - 10, -50, w + 30, H + 100); o.filter = 'none';
+      const g = o.createLinearGradient(x, 0, x + w, 0);
+      if (colors[i] === 'mint') { g.addColorStop(0, '#5f9584'); g.addColorStop(0.18, '#8cc1af'); g.addColorStop(0.55, '#a9d6c6'); g.addColorStop(0.9, '#86baa8'); g.addColorStop(1, '#5c8f7f'); }
+      else { g.addColorStop(0, '#05080c'); g.addColorStop(0.3, '#141c26'); g.addColorStop(0.6, '#1b2531'); g.addColorStop(1, '#070a0f'); }
+      o.fillStyle = g; o.fillRect(x, -10, w, H + 20);
+      // vertical light falloff
+      const vg = o.createLinearGradient(0, 0, 0, H); vg.addColorStop(0, 'rgba(255,255,255,0.10)'); vg.addColorStop(0.5, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.25)');
+      o.fillStyle = vg; o.fillRect(x, -10, w, H + 20);
+      o.restore();
+    }
+    // word
+    if (w > 30 || colors[i] === 'bg') {
+      o.save(); o.beginPath(); o.rect(x, 0, Math.max(w, 1), H); if (colors[i] !== 'bg') o.clip();
+      o.translate(x + (colors[i] === 'bg' ? SW / 2 : w / 2), CY); o.rotate(-Math.PI / 2);
+      o.font = `600 74px Plex`; o.direction = 'rtl'; o.textAlign = 'center'; o.textBaseline = 'middle';
+      o.fillStyle = colors[i] === 'mint' ? NAVY : 'rgba(240,246,244,0.95)';
+      o.fillText(STRIPS[i], 0, 0); o.restore();
+    }
+  }
+  if (ballx != null) {
+    const dt = 1 / 120, bxp = 1250 + (470 - 1250) * eo(lin(t - dt, cb0, cb1));
+    drawBall(o, ballx, CY, (ballx - bxp) / dt, 1.1);
+  }
+  // ball light spill
+}
+
+// ================= SCENE B (5.1 – end) =================
+let renderer, scene, camera, car, groundTex, gcan, gctx, wheels = [];
+const UNIT = 100; // px per world unit
+async function initThree() {
+  renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+  renderer.setSize(W, H, false); renderer.setPixelRatio(1);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  scene = new THREE.Scene();
+  const pm = new THREE.PMREMGenerator(renderer);
+  scene.environment = pm.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+  const vh = H / UNIT, fov = 26; const dist = (vh / 2) / Math.tan(THREE.MathUtils.degToRad(fov / 2));
+  camera = new THREE.PerspectiveCamera(fov, W / H, 1, 400);
+  camera.position.set(0, dist, 0); camera.up.set(0, 0, -1); camera.lookAt(0, 0, 0);
+  // ground
+  gcan = mk(); gctx = gcan.getContext('2d');
+  groundTex = new THREE.CanvasTexture(gcan); groundTex.colorSpace = THREE.SRGBColorSpace;
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(W / UNIT, H / UNIT), new THREE.MeshBasicMaterial({ map: groundTex, toneMapped: false }));
+  ground.rotation.x = -Math.PI / 2; scene.add(ground);
+  const dl = new THREE.DirectionalLight(0xffffff, 2.2); dl.position.set(-6, 14, -8); scene.add(dl);
+  scene.add(new THREE.HemisphereLight(0xdff3ec, 0x2c4f58, 0.8));
+  // car
+  const dr = new DRACOLoader(); dr.setDecoderPath('./node_modules/three/examples/jsm/libs/draco/gltf/');
+  const gl = new GLTFLoader(); gl.setDRACOLoader(dr);
+  const gltf = await gl.loadAsync('assets/ferrari.glb');
+  const m = gltf.scene.children[0];
+  const body = new THREE.MeshPhysicalMaterial({ color: 0x17426f, metalness: 0.7, roughness: 0.32, clearcoat: 1, clearcoatRoughness: 0.03 });
+  const details = new THREE.MeshStandardMaterial({ color: 0xe8eef0, metalness: 1.0, roughness: 0.35 });
+  const glass = new THREE.MeshPhysicalMaterial({ color: 0x0c1622, metalness: 0.4, roughness: 0.02, clearcoat: 1, transparent: true, opacity: 0.92 });
+  m.getObjectByName('body').material = body;
+  ['rim_fl', 'rim_fr', 'rim_rr', 'rim_rl', 'trim'].forEach((n) => { const x = m.getObjectByName(n); if (x) x.material = details; });
+  m.getObjectByName('glass').material = glass;
+  const setM = (n, mat) => { const x = m.getObjectByName(n); if (x) x.traverse((k) => { if (k.isMesh) k.material = mat; }); };
+  const leather = new THREE.MeshStandardMaterial({ color: 0x14273a, roughness: 0.55, metalness: 0.1 });
+  setM('leather', leather); setM('carpet', new THREE.MeshStandardMaterial({ color: 0x0d1a27, roughness: 0.9 }));
+  setM('interior_light', new THREE.MeshStandardMaterial({ color: 0x2b4560, roughness: 0.5 }));
+  const mintM = new THREE.MeshStandardMaterial({ color: 0x92c5b4, roughness: 0.35, metalness: 0.2 });
+  setM('yellow_trim', mintM); setM('blue', mintM);
+  setM('lights', new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 2.5 }));
+  ['wheel_fl', 'wheel_fr', 'wheel_rl', 'wheel_rr'].forEach((n) => wheels.push(m.getObjectByName(n)));
+  const ao = await new THREE.TextureLoader().loadAsync('assets/ferrari_ao.png');
+  const sh = new THREE.Mesh(new THREE.PlaneGeometry(0.655 * 4, 1.3 * 4), new THREE.MeshBasicMaterial({ map: ao, blending: THREE.MultiplyBlending, toneMapped: false, transparent: true, premultipliedAlpha: true }));
+  sh.rotation.x = -Math.PI / 2; sh.renderOrder = 2; m.add(sh);
+  // headlight glows
+  car = new THREE.Group(); car.add(m); m.position.y = 0.0;
+  const SC = 1.62; car.scale.setScalar(SC);
+  scene.add(car);
+}
+
+// car path in screen px; heading deg (0 = nose up, clockwise +)
+const CF = { x: 470, y: 1000, h: 42 };
+function carState(t) {
+  const s = Math.max(0, t - 5.1);
+  const e = Math.exp(-11 * s), slow = 1 - eio(clamp(s / 2.2));
+  return {
+    x: CF.x + 980 * e + 34 * slow,
+    y: CF.y - 260 * e + 22 * slow,
+    h: CF.h + 70 * Math.exp(-7 * s) - 7 * slow,
+  };
+}
+function drawGround(t, st) {
+  const c = gctx;
+  // mint base with light from top-left
+  c.fillStyle = '#8fc3b1'; c.fillRect(0, 0, W, H);
+  let g = c.createRadialGradient(260, 380, 0, 260, 380, 1700);
+  g.addColorStop(0, '#b4dfd0'); g.addColorStop(0.5, '#93c6b5'); g.addColorStop(1, '#6fa593');
+  c.fillStyle = g; c.fillRect(0, 0, W, H);
+  // tire marks (static, mirrored)
+  c.save(); c.strokeStyle = 'rgba(20,54,89,0.13)'; c.lineCap = 'round'; c.filter = 'blur(1.5px)';
+  const arcs = [[1500, 1720, 980, 50], [1500, 1720, 1080, 50], [1560, 2100, 980, 44], [1560, 2100, 1080, 44]];
+  // arcs centred off right-bottom
+  c.lineWidth = 44;
+  c.beginPath(); c.arc(1000, 600, 1000, Math.PI * 0.46, Math.PI * 0.78); c.stroke();
+  c.beginPath(); c.arc(1000, 600, 1105, Math.PI * 0.45, Math.PI * 0.74); c.stroke();
+  c.strokeStyle = 'rgba(20,54,89,0.07)'; c.lineWidth = 40;
+  c.beginPath(); c.arc(1150, 760, 1180, Math.PI * 0.5, Math.PI * 0.72); c.stroke();
+  c.beginPath(); c.arc(1150, 760, 1280, Math.PI * 0.5, Math.PI * 0.69); c.stroke();
+  c.restore();
+  // title (behind car)
+  const tu = eo(lin(t, 5.16, 6.7));
+  const ty = -260 + (700 + 260) * (0.25 * lin(t, 5.16, 6.7) + 0.75 * tu);
+  c.save(); c.font = '700 330px Antonio'; c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+  c.fillStyle = NAVY; c.fillText('Planet', 520, ty);
+  c.restore();
+  // "Creative Marketing" tag (in place of the script "Edits")
+  const cu = lin(t, 5.95, 6.5);
+  if (cu > 0) {
+    c.save(); c.font = '800 50px Manrope'; c.textAlign = 'left'; c.textBaseline = 'middle';
+    const label = 'CREATIVE MARKETING'; c.letterSpacing = '7px';
+    const tw = c.measureText(label).width;
+    const lx = 112, ly = ty - 318;
+    c.beginPath(); c.rect(lx - 10, ly - 40, (tw + 30) * eo(cu), 80); c.clip();
+    c.fillStyle = NAVY; c.fillText(label, lx, ly);
+    c.restore();
+  }
+  // subtitles
+  SUBS.forEach((s, i) => {
+    const u = lin(t, 6.55 + i * 0.2, 7.05 + i * 0.2); if (u <= 0) return;
+    c.save(); c.font = '700 52px Plex'; c.direction = 'rtl'; c.textAlign = 'center'; c.textBaseline = 'middle';
+    const y = 1415 + i * 72 + 16 * (1 - eo(u));
+    const tw = c.measureText(s).width;
+    c.beginPath(); const R = 540 + tw / 2 + 10; c.rect(R - (tw + 20) * eo(u), y - 50, (tw + 20) * eo(u), 100); c.clip();
+    c.fillStyle = i === 0 ? NAVY : NAVY; c.globalAlpha = 0.35 + 0.65 * u; c.fillText(s, 540, y);
+    c.restore();
+  });
+  // car drop shadow (soft, offset down-right like the ref)
+  c.save(); c.translate(st.x + 26, st.y + 44); c.rotate(st.h * Math.PI / 180);
+  c.filter = 'blur(26px)'; c.fillStyle = 'rgba(15,40,52,0.42)';
+  const L = 4.5 * 1.62 * UNIT * 0.98, Wd = 2.0 * 1.62 * UNIT * 0.95;
+  c.beginPath(); c.roundRect(-Wd / 2, -L / 2, Wd, L, 90); c.fill(); c.restore();
+  groundTex.needsUpdate = true;
+}
+const acc = mk(), ac = acc.getContext('2d');
+function placeCar(t) {
+  const st = carState(t);
+  car.position.set((st.x - W / 2) / UNIT, 0, (st.y - H / 2) / UNIT);
+  // model faces +z? nose direction; heading 0 = up(-z)
+  car.rotation.y = -st.h * Math.PI / 180;
+  const s = Math.max(0, t - 5.1);
+  const spin = -(980 * 11 * Math.exp(-11 * s)) * 0 - s * 2;
+  wheels.forEach((w) => { if (w) w.rotation.x = spin; });
+  return st;
+}
+function overlay(t) {
+  // contact block
+  const u = lin(t, 8.3, 8.85); if (u <= 0) return;
+  const e = eo(u);
+  o.save(); o.globalAlpha = clamp(u * 1.6);
+  const y0 = 1650 + 60 * (1 - e);
+  // logo badge
+  const bx = 820, bs = 190;
+  o.save(); o.shadowColor = 'rgba(10,30,40,0.35)'; o.shadowBlur = 30; o.shadowOffsetY = 10;
+  o.fillStyle = '#ffffff'; o.beginPath(); o.roundRect(bx, y0, bs, bs, 44); o.fill(); o.restore();
+  drawP(o, bx + 42, y0 + 40, 110);
+  // pills
+  o.font = '800 50px Manrope'; o.textBaseline = 'middle'; o.textAlign = 'center';
+  o.fillStyle = NAVY; o.beginPath(); o.roundRect(70, y0, 720, 86, 43); o.fill();
+  o.fillStyle = '#ffffff'; o.fillText('theplanetco.com', 430, y0 + 45);
+  o.fillStyle = '#ffffff'; o.beginPath(); o.roundRect(70, y0 + 104, 720, 86, 43); o.fill();
+  o.font = '700 46px Plex'; o.direction = 'rtl'; o.fillStyle = NAVY; o.textAlign = 'right';
+  o.fillText('واتساب', 750, y0 + 149);
+  o.direction = 'ltr'; o.textAlign = 'left'; o.font = '800 50px Manrope'; o.fillText('01203101104', 110, y0 + 149);
+  o.restore();
+}
+function sceneCar(t) {
+  const sub = t < 5.45 ? 6 : 1; const dt = 1 / 60 / sub * 0.9;
+  ac.clearRect(0, 0, W, H);
+  for (let k = 0; k < sub; k++) {
+    const tt = t - k * dt;
+    const st = placeCar(tt); drawGround(t, st);
+    renderer.render(scene, camera);
+    ac.globalAlpha = 1 / (k + 1); ac.drawImage(renderer.domElement, 0, 0);
+  }
+  ac.globalAlpha = 1;
+  o.drawImage(acc, 0, 0);
+  { const st = carState(t), a = st.h * Math.PI / 180; o.save(); o.globalCompositeOperation = 'lighter';
+    for (const sx of [-1, 1]) { // front corners: local (sx*0.72m, -2.05m)*scale
+      const lx = sx * 0.66 * 1.62 * UNIT, ly = -2.02 * 1.62 * UNIT;
+      const X = st.x + lx * Math.cos(a) - ly * Math.sin(a), Y = st.y + lx * Math.sin(a) + ly * Math.cos(a);
+      const g = o.createRadialGradient(X, Y, 0, X, Y, 70); g.addColorStop(0, 'rgba(255,255,255,0.95)'); g.addColorStop(0.25, 'rgba(235,255,248,0.45)'); g.addColorStop(1, 'rgba(146,197,180,0)');
+      o.fillStyle = g; o.fillRect(X - 80, Y - 80, 160, 160);
+      // beam on the ground
+      const BX = X + Math.sin(a) * 150, BY = Y - Math.cos(a) * 150;
+      const g2 = o.createRadialGradient(BX, BY, 0, BX, BY, 170); g2.addColorStop(0, 'rgba(255,255,240,0.22)'); g2.addColorStop(1, 'rgba(255,255,240,0)');
+      o.fillStyle = g2; o.fillRect(BX - 180, BY - 180, 360, 360);
+    } o.restore(); }
+  // gentle vignette
+  const g = o.createRadialGradient(540, 900, 600, 540, 900, 1400); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(10,30,40,0.22)');
+  o.fillStyle = g; o.fillRect(0, 0, W, H);
+  overlay(t);
+}
+
+window.renderAt = async (t) => {
+  if (t < 2.62) sceneText(t);
+  else if (t < 5.1) sceneStrips(t);
+  else sceneCar(t);
+};
+(async () => {
+  await document.fonts.load('600 60px Plex', 'كل'); await document.fonts.load('700 60px Plex', 'كل');
+  await document.fonts.load('600 60px Plex', 'a'); await document.fonts.load('700 60px Antonio', 'P');
+  await document.fonts.load('800 50px Manrope', 'a'); await document.fonts.load('700 50px Manrope', 'a');
+  measure(); await initThree();
+  window.ready = true;
+})();
+</script></body></html>
