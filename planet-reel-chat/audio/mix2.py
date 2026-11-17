@@ -2,7 +2,7 @@
 Run: python3 -I mix.py <sfx_kit_dir> <soundfont_dir> <dirt_samples_dir> <out.wav>"""
 import sys, subprocess, json, numpy as np
 SFX, SF, DS, OUT = sys.argv[1:5]
-SR = 44100; DUR = 30.0; N = int(SR * DUR)
+SR = 44100; DUR = 31.5; N = int(SR * DUR)
 music = np.zeros((N, 2), np.float32); drums = np.zeros((N, 2), np.float32); sfx = np.zeros((N, 2), np.float32)
 _c = {}
 def load(p):
@@ -66,7 +66,7 @@ for n in ['A2', 'E3']: note('pad_2_warm', n, 26.9, 0.2, length=0.9)
 for i, n in enumerate(['A3', 'C4', 'E4', 'G4', 'C5']): note('electric_piano_1', n, 27.65 + i * 0.04, 0.26, length=2.2)
 for n in ['A3', 'E4', 'C5']: note('pad_2_warm', n, 27.65, 0.16, length=2.3)
 note('synth_bass_1', 'A2', 27.65, 0.55, length=1.4); drum(KICK, 27.65, 0.9)
-for t in np.arange(28.0, 29.6, 0.25): drum(HAT, t, 0.05, 0.2)
+for t in np.arange(28.0, 30.4, 0.25): drum(HAT, t, 0.05, 0.2)
 
 # ---- SFX ----
 def typ(t0, n, rate, g=0.5, kind='keyboard-letter-soft'):
