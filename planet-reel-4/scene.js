@@ -456,7 +456,7 @@ shot(20.3, 22.05, (g) => {
     for (let j = 8; j >= 1; j--) { const p = planeOf(cc.sc, wdt, { map: cc.st, alphaTest: 0.5 }); p.position.z = -j * 0.035; grp.add(p); }
     grp.add(planeOf(cc.c, wdt, { map: cc.ft }));
     const ang = r() * Math.PI * 2, rad = 1.3 + r() * 2.6;
-    grp.userData = { x: Math.cos(ang) * rad, y: 3 + Math.sin(ang) * rad * 0.9, z: -r() * 30 + 6, rx: (r() - 0.5) * 1.2, ry: (r() - 0.5) * 1.4, rz: (r() - 0.5) * 1.6, sp: (r() - 0.5) * 2, t: 20.3 + r() * 0.6 };
+    grp.userData = { x: Math.cos(ang) * rad, y: 3 + Math.sin(ang) * rad * 0.9, z: -r() * 30 + 6, rx: (r() - 0.5) * 1.2, ry: (r() - 0.5) * 1.4, rz: (r() - 0.5) * 1.6, sp: (r() - 0.5) * 2, t: 19.95 + r() * 0.75 };
     g.add(grp); pills.push(grp);
   }
   // typing bubble
