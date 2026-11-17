@@ -58,7 +58,7 @@ function rrPoints(cx, cy, w, h, r, n = 240) {
 }
 function polyPath(pts, frac) { return () => { x.beginPath(); const m = Math.max(2, Math.round(pts.length * cl(frac))); x.moveTo(...pts[0]); for (let i = 1; i < m; i++) x.lineTo(...pts[i]); }; }
 
-function font(size, wt = 600, fam = 'Plex') { x.font = `${wt} ${size}px ${fam}`; }
+function font(size, wt = 600, fam = 'Plex') { x.font = `${wt} ${size}px ${fam}, Man`; }
 // RTL typing anchored on the right edge of the full string, so it grows leftwards like real Arabic typing
 function typeAr(str, p, cx, cy, size, { wt = 600, col = '#fff', a = 1, glow = 'rgba(255,255,255,.55)', caret = true, anchor = 'center' } = {}) {
   if (a <= 0 || p <= 0) return; x.save(); font(size, wt); x.direction = 'rtl'; x.textBaseline = 'middle';
@@ -82,11 +82,34 @@ function star4(px, py, r, col, rot = 0, a = 1) {
 }
 function cross(px, py, s, a = 1) { x.save(); x.globalAlpha = a; x.strokeStyle = '#fff'; x.lineWidth = 3; x.shadowColor = '#fff'; x.shadowBlur = 10; x.beginPath(); x.moveTo(px - s, py); x.lineTo(px + s, py); x.moveTo(px, py - s); x.lineTo(px, py + s); x.stroke(); x.restore(); }
 
+function phonePath(cx, cy, w, h) { return () => { x.beginPath(); x.roundRect(cx - w / 2, cy - h / 2, w, h, Math.min(w, h) * .17); }; }
+function phoneDetails(cx, cy, w, h, a) { if (a <= 0) return; x.save(); x.globalAlpha = a; x.fillStyle = 'rgba(255,240,225,.85)'; x.beginPath(); x.roundRect(cx - w * .14, cy - h / 2 + h * .035, w * .28, h * .035, h * .02); x.fill();
+  x.fillRect(cx - w / 2 - 5, cy - h * .2, 3, h * .1); x.fillRect(cx + w / 2 + 2, cy - h * .25, 3, h * .16); x.restore(); }
+function battery(cx, cy, w, h, k, a) { if (a <= 0) return; fillRR(cx, cy, w, h, 12, '#16121c', a);
+  if (k > 0) { x.save(); x.globalAlpha = a; x.fillStyle = grad(cx - w / 2, 0, cx + w / 2, 0, [RD, OR, AM]); x.beginPath(); x.roundRect(cx - w / 2 + 6, cy - h / 2 + 6, (w - 12) * k, h - 12, 7); x.fill(); x.restore(); aura(cx, cy, 130, 'rgba(255,110,0,.5)', k * a); }
+  neon(rrPath(cx, cy, w, h, 12), 'rgba(255,245,230,.85)', 2.5, a, null); neon(rrPath(cx + w / 2 + 8, cy, 8, h * .4, 3), 'rgba(255,245,230,.85)', 2.5, a, null);
+  x.save(); x.globalAlpha = a * (.4 + .6 * k); x.fillStyle = '#fff'; x.beginPath(); x.moveTo(cx + 6, cy - h * .32); x.lineTo(cx - 10, cy + 3); x.lineTo(cx, cy + 3); x.lineTo(cx - 6, cy + h * .32); x.lineTo(cx + 12, cy - 4); x.lineTo(cx + 2, cy - 4); x.closePath(); x.fill(); x.restore(); }
+function iconRow(cx, cy, a) { if (a <= 0) return; const st = 'rgba(255,236,215,.9)';
+  // earbuds
+  neon(() => { x.beginPath(); x.arc(cx - 128, cy - 8, 12, 0, 7); x.moveTo(cx - 122, cy + 2); x.lineTo(cx - 118, cy + 26); x.moveTo(cx - 94, cy - 8); x.arc(cx - 106, cy - 8, 12, 0, 7); x.moveTo(cx - 100, cy + 2); x.lineTo(cx - 96, cy + 26); }, st, 2.2, a, null);
+  // charger
+  neon(() => { x.beginPath(); x.roundRect(cx - 20, cy - 16, 40, 40, 8); x.moveTo(cx - 9, cy - 16); x.lineTo(cx - 9, cy - 30); x.moveTo(cx + 9, cy - 16); x.lineTo(cx + 9, cy - 30); }, st, 2.2, a, null);
+  // smartwatch
+  neon(() => { x.beginPath(); x.roundRect(cx + 96, cy - 16, 34, 40, 9); x.moveTo(cx + 104, cy - 16); x.lineTo(cx + 106, cy - 32); x.lineTo(cx + 120, cy - 32); x.lineTo(cx + 122, cy - 16); x.moveTo(cx + 104, cy + 24); x.lineTo(cx + 106, cy + 40); x.lineTo(cx + 120, cy + 40); x.lineTo(cx + 122, cy + 24); }, st, 2.2, a, null); }
+// neon line-art of the Q625 gimbal, drawn on progressively (p 0..1)
+function gimbal(cx, cy, p, a) { const st = grad(cx - 200, cy + 300, cx + 200, cy - 300, [MG, OR, AM, CR]); const q = (i) => cl(p * 6 - i);
+  neon(() => { x.beginPath(); x.moveTo(cx - 10, cy + 150); x.lineTo(cx - 130, cy + 330 * 1); x.moveTo(cx - 10, cy + 150); x.lineTo(cx + 120, cy + 330); x.moveTo(cx - 10, cy + 150); x.lineTo(cx - 10, cy + 150 + 190 * q(0)); }, st, 4, a * cl(q(0) * 3));
+  neon(() => { x.beginPath(); x.roundRect(cx - 34, cy - 60 + (1 - q(1)) * 200, 52, 210, 24); }, st, 4.5, a * q(1));
+  if (q(2) > 0) { x.save(); x.globalAlpha = a * q(2); x.fillStyle = OR; x.shadowColor = OR; x.shadowBlur = 18; x.beginPath(); x.arc(cx - 8, cy + 10, 11, 0, 7); x.fill(); x.fillStyle = '#fff'; [40, 66].forEach((d) => { x.beginPath(); x.arc(cx - 8, cy + d, 5, 0, 7); x.fill(); }); x.restore(); }
+  neon(() => { x.beginPath(); x.moveTo(cx - 8, cy - 60); x.lineTo(cx - 8, cy - 60 - 120 * q(3)); if (q(3) >= 1) { x.lineTo(cx - 8 + 90 * q(4), cy - 180 - 40 * q(4)); } }, st, 5, a * cl(q(3) * 2));
+  neon(() => { x.beginPath(); x.arc(cx - 8, cy - 180, 16, 0, 7); }, AM, 3, a * q(4), null);
+  const pp = q(5); if (pp > 0) { const px = cx + 90, py = cy - 250; fillRR(px, py, 300 * pp, 150 * pp, 22, '#0d0b12', a); neon(phonePath(px, py, 300 * pp, 150 * pp), grad(px - 150, py, px + 150, py, [CR, OR, MG]), 4, a); aura(px, py, 220, 'rgba(255,120,0,.35)', a * pp); x.save(); x.globalAlpha = a * pp; x.fillStyle = '#fff'; x.beginPath(); x.arc(px - 110, py, 9, 0, 7); x.fill(); x.restore(); }
+}
 // ---------------------------------------------------------------- shots
 const SHOTS = [
   [0, 2.0, (u) => { // 1 typing + zoom out
     const s = lerp(2.5, 1, seg(u, 0, 1.3, oc)); cam(s);
-    const a = 1 - seg(u, 1.8, 0.2, lin); const str = 'كل شي بيبلّش بلقطة.';
+    const a = 1 - seg(u, 1.8, 0.2, lin); const str = 'كل شي بيبلّش من موبايلك.';
     const p = seg(u, 0.05, 1.35, lin);
     const left = typeAr(str, p, CX, CY, 52, { wt: 600, col: grad(CX - 260, 0, CX + 260, 0, [AM, '#fff', MG]), a, caret: true });
     if (u > .7) typeAr(str, p, CX, CY, 52, { wt: 600, col: '#fff', a: a * seg(u, .7, .5, lin), caret: false });
@@ -95,15 +118,15 @@ const SHOTS = [
   }],
   [2.0, 3.3, (u) => { // 2 dot -> pill "one press"
     cam(1); const out = 1 - seg(u, 1.1, .2, io); const m = seg(u, .18, .32, io);
-    const w = lerp(68, 470, m) * out, h = lerp(68, 86, m) * out; if (w < 2) return;
+    const w = lerp(68, 250, m) * out, h = lerp(68, 470, m) * out; if (w < 2) return;
     const sc = seg(u, 0, .2, ob);
     aura(CX + 150 * m, CY + 10, 300 * m * out, 'rgba(255,110,0,.55)', m, 1.7, .9);
     aura(CX + 260 * m, CY - 40, 220 * m * out, 'rgba(255,61,139,.45)', m, 1.4, .8);
     x.save(); x.translate(CX, CY); x.scale(sc, sc); x.translate(-CX, -CY);
     if (m < .05) { neon(() => { x.beginPath(); x.arc(CX, CY, 30, 0, 7); }, grad(CX - 30, 0, CX + 30, 0, [MG, VI]), 10, 1); }
-    else { fillRR(CX, CY, w, h, h / 2, '#0f0c14', .96); neon(rrPath(CX, CY, w, h, h / 2), grad(CX - w / 2, 0, CX + w / 2, 0, [CR, AM, MG, VI]), 4, 1); }
+    else { const rr = lerp(34, 42, m); fillRR(CX, CY, w, h, rr, '#0f0c14', .96); neon(rrPath(CX, CY, w, h, rr), grad(CX - w / 2, CY - h / 2, CX + w / 2, CY + h / 2, [CR, AM, MG, VI]), 4, 1); phoneDetails(CX, CY, w, h, seg(u, .45, .2, lin) * out); }
     x.restore();
-    typeAr('ضغطة وحدة.', seg(u, .45, .4, lin), CX, CY + 2, 34, { wt: 600, a: out });
+    typeAr('أحدث الأجهزة', seg(u, .45, .4, lin), CX, CY + 2, 32, { wt: 700, a: out });
   }],
   [3.3, 4.6, (u) => { // 3 sparkles
     cam(1);
@@ -116,17 +139,12 @@ const SHOTS = [
   [4.6, 6.8, (u) => { // 4 line + "turns on" + toggle
     cam(1); const out = 1 - seg(u, 2.0, .2, lin);
     const lw = 560 * seg(u, 0, .4, oc) * (1 - seg(u, .9, .35, io));
-    if (lw > 2) neon(() => { x.beginPath(); x.moveTo(CX - lw / 2, CY + 42); x.lineTo(CX + lw / 2, CY + 42); }, grad(CX - 280, 0, CX + 280, 0, [VI, MG, OR, AM]), 4, 1);
+    if (lw > 2) { neon(() => { x.beginPath(); x.moveTo(CX - lw / 2, CY + 42); x.lineTo(CX + lw / 2, CY + 42); }, grad(CX - 280, 0, CX + 280, 0, [VI, MG, OR, AM]), 4, 1);
+      neon(() => { x.beginPath(); x.roundRect(CX + lw / 2 - 2, CY + 30, 34, 24, 5); x.moveTo(CX + lw / 2 + 32, CY + 37); x.lineTo(CX + lw / 2 + 44, CY + 37); x.moveTo(CX + lw / 2 + 32, CY + 47); x.lineTo(CX + lw / 2 + 44, CY + 47); }, AM, 2.5, 1, null); }
     const tx = CX + 75 * seg(u, .95, .4, io);
-    const left = typeAr('وبيشتغل.', seg(u, .15, .45, lin), tx, CY, 46, { wt: 600, a: out });
+    const left = typeAr('شحن سريع.', seg(u, .15, .45, lin), tx, CY, 46, { wt: 600, a: out });
     star4((left ?? CX) - 26, CY - 30, 12 * bump(u, .5, .45), '#fff', u * 4);
-    const tg = seg(u, 1.1, .3, ob) * out; if (tg > .01) {
-      const k = seg(u, 1.5, .3, io), gx = CX - 175, tw = 104 * tg, th = 54 * tg;
-      x.save(); x.globalAlpha = out; fillRR(gx, CY, tw, th, th / 2, '#18141f', 1);
-      if (k > 0) { x.globalAlpha = out * k; x.fillStyle = grad(gx - tw / 2, 0, gx + tw / 2, 0, [MG, OR]); rrPath(gx, CY, tw, th, th / 2)(); x.fill(); aura(gx, CY, 120, 'rgba(255,100,40,.55)', k * out); }
-      x.restore(); neon(rrPath(gx, CY, tw, th, th / 2), 'rgba(255,255,255,.5)', 1.5, out, null);
-      x.save(); x.globalAlpha = out; x.fillStyle = '#fff'; x.shadowColor = '#fff'; x.shadowBlur = 16; x.beginPath(); x.arc(gx - tw / 2 + th / 2 + k * (tw - th), CY, th * .36, 0, 7); x.fill(); x.restore();
-    }
+    const tg = seg(u, 1.1, .3, ob) * out; if (tg > .01) battery(CX - 190, CY, 124 * tg, 60 * tg, seg(u, 1.45, .5, io), out);
   }],
   [6.8, 7.3, (u) => { // 5 bracket draws into frame
     cam(1); const pts = rrPoints(CX, CY, 620, 300, 46); const p = seg(u, 0, .5, io);
@@ -141,8 +159,8 @@ const SHOTS = [
     aura(CX - 320, CY + 150, 170, 'rgba(255,214,140,.6)', k);
     fillRR(CX, CY, 620, 300, 46, '#0d0b12', .97);
     neon(rrPath(CX, CY, 620, 300, 46), grad(CX - 310, CY + 150, CX + 310, CY - 150, [CR, AM, MG, OR]), 3.5, 1);
-    typeAr('والصورة بتحكي.', seg(u, .1, .8, lin), CX, CY - 8, 36, { wt: 600 });
-    x.save(); x.globalAlpha = .55 * (1 - seg(u, 1.2, .2, lin)); x.strokeStyle = '#fff'; x.lineWidth = 2; x.beginPath(); x.moveTo(CX - 8, CY + 52); x.lineTo(CX - 8, CY + 76); x.lineTo(CX + 12, CY + 64); x.closePath(); x.stroke(); x.restore();
+    typeAr('وكل الإكسسوارات.', seg(u, .1, .8, lin), CX, CY - 40, 36, { wt: 600 });
+    iconRow(CX, CY + 60, seg(u, .7, .4, oc));
     if (u > 1.3) cross(CX + 250, CY + 105, 10, seg(u, 1.3, .2, lin));
   }],
   [9.3, 10.7, (u) => { // 7 zoom into the corner, light streak + click
@@ -167,10 +185,11 @@ const SHOTS = [
     cam(1); const k = seg(u, 0, .45, oc), out = 1 - seg(u, 2.05, .25, io); const R = 300 * (.6 + .4 * k) * (0.4 + .6 * out);
     const rot = u * .5;
     for (let i = 0; i < 10; i++) { const a = rot + i * Math.PI * 2 / 10; x.save(); x.globalAlpha = .5 * k * out; x.strokeStyle = 'rgba(255,140,70,.8)'; x.lineWidth = 4; x.beginPath(); x.arc(CX + R * Math.cos(a), CY + R * Math.sin(a), 34, 0, 7); x.stroke(); x.restore(); }
-    const oa = rot - Math.PI / 2 + seg(u, .1, 2, io) * Math.PI * 1.6, ox = CX + R * Math.cos(oa), oy = CY + R * Math.sin(oa);
+    const oa = rot - Math.PI / 2 + seg(u, .1, 2, io) * Math.PI * 2, ox = CX + R * Math.cos(oa), oy = CY + R * Math.sin(oa);
     aura(ox, oy, 120, 'rgba(255,61,139,.55)', k * out);
     neon(() => { x.beginPath(); x.arc(ox, oy, 38, 0, 7); }, grad(ox - 38, oy - 38, ox + 38, oy + 38, [MG, OR, AM]), 7, k * out);
-    typeAr('بيلحقك وين ما تتحرك.', seg(u, .2, .9, lin), CX, CY, 34, { wt: 600, a: out });
+    typeAr('جيمبل ذكي', seg(u, .2, .4, lin), CX, CY - 34, 34, { wt: 600, a: out, col: '#ddd' });
+    typeAr('بيلف 360°', seg(u, .6, .5, lin), CX, CY + 26, 50, { wt: 700, a: out, glow: 'rgba(255,122,0,.6)' });
   }],
   [13.3, 17.0, (u) => { // 10 the eye
     const pulse = 1 + .05 * seg(u, 1.5, 1.2, io) - .05 * seg(u, 2.7, .3, io);
@@ -181,22 +200,20 @@ const SHOTS = [
     neon(() => { x.beginPath(); x.moveTo(CX - E, CY); x.quadraticCurveTo(CX, CY - 290 * o, CX + E, CY); x.quadraticCurveTo(CX, CY + 290 * o, CX - E, CY); x.closePath(); }, grad(CX - E, 0, CX + E, 0, [MG, VI, AM, OR, MG]), 8, 1);
     const pill = seg(u, 1.0, .3, ob) * (1 - seg(u, 2.9, .3, io)); const ir = lerp(96, 124, seg(u, 3.0, .4, oc));
     const ia = 1 - pill * .9; neon(() => { x.beginPath(); x.arc(CX, CY, ir * o, 0, 7); }, grad(CX - ir, 0, CX + ir, 0, [AM, CR, OR]), 9, ia * seg(u, .25, .3, lin));
-    if (pill > .01) { const fy = CY + 6 * Math.sin(u * 3); fillRR(CX, fy, 400 * pill, 80 * pill, 40 * pill, '#0d0b12', .96); neon(rrPath(CX, fy, 400 * pill, 80 * pill, 40 * pill), 'rgba(255,240,225,.8)', 2, pill, null); typeAr('بعين أذكى.', seg(u, 1.1, .4, lin), CX, fy + 1, 32, { wt: 600, a: pill }); }
+    const fb = seg(u, .45, .35, ob) * (1 - seg(u, 1.0, .2, lin)) + seg(u, 3.1, .3, ob); if (fb > .01) { const B = 175 * (2 - Math.min(1, fb)) / 1, L = 46; neon(() => { x.beginPath(); [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => { x.moveTo(CX + a * B, CY + b * B - b * L); x.lineTo(CX + a * B, CY + b * B); x.lineTo(CX + a * B - a * L, CY + b * B); }); }, 'rgba(255,245,230,.9)', 3, Math.min(1, fb), null); }
+    if (pill > .01) { const fy = CY + 6 * Math.sin(u * 3); fillRR(CX, fy, 600 * pill, 84 * pill, 42 * pill, '#0d0b12', .96); neon(rrPath(CX, fy, 600 * pill, 84 * pill, 42 * pill), 'rgba(255,240,225,.8)', 2, pill, null); typeAr('بيلحق وجهك وين ما تتحرك.', seg(u, 1.1, .6, lin), CX, fy + 1, 30, { wt: 600, a: pill }); }
   }],
   [17.0, 17.8, (u) => { // 11 iris shrinks to iridescent ring
     cam(1); const r = lerp(124, 48, seg(u, 0, .5, io)); const sq = 1 - .15 * bump(u, .5, .3);
     [[MG, 0], [OR, 2.1], [AM, 4.2]].forEach(([c, ph]) => { const ox = 6 * Math.cos(u * 6 + ph), oy = 6 * Math.sin(u * 6 + ph); neon(() => { x.beginPath(); x.ellipse(CX + ox, CY + oy, r, r * sq, 0, 0, 7); }, c, 5, .9, null); });
     neon(() => { x.beginPath(); x.ellipse(CX, CY, r, r * sq, 0, 0, 7); }, 'rgba(255,250,240,.9)', 2, 1, null);
   }],
-  [17.8, 19.4, (u) => { // 12 it takes shape -> the logo mark in 3D
-    cam(1); if (!mark.complete) return;
-    const sc = seg(u, 0, .5, ob), ang = lerp(-.9, .12, seg(u, 0, 1.5, oc)), fl = 10 * Math.sin(u * 2.5);
-    aura(CX + 30, CY - 40, 420, 'rgba(255,110,0,.35)', sc);
-    x.save(); x.translate(CX + 30, CY - 60 + fl); x.rotate(-.06 + .05 * Math.sin(u * 1.7)); x.scale(sc * Math.cos(ang) * (1 + .15 * Math.abs(Math.sin(ang))), sc);
-    x.shadowColor = 'rgba(255,120,0,.8)'; x.shadowBlur = 50; const mw = 560, mh = mw * mark.height / mark.width; x.drawImage(mark, -mw / 2, -mh / 2, mw, mh);
-    x.globalCompositeOperation = 'lighter'; x.globalAlpha = .35 * bump(u, .3, 1.1); x.shadowBlur = 0; x.drawImage(mark, -mw / 2 + 4, -mh / 2 - 3, mw, mh); x.restore();
-    [[CX - 320, 0.9, 14], [CX + 330, .4, 10], [CX - 220, 1.4, 20], [CX + 250, 1.2, 7], [CX - 60, .2, 9]].forEach(([bx, d, r], i) => { const y = CY + 330 - 520 * ((u * .35 + d * .3) % 1); neon(() => { x.beginPath(); x.arc(bx, y, r, 0, 7); }, [MG, OR, AM][i % 3], 2.5, .8 * sc, null); });
-    typeAr('وبياخد شكله.', seg(u, .2, .6, lin), W - 200, CY + 400, 34, { wt: 600, anchor: 'right' });
+  [17.8, 19.4, (u) => { // 12 it takes shape -> the Q625 gimbal drawn in neon
+    cam(1); const sc = seg(u, 0, .4, oc), fl = 8 * Math.sin(u * 2.5);
+    aura(CX + 40, CY - 80, 460, 'rgba(255,110,0,.3)', sc);
+    x.save(); x.translate(0, fl); gimbal(CX - 40, CY - 40, seg(u, 0, 1.2, lin), 1); x.restore();
+    [[CX - 330, 0.9, 14], [CX + 360, .4, 10], [CX - 250, 1.4, 20], [CX + 280, 1.2, 7], [CX - 120, .2, 9]].forEach(([bx, d, r], i) => { const y = CY + 330 - 520 * ((u * .35 + d * .3) % 1); neon(() => { x.beginPath(); x.arc(bx, y, r, 0, 7); }, [MG, OR, AM][i % 3], 2.5, .8 * sc, null); });
+    typeAr('جيمبل Q625', seg(u, .5, .6, lin), W - 150, CY + 470, 44, { wt: 700, anchor: 'right', glow: 'rgba(255,122,0,.5)' });
   }],
   [19.4, 22.9, (u) => { // 13 giant pill zoom-out "one click"
     const z = lerp(5, 1, seg(u, 0, 1.4, io)); const dr = 120 * seg(u, 2.3, 1.2, io);
@@ -206,17 +223,17 @@ const SHOTS = [
     fillRR(CX, CY, pw, ph, ph / 2, '#0b0a10', 1);
     neon(rrPath(CX, CY, pw, ph, ph / 2), grad(CX - pw / 2, CY - ph / 2, CX + pw / 2, CY + ph / 2, [CR, AM, MG, OR]), 10, out);
     x.setTransform(1, 0, 0, 1, 0, 0);
-    typeAr('بكبسة وحدة.', seg(u, 1.35, .6, lin), CX + dr * .6 * G, CY, 110, { wt: 700, a: out });
+    typeAr('وصيانة لكل الأجهزة', seg(u, 1.35, .7, lin), CX + dr * .6 * G, CY, 92, { wt: 700, a: out });
   }],
   [22.9, 26.0, (u) => { // 14 cursor draws a line -> selection frame "frame"
     cam(1);
     const lp = seg(u, .4, .4, io), ex = seg(u, .9, .3, io), dg = seg(u, 2.2, .85, io);
-    const fw = lerp(lerp(0, 280, lp), 420, ex) + 220 * dg, fh = lerp(4, 140, ex) + 160 * dg;
+    const fw = lerp(lerp(0, 280, lp), 420, ex) + 100 * dg, fh = lerp(4, 140, ex) + 480 * dg;
     if (ex < .02 && lp > 0) neon(() => { x.beginPath(); x.moveTo(CX - 140, CY); x.lineTo(CX - 140 + 280 * lp, CY); }, grad(CX - 140, 0, CX + 140, 0, [AM, OR, MG]), 4, 1);
     if (ex > .02) {
       x.save(); x.strokeStyle = 'rgba(255,255,255,.75)'; x.lineWidth = 1.6; x.strokeRect(CX - fw / 2, CY - fh / 2, fw, fh);
       x.fillStyle = '#fff'; [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => x.fillRect(CX + a * fw / 2 - 4, CY + b * fh / 2 - 4, 8, 8)); x.restore();
-      typeAr('كادر.', seg(u, 1.1, .3, lin), CX, CY, 30, { wt: 600 });
+      typeAr('عصا سيلفي K50', seg(u, 1.1, .45, lin), CX, CY, 32, { wt: 700 });
     }
     let kx, ky; const c0 = [CX + 60, CY + 50];
     if (u < .4) { kx = c0[0]; ky = c0[1]; } else if (u < .9) { kx = CX - 140 + 280 * lp; ky = CY; }
@@ -227,14 +244,15 @@ const SHOTS = [
     cam(1); const k = seg(u, 0, .3, oc);
     aura(CX + 90, CY + 150, 320, 'rgba(255,120,0,.75)', k, 1.6, .45);
     aura(CX - 200, CY - 120, 260, 'rgba(255,61,139,.35)', k, 1.4, .6);
-    neon(rrPath(CX, CY, 640, 300, 34), grad(CX - 320, CY, CX + 320, CY, [VI, MG, AM, OR]), 4.5, k);
-    x.save(); x.fillStyle = '#fff'; [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => x.fillRect(CX + a * 320 - 4, CY + b * 150 - 4, 8, 8)); x.restore();
-    typeAr('ولا اهتزاز.', seg(u, .05, .55, lin), CX, CY, 36, { wt: 600 });
-    cursor(CX - 320, CY - 150, 1.4, null, 1);
+    neon(rrPath(CX, CY, 520, 620, 34), grad(CX - 260, CY - 310, CX + 260, CY + 310, [VI, MG, AM, OR]), 4.5, k);
+    x.save(); x.fillStyle = '#fff'; [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => x.fillRect(CX + a * 260 - 4, CY + b * 310 - 4, 8, 8)); x.restore();
+    const cm = Math.round(190 * seg(u, 0, .7, io)); x.save(); x.globalAlpha = k; font(120, 700, 'Man'); x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = '#fff'; x.shadowColor = 'rgba(255,122,0,.7)'; x.shadowBlur = 40; x.fillText(String(cm), CX - 30, CY - 40); font(44, 700, 'Plex'); x.fillStyle = OR; x.fillText('سم', CX + 130, CY - 20); x.restore();
+    typeAr('ولا اهتزاز.', seg(u, .35, .5, lin), CX, CY + 90, 38, { wt: 600 });
+    cursor(CX - 260, CY - 310, 1.4, null, 1);
   }],
   [27.4, 28.4, (u) => { // 16 frame collapses to a bar, then a line
     cam(1); const c = seg(u, 0, .35, io), t2 = seg(u, .45, .45, io);
-    const w = lerp(lerp(640, 560, c), 420, t2), h = lerp(lerp(300, 16, c), 4, t2);
+    const w = lerp(lerp(520, 560, c), 420, t2), h = lerp(lerp(620, 16, c), 4, t2);
     neon(rrPath(CX, CY, w, h, Math.min(34, h / 2)), grad(CX - w / 2, 0, CX + w / 2, 0, [VI, MG, CR, OR]), lerp(4.5, 3, t2), 1);
     if (c > .8) { x.save(); x.globalCompositeOperation = 'lighter'; x.globalAlpha = .5 * (1 - t2); x.fillStyle = grad(CX - w / 2, 0, CX + w / 2, 0, [MG, OR]); rrPath(CX, CY, w, h, h / 2)(); x.fill(); x.restore(); }
     cursor(CX - w / 2 - 6, CY + 6, 1.4, null, 1);
@@ -244,7 +262,7 @@ const SHOTS = [
     [[MG, 0], [OR, 1.1], [AM, 2.2], [CR, 3.3]].forEach(([c, ph], i) => {
       neon(() => { x.beginPath(); for (let px = CX - 310; px <= CX + 310; px += 4) { const env = Math.exp(-Math.pow((px - CX) / 175, 2)); const y = CY + amp * env * Math.sin((px - CX) * 2 * Math.PI / 200 + u * 5 + ph) * (i % 2 ? .8 : 1); px === CX - 310 ? x.moveTo(px, y) : x.lineTo(px, y); } }, c, 3.5, .85 * out, i === 3 ? 'rgba(255,255,255,.9)' : null);
     });
-    typeAr('على موجتك.', seg(u, .6, .6, lin), CX, CY - 190, 34, { wt: 600, a: out });
+    typeAr('وسماعات بصوت نقي.', seg(u, .6, .7, lin), CX, CY - 190, 36, { wt: 600, a: out });
     cursor(CX - 316, CY + 6, 1.4, null, 1 - seg(u, .3, .3, lin));
   }],
   [31.0, 33.4, (u) => { // 18 neon lines sweep in and cross
@@ -281,7 +299,8 @@ const SHOTS = [
       x.save(); x.globalAlpha = info; x.fillStyle = grad(CX - 200, 0, CX + 200, 0, ['rgba(255,122,0,0)', OR, 'rgba(255,122,0,0)']); x.fillRect(CX - 200 * info, CY + 290, 400 * info, 3); x.restore();
       typeAr('لسنا مجرد خيار... نحن المعيار', 1, CX, CY + 360, 40, { wt: 700, a: info, caret: false, glow: 'rgba(255,122,0,.45)' });
       x.save(); x.globalAlpha = info * .9; font(32, 500, 'Man'); x.direction = 'ltr'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = '#e8e2da';
-      x.fillText('@the.danielsphone  ·  +970 599 996 762', CX, CY + 440); x.restore();
+      x.fillText('@the.danielsphone  ·  +970 599 996 762', CX, CY + 500); x.restore();
+      typeAr('بيت جالا · شارع معصرة الزيتون', 1, CX, CY + 430, 32, { wt: 600, a: info * .9, caret: false, col: '#e8e2da', glow: 'rgba(0,0,0,0)' });
     }
   }],
 ];

@@ -73,14 +73,14 @@ for i, n in enumerate(['A3', 'C4', 'E4', 'B4']): note('electric_piano_1', n, 35.
 CUTS = [2.0, 3.3, 4.6, 6.8, 7.3, 9.3, 10.7, 11.0, 13.3, 17.0, 17.8, 19.4, 22.9, 26.0, 27.4, 28.4, 31.0, 33.4]
 for i, c in enumerate(CUTS):
     S(['whoosh-medium-soft', 'swish-medium', 'whoosh-fast-medium'][i % 3], c - .12, .18, (-.35, .35)[i % 2])
-TYPE = [(0.05, 1.35, 'كل شي بيبلّش بلقطة.'), (2.45, .4, 'ضغطة وحدة.'), (4.75, .45, 'وبيشتغل.'), (7.4, .8, 'والصورة بتحكي.'),
-        (11.2, .9, 'بيلحقك وين ما تتحرك.'), (14.4, .4, 'بعين أذكى.'), (18.0, .6, 'وبياخد شكله.'), (20.75, .6, 'بكبسة وحدة.'),
-        (24.0, .3, 'كادر.'), (26.05, .55, 'ولا اهتزاز.'), (29.0, .6, 'على موجتك.')]
+TYPE = [(0.05, 1.35, 'كل شي بيبلّش من موبايلك.'), (2.45, .4, 'أحدث الأجهزة'), (4.75, .45, 'شحن سريع.'), (7.4, .8, 'وكل الإكسسوارات.'),
+        (11.2, .4, 'جيمبل ذكي'), (11.6, .5, 'بيلف 360'), (14.4, .6, 'بيلحق وجهك وين ما تتحرك.'), (18.3, .6, 'جيمبل Q625'), (20.75, .7, 'وصيانة لكل الأجهزة'),
+        (24.0, .45, 'عصا سيلفي K50'), (26.35, .5, 'ولا اهتزاز.'), (29.0, .7, 'وسماعات بصوت نقي.')]
 for a, d, s in TYPE:
     for i, ch in enumerate(s):
         if ch != ' ': S('click-tap-soft', a + d * (i + .5) / len(s), .09 + .03 * ((i * 7) % 3) / 2, (.15, -.15)[i % 2])
-S('pop-small-in', 2.0, .3); S('shimmer-short-sparkle', 3.35, .3); S('pop-medium-in', 3.75, .3); S('shimmer-short-sparkle', 4.25, .22)
-S('click-toggle-medium', 6.1, .4); S('reverse-whoosh-medium-soft', 7.3, .25, sync=True)
+S('pop-small-in', 2.0, .3); S('appear-flip-quick', 2.2, .25); S('shimmer-short-sparkle', 3.35, .3); S('pop-medium-in', 3.75, .3); S('shimmer-short-sparkle', 4.25, .22)
+S('click-toggle-medium', 5.75, .35); S('shimmer-short-sparkle', 6.1, .25); S('reverse-whoosh-medium-soft', 7.3, .25, sync=True)
 S('swipe-fast-soft', 9.3, .3); S('click-button-soft', 10.35, .45); S('impact-light-firm', 10.7, .25)
 S('reverse-whoosh-long-soft', 13.9, .22, sync=True); S('shimmer-short-sparkle', 16.3, .3)
 S('appear-flip-quick', 17.8, .3); S('reverse-whoosh-long-strong', 19.4, .3, sync=True); S('impact-medium-soft', 19.4, .25)
