@@ -9,11 +9,13 @@ const seg = (t, a, d, e = oc) => e((t - a) / d);
 const FPS = 30;
 
 // [id, start, end]
+// v3: faster cut. OLD = original scene lengths; animations + clips run at OLD/new speed.
+const OLD = { s0: 3.5, s1: 2, s2: 5, s3: 4.5, s4: 4.5, s5: 4.5, s6: 3.5, s7: 1.5, s8: 5, s9: 4.5, s10: 2.5, s11: 4, s12: 4.5 };
 const S = [
-  ['s0', 0, 3.5], ['s1', 3.5, 5.5], ['s2', 5.5, 10.5], ['s3', 10.5, 15], ['s4', 15, 19.5], ['s5', 19.5, 24],
-  ['s6', 24, 27.5], ['s7', 27.5, 29], ['s8', 29, 34], ['s9', 34, 38.5], ['s10', 38.5, 41], ['s11', 41, 45], ['s12', 45, 49.5],
+  ['s0', 0, 2.6], ['s1', 2.6, 4.0], ['s2', 4.0, 7.4], ['s3', 7.4, 10.4], ['s4', 10.4, 13.4], ['s5', 13.4, 16.6],
+  ['s6', 16.6, 18.6], ['s7', 18.6, 19.6], ['s8', 19.6, 23.0], ['s9', 23.0, 26.0], ['s10', 26.0, 27.6], ['s11', 27.6, 30.4], ['s12', 30.4, 34.4],
 ];
-window.DURATION = 49.5;
+window.DURATION = 34.4;
 const CUTS = S.slice(1).map((s) => s[1]);
 const CLIPFR = { c0: 151, c1: 151, c2: 151, c3: 151, c4: 151, c5: 151, c6: 151 };
 
@@ -52,16 +54,16 @@ window.renderAt = async function (t) {
   for (const [id, a, b] of S) {
     const el = $(id); const on = t >= a && t < b; el.style.display = on ? 'block' : 'none';
     if (!on) continue;
-    const u = t - a;
+    const k = OLD[id] / (b - a); const u = (t - a) * k;
     const img = el.querySelector('img.bg[data-clip]');
     if (img) {
       const c = img.dataset.clip; const n = CLIPFR[c];
       const fr = Math.min(n, 1 + Math.floor(u * FPS));
       setImg(img, `clips/${c}/${String(fr).padStart(4, '0')}.jpg`);
       const punch = 1 + 0.07 * (1 - seg(t, a, 0.45, oq));
-      img.style.transform = `scale(${punch * (1 + 0.03 * u / (b - a))})`;
+      img.style.transform = `scale(${punch * (1 + 0.03 * (t - a) / (b - a))})`;
     }
-    SC[id] && SC[id](t, u, b - a);
+    SC[id] && SC[id](t, u, OLD[id]);
   }
   // cut flash + light leak
   let f = 0, lk = 0;
