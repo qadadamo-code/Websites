@@ -20,7 +20,7 @@ export function Faq({ className }: { className?: string }) {
   const { faq } = useContent()
   const [open, setOpen] = useState(0)
   return (
-    <section className={cn("wrap mt-28 grid lg:grid-cols-[1fr_1.4fr] gap-10", className)}>
+    <section className={cn("wrap mt-28 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10", className)}>
       <SectionHead eyebrow={t("أسئلة شائعة", "FAQ")} title={t("عندك سؤال؟", "Got a question?")} sub={t("هذه أكثر الأسئلة اللي توصلنا. ما لقيت جوابك؟ راسلنا على واتساب.", "These are the questions we hear most. Didn't find yours? Message us on WhatsApp.")} />
       <div className="grid gap-3">
         {faq.map((f, i) => (
@@ -108,7 +108,7 @@ export function Parties() {
         <SectionHead eyebrow={t("صمّم حفلتك", "Party builder")} title={t("4 خطوات وحفلتك جاهزة", "4 steps to your perfect party")} className="mb-10" />
         <PartyBuilder />
       </section>
-      <section className="wrap mt-28 grid lg:grid-cols-2 gap-10 items-center">
+      <section className="wrap mt-28 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         <Reveal><CardDeckCarousel height={700} autoplay={3800} labels={{ prev: t("السابق", "Previous"), next: t("التالي", "Next") }} slides={[
           { image: "img/p-balloons.webp", title: t("ديكور بالونات", "Balloon decor") },
           { image: "img/p-face.webp", title: t("رسم على الوجوه", "Face painting") },
@@ -151,7 +151,7 @@ export function Rentals() {
           ))}
         </div>
       </section>
-      <section id="pick" className="wrap mt-24 scroll-mt-24 grid lg:grid-cols-[1fr_400px] gap-8 items-start">
+      <section id="pick" className="wrap mt-24 scroll-mt-24 grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8 items-start">
         <div>
           <SectionHead eyebrow={t("الكتالوج", "Catalogue")} title={t("اختر لعبة أو أكثر", "Choose one or more")} className="mb-8" />
           <div className="grid sm:grid-cols-2 gap-4">
@@ -200,7 +200,7 @@ export function Branches() {
       <PageHero eyebrow={t("الفروع وأوقات العمل", "Branches & hours")} title={<>{t("3 فروع في ", "3 branches in ")}<span className="text-orange">{t("قلب العين", "the heart of Al Ain")}</span></>}
         sub={t("الجيمي مول، مول العين وعالية مول. شوف مين مفتوح الآن وخذ الاتجاهات بضغطة.", "Al Jimi Mall, Al Ain Mall and Aliah Mall. See who's open right now and get directions in one tap.")}
         image="img/z-slides.webp" mascot="img/m4-guide.webp" />
-      <section className="wrap grid lg:grid-cols-3 gap-5">
+      <section className="wrap grid grid-cols-1 lg:grid-cols-3 gap-5">
         {branches.map((b, i) => {
           const o = openState(b), col = branchColor(b.color)
           return (
@@ -228,7 +228,7 @@ export function Branches() {
           )
         })}
       </section>
-      <section className="wrap mt-24 grid lg:grid-cols-2 gap-8 items-start">
+      <section className="wrap mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <SectionHead eyebrow={t("حجزت عندنا؟", "Booked with us?")} title={t("تابع حالة طلبك لحظة بلحظة", "Follow your request in real time")} sub={t("اكتب رقم الطلب اللي وصلك بعد الحجز مع رقم جوالك.", "Enter the request number you received with your mobile number.")} />
         <TrackBooking />
       </section>
@@ -264,7 +264,7 @@ export function Contact() {
           </Reveal>
         ))}
       </section>
-      <section className="wrap mt-20 grid lg:grid-cols-[1.2fr_1fr] gap-8 items-start">
+      <section className="wrap mt-20 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 items-start">
         <div className="card p-6 md:p-8">
           <h2 className="text-3xl mb-2">{t("أرسل لنا رسالة", "Send us a message")}</h2>
           <p className="text-muted-foreground mt-0 mb-6">{t("بتوصل مباشرة لفريق أرض المغامرات.", "It goes straight to the Adventure Land team.")}</p>

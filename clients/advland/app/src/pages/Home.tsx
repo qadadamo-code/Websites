@@ -34,7 +34,7 @@ function Hero() {
       <Suspense fallback={null}><BallPit count={30} dark={dark} /></Suspense>
       <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none" />
 
-      <div className="wrap relative z-10 flex-1 grid lg:grid-cols-[1.25fr_1fr] gap-6 items-start pt-8 md:pt-14 pointer-events-none">
+      <div className="wrap relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] gap-6 items-start pt-8 md:pt-14 pointer-events-none">
         <div className="flex flex-col items-start gap-6 pointer-events-auto">
           <Eyebrow>{t("مدينة ألعاب داخلية في العين · 3 فروع", "Indoor play city in Al Ain · 3 branches")}</Eyebrow>
           <h1 className="leading-[1.02] text-[clamp(3rem,9vw,6.2rem)]">
@@ -110,10 +110,10 @@ function PartiesTeaser() {
   const c = useContent()
   return (
     <section className="wrap mt-28">
-      <div className="relative rounded-[40px] bg-navy-deep text-white overflow-hidden p-6 md:p-12 lg:p-16">
+      <div className="relative rounded-[32px] md:rounded-[40px] bg-navy-deep text-white overflow-hidden p-5 md:p-12 lg:p-16">
         <div className="dots absolute inset-0 opacity-[.12]" />
         <div className="absolute -top-24 end-[-10%] w-[480px] h-[480px] rounded-full bg-orange/40 blur-3xl" />
-        <div className="relative grid lg:grid-cols-[1fr_1.1fr] gap-10 items-center">
+        <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 items-center">
           <div className="flex flex-col gap-5 items-start relative">
             <img src="img/m3-party.webp" alt="" loading="lazy" className="absolute bottom-[-30px] end-[-10px] w-32 md:w-44 animate-wiggle hidden sm:block pointer-events-none" />
             <Eyebrow className="!bg-white/10 !text-sun">{t("حفلات أعياد الميلاد", "Birthday parties")}</Eyebrow>
@@ -125,10 +125,10 @@ function PartiesTeaser() {
             <div className="grid gap-3">
               {c.packages.map((p, i) => (
                 <Reveal key={p.id} delay={i * 100}>
-                  <a href="parties.html#build" className={cn("flex items-center gap-4 rounded-3xl p-4 md:p-5 transition-all hover:-translate-y-1", p.featured ? "bg-orange shadow-[0_20px_40px_-18px_#f26a1b]" : "bg-white/8 hover:bg-white/12 border border-white/10")}>
-                    <span className={cn("w-14 h-14 rounded-2xl grid place-items-center shrink-0", p.featured ? "bg-white text-orange" : "bg-white/10 text-sun")}>{p.featured ? <Crown /> : <PartyPopper />}</span>
-                    <div className="flex-1 min-w-0"><b className="block text-lg font-[family-name:var(--font-display)]">{L(p.name)}</b><small className="text-white/75">{p.kids} {t("طفل", "kids")} · {L(p.duration)}</small></div>
-                    <div className="text-end"><b className="text-2xl font-[family-name:var(--font-display)]">{fmt(p.price)}</b><small className="block text-white/75">{L(c.settings.currency)}</small></div>
+                  <a href="parties.html#build" className={cn("flex items-center gap-3 sm:gap-4 rounded-3xl p-3.5 sm:p-4 md:p-5 transition-all hover:-translate-y-1", p.featured ? "bg-orange shadow-[0_20px_40px_-18px_#f26a1b]" : "bg-white/8 hover:bg-white/12 border border-white/10")}>
+                    <span className={cn("w-14 h-14 rounded-2xl hidden sm:grid place-items-center shrink-0", p.featured ? "bg-white text-orange" : "bg-white/10 text-sun")}>{p.featured ? <Crown /> : <PartyPopper />}</span>
+                    <div className="flex-1 min-w-0"><b className="block text-base sm:text-lg leading-snug font-[family-name:var(--font-display)]">{L(p.name)}</b><small className="text-white/75">{p.kids} {t("طفل", "kids")} · {L(p.duration)}</small></div>
+                    <div className="text-end shrink-0"><b className="text-xl sm:text-2xl font-[family-name:var(--font-display)]">{fmt(p.price)}</b><small className="block text-white/75">{L(c.settings.currency)}</small></div>
                   </a>
                 </Reveal>
               ))}
@@ -176,7 +176,7 @@ function Gallery() {
     { image: "img/z-climb.webp", title: t("جدار التسلق", "Climbing wall"), caption: t("للأبطال الصغار", "For little heroes") },
   ]
   return (
-    <section className="mt-28 wrap grid lg:grid-cols-[1fr_1.2fr] gap-10 items-center">
+    <section className="mt-28 wrap grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 items-center">
       <SectionHead eyebrow={t("لحظات من أرض المغامرات", "Moments at Adventure Land")} title={t("اسحب الصور وشوف الجو بنفسك", "Swipe through and feel the vibe")} sub={t("كل يوم عندنا لحظات حلوة. تابعنا على إنستغرام لتشوف الجديد أول بأول.", "Every day brings new moments. Follow us on Instagram for the latest.")} />
       <Reveal><CardDeckCarousel slides={slides} height={720} autoplay={4200} labels={{ prev: t("السابق", "Previous"), next: t("التالي", "Next") }} /></Reveal>
     </section>
@@ -200,7 +200,7 @@ function Branches() {
   return (
     <section className="wrap mt-28">
       <SectionHead eyebrow={t("فروعنا", "Our branches")} title={t("أقرب مغامرة لبيتك", "The nearest adventure to you")} />
-      <div className="grid md:grid-cols-3 gap-4 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
         {branches.map((b, i) => {
           const o = openState(b), h = todayHours(b), col = branchColor(b.color)
           return (

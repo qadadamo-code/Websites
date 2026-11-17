@@ -9,7 +9,7 @@ interface NavBarProps { items: NavItem[]; active: string; className?: string }
 export function NavBar({ items, active, className }: NavBarProps) {
   return (
     <div className={cn("fixed bottom-0 lg:bottom-auto lg:top-0 left-1/2 -translate-x-1/2 z-50 mb-4 lg:mb-0 lg:pt-5", className)}>
-      <div className="flex items-center gap-1 lg:gap-2 bg-[color-mix(in_srgb,var(--surface)_72%,transparent)] border border-border backdrop-blur-xl py-1 px-1 rounded-full shadow-[0_14px_40px_-18px_#111a4a66]">
+      <div className="flex items-center gap-0.5 lg:gap-2 max-w-[calc(100vw-16px)] bg-[color-mix(in_srgb,var(--surface)_72%,transparent)] border border-border backdrop-blur-xl py-1 px-1 rounded-full shadow-[0_14px_40px_-18px_#111a4a66]">
         {items.map((item) => {
           const Icon = item.icon
           const isActive = active === item.id
@@ -19,7 +19,7 @@ export function NavBar({ items, active, className }: NavBarProps) {
               href={item.url}
               aria-current={isActive ? "page" : undefined}
               className={cn(
-                "relative cursor-pointer text-sm font-semibold px-2 sm:px-3.5 lg:px-5 py-2 rounded-full transition-colors font-[family-name:var(--font-display)]",
+                "relative cursor-pointer text-sm font-semibold px-1.5 min-[400px]:px-2.5 sm:px-3.5 lg:px-5 py-2 rounded-full transition-colors font-[family-name:var(--font-body)] lg:font-[family-name:var(--font-display)]",
                 "text-foreground/75 hover:text-primary",
                 isActive && "text-primary",
               )}
@@ -27,7 +27,7 @@ export function NavBar({ items, active, className }: NavBarProps) {
               <span className="hidden lg:inline whitespace-nowrap">{item.name}</span>
               <span className="lg:hidden flex flex-col items-center gap-0.5">
                 <Icon size={19} strokeWidth={2.4} />
-                <span className="text-[10px] leading-none">{item.name}</span>
+                <span className="text-[10px] leading-none whitespace-nowrap tracking-tight">{item.name}</span>
               </span>
               {isActive && (
                 <motion.div

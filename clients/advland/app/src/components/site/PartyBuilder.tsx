@@ -56,11 +56,11 @@ export default function PartyBuilder() {
   )
 
   return (
-    <div className="grid lg:grid-cols-[1fr_400px] gap-8 items-start">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8 items-start">
       <div className="grid gap-12">
         <section>
           {step(1, t("اختر الباقة", "Pick a package"))}
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {c.packages.map((p) => {
               const on = p.id === pkgId
               return (

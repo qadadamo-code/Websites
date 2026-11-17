@@ -68,7 +68,7 @@ function Header({ page }: { page: PageId }) {
         <div className="wrap flex items-center gap-3">
           <a href="./" className="flex items-center gap-2.5 shrink-0 group" aria-label="Adventure Land">
             <img src="img/logo-512.webp" alt="" width={48} height={48} className={cn("rounded-full transition-all duration-500 group-hover:rotate-[-12deg]", scrolled ? "w-10 h-10" : "w-12 h-12")} />
-            <span className="leading-none hidden sm:flex flex-col">
+            <span className="leading-none hidden sm:flex lg:hidden xl:flex flex-col">
               <b className="font-[family-name:var(--font-display)] text-[17px]"><span className="text-red">{t("أرض", "ADVENTURE")}</span> <span className="text-navy dark:text-white">{t("المغامرات", "LAND")}</span></b>
               <small className="text-[11px] text-muted-foreground font-semibold mt-1 tracking-wide">{t("Adventure Land · العين", "أرض المغامرات · Al Ain")}</small>
             </span>
@@ -79,7 +79,7 @@ function Header({ page }: { page: PageId }) {
           <div className="flex items-center gap-2">
             <LangSwitch />
             <SunMoonThemeToggle size={40} aria-label={t("الوضع الليلي", "Dark mode")} />
-            <a href="parties.html#build" className="btn btn-o !py-2.5 !px-4 text-sm hidden lg:inline-flex">{t("احجز حفلة", "Book a party")}</a>
+            <a href="parties.html#build" className="btn btn-o !py-2.5 !px-4 text-sm hidden xl:inline-flex">{t("احجز حفلة", "Book a party")}</a>
           </div>
         </div>
       </header>
@@ -146,7 +146,7 @@ function WaFab() {
   const { t } = useI18n()
   return (
     <a href={waLink(settings.whatsapp, t("مرحباً أرض المغامرات 👋", "Hi Adventure Land 👋"))} target="_blank" rel="noopener"
-      className="fixed z-40 bottom-24 lg:bottom-6 end-4 lg:end-6 w-14 h-14 rounded-full grid place-items-center bg-[#1fa855] text-white shadow-[0_10px_30px_-8px_#1fa855] hover:scale-110 transition-transform"
+      className="fixed z-40 bottom-[92px] lg:bottom-6 end-3 lg:end-6 w-12 h-12 lg:w-14 lg:h-14 rounded-full grid place-items-center bg-[#1fa855] text-white shadow-[0_10px_30px_-8px_#1fa855] hover:scale-110 transition-transform"
       aria-label="WhatsApp">
       <span className="absolute inset-0 rounded-full bg-[#1fa855] animate-ping opacity-30" />
       <WhatsAppIcon size={28} />

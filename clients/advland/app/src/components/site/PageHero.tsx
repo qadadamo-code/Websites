@@ -8,7 +8,7 @@ export default function PageHero({ eyebrow, title, sub, image, mascot, children 
       <div className="dots absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_top,#000,transparent_70%)]" />
       <div className="absolute -top-40 start-[-10%] w-[520px] h-[520px] rounded-full bg-orange/20 blur-3xl dark:bg-orange/25" />
       <div className="absolute top-20 end-[-12%] w-[420px] h-[420px] rounded-full bg-sky/30 blur-3xl dark:bg-[#2b49d6]/30" />
-      <div className="wrap relative grid md:grid-cols-[1.1fr_1fr] gap-10 items-center">
+      <div className="wrap relative grid grid-cols-1 md:grid-cols-[1.1fr_1fr] gap-10 items-center">
         <div className="flex flex-col gap-5 items-start">
           <Eyebrow>{eyebrow}</Eyebrow>
           <h1 className="text-[clamp(2.3rem,6vw,4.4rem)] glow-o">{title}</h1>

@@ -43,7 +43,7 @@ export function Eyebrow({ children, className }: { children: ReactNode; classNam
 
 export function SectionHead({ eyebrow, title, sub, center, className }: { eyebrow?: string; title: ReactNode; sub?: ReactNode; center?: boolean; className?: string }) {
   return (
-    <Reveal className={cn("flex flex-col gap-4 max-w-2xl", center && "mx-auto items-center text-center", className)}>
+    <Reveal className={cn("flex flex-col gap-4 min-w-0 max-w-[min(42rem,100%)]", center && "mx-auto items-center text-center", className)}>
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
       <h2 className="text-[clamp(1.9rem,4.4vw,3.2rem)]">{title}</h2>
       {sub && <p className="text-muted-foreground text-lg m-0">{sub}</p>}
