@@ -59,6 +59,7 @@ for ($i = 0; $i < $zip->numFiles; $i++) {
     $rel = substr($name, strlen($prefix));
     if ($rel === '' || strpos($rel, '..') !== false) continue;
     if (strpos($rel, 'api/uploads/') === 0) continue; // never touch saved receipts and logs
+    if (preg_match('#(^|/)storage/[^/]+\.json$#', $rel) || preg_match('#(^|/)uploads/members/#', $rel)) continue; // never overwrite live site data (family tree edits, accounts, uploaded photos)
     $dest = $ROOT . '/' . $rel;
     if (substr($name, -1) === '/') { if (!is_dir($dest)) @mkdir($dest, 0755, true); continue; }
     if (!is_dir(dirname($dest))) @mkdir(dirname($dest), 0755, true);

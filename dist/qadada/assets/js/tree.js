@@ -12,7 +12,7 @@
   const STATUS = { confirmed: 'مؤكَّد من العائلة', documented: 'موثَّق بمصدر', narrative: 'رواية عائلية', proposed: 'موضعٌ مقترح' };
   const PLACES = ['غزة', 'يافا', 'القاهرة', 'كفر الشيخ', 'عمّان', 'الخبر', 'تركيا', 'بلغاريا', 'نيوجيرسي', 'جرين باي', 'تورنتو'];
 
-  const state = { members: [], byId: new Map(), kids: new Map(), admin: false, setup: false, csrf: '', pending: 0, collapsed: new Set(), sel: null };
+  const state = { members: [], byId: new Map(), kids: new Map(), admin: false, user: null, setup: false, csrf: '', pending: 0, collapsed: new Set(), sel: null };
   let rootId = null;
 
   const el = (tag, attrs = {}, parent) => {
@@ -43,13 +43,13 @@
   async function load() {
     try {
       const j = await api('tree');
-      state.admin = j.admin; state.setup = j.setup; state.pending = j.pending || 0;
+      state.admin = j.admin; state.user = j.user || null; state.setup = j.setup; state.pending = j.pending || 0;
       setMembers(j.members);
       state.online = true;
     } catch (e) {
       const r = await fetch('data/seed.json');
       setMembers((await r.json()).members);
-      state.online = false;
+      state.online = false; state.admin = false; state.user = null;
     }
     updateAdminBtn();
   }
@@ -87,6 +87,16 @@
     if (!/قدادة/.test(state.byId.get(id)?.name || '') && !/قدادة/.test(s)) s += ' قدادة';
     return s;
   };
+
+  // the admin edits everything; a branch account edits its branch head and all of his descendants
+  function canEdit(id) {
+    if (state.admin) return true;
+    if (!state.user || !state.user.root) return false;
+    for (let m = state.byId.get(id), guard = 0; m && guard < 400; m = state.byId.get(m.parent), guard++)
+      if (m.id === state.user.root) return true;
+    return false;
+  }
+  const editor = () => state.admin || !!state.user;
 
   /* ---------------- Layout ---------------- */
   function layout() {
@@ -495,12 +505,15 @@
       ${m.note ? `<div class="tp__sec"><h4>ملاحظة</h4><p class="tp__note">${esc(m.note)}</p></div>` : ''}
       ${kids.length ? `<div class="tp__sec"><h4>الأبناء</h4><div class="tp__kids">${kids.map(k => `<button data-go="${k.id}">${esc(k.name)}</button>`).join('')}</div></div>` : ''}
       <div class="tp__actions">
-        ${state.admin ? `
+        ${canEdit(id) ? `
           <button class="btn btn--gold" data-a="add">إضافة ابن أو ابنة</button>
-          <button class="btn btn--line" data-a="edit">تعديل</button>
+          <button class="btn btn--gold" data-a="bulk">إضافة عدة أبناء دفعة واحدة</button>
+          <button class="btn btn--line" data-a="edit">تعديل البيانات</button>
           <button class="btn btn--line" data-a="photo">${m.photo ? 'تغيير الصورة' : 'إضافة صورة'}</button>
-          ${kids.length ? '' : '<button class="btn btn--danger" data-a="del">حذف</button>'}`
-        : `<button class="btn btn--gold" data-a="suggest">اقترح إضافة ابن أو ابنة</button>`}
+          ${m.photo ? '<button class="btn btn--line" data-a="unphoto">إزالة الصورة</button>' : ''}
+          ${kids.length || (!state.admin && state.user && state.user.root === id) ? '' : '<button class="btn btn--danger" data-a="del">حذف</button>'}`
+        : `<button class="btn btn--gold" data-a="suggest">اقترح إضافة ابن أو ابنة</button>
+           ${state.user ? '<p class="tp__lock">هذا الفرد خارج الفرع المسموح لك بتعديله.</p>' : ''}`}
       </div>`;
     tp.classList.add('is-open'); tp.setAttribute('aria-hidden', 'false');
     kick();
@@ -514,7 +527,7 @@
     const a = e.target.closest('[data-a]');
     if (!a) return;
     const id = state.sel;
-    ({ add: () => memberForm({ parent: id }), edit: () => memberForm({ id }), photo: () => photoForm(id), del: () => delMember(id), suggest: () => suggestForm(id) })[a.dataset.a]();
+    ({ add: () => memberForm({ parent: id }), bulk: () => bulkForm(id), edit: () => memberForm({ id }), photo: () => photoForm(id), unphoto: () => unphoto(id), del: () => delMember(id), suggest: () => suggestForm(id) })[a.dataset.a]();
   });
   function reveal(id) {
     // open collapsed ancestors so the node becomes visible
@@ -596,7 +609,7 @@
     if (!needOnline()) return;
     openModal(`
       <h3>صورة ${esc(state.byId.get(id).name)}</h3>
-      <p class="sub">JPG أو PNG أو WEBP، بحد أقصى 6 ميجابايت.</p>
+      <p class="sub">JPG أو PNG أو WEBP، بحد أقصى 12 ميجابايت. تُصغَّر الصورة وتُضبط تلقائيًا.</p>
       <form class="form"><label class="full">الصورة<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required></label>
       <p class="form__err"></p><div class="form__actions"><button class="btn btn--gold" type="submit">رفع الصورة</button></div></form>`);
     bindForm(async (_, f) => {
@@ -604,6 +617,34 @@
       await api('photo', fd, true);
       closeModal(); await refresh(); toast('تم تحديث الصورة'); select(id);
     });
+  }
+  function bulkForm(parent) {
+    if (!needOnline()) return;
+    openModal(`
+      <h3>إضافة عدة أبناء دفعة واحدة</h3>
+      <p class="sub">إلى: ${esc(nasab(parent))}</p>
+      <form class="form" autocomplete="off">
+        <label class="full">الأسماء الأولى *<textarea name="names" required rows="6" placeholder="اكتب كل اسم في سطر، أو افصل بينها بفاصلة&#10;أحمد&#10;محمد&#10;فاطمة"></textarea></label>
+        <label>الجنس<select name="gender"><option value="m">ذكور</option><option value="f">إناث</option></select></label>
+        <label>مكان الإقامة<input name="place" list="placesDL" maxlength="40"></label>
+        ${placeList}
+        <p class="form__err"></p>
+        <div class="form__actions"><button class="btn btn--gold" type="submit">إضافة إلى الشجرة</button><button class="btn btn--line" type="button" data-close>إلغاء</button></div>
+      </form>`);
+    bindForm(async data => {
+      data.parent = parent;
+      const j = await api('bulk', data);
+      state.collapsed.delete(parent);
+      closeModal(); await refresh();
+      toast(`تمت إضافة ${j.added.length} إلى الشجرة`);
+      select(parent);
+    });
+  }
+  function unphoto(id) {
+    if (!needOnline()) return;
+    openModal(`<h3>إزالة صورة ${esc(state.byId.get(id).name)}؟</h3>
+      <form class="form"><p class="form__err"></p><div class="form__actions"><button class="btn btn--danger" type="submit">نعم، أزل الصورة</button><button class="btn btn--line" type="button" data-close>إلغاء</button></div></form>`);
+    bindForm(async () => { await api('unphoto', { id }); closeModal(); await refresh(); toast('تمت إزالة الصورة'); select(id); });
   }
   async function delMember(id) {
     if (!needOnline()) return;
@@ -636,12 +677,16 @@
     const setup = state.setup;
     openModal(`
       <h3>${setup ? 'إنشاء كلمة مرور الإدارة' : 'دخول الإدارة'}</h3>
-      <p class="sub">${setup ? 'هذه أول مرة تُفتح فيها الإدارة. اختر كلمة مرور قوية (8 أحرف على الأقل) واحتفظ بها.' : 'للقائمين على شجرة العائلة فقط.'}</p>
-      <form class="form"><label class="full">كلمة المرور<input type="password" name="password" required minlength="${setup ? 8 : 1}" autocomplete="${setup ? 'new-password' : 'current-password'}"></label>
+      <p class="sub">${setup ? 'هذه أول مرة تُفتح فيها الإدارة. اختر كلمة مرور قوية (8 أحرف على الأقل) واحتفظ بها.' : 'للمدير، ولأصحاب حسابات الفروع. المدير يترك اسم المستخدم فارغًا أو يكتب admin.'}</p>
+      <form class="form" autocomplete="on">
+      ${setup ? '' : '<label class="full">اسم المستخدم<input name="username" dir="ltr" autocapitalize="off" autocomplete="username" maxlength="40" placeholder="admin"></label>'}
+      <label class="full">كلمة المرور<input type="password" name="password" dir="ltr" required minlength="${setup ? 8 : 1}" autocomplete="${setup ? 'new-password' : 'current-password'}"></label>
       <p class="form__err"></p><div class="form__actions"><button class="btn btn--gold" type="submit">${setup ? 'إنشاء والدخول' : 'دخول'}</button></div></form>`);
     bindForm(async data => {
       await api(setup ? 'setup' : 'login', data);
-      closeModal(); await refresh(); toast('مرحبًا بك في وضع الإدارة');
+      closeModal(); await refresh();
+      if (state.admin) toast('مرحبًا بك في وضع الإدارة');
+      else if (state.user) { toast('أهلًا بك، يمكنك الآن تعديل فرع ' + (state.byId.get(state.user.root)?.name || '')); reveal(state.user.root); }
     });
   }
   async function adminMenu() {
@@ -659,6 +704,7 @@
           <div class="row"><button class="btn btn--gold" data-rv="1">اعتماد</button><button class="btn btn--line" data-rv="0">رفض</button></div>
         </div>`).join('') : '<p class="muted">لا توجد اقتراحات جديدة.</p>'}</div>
       <div class="form__actions" style="margin-top:22px">
+        <button class="btn btn--gold" data-adm="users">حسابات الفروع</button>
         <a class="btn btn--line" href="${API}?action=export">تنزيل نسخة احتياطية</a>
         <button class="btn btn--line" data-adm="pw">تغيير كلمة المرور</button>
         <button class="btn btn--danger" data-adm="out">تسجيل الخروج</button>
@@ -673,6 +719,7 @@
       }
       const adm = e.target.closest('[data-adm]');
       if (!adm) return;
+      if (adm.dataset.adm === 'users') { modalBody.onclick = null; usersMenu(); return; }
       if (adm.dataset.adm === 'out') { await api('logout', {}); closeModal(); await refresh(); toast('تم تسجيل الخروج'); }
       if (adm.dataset.adm === 'pw') {
         modalBody.onclick = null;
@@ -681,14 +728,85 @@
       }
     };
   }
+  function branchMenu() {
+    const r = state.byId.get(state.user.root);
+    openModal(`
+      <h3>حساب الفرع: <span dir="ltr">${esc(state.user.u)}</span></h3>
+      <p class="sub">يمكنك إضافة وتعديل الأسماء والصور في فرع: <b>${r ? esc(nasab(r.id)) : '—'}</b> وكل أبنائه وأحفاده. أي تعديل يظهر في الموقع فورًا.</p>
+      <div class="form__actions" style="margin-top:18px">
+        <button class="btn btn--gold" data-um="go">اذهب إلى فرعي</button>
+        <button class="btn btn--line" data-um="pw">تغيير كلمة المرور</button>
+        <button class="btn btn--danger" data-um="out">تسجيل الخروج</button>
+      </div>`);
+    modalBody.onclick = async e => {
+      const b = e.target.closest('[data-um]');
+      if (!b) return;
+      modalBody.onclick = null;
+      if (b.dataset.um === 'go') { closeModal(); document.getElementById('tree').scrollIntoView({ behavior: 'smooth' }); reveal(state.user.root); }
+      if (b.dataset.um === 'out') { await api('logout', {}); closeModal(); closePanel(); await refresh(); toast('تم تسجيل الخروج'); }
+      if (b.dataset.um === 'pw') {
+        openModal(`<h3>تغيير كلمة المرور</h3><form class="form"><label class="full">كلمة المرور الجديدة<input type="password" name="password" minlength="6" required autocomplete="new-password" dir="ltr"></label><p class="form__err"></p><div class="form__actions"><button class="btn btn--gold" type="submit">حفظ</button></div></form>`);
+        bindForm(async d => { await api('password', d); closeModal(); toast('تم تغيير كلمة المرور'); });
+      }
+    };
+  }
+  async function usersMenu() {
+    let users = [];
+    try { users = (await api('users')).users; } catch (x) { toast(x.message); return; }
+    const head = id => state.byId.get(id) ? nasab(id) : 'فرد محذوف';
+    openModal(`
+      <h3>حسابات الفروع</h3>
+      <p class="sub">أعطِ كل فرع اسم مستخدم وكلمة مرور. صاحب الحساب يضيف ويعدّل الأسماء والصور في الفرع الذي تختاره له فقط (رأس الفرع وكل أبنائه وأحفاده)، والتعديل يظهر فورًا.</p>
+      <div class="pend">${users.length ? users.map(u => `
+        <div class="pend__it" data-u="${esc(u.u)}">
+          <b dir="ltr">${esc(u.u)}</b> ${u.label ? `<span class="muted">· ${esc(u.label)}</span>` : ''}
+          <p>الفرع: ${esc(head(u.root))}</p>
+          <div class="row"><button class="btn btn--line" data-ua="edit">تعديل أو كلمة مرور جديدة</button><button class="btn btn--danger" data-ua="del">حذف الحساب</button></div>
+        </div>`).join('') : '<p class="muted">لا توجد حسابات بعد.</p>'}</div>
+      <div class="form__actions" style="margin-top:20px"><button class="btn btn--gold" data-ua="new">إضافة حساب جديد</button><button class="btn btn--line" data-ua="back">رجوع</button></div>`);
+    modalBody.onclick = async e => {
+      const b = e.target.closest('[data-ua]');
+      if (!b) return;
+      const box = b.closest('[data-u]'), u = box && users.find(x => x.u === box.dataset.u);
+      if (b.dataset.ua === 'back') { modalBody.onclick = null; adminMenu(); return; }
+      if (b.dataset.ua === 'del') {
+        if (box.dataset.sure !== '1') { box.dataset.sure = '1'; b.textContent = 'اضغط مرة أخرى للتأكيد'; return; }
+        try { await api('user_delete', { u: u.u }); toast('تم حذف الحساب'); modalBody.onclick = null; usersMenu(); } catch (x) { toast(x.message); }
+        return;
+      }
+      modalBody.onclick = null;
+      userForm(b.dataset.ua === 'edit' ? u : null);
+    };
+  }
+  function userForm(u) {
+    openModal(`
+      <h3>${u ? 'تعديل حساب ' + esc(u.u) : 'حساب فرع جديد'}</h3>
+      <p class="sub">اختر رأس الفرع؛ صاحب الحساب يعدّل هذا الفرد وكل من تحته في الشجرة.</p>
+      <form class="form" autocomplete="off">
+        <label class="full">رأس الفرع *<select name="root" required>${parentOptions(u ? u.root : state.sel)}</select></label>
+        <label class="full">وصف الحساب<input name="label" maxlength="60" value="${esc(u?.label || '')}" placeholder="مثال: أبناء المرحوم خميس"></label>
+        <label>اسم المستخدم (بالإنجليزية) *<input name="u" dir="ltr" required pattern="[a-zA-Z0-9._\-]{3,40}" maxlength="40" value="${esc(u?.u || '')}" ${u ? 'readonly' : ''} placeholder="khamis"></label>
+        <label>${u ? 'كلمة مرور جديدة (اتركها فارغة للإبقاء)' : 'كلمة المرور *'}<input name="password" dir="ltr" ${u ? '' : 'required'} minlength="6" maxlength="80" autocomplete="new-password"></label>
+        <p class="form__err"></p>
+        <div class="form__actions"><button class="btn btn--gold" type="submit">حفظ الحساب</button><button class="btn btn--line" type="button" data-back>رجوع</button></div>
+      </form>`);
+    modalBody.querySelector('[data-back]').onclick = () => usersMenu();
+    bindForm(async d => {
+      d.u = d.u.trim().toLowerCase();
+      await api('user_save', d);
+      toast(u ? 'تم حفظ الحساب' : `تم إنشاء الحساب «${d.u}». أرسل له اسم المستخدم وكلمة المرور ورابط الموقع.`);
+      usersMenu();
+    });
+  }
   function updateAdminBtn() {
     const b = $('#ftAdmin');
-    b.classList.toggle('is-admin', state.admin);
-    b.textContent = state.admin ? `وضع الإدارة${state.pending ? ' · ' + state.pending + ' اقتراح' : ''}` : 'إدارة الشجرة';
+    b.classList.toggle('is-admin', editor());
+    b.textContent = state.admin ? `وضع الإدارة${state.pending ? ' · ' + state.pending + ' اقتراح' : ''}`
+      : state.user ? `حساب الفرع: ${state.byId.get(state.user.root)?.name || state.user.u}` : 'دخول الإدارة والفروع';
   }
   $('#ftAdmin').addEventListener('click', () => {
     if (!state.online) { toast('الإدارة تعمل على الموقع المنشور فقط'); return; }
-    state.admin ? adminMenu() : authForm();
+    state.admin ? adminMenu() : state.user ? branchMenu() : authForm();
   });
 
   async function refresh() {
