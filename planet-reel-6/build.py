@@ -124,10 +124,15 @@ def sil_mask():
     s = float(os.environ.get('SILS', '0.56'))
     M = np.float32([[s, 0, W * 0.5 - hx * s + 30], [0, s, H * 0.25 - top * s]])
     m = cv2.warpAffine(m, M, (W, H), flags=cv2.INTER_LINEAR)
-    # extend body to bottom edge
+    # replace the cropped neck with shoulders
     ys, xs = np.nonzero(m > 128); b = ys.max()
-    if b < H - 1:
-        row = m[b - 2].copy(); m[b - 2:] = row
+    yn = b - 40
+    row = np.nonzero(m[yn] > 128)[0]; nl, nr = row.min(), row.max()
+    pts = np.int32([[nl, yn - 20], [nr, yn - 20], [nr + 40, yn + 40], [nr + 300, yn + 150], [nr + 380, H + 5],
+                    [nl - 330, H + 5], [nl - 240, yn + 160], [nl - 20, yn + 60]])
+    sh = np.zeros_like(m); cv2.fillPoly(sh, [pts], 255)
+    sh = cv2.GaussianBlur(sh, (0, 0), 25); sh = ((sh > 127) * 255).astype(np.uint8)
+    m = np.maximum(m, sh)
     return cv2.GaussianBlur(m, (3, 3), 0).astype(np.float32) / 255
 
 def circle_bg(t):
@@ -157,8 +162,8 @@ def xray_pattern(mask):
         cv2.drawContours(img, cs, -1, 1.0, 2, cv2.LINE_AA)
         return img
     ell = ((xx - hx) / 120) ** 2 + ((yy - hy) / 88) ** 2 < 1
-    pat += contours(6, 9, 0.5) * ell
-    pat += contours(26, 4, 0.5) * (~ell) * 0.35
+    pat += contours(11, 5, 0.5) * ell * 0.85
+    pat += contours(30, 3, 0.5) * (~ell) * 0.22
     # spine line
     for y in range(int(hy + 80), H, 2):
         cv2.circle(pat, (int(hx + 40 + (y - hy) * 0.15), y), 3, 1.0, -1)
@@ -177,7 +182,7 @@ def sil_frame(mask, pat, t, xr):
         ys = np.nonzero(mask > 0.5)[0]; top, bot = ys.min(), H
         reveal = (yy < top + (bot - top) * min(1, xr * 1.6)).astype(np.float32)
         p = p * reveal * (0.75 + 0.25 * (rng.random() > 0.2))
-        glow = cv2.GaussianBlur(p, (0, 0), 6) * 1.6 + cv2.GaussianBlur(p, (0, 0), 18) * 1.2
+        glow = cv2.GaussianBlur(p, (0, 0), 5) * 0.9 + cv2.GaussianBlur(p, (0, 0), 18) * 0.7
         col = np.array([0.80, 0.95, 0.55], np.float32)  # bright mint (BGR)
         f = f + (p[..., None] * 1.2 + glow[..., None]) * col
     return np.clip(f, 0, 1)
