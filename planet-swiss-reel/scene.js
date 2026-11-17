@@ -18,7 +18,7 @@ const blink = (t) => (Math.floor(t * 3.2) % 2 === 0);
 const cur = (col, on = true) => on ? `<span class="cur" style="background:${col}"></span>` : `<span class="cur" style="background:transparent"></span>`;
 const mono = (txt, x, y, col, size = 20, align = 'left') => `<div class="ab mono" style="${align === 'right' ? `right:${W - x}px` : `left:${x}px`};top:${y}px;font-size:${size}px;color:${col}">${txt}</div>`;
 const bg = c => `<div class="ab" style="inset:0;background:${c}"></div>`;
-const WORD = (col, size, boldCol) => `<span class="lt" style="font-size:${size}px;color:${col};letter-spacing:-.02em"><span style="font-weight:300">The Planet </span><span style="font-weight:700;color:${boldCol || col}">Co.</span></span>`;
+const WORD = (col, size, boldCol) => `<span class="lt" style="font-size:${size * 0.56}px;color:${col};letter-spacing:-.02em"><span style="font-weight:700;color:${boldCol || col}">Planet </span><span style="font-weight:300">Creative Marketing</span></span>`;
 
 // ------------------------------------------------------------------ scenes
 function sGrid(t, dark) {
@@ -58,12 +58,12 @@ function sIm(t) {
   if (t < 5.33) h += `<div class="c ar" style="top:${imY}px;height:${imS * 1.5}px;font-size:${imS}px;font-weight:700;color:${INK}">إحنا</div>`;
   // name typed (LTR wordmark), deleted at 4.55
   if (t >= 2.75 && t < 4.85) {
-    const full = 'The Planet Co.';
-    let n = clamp(Math.floor((t - 2.78) * 16), 0, full.length);
-    if (t > 4.55) n = clamp(full.length - Math.floor((t - 4.55) * 48), 0, full.length);
-    const a = full.slice(0, Math.min(n, 11)), b = n > 11 ? full.slice(11, n) : '';
+    const full = 'Planet Creative Marketing';
+    let n = clamp(Math.floor((t - 2.78) * 26), 0, full.length);
+    if (t > 4.55) n = clamp(full.length - Math.floor((t - 4.55) * 80), 0, full.length);
+    const a = full.slice(0, Math.min(n, 7)), b = n > 7 ? full.slice(7, n) : '';
     const typing = n < full.length;
-    h += `<div class="c lt" style="top:850px;height:200px;font-size:128px;color:${INK};letter-spacing:-.025em"><span style="font-weight:300;white-space:pre">${a}</span><span style="font-weight:700">${b}</span>${typing ? cur(MINT) : ''}</div>`;
+    h += `<div class="c lt" style="top:850px;height:200px;font-size:76px;color:${INK};letter-spacing:-.02em"><span style="font-weight:700;white-space:pre">${a}</span><span style="font-weight:300">${b}</span>${typing ? cur(MINT) : ''}</div>`;
     // mono subtitle
     if (t > 3.45 && t < 4.55) h += `<div class="c mono" style="top:1035px;height:40px;font-size:22px;color:rgba(14,21,32,.62)">${typed('MARKETING · BRANDING · WEB · APPS', t, 3.45, 40)}</div>`;
   }
@@ -192,7 +192,7 @@ function wheel(t) {
   const R = 330, A = 17 * Math.PI / 180;
   let h = `<div class="ab" style="left:0;top:0;width:${W}px;height:${H}px;opacity:${fade}">`;
   h += mono('SERVICES', 64, 360, 'rgba(255,255,255,.5)', 18) + mono('11', W - 64, 360, 'rgba(255,255,255,.5)', 18, 'right');
-  if (t > 19.9) { const o = prog(t, 19.9, 20.2); h += `<div style="opacity:${o}">${mono('THE PLANET CO.', 64, 1560, 'rgba(255,255,255,.5)', 18)}${mono('03 / 11', W - 64, 1560, 'rgba(255,255,255,.5)', 18, 'right')}</div>`; }
+  if (t > 19.9) { const o = prog(t, 19.9, 20.2); h += `<div style="opacity:${o}">${mono('PLANET CREATIVE MARKETING', 64, 1560, 'rgba(255,255,255,.5)', 18)}${mono('03 / 11', W - 64, 1560, 'rgba(255,255,255,.5)', 18, 'right')}</div>`; }
   h += `<div class="ab" style="left:0;top:0;width:${W}px;height:${H}px;transform:rotate(-7deg);transform-origin:620px 960px">`;
   const N = SERV.length;
   for (let j = -6; j <= 6; j++) {
@@ -258,8 +258,8 @@ function cardComp(g1, g2, card, txt, lab) {
   return `<div class="ab" style="inset:0;background:linear-gradient(${g1},${g2})"></div><div class="ab" style="left:120px;top:690px;width:840px;height:540px;background:${card};border-radius:14px;box-shadow:0 40px 90px rgba(0,0,0,.28)">${mono('MARKETING · BRANDING · APPS', 40, 34, lab, 15)}${mono('2026', 800, 34, lab, 15, 'right')}${mono('THEPLANETCO.COM', 800, 490, lab, 15, 'right')}<div class="ab" style="left:40px;top:494px;width:14px;height:14px;border-radius:50%;background:${MINT}"></div></div>` + WM(txt, 92);
 }
 function selectComp(bgc, line, txt) {
-  return bg(bgc) + mono('CAMPAIGN 01', 540 - 84, 560, line, 16) + `<div class="ab" style="left:250px;top:880px;width:580px;height:160px;border:2.5px solid ${line}"></div>` +
-    [[250, 880], [830, 880], [250, 1040], [830, 1040]].map(([x, y]) => `<div class="ab" style="left:${x - 8}px;top:${y - 8}px;width:16px;height:16px;background:${bgc};border:2.5px solid ${line}"></div>`).join('') + WM(txt, 92) +
+  return bg(bgc) + mono('CAMPAIGN 01', 540 - 84, 560, line, 16) + `<div class="ab" style="left:150px;top:890px;width:780px;height:140px;border:2.5px solid ${line}"></div>` +
+    [[150, 890], [930, 890], [150, 1030], [930, 1030]].map(([x, y]) => `<div class="ab" style="left:${x - 8}px;top:${y - 8}px;width:16px;height:16px;background:${bgc};border:2.5px solid ${line}"></div>`).join('') + WM(txt, 92) +
     `<div class="c" style="top:1400px;height:20px;gap:12px">${[1, 0, 0, 0].map(a => `<span style="width:10px;height:10px;border-radius:50%;background:${line};opacity:${a ? 1 : .4}"></span>`).join('')}</div>`;
 }
 function workComp(bgc, imgs, txtc, off) {
