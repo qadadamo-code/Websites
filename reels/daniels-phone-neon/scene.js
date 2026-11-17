@@ -35,7 +35,7 @@ function neon(path, style, w = 6, a = 1, core = 'rgba(255,248,235,0.95)') {
   if (core) { x.strokeStyle = core; x.globalAlpha = .75 * a; x.lineWidth = w * .35; path(); x.stroke(); }
   x.restore();
 }
-function rrPath(cx, cy, w, h, r) { r = Math.min(r, w / 2, h / 2); return () => { x.beginPath(); x.roundRect(cx - w / 2, cy - h / 2, w, h, r); }; }
+function rrPath(cx, cy, w, h, r) { w = Math.max(0, w); h = Math.max(0, h); r = Math.max(0, Math.min(r, w / 2, h / 2)); return () => { x.beginPath(); x.roundRect(cx - w / 2, cy - h / 2, w, h, r); }; }
 function fillRR(cx, cy, w, h, r, col, a = 1) { x.save(); x.globalAlpha = a; x.fillStyle = col; rrPath(cx, cy, w, h, r)(); x.fill(); x.restore(); }
 // perimeter points of a rounded rect, starting top-centre going counter-clockwise (left first)
 function rrPoints(cx, cy, w, h, r, n = 240) {
@@ -82,7 +82,7 @@ function star4(px, py, r, col, rot = 0, a = 1) {
 }
 function cross(px, py, s, a = 1) { x.save(); x.globalAlpha = a; x.strokeStyle = '#fff'; x.lineWidth = 3; x.shadowColor = '#fff'; x.shadowBlur = 10; x.beginPath(); x.moveTo(px - s, py); x.lineTo(px + s, py); x.moveTo(px, py - s); x.lineTo(px, py + s); x.stroke(); x.restore(); }
 
-function phonePath(cx, cy, w, h) { return () => { x.beginPath(); x.roundRect(cx - w / 2, cy - h / 2, w, h, Math.min(w, h) * .17); }; }
+function phonePath(cx, cy, w, h) { w = Math.max(0, w); h = Math.max(0, h); return () => { x.beginPath(); x.roundRect(cx - w / 2, cy - h / 2, w, h, Math.min(w, h) * .17); }; }
 function phoneDetails(cx, cy, w, h, a) { if (a <= 0) return; x.save(); x.globalAlpha = a; x.fillStyle = 'rgba(255,240,225,.85)'; x.beginPath(); x.roundRect(cx - w * .14, cy - h / 2 + h * .035, w * .28, h * .035, h * .02); x.fill();
   x.fillRect(cx - w / 2 - 5, cy - h * .2, 3, h * .1); x.fillRect(cx + w / 2 + 2, cy - h * .25, 3, h * .16); x.restore(); }
 function battery(cx, cy, w, h, k, a) { if (a <= 0) return; fillRR(cx, cy, w, h, 12, '#16121c', a);
@@ -209,12 +209,12 @@ const SHOTS = [
     neon(() => { x.beginPath(); x.ellipse(CX, CY, r, r * sq, 0, 0, 7); }, 'rgba(255,250,240,.9)', 2, 1, null);
   }],
   [17.8, 19.4, (u) => { // 12 it takes shape -> a cracked screen gets repaired
-    cam(1); const sc = seg(u, 0, .4, ob), fix = seg(u, .55, .6, io), fl = 8 * Math.sin(u * 2.5);
+    cam(1); const sc = Math.max(0, seg(u, 0, .4, ob)), fix = seg(u, .55, .6, io), fl = 8 * Math.sin(u * 2.5);
     const pw = 300 * sc, ph = 600 * sc, py = CY - 60 + fl;
     aura(CX, py, 420, 'rgba(255,110,0,.3)', sc);
     fillRR(CX, py, pw, ph, 50 * sc, '#0d0b12', 1);
     if (sc > .05) {
-      x.save(); x.beginPath(); x.roundRect(CX - pw / 2, py - ph / 2, pw, ph, 50 * sc); x.clip();
+      x.save(); x.beginPath(); x.roundRect(CX - pw / 2, py - ph / 2, pw, ph, Math.max(0, 50 * sc)); x.clip();
       // crack lines fade as the repair sweep passes
       const ca = 1 - fix; if (ca > 0) { x.strokeStyle = `rgba(255,255,255,${.75 * ca})`; x.lineWidth = 2; x.beginPath();
         [[[0, 0], [-60, -90], [-80, -200], [-130, -260]], [[0, 0], [70, -60], [90, -170], [140, -230]], [[0, 0], [-40, 110], [-110, 160], [-150, 260]], [[0, 0], [90, 80], [100, 200], [150, 290]], [[-60, -90], [-140, -70]], [[70, -60], [150, -40]], [[-40, 110], [40, 170], [60, 260]]].forEach((pts) => { pts.forEach(([a, b], i) => { const px = CX + 20 + a * sc, yy = py + 40 + b * sc; i ? x.lineTo(px, yy) : x.moveTo(px, yy); }); }); x.stroke(); }
