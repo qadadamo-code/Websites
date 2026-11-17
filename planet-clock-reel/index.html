@@ -150,26 +150,26 @@ function clockScene(t) {
 }
 
 function endScene(t) {
-  x.fillStyle = MINT; x.fillRect(0, 0, W, H);
+  const g = x.createRadialGradient(CX, 960, 40, CX, 960, 1200);
+  g.addColorStop(0, '#1d4673'); g.addColorStop(1, NAVY); x.fillStyle = g; x.fillRect(0, 0, W, H);
   const lk = eo(k01(t, 9.5, 9.85)), s = lerp(1.12, 1, lk);
-  x.save(); x.translate(CX, 930); x.scale(s, s); x.globalAlpha = cl(k01(t, 9.5, 9.6) * 1);
-  // P mark + dot
-  const ps = 0.42, PX = -372, PY = -86; x.save(); x.translate(PX, PY); x.scale(ps, ps); x.fillStyle = NAVY; x.fill(PLOGO); x.restore();
-  x.fillStyle = '#ffffff'; x.beginPath(); x.arc(PX + 419 * ps * 0.99, PY + 414 * ps * 0.84, 419 * ps * 0.12, 0, 7); x.fill();
-  x.font = '700 172px Plex'; x.fillStyle = NAVY; x.textAlign = 'left'; x.textBaseline = 'middle'; x.direction = 'ltr'; x.letterSpacing = '-5px'; x.fillText('Planet', -150, 4); x.letterSpacing = '0px';
+  x.save(); x.translate(CX, 900); x.scale(s, s);
+  // P mark (white) + brand mint dot, stacked above wordmark
+  const ps = 0.62, PX = -419 * ps / 2 - 10, PY = -330; x.save(); x.translate(PX, PY); x.scale(ps, ps); x.fillStyle = '#ffffff'; x.fill(PLOGO);
+  x.fillStyle = MINT; x.beginPath(); x.arc(364, 362, 51, 0, 7); x.fill(); x.restore();
+  x.font = '700 150px Plex'; x.fillStyle = '#ffffff'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.direction = 'ltr'; x.letterSpacing = '-4px'; x.fillText('Planet', 0, 60); x.letterSpacing = '0px';
   x.restore();
-  // pill
   const pp = k01(t, 9.82, 10.05);
   if (pp > 0) {
-    const ps2 = back(pp); x.save(); x.translate(CX, 1112); x.scale(ps2, ps2);
-    x.fillStyle = NAVY; x.beginPath(); x.roundRect(-190, -42, 380, 84, 42); x.fill();
-    txt('ابدأ معانا  ←', 0, 2, '700 36px Plex', MINT); x.restore();
+    const ps2 = back(pp); x.save(); x.translate(CX, 1150); x.scale(ps2, ps2);
+    x.fillStyle = MINT; x.beginPath(); x.roundRect(-230, -52, 460, 104, 52); x.fill();
+    txt('ابدأ معانا  ←', 0, 2, '700 46px Plex', NAVY); x.restore();
   }
   const cp = eo(k01(t, 10.1, 10.45));
   if (cp > 0) {
     x.save(); x.globalAlpha = cp;
-    txt('واتساب 01203101104', CX, 1226 + (1 - cp) * 14, '600 34px Plex', NAVY);
-    txt('theplanetco.com', CX, 1276 + (1 - cp) * 14, '600 30px Plex', 'rgba(20,54,89,0.72)', 2);
+    txt('واتساب 01203101104', CX, 1290 + (1 - cp) * 14, '600 46px Plex', '#ffffff');
+    txt('theplanetco.com', CX, 1356 + (1 - cp) * 14, '600 38px Plex', MINT, 2);
     x.restore();
   }
 }
