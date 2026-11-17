@@ -155,7 +155,7 @@ function logo(c, cx, cy, size, t0, t) {
   c.lineWidth = 9; c.strokeStyle = NAVY; c.beginPath(); c.arc(0, 0, size * 0.78, 0, 7); c.stroke();
   c.save(); c.scale(s * 0.86, s * 0.86); c.translate(-215, -207); c.fillStyle = NAVY; c.fill(PPATH); c.restore();
   const dk = t0 == null ? 1 : eOut(seg(t, t0, t0 + 0.25));
-  c.fillStyle = MINT; c.beginPath(); c.arc(size * 0.27, size * 0.31, size * 0.115 * (0.4 + 0.6 * dk) * (1 + 0.25 * Math.sin(dk * Math.PI)), 0, 7); c.fill();
+  c.fillStyle = MINT; c.beginPath(); c.arc(size * 0.306, size * 0.318, size * 0.105 * (0.4 + 0.6 * dk) * (1 + 0.25 * Math.sin(dk * Math.PI)), 0, 7); c.fill();
   c.restore();
 }
 function endPage(c, t) {
