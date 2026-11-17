@@ -36,7 +36,7 @@ const L1 = 'كل براند بيبدأ من مكان.';
 const L2a = 'واحنا بنبدأ من ', L2b = 'فكرتك', L2c = '.';
 const STRIPS = ['ونحوّلها', 'لقصة', 'نجاح', 'تتحكي'];
 const SUBS = ['تسويق رقمي وإدارة منصات', 'براندينج وهوية بصرية', 'مواقع وتطبيقات'];
-const FS1 = 60;
+const FS1 = 80;
 
 // P logo path
 const P_D = 'M 3 207.045 L 3 414.158 43.250 413.754 C 77.062 413.414, 84.460 413.080, 89.500 411.666 C 111.693 405.440, 127.708 389.436, 136.199 365 L 139.500 355.500 139.772 225.750 L 140.044 96 196.862 96 C 257.722 96, 261.970 96.313, 272.099 101.551 C 290.101 110.860, 297.302 138.725, 287.074 159.500 C 280.128 173.610, 266.280 180.974, 246.614 181.015 C 223.776 181.062, 206.885 192.216, 198.931 212.500 C 196.693 218.209, 196.561 219.896, 196.209 247.250 L 195.839 276 230.170 275.997 C 278.250 275.992, 297.667 273.770, 322.756 265.403 C 372.722 248.739, 402.968 215.662, 413.674 165.976 C 416.199 154.254, 416.203 123.352, 413.681 110.730 C 401.841 51.485, 360.489 15.813, 288.500 2.743 C 276.614 0.585, 275.206 0.561, 139.750 0.248 L 3 -0.068 3 207.045';
@@ -46,6 +46,23 @@ function drawP(c, x, y, size) { // size = height in px; x,y = top-left
   c.fillStyle = NAVY; c.fill(P_PATH, 'evenodd');
   c.beginPath(); c.arc(364, 362, 51, 0, Math.PI * 2); c.fillStyle = MINT; c.fill(); c.restore();
 }
+
+// ---- film grain + dust ----
+const grain = mk(512, 512); { const g = grain.getContext('2d'), id = g.createImageData(512, 512); let sd = 12345; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < id.data.length; i += 4) { const v = 128 + (rnd() - 0.5) * 255; id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 255; } g.putImageData(id, 0, 0); }
+function addGrain(t, a = 0.055) { const f = Math.floor(t * 30); o.save(); o.globalAlpha = a; o.globalCompositeOperation = 'overlay';
+  const ox = (f * 137) % 512, oy = (f * 251) % 512; o.translate(-ox, -oy); o.fillStyle = o.createPattern(grain, 'repeat'); o.fillRect(0, 0, W + 512, H + 512); o.restore(); }
+const DUST = []; { let sd = 777; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 140; i++) DUST.push({ x: rnd() * W, y: rnd() * H, r: 0.8 + rnd() * 2.6, vx: (rnd() - 0.5) * 14, vy: -6 - rnd() * 16, ph: rnd() * 6.28 }); }
+function drawDust(t, lx, ly, power = 1) { o.save(); o.globalCompositeOperation = 'lighter';
+  for (const d of DUST) { const x = (d.x + d.vx * t + 30 * Math.sin(t * 0.7 + d.ph)) % W, y = ((d.y + d.vy * t) % H + H) % H;
+    const dist = lx == null ? 2000 : Math.hypot(x - lx, y - ly); const a = (0.10 + 0.8 * Math.exp(-dist / 260)) * power * (0.6 + 0.4 * Math.sin(t * 3 + d.ph));
+    o.fillStyle = `rgba(200,240,226,${a})`; o.beginPath(); o.arc(x, y, d.r, 0, 6.283); o.fill(); } o.restore(); }
+function flare(x, y, a = 1) { o.save(); o.globalCompositeOperation = 'lighter'; o.globalAlpha = a;
+  let g = o.createLinearGradient(x - 900, 0, x + 900, 0); g.addColorStop(0, 'rgba(146,197,180,0)'); g.addColorStop(0.5, 'rgba(200,245,230,0.55)'); g.addColorStop(1, 'rgba(146,197,180,0)');
+  o.fillStyle = g; o.fillRect(x - 900, y - 2, 1800, 4); o.filter = 'blur(8px)'; o.globalAlpha = a * 0.6; o.fillRect(x - 700, y - 10, 1400, 20); o.filter = 'none';
+  o.globalAlpha = a * 0.25; o.strokeStyle = 'rgba(146,197,180,0.6)'; o.lineWidth = 3; o.beginPath(); o.arc(540 + (540 - x) * 0.6, CY + (CY - y) * 0.6 - 4, 70, 0, 6.283); o.stroke();
+  o.restore(); }
 
 // ================= SCENE A (0 – 5.1) =================
 const layer = mk(), lc = layer.getContext('2d');
@@ -124,6 +141,7 @@ function sceneText(t) {
   } else textLine(lc, 2, 0, CY);
   // fade text slightly near the end (before strips cover)
   o.drawImage(layer, 0, 0);
+  o.save(); o.globalCompositeOperation = 'lighter'; o.globalAlpha = 0.45; o.filter = 'blur(14px)'; o.drawImage(layer, 0, 0); o.restore();
   // blurred smear right behind the ball while writing
   if (bx != null && Math.abs(vx) > 50) {
     o.save(); o.filter = 'blur(10px)'; o.globalAlpha = 0.6; o.beginPath();
@@ -133,25 +151,29 @@ function sceneText(t) {
   if (bx != null) {
     let sc = 1; if (t > 1.0 && t < 1.5) sc = 1 + 0.45 * Math.sin(Math.PI * lin(t, 1.0, 1.5)) * (1 - lin(t, 1.0, 1.5) * 0.3);
     sc *= 1 + 0.03 * Math.sin(t * 9);
-    drawBall(o, bx, CY, vx, sc);
+    drawBall(o, bx, CY, vx, sc * 1.25);
   }
   o.restore();
+  const sbx = bx == null ? null : 540 + (bx - 540) * z;
+  drawDust(t, sbx, CY, 1);
+  if (sbx != null) flare(sbx, CY, 0.8 + (t > 1.0 && t < 1.5 ? 0.6 * Math.sin(Math.PI * lin(t, 1, 1.5)) : 0));
+  addGrain(t);
 }
 
 // strips
-const SW = 230;
+const SW = 280;
 function sceneStrips(t) {
   bgDark(o);
   // leftover: the previous line drifting off? (ref: text still visible at left briefly)
   if (t < 2.95) { o.save(); o.globalAlpha = 1 - lin(t, 2.62, 2.95); const z = 1.16; o.translate(540, CY); o.scale(z, z); o.translate(-540, -CY); o.translate(260 * eo(lin(t, 2.62, 3.1)), 0); textLine(o, 2, 0, CY); o.restore(); }
   // strip layout (final x of left edge), mirrored: first word ends right-most
-  const finals = [700, 470, 240, 10]; // left edges; 4th is text-only on bg
+  const finals = [770, 490, 210, -40]; // left edges; 4th is text-only on bg
   const colors = ['mint', 'dark', 'mint', 'bg'];
   const drift = 36 * lin(t, 3.1, 4.45);
   // collapse (ball from right to left)
   const cb0 = 4.42, cb1 = 5.02;
-  const ballx = t > cb0 ? 1250 + (470 - 1250) * eo(lin(t, cb0, cb1)) : null;
-  const xc = 470; // collapse line
+  const ballx = t > cb0 ? 1250 + (430 - 1250) * eo(lin(t, cb0, cb1)) : null;
+  const xc = 430; // collapse line
   for (let i = 0; i < 4; i++) {
     const t0 = 2.62 + i * 0.075;
     const u = lin(t, t0, t0 + 0.5);
@@ -173,7 +195,11 @@ function sceneStrips(t) {
       const g = o.createLinearGradient(x, 0, x + w, 0);
       if (colors[i] === 'mint') { g.addColorStop(0, '#5f9584'); g.addColorStop(0.18, '#8cc1af'); g.addColorStop(0.55, '#a9d6c6'); g.addColorStop(0.9, '#86baa8'); g.addColorStop(1, '#5c8f7f'); }
       else { g.addColorStop(0, '#05080c'); g.addColorStop(0.3, '#141c26'); g.addColorStop(0.6, '#1b2531'); g.addColorStop(1, '#070a0f'); }
+      if (u < 0.75) o.filter = `blur(${(14 * (1 - u / 0.75)).toFixed(1)}px)`;
       o.fillStyle = g; o.fillRect(x, -10, w, H + 20);
+      // specular
+      const sp = o.createLinearGradient(x + w * 0.22, 0, x + w * 0.42, 0); sp.addColorStop(0, 'rgba(255,255,255,0)'); sp.addColorStop(0.5, colors[i] === 'mint' ? 'rgba(255,255,255,0.35)' : 'rgba(160,200,190,0.12)'); sp.addColorStop(1, 'rgba(255,255,255,0)');
+      o.fillStyle = sp; o.fillRect(x, -10, w, H + 20); o.filter = 'none';
       // vertical light falloff
       const vg = o.createLinearGradient(0, 0, 0, H); vg.addColorStop(0, 'rgba(255,255,255,0.10)'); vg.addColorStop(0.5, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.25)');
       o.fillStyle = vg; o.fillRect(x, -10, w, H + 20);
@@ -182,16 +208,18 @@ function sceneStrips(t) {
     // word
     if (w > 30 || colors[i] === 'bg') {
       o.save(); o.beginPath(); o.rect(x, 0, Math.max(w, 1), H); if (colors[i] !== 'bg') o.clip();
-      o.translate(x + (colors[i] === 'bg' ? SW / 2 : w / 2), CY); o.rotate(-Math.PI / 2);
-      o.font = `600 74px Plex`; o.direction = 'rtl'; o.textAlign = 'center'; o.textBaseline = 'middle';
+      o.translate(x + (colors[i] === 'bg' ? SW / 2 + 40 : w / 2), CY); o.rotate(-Math.PI / 2);
+      o.font = `700 104px Plex`; o.direction = 'rtl'; o.textAlign = 'center'; if (u < 0.75) o.filter = `blur(${(10 * (1 - u / 0.75)).toFixed(1)}px)`; o.textBaseline = 'middle';
       o.fillStyle = colors[i] === 'mint' ? NAVY : 'rgba(240,246,244,0.95)';
       o.fillText(STRIPS[i], 0, 0); o.restore();
     }
   }
   if (ballx != null) {
-    const dt = 1 / 120, bxp = 1250 + (470 - 1250) * eo(lin(t - dt, cb0, cb1));
-    drawBall(o, ballx, CY, (ballx - bxp) / dt, 1.1);
+    const dt = 1 / 120, bxp = 1250 + (430 - 1250) * eo(lin(t - dt, cb0, cb1));
+    drawBall(o, ballx, CY, (ballx - bxp) / dt, 1.4); flare(ballx, CY, 0.9);
   }
+  drawDust(t, ballx, CY, 0.7);
+  addGrain(t);
   // ball light spill
 }
 
@@ -223,7 +251,7 @@ async function initThree() {
   const m = gltf.scene.children[0];
   const body = new THREE.MeshPhysicalMaterial({ color: 0x17426f, metalness: 0.7, roughness: 0.32, clearcoat: 1, clearcoatRoughness: 0.03 });
   const details = new THREE.MeshStandardMaterial({ color: 0xe8eef0, metalness: 1.0, roughness: 0.35 });
-  const glass = new THREE.MeshPhysicalMaterial({ color: 0x0c1622, metalness: 0.4, roughness: 0.02, clearcoat: 1, transparent: true, opacity: 0.92 });
+  const glass = new THREE.MeshPhysicalMaterial({ color: 0x060b12, metalness: 0.5, roughness: 0.03, clearcoat: 1, clearcoatRoughness: 0.02, side: THREE.DoubleSide });
   m.getObjectByName('body').material = body;
   ['rim_fl', 'rim_fr', 'rim_rr', 'rim_rl', 'trim'].forEach((n) => { const x = m.getObjectByName(n); if (x) x.material = details; });
   m.getObjectByName('glass').material = glass;
@@ -340,6 +368,7 @@ function overlay(t) {
   o.restore();
 }
 function sceneCar(t) {
+  camera.fov = 26 - 1.6 * eo(lin(t, 5.1, 13)); camera.updateProjectionMatrix();
   const sub = t < 5.45 ? 6 : 1; const dt = 1 / 60 / sub * 0.9;
   ac.clearRect(0, 0, W, H);
   for (let k = 0; k < sub; k++) {
@@ -364,7 +393,28 @@ function sceneCar(t) {
   // gentle vignette
   const g = o.createRadialGradient(540, 900, 600, 540, 900, 1400); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(10,30,40,0.22)');
   o.fillStyle = g; o.fillRect(0, 0, W, H);
+  // tire smoke
+  smoke(t);
+  // impact flash
+  if (t < 5.32) { o.save(); o.globalAlpha = 0.85 * (1 - lin(t, 5.1, 5.32)); o.fillStyle = '#eafff7'; o.fillRect(0, 0, W, H); o.restore(); }
   overlay(t);
+  addGrain(t, 0.045);
+}
+function smoke(t) {
+  if (t > 7.2) return;
+  o.save();
+  for (let k = 0; k < 26; k++) {
+    const ts = 5.1 + k * 0.035; if (ts > t) break;
+    const st = carState(ts), a = st.h * Math.PI / 180, age = t - ts;
+    for (const sx of [-1, 1]) {
+      const lx = sx * 0.85 * 1.62 * UNIT, ly = 1.5 * 1.62 * UNIT;
+      const X = st.x + lx * Math.cos(a) - ly * Math.sin(a) + age * 40 * sx, Y = st.y + lx * Math.sin(a) + ly * Math.cos(a) - age * 30;
+      const r = 60 + age * 260, al = 0.22 * Math.exp(-age * 1.9) * (1 - k / 30);
+      const g = o.createRadialGradient(X, Y, 0, X, Y, r); g.addColorStop(0, `rgba(240,250,246,${al})`); g.addColorStop(1, 'rgba(240,250,246,0)');
+      o.fillStyle = g; o.fillRect(X - r, Y - r, 2 * r, 2 * r);
+    }
+  }
+  o.restore();
 }
 
 window.renderAt = async (t) => {
