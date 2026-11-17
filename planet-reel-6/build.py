@@ -121,8 +121,8 @@ def sil_mask():
     big = 1 + np.argmax(st[1:, cv2.CC_STAT_AREA]); m = (lab == big).astype(np.uint8) * 255
     ys, xs = np.nonzero(m); top = ys.min()
     hx = xs[ys < top + 300].mean()
-    s = 0.78
-    M = np.float32([[s, 0, W * 0.5 - hx * s + 40], [0, s, H * 0.20 - top * s]])
+    s = float(os.environ.get('SILS', '0.56'))
+    M = np.float32([[s, 0, W * 0.5 - hx * s + 30], [0, s, H * 0.25 - top * s]])
     m = cv2.warpAffine(m, M, (W, H), flags=cv2.INTER_LINEAR)
     # extend body to bottom edge
     ys, xs = np.nonzero(m > 128); b = ys.max()
@@ -134,7 +134,7 @@ def circle_bg(t):
     cx, cy, r = W * 0.5, H * 0.485, H * 0.40
     d = np.sqrt((xx - cx) ** 2 + (yy - cy) ** 2) / r
     inner = np.clip(1 - d, 0, 1)
-    disk = 1 / (1 + np.exp((d - 1) * 60))
+    disk = 1 / (1 + np.exp(np.clip((d - 1) * 60, -50, 50)))
     col_c = np.array([0.80, 0.86, 0.66]) ; col_e = np.array([0.42, 0.55, 0.28])  # BGR mint light->deep
     base = col_e + (col_c - col_e) * (inner ** 0.7)[..., None]
     glow = np.exp(-np.clip(d - 1, 0, None) * 6)[..., None] * 0.20
@@ -147,22 +147,21 @@ def xray_pattern(mask):
     ys, xs = np.nonzero(hm); top = ys.min()
     pat = np.zeros((H, W), np.float32)
     # brain: iso-contours of smooth noise inside an ellipse at the head
-    hx = xs[ys < top + 200].mean(); hy = top + 150
-    nz = cv2.GaussianBlur(rng.random((H, W)).astype(np.float32), (0, 0), 9)
-    nz = (nz - nz.min()) / (nz.max() - nz.min())
-    bands = ((nz * 16) % 1 < 0.22).astype(np.uint8) * 255
-    edges = cv2.Canny(bands, 50, 150).astype(np.float32) / 255
-    ell = ((xx - hx) / 150) ** 2 + ((yy - hy) / 112) ** 2 < 1
-    pat += edges * ell
-    # nerves / skeleton: coarse noise contours across the whole body
-    nz2 = cv2.GaussianBlur(rng.random((H, W)).astype(np.float32), (0, 0), 22)
-    nz2 = (nz2 - nz2.min()) / (nz2.max() - nz2.min())
-    b2 = ((nz2 * 6) % 1 < 0.10).astype(np.uint8) * 255
-    e2 = cv2.Canny(b2, 50, 150).astype(np.float32) / 255
-    pat += e2 * (~ell) * 0.40
+    hx = xs[ys < top + 120].mean(); hy = top + 105
+    def contours(sig, levels, thr):
+        nz = cv2.GaussianBlur(rng.random((H, W)).astype(np.float32), (0, 0), sig)
+        nz = (nz - nz.min()) / (nz.max() - nz.min())
+        bands = (((nz * levels) % 1) < thr).astype(np.uint8) * 255
+        cs, _ = cv2.findContours(bands, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+        img = np.zeros((H, W), np.float32)
+        cv2.drawContours(img, cs, -1, 1.0, 2, cv2.LINE_AA)
+        return img
+    ell = ((xx - hx) / 120) ** 2 + ((yy - hy) / 88) ** 2 < 1
+    pat += contours(6, 9, 0.5) * ell
+    pat += contours(26, 4, 0.5) * (~ell) * 0.35
     # spine line
-    for y in range(int(hy + 120), H, 2):
-        cv2.circle(pat, (int(hx + 60 + (y - hy) * 0.18), y), 3, 1.0, -1)
+    for y in range(int(hy + 80), H, 2):
+        cv2.circle(pat, (int(hx + 40 + (y - hy) * 0.15), y), 3, 1.0, -1)
     # outline glow
     edge = cv2.morphologyEx((hm * 255).astype(np.uint8), cv2.MORPH_GRADIENT, np.ones((5, 5), np.uint8)).astype(np.float32) / 255
     pat = np.clip(pat * hm + edge * 0.8, 0, 1)
