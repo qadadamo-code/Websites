@@ -4,7 +4,7 @@ import { SVGLoader } from './assets/SVGLoader.js';
 const Q = new URLSearchParams(location.search);
 const W = +(Q.get('w') || 1080), H = +(Q.get('h') || 1920);
 const S = W / 1080; // 2D overlay scale
-const C = { cream: '#F1ECDF', paper: '#F7F3E9', navy: '#143659', navy2: '#24497A', mint: '#92C5B4', mintD: '#5E9C88', mintL: '#C9E3DA' };
+const C = { mintS: '#62AE95', cream: '#EEE6D4', paper: '#F7F3E9', navy: '#143659', navy2: '#24497A', mint: '#92C5B4', mintD: '#5E9C88', mintL: '#C9E3DA' };
 const col = (h) => new THREE.Color(h);
 
 // ---------- math ----------
@@ -287,15 +287,18 @@ shot(4.75, 8.3, (g) => {
 shot(8.3, 16.65, (g) => {
   g.add(floor(C.mintD, 2, 300, 0.4, 4)); g.position.y = 0;
   function bandCanvas(text, o = {}) {
-    const Wc = 4096, Hc = o.hc || 256; const c = cv(Wc, Hc), x = c.getContext('2d');
+    const Wc = 4096, Hc = o.hc || 320; const c = cv(Wc, Hc), x = c.getContext('2d');
     x.fillStyle = o.bg || C.paper; x.fillRect(0, 0, Wc, Hc);
     x.fillStyle = o.edge || C.mintD; x.fillRect(0, 0, Wc, 6); x.fillRect(0, Hc - 6, Wc, 6);
     if (o.chev) { x.strokeStyle = o.edge || C.mintD; x.lineWidth = 7; for (let i = 0; i < 70; i++) { const cx = i * 58 + 20; x.beginPath(); x.moveTo(cx, Hc * 0.3); x.lineTo(cx + 18, Hc * 0.5); x.lineTo(cx, Hc * 0.7); x.stroke(); } }
     if (o.ticks) { x.fillStyle = o.edge || C.mintD; for (let i = 0; i < 320; i++) { const L = i % 10 === 0 ? Hc * 0.35 : Hc * 0.15; x.fillRect(i * 12.8, 6, 3, L); } }
-    if (o.mono) { x.font = `500 ${Hc * 0.28}px Mono`; x.fillStyle = o.edge || C.mintD; for (let k = 0; k < 6; k++) x.fillText(o.mono, 80 + k * 700, Hc * 0.82); }
+    if (o.mono) { x.font = `500 ${Hc * 0.28}px Mono`; x.fillStyle = o.edge || C.mintD; for (let k = 0; k < 4; k++) x.fillText(o.mono, 80 + k * 1024, Hc * 0.82); }
     if (text) {
       x.font = `${o.weight || 700} ${o.size || Hc * 0.62}px ${o.family || 'Kufi'}`; x.direction = 'rtl'; x.textAlign = 'center'; x.textBaseline = 'middle';
       const reps = o.reps || 2;
+      if (o.arc) { x.font = `${o.weight || 700} ${o.size || Hc * 0.66}px ${o.family || 'Kufi'}`; const mw = x.measureText(text).width, lim = Wc * o.arc; if (mw > lim) x.font = `${o.weight || 700} ${Math.floor((o.size || Hc * 0.66) * lim / mw)}px ${o.family || 'Kufi'}`;
+        [0, Wc].forEach((cx) => { if (o.shadow) { x.fillStyle = o.shadow; x.fillText(text, cx + 10, Hc * 0.52 + 10); } x.fillStyle = o.color || C.navy; x.fillText(text, cx, Hc * 0.52); });
+        const t = tex(c); return t; }
       { const slot = Wc / reps * 0.74; const mw = x.measureText(text).width; if (mw > slot) x.font = `${o.weight || 700} ${Math.floor((o.size || Hc * 0.62) * slot / mw)}px ${o.family || 'Kufi'}`; }
       for (let k = 0; k < reps; k++) { const cx = (k + 0.5) * Wc / reps; if (o.shadow) { x.fillStyle = o.shadow; x.fillText(text, cx + 8, Hc * 0.52 + 8); } x.fillStyle = o.color || C.navy; x.fillText(text, cx, Hc * 0.52); }
     }
@@ -312,17 +315,17 @@ shot(8.3, 16.65, (g) => {
   const spec = [
     { y: -1.6, R: 2.5, h: 0.5, o: { ticks: 1, mono: 'MARKETING · 01' } },
     { y: -0.9, R: 2.6, h: 0.5, o: { chev: 1 } },
-    { y: 0.0, R: 2.5, h: 0.8, text: 'محتاج وكالة', o: { reps: 5, shadow: C.mint }, t: 8.75, key: 1 },
-    { y: 0.95, R: 2.55, h: 0.7, text: 'تكبّر براندك', o: { reps: 5, shadow: C.mint }, t: 9.6, key: 1 },
+    { y: 0.0, R: 2.5, h: 0.85, text: 'محتاج وكالة', o: { arc: 0.2, shadow: C.mintS }, t: 8.75, key: 1 },
+    { y: 0.95, R: 2.55, h: 0.75, text: 'تكبّر براندك', o: { arc: 0.2, shadow: C.mintS }, t: 9.6, key: 1 },
     { y: 1.8, R: 2.45, h: 0.45, o: { ticks: 1, mono: 'BRANDING · 02' } },
-    { y: 2.55, R: 2.6, h: 0.8, text: 'تسويق · براندينج · تطبيقات', o: { reps: 4, bg: C.navy, color: C.paper, family: 'Plex', weight: 300, edge: C.mint }, back: C.navy, t: 10.8, key: 1 },
-    { y: 3.4, R: 2.5, h: 0.6, o: { bg: C.mint, edge: C.navy, chev: 1 }, back: C.mint },
+    { y: 2.55, R: 2.6, h: 0.85, text: 'تسويق · براندينج · تطبيقات', o: { arc: 0.36, bg: C.navy, color: C.paper, family: 'Plex', weight: 300, edge: C.mint }, back: C.navy, t: 10.8, key: 1 },
+    { y: 3.4, R: 2.5, h: 0.6, o: { bg: C.mintS, edge: C.navy, chev: 1 }, back: C.mintS },
     { y: 4.15, R: 2.45, h: 0.45, o: { chev: 1 } },
-    { y: 4.9, R: 2.55, h: 0.75, text: 'إدارة منصاتك', o: { reps: 5, shadow: C.mint }, t: 13.3, key: 1 },
+    { y: 4.9, R: 2.55, h: 0.8, text: 'إدارة منصاتك', o: { arc: 0.2, shadow: C.mintS }, t: 13.3, key: 1 },
     { y: 5.75, R: 2.5, h: 0.45, o: { ticks: 1, mono: 'SOCIAL · APPS' } },
-    { y: 6.55, R: 2.6, h: 0.85, text: 'بنعرف', o: { reps: 6, family: 'Kufi', weight: 900, color: C.navy, shadow: C.mint }, t: 14.45, key: 1 },
-    { y: 7.45, R: 2.5, h: 0.7, text: 'نحوّل المتابعين', o: { reps: 5, chev: 0, family: 'Plex', weight: 700, color: C.navy }, t: 15.0, key: 1 },
-    { y: 8.3, R: 2.55, h: 0.75, text: 'لعملاء', o: { reps: 6, chev: 1, color: C.navy, shadow: C.mint }, t: 15.55, key: 1 },
+    { y: 6.55, R: 2.6, h: 0.9, text: 'بنعرف', o: { arc: 0.14, family: 'Kufi', weight: 900, color: C.navy, shadow: C.mintS }, t: 14.45, key: 1 },
+    { y: 7.45, R: 2.5, h: 0.75, text: 'نحوّل المتابعين', o: { arc: 0.22, family: 'Plex', weight: 700, color: C.navy }, t: 15.0, key: 1 },
+    { y: 8.3, R: 2.55, h: 0.8, text: 'لعملاء', o: { arc: 0.15, chev: 1, color: C.navy, shadow: C.mintS }, t: 15.55, key: 1 },
     { y: 9.1, R: 2.45, h: 0.45, o: { ticks: 1, mono: 'THEPLANETCO.COM' } },
   ];
   const rings = spec.map((s, i) => { const m = ringMesh(s.R, s.h, bandCanvas(s.text, s.o), s.back); m.position.y = s.y; m.userData = s; g.add(m); return m; });
@@ -335,10 +338,10 @@ shot(8.3, 16.65, (g) => {
       scene.fog = new THREE.Fog(C.cream, 6, 30);
       // camera keys: [time, camY, lookY, radius, angle]
       const K = [
-        [8.3, -0.6, -0.4, 12.38, 0.3], [8.75, 0.15, 0.0, 8.52, 0.05], [9.5, 0.35, 0.2, 9.05, -0.05], [9.6, 1.05, 0.95, 8.52, 0.0], [10.6, 1.4, 1.1, 9.4, -0.1],
-        [10.8, 2.6, 2.55, 6.6, 0.1], [11.6, 2.55, 2.55, 5.9, -0.12], [12.45, 2.7, 2.6, 5.55, -0.3],
-        [13.0, 6.5, 3.5, 17.62, 0.4], [13.3, 4.95, 4.9, 8.7, 0.1], [14.35, 5.1, 4.9, 9.58, -0.1],
-        [14.45, 6.6, 6.55, 8.35, 0.05], [15.0, 7.4, 7.2, 8.7, -0.05], [15.55, 8.3, 8.1, 8.52, 0.05], [16.65, 9.0, 8.4, 10.1, -0.15],
+        [8.3, -1.4, -0.5, 13.0, 0.5], [8.75, 0.15, 0.0, 8.8, 0.05], [9.5, 0.3, 0.1, 9.2, -0.1], [9.6, 1.0, 0.95, 8.8, 0.05], [10.6, 1.3, 1.0, 9.4, -0.1],
+        [10.8, 2.6, 2.55, 8.2, 0.1], [11.6, 2.55, 2.55, 7.8, -0.1], [12.45, 2.9, 2.7, 7.6, -0.35],
+        [13.0, 6.5, 3.5, 12.0, 0.4], [13.3, 4.95, 4.9, 8.8, 0.1], [14.35, 5.1, 4.9, 9.4, -0.1],
+        [14.45, 6.6, 6.55, 8.6, 0.05], [15.0, 7.45, 7.3, 8.9, -0.05], [15.55, 8.3, 8.15, 8.7, 0.05], [16.65, 9.0, 8.4, 10.0, -0.15],
       ];
       let i = 0; while (i < K.length - 2 && t > K[i + 1][0]) i++;
       const [ta, ya, la, ra, aa] = K[i], [tb, yb, lb, rb, ab] = K[i + 1];
@@ -347,7 +350,7 @@ shot(8.3, 16.65, (g) => {
       setCam([Math.sin(ang) * rad, y, Math.cos(ang) * rad], [0, ly, 0], Math.sin(t * 1.3) * 0.08 + (t > 10.8 && t < 12.5 ? -0.1 : 0));
       rings.forEach((m) => {
         const s = m.userData;
-        if (s.key) { const kk = eoExpo(seg(t, s.t - 0.05, s.t + 0.45)); m.rotation.y = lerp(-2.4, 0, kk) - 0.0 + (t - s.t) * 0.05; }
+        if (s.key) { const kk = eoExpo(seg(t, s.t - 0.08, s.t + 0.5)); m.rotation.y = lerp(-3.1, 0, kk) + Math.max(0, t - s.t) * 0.06; }
         else m.rotation.y = t * (s.y % 2 > 1 ? 0.25 : -0.2);
       });
     },
@@ -442,18 +445,18 @@ shot(20.3, 22.05, (g) => {
   g.add(floor(C.navy, 2.5, 300, 0.25));
   const words = ['متابع جديد', 'عميل جديد', 'رسالة واتساب', 'طلب جديد', 'تعليق جديد', 'مشاركة', 'عميل جديد', 'طلب جديد'];
   const sty = [
-    { bg: C.navy, color: C.mint }, { bg: C.mint, color: C.navy }, { bg: C.paper, color: C.navy, bgStroke: C.navy }, { bg: C.navy, color: C.paper },
+    { bg: C.navy, color: C.mint }, { bg: C.mintS, color: C.navy }, { bg: C.paper, color: C.navy, bgStroke: C.navy }, { bg: C.navy, color: C.paper },
   ];
   const r = rng(99); const pills = [];
   const cache = {};
   for (let i = 0; i < 70; i++) {
     const w = words[i % words.length], s = sty[(i * 7) % 4]; const key = w + i % 4;
     if (!cache[key]) { const c = textCanvas(w, { family: 'Plex', weight: 700, size: 110, color: s.color, bg: s.bg, bgStroke: s.bgStroke, bgStrokeW: 10, pad: 48, bgInset: 6 }); const sc = textCanvas(w, { family: 'Plex', weight: 700, size: 110, color: '#0B2440', bg: '#0B2440', pad: 48, bgInset: 6 }); cache[key] = { c, ft: tex(c), sc, st: tex(sc) }; }
-    const cc = cache[key]; const grp = new THREE.Group(); const wdt = 1.4 + r() * 1.4;
-    for (let j = 4; j >= 1; j--) { const p = planeOf(cc.sc, wdt, { map: cc.st, alphaTest: 0.5 }); p.position.z = -j * 0.03; grp.add(p); }
+    const cc = cache[key]; const grp = new THREE.Group(); const wdt = 2.0 + r() * 2.0;
+    for (let j = 8; j >= 1; j--) { const p = planeOf(cc.sc, wdt, { map: cc.st, alphaTest: 0.5 }); p.position.z = -j * 0.035; grp.add(p); }
     grp.add(planeOf(cc.c, wdt, { map: cc.ft }));
-    const ang = r() * Math.PI * 2, rad = 0.8 + r() * 4.5;
-    grp.userData = { x: Math.cos(ang) * rad, y: 3 + Math.sin(ang) * rad * 0.9, z: -r() * 34 + 3, rx: (r() - 0.5) * 1.2, ry: (r() - 0.5) * 1.4, rz: (r() - 0.5) * 1.6, sp: (r() - 0.5) * 2, t: 20.3 + r() * 0.6 };
+    const ang = r() * Math.PI * 2, rad = 1.3 + r() * 2.6;
+    grp.userData = { x: Math.cos(ang) * rad, y: 3 + Math.sin(ang) * rad * 0.9, z: -r() * 30 + 6, rx: (r() - 0.5) * 1.2, ry: (r() - 0.5) * 1.4, rz: (r() - 0.5) * 1.6, sp: (r() - 0.5) * 2, t: 20.3 + r() * 0.6 };
     g.add(grp); pills.push(grp);
   }
   // typing bubble
@@ -462,7 +465,7 @@ shot(20.3, 22.05, (g) => {
   const bub = planeOf(bc, 3.0); g.add(bub);
   return {
     update(t) {
-      scene.fog = new THREE.Fog(C.cream, 8, 36);
+      scene.fog = new THREE.Fog(C.cream, 16, 44);
       const lt = t - 20.3;
       const cz = lerp(14, -20, eio(seg(lt, 0, 1.75)) * 0.7 + seg(lt, 0, 1.75) * 0.3);
       pills.forEach((p) => { const u = p.userData; const k = eo(seg(t, u.t, u.t + 0.4)); p.position.set(u.x * lerp(0.2, 1, k), u.y, u.z); p.rotation.set(u.rx + lt * u.sp * 0.4, u.ry + lt * u.sp * 0.3, u.rz + lt * u.sp * 0.5); p.scale.setScalar(Math.max(0.001, k)); });
@@ -535,20 +538,20 @@ shot(25.05, 30.01, (g) => {
   const r = rng(2026); const objs = [];
   const stripeTex = (a, b) => { const c = cv(256, 64), x = c.getContext('2d'); for (let i = 0; i < 16; i++) { x.fillStyle = i % 2 ? a : b; x.fillRect(i * 16, 0, 16, 64); } const t = tex(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t; };
   const mats = [
-    new THREE.MeshStandardMaterial({ color: C.mint, roughness: 0.45 }), new THREE.MeshStandardMaterial({ color: C.navy, roughness: 0.5 }),
+    new THREE.MeshStandardMaterial({ color: C.mintS, roughness: 0.4 }), new THREE.MeshStandardMaterial({ color: C.navy, roughness: 0.45 }),
     new THREE.MeshStandardMaterial({ color: C.paper, roughness: 0.6 }), new THREE.MeshStandardMaterial({ map: stripeTex(C.navy, C.mint), roughness: 0.5 }),
     new THREE.MeshStandardMaterial({ map: stripeTex(C.paper, C.mintD), roughness: 0.5 }), new THREE.MeshStandardMaterial({ color: C.mintD, roughness: 0.45 }),
   ];
   const star = (() => { const s = new THREE.Shape(); for (let j = 0; j < 10; j++) { const a = j * Math.PI / 5 + Math.PI / 2, rr2 = j % 2 ? 0.22 : 0.5; j ? s.lineTo(Math.cos(a) * rr2, Math.sin(a) * rr2) : s.moveTo(Math.cos(a) * rr2, Math.sin(a) * rr2); } return new THREE.ExtrudeGeometry(s, { depth: 0.18, bevelEnabled: false }); })();
   const geos = [() => new THREE.SphereGeometry(0.5 + r() * 0.4, 32, 24), () => new THREE.TorusGeometry(0.5, 0.2, 18, 48), () => new THREE.BoxGeometry(0.6, 0.6, 0.6), () => new THREE.ConeGeometry(0.4, 0.8, 32), () => new THREE.CylinderGeometry(0.3, 0.3, 0.5, 32), () => star, () => new THREE.OctahedronGeometry(0.45), () => new THREE.SphereGeometry(0.25, 24, 16)];
-  for (let i = 0; i < 64; i++) {
+  for (let i = 0; i < 120; i++) {
     const gi = i % geos.length; const geo = geos[gi]();
     const m = new THREE.Mesh(geo, gi === 1 ? mats[3 + (i % 2)] : gi === 0 && i % 3 === 0 ? mats[4] : mats[i % 3 === 0 ? 0 : i % 3 === 1 ? 1 : (i % 2 ? 2 : 5)]);
-    m.castShadow = true;
-    const ang = r() * Math.PI * 2, d = 3.0 + Math.sqrt(r()) * 6; if (Math.sin(ang) * d > 2.2 && Math.abs(Math.cos(ang) * d) < 3.5) { /* keep clear of end-card text */ }
+    m.scale.setScalar(1.1 + r() * 0.9); m.castShadow = true;
+    const ang = r() * Math.PI * 2, d = 1.6 + Math.sqrt(r()) * 5.2; if (Math.sin(ang) * d > 2.2 && Math.abs(Math.cos(ang) * d) < 3.5) { /* keep clear of end-card text */ }
     const bb = new THREE.Box3().setFromObject(m); const hy = -bb.min.y;
     let ox = Math.cos(ang) * d, oz = Math.sin(ang) * d; if (oz > 2.2 && Math.abs(ox) < 3.8) { ox = Math.sign(ox || 1) * (3.8 + r() * 2); }
-    m.userData = { x: ox, z: oz, y0: 5 + r() * 11, t0: 24.55 + r() * 2.9, hy, rx: r() * 6, ry: r() * 6, sp: 2 + r() * 4, rest: gi === 1 ? [Math.PI / 2, 0, 0] : [0, r() * 6, 0] };
+    m.userData = { x: ox, z: oz, y0: 3 + r() * 8, t0: 24.1 + r() * 1.7, hy, rx: r() * 6, ry: r() * 6, sp: 2 + r() * 4, rest: gi === 1 ? [Math.PI / 2, 0, 0] : [0, r() * 6, 0] };
     g.add(m); objs.push(m);
     const sr = torusRing(0.7, 0.012, C.mintD, 0.8); sr.rotation.x = Math.PI / 2; sr.position.set(m.userData.x, 0.01, m.userData.z); m.userData.ring = sr; g.add(sr);
   }
@@ -573,7 +576,7 @@ shot(25.05, 30.01, (g) => {
       logoG.rotation.y = lerp(-0.6, 0.15, eo(seg(t, 27.75, 28.6))) + Math.sin(t) * 0.05;
       const sq = lk > 0.33 && lk < 0.55 ? Math.sin((lk - 0.33) / 0.22 * Math.PI) * 0.15 : 0; logoG.scale.set(1 + sq, 1 - sq, 1 + sq);
       let p, look;
-      if (t < 27.7) { const k = seg(t, 25.05, 27.7); const ang = lerp(0.2, 0.9, k); p = [Math.sin(ang) * lerp(8.5, 10, k), lerp(3.0, 4.4, k), Math.cos(ang) * lerp(8.5, 10, k)]; look = [0, lerp(2.4, 1.0, eo(k)), 0]; }
+      if (t < 27.7) { const k = seg(t, 25.05, 27.7); const ang = lerp(0.2, 0.9, k); p = [Math.sin(ang) * lerp(8.0, 9.5, k), lerp(4.2, 5.2, k), Math.cos(ang) * lerp(8.0, 9.5, k)]; look = [0, lerp(1.4, 0.6, eo(k)), 0]; }
       else { const k = seg(t, 27.7, 30); const ang = lerp(-0.25, 0.05, eo(k)); const rad = lerp(12.5, 11.0, eo(k)); p = [Math.sin(ang) * rad, lerp(3.6, 3.0, eo(k)), Math.cos(ang) * rad + 1]; look = [0, lerp(1.6, 1.25, eo(k)), 1]; }
       setCam(p, look, t < 27.7 ? lerp(-0.12, 0.05, seg(t, 25.05, 27.7)) : 0);
       sun.castShadow = true;
@@ -615,8 +618,9 @@ async function buildLogo() {
 // ---------- grain / vignette ----------
 const grains = [0, 1, 2, 3].map((i) => { const c = cv(512, 512), x = c.getContext('2d'); const id = x.createImageData(512, 512); const r = rng(500 + i); for (let j = 0; j < id.data.length; j += 4) { const v = r() * 255; id.data[j] = id.data[j + 1] = id.data[j + 2] = v; id.data[j + 3] = 255; } x.putImageData(id, 0, 0); return c; });
 function post(t) {
+  octx.save(); octx.globalCompositeOperation = 'multiply'; octx.fillStyle = 'rgba(246,228,200,0.28)'; octx.fillRect(0, 0, W, H); octx.globalCompositeOperation = 'soft-light'; octx.fillStyle = 'rgba(120,80,40,0.10)'; octx.fillRect(0, 0, W, H); octx.restore();
   const fi = Math.floor(t * 30) % 4;
-  octx.save(); octx.globalCompositeOperation = 'overlay'; octx.globalAlpha = 0.07; const pat = octx.createPattern(grains[fi], 'repeat'); octx.fillStyle = pat; octx.fillRect(0, 0, W, H); octx.restore();
+  octx.save(); octx.globalCompositeOperation = 'overlay'; octx.globalAlpha = 0.11; const pat = octx.createPattern(grains[fi], 'repeat'); octx.fillStyle = pat; octx.fillRect(0, 0, W, H); octx.restore();
   const g = octx.createRadialGradient(W / 2, H / 2, H * 0.3, W / 2, H / 2, H * 0.75); g.addColorStop(0, 'rgba(20,54,89,0)'); g.addColorStop(1, 'rgba(20,54,89,0.16)'); octx.fillStyle = g; octx.fillRect(0, 0, W, H);
 }
 
