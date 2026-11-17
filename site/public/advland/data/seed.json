@@ -1,0 +1,196 @@
+{
+  "settings": {
+    "whatsapp": "971507900323",
+    "phone": "+971 50 790 0323",
+    "landline": "+971 3 799 8181",
+    "email": "info@adventureland.info",
+    "instagram": "advland.ae",
+    "currency": { "ar": "درهم", "en": "AED" },
+    "announcement": {
+      "on": true,
+      "ar": "حفلات أعياد الميلاد صارت أسهل: احجز باقتك أونلاين وخلي الباقي علينا",
+      "en": "Birthday parties made easy: book your package online and leave the rest to us"
+    }
+  },
+  "branches": [
+    {
+      "id": "jimi",
+      "name": { "ar": "الجيمي مول", "en": "Al Jimi Mall" },
+      "floor": { "ar": "الطابق السفلي", "en": "Lower floor" },
+      "city": { "ar": "العين", "en": "Al Ain" },
+      "map": "https://www.google.com/maps/search/?api=1&query=Al+Jimi+Mall+Al+Ain",
+      "hours": { "weekday": ["10:00", "22:00"], "weekend": ["10:00", "24:00"] },
+      "color": "orange"
+    },
+    {
+      "id": "alain",
+      "name": { "ar": "مول العين", "en": "Al Ain Mall" },
+      "floor": { "ar": "الطابق الثاني", "en": "Second floor" },
+      "city": { "ar": "العين", "en": "Al Ain" },
+      "map": "https://www.google.com/maps/search/?api=1&query=Al+Ain+Mall",
+      "hours": { "weekday": ["10:00", "22:00"], "weekend": ["10:00", "24:00"] },
+      "color": "navy"
+    },
+    {
+      "id": "aliah",
+      "name": { "ar": "عالية مول", "en": "Aliah Mall" },
+      "floor": { "ar": "العين", "en": "Al Ain" },
+      "city": { "ar": "العين", "en": "Al Ain" },
+      "map": "https://www.google.com/maps/search/?api=1&query=Aliah+Mall+Al+Ain",
+      "hours": { "weekday": ["10:00", "22:00"], "weekend": ["10:00", "24:00"] },
+      "color": "red"
+    }
+  ],
+  "zones": [
+    {
+      "id": "trampoline",
+      "img": "z-trampoline.webp",
+      "title": { "ar": "عالم الترامبولين", "en": "Trampoline World" },
+      "desc": { "ar": "قفز بلا حدود على منصات مرنة ومبطنة بالكامل، مع مشرفين يراقبون كل قفزة.", "en": "Bounce sky-high on fully padded trampolines, with supervisors watching every jump." },
+      "age": { "ar": "من 4 سنوات", "en": "Ages 4+" },
+      "tag": { "ar": "طاقة", "en": "Energy" }
+    },
+    {
+      "id": "climb",
+      "img": "z-climb.webp",
+      "title": { "ar": "جدار التسلق", "en": "Climbing Wall" },
+      "desc": { "ar": "تحدي القمة بحزام أمان وخوذة ونظام حبال آلي، لكل الأعمار والمستويات.", "en": "Race to the top with harness, helmet and auto-belay ropes for every level." },
+      "age": { "ar": "من 5 سنوات", "en": "Ages 5+" },
+      "tag": { "ar": "شجاعة", "en": "Courage" }
+    },
+    {
+      "id": "slides",
+      "img": "z-slides.webp",
+      "title": { "ar": "الزحاليق العملاقة", "en": "Giant Slides" },
+      "desc": { "ar": "زحاليق متموجة متعددة المسارات، سباق ضحك من القمة إلى الأرض.", "en": "Wavy multi-lane slides: a laughing race from the top to the floor." },
+      "age": { "ar": "من 3 سنوات", "en": "Ages 3+" },
+      "tag": { "ar": "سرعة", "en": "Speed" }
+    },
+    {
+      "id": "ninja",
+      "img": "z-ninja.webp",
+      "title": { "ar": "مسار النينجا", "en": "Ninja Course" },
+      "desc": { "ar": "حلقات معلقة وحبال وعوارض توازن، يكتشف فيها طفلك قوته ورشاقته.", "en": "Hanging rings, ropes and balance beams where kids discover their strength." },
+      "age": { "ar": "من 6 سنوات", "en": "Ages 6+" },
+      "tag": { "ar": "تحدي", "en": "Challenge" }
+    },
+    {
+      "id": "build",
+      "img": "z-build.webp",
+      "title": { "ar": "ورشة البناء", "en": "Builders Lab" },
+      "desc": { "ar": "مكعبات عملاقة وألعاب تركيب تنمي الخيال والتفكير. اللعب هنا يعلّم.", "en": "Giant blocks and building sets that grow imagination. Here, play teaches." },
+      "age": { "ar": "من 3 سنوات", "en": "Ages 3+" },
+      "tag": { "ar": "خيال", "en": "Imagination" }
+    },
+    {
+      "id": "toddler",
+      "img": "z-toddler.webp",
+      "title": { "ar": "ركن الصغار", "en": "Little Ones Corner" },
+      "desc": { "ar": "مساحة ناعمة وآمنة للأطفال الصغار: حوض كرات وأنفاق وزحليقة صغيرة.", "en": "A soft, safe space for toddlers: ball pit, tunnels and a mini slide." },
+      "age": { "ar": "حتى 3 سنوات", "en": "Up to 3" },
+      "tag": { "ar": "أمان", "en": "Safe" }
+    }
+  ],
+  "packages": [
+    {
+      "id": "mini",
+      "name": { "ar": "المغامر الصغير", "en": "Little Explorer" },
+      "price": 1200,
+      "kids": 10,
+      "duration": { "ar": "ساعتان", "en": "2 hours" },
+      "includes": {
+        "ar": ["دخول كل المناطق لـ 10 أطفال", "طاولة حفلة مزينة", "بطاقات دعوة رقمية", "مشرف حفلة خاص"],
+        "en": ["All-zone access for 10 kids", "Decorated party table", "Digital invitation cards", "Dedicated party host"]
+      },
+      "featured": false
+    },
+    {
+      "id": "hero",
+      "name": { "ar": "بطل المغامرات", "en": "Adventure Hero" },
+      "price": 2200,
+      "kids": 20,
+      "duration": { "ar": "3 ساعات", "en": "3 hours" },
+      "includes": {
+        "ar": ["دخول كل المناطق لـ 20 طفلاً", "ديكور بالونات بألوان تختارها", "رسم على الوجوه", "بوب كورن وعصائر", "ظهور الروبوت أدفي"],
+        "en": ["All-zone access for 20 kids", "Balloon decor in your colours", "Face painting", "Popcorn and juices", "Advy the robot appearance"]
+      },
+      "featured": true
+    },
+    {
+      "id": "legend",
+      "name": { "ar": "أسطورة الحفلات", "en": "Party Legend" },
+      "price": 3500,
+      "kids": 30,
+      "duration": { "ar": "4 ساعات", "en": "4 hours" },
+      "includes": {
+        "ar": ["دخول كل المناطق لـ 30 طفلاً", "قوس بالونات فاخر وطاولة حلويات", "مهرج وعرض تشكيل بالونات", "رسم على الوجوه", "وجبات أطفال وكعكة", "تصوير الحفلة"],
+        "en": ["All-zone access for 30 kids", "Luxury balloon arch and dessert table", "Clown and balloon-twisting show", "Face painting", "Kids meals and cake", "Party photography"]
+      },
+      "featured": false
+    }
+  ],
+  "addons": [
+    { "id": "face", "name": { "ar": "رسم على الوجوه", "en": "Face painting" }, "price": 250, "icon": "palette" },
+    { "id": "balloon", "name": { "ar": "عرض تشكيل البالونات", "en": "Balloon twisting show" }, "price": 300, "icon": "sparkles" },
+    { "id": "clown", "name": { "ar": "مهرج الحفلة", "en": "Party clown" }, "price": 450, "icon": "party" },
+    { "id": "arch", "name": { "ar": "قوس بالونات فاخر", "en": "Luxury balloon arch" }, "price": 600, "icon": "rainbow" },
+    { "id": "popcorn", "name": { "ar": "عربة بوب كورن وغزل البنات", "en": "Popcorn and cotton candy cart" }, "price": 350, "icon": "popcorn" },
+    { "id": "photo", "name": { "ar": "تصوير الحفلة", "en": "Party photography" }, "price": 500, "icon": "camera" }
+  ],
+  "rentals": [
+    {
+      "id": "football",
+      "img": "r-football.webp",
+      "name": { "ar": "ملعب صابوني", "en": "Soap Football Pitch" },
+      "desc": { "ar": "ملعب كرة قدم قابل للنفخ مع ماء وصابون: ضحك مضمون لكل العائلة.", "en": "Inflatable football pitch with water and soap: guaranteed laughs for the whole family." },
+      "size": "12 × 6 m",
+      "price": 900
+    },
+    {
+      "id": "waterslide",
+      "img": "r-waterslide.webp",
+      "name": { "ar": "زحليقة مائية عملاقة", "en": "Giant Water Slide" },
+      "desc": { "ar": "زحليقة مائية بتصميم الأمواج مع مسبح صغير، مثالية لأيام الصيف.", "en": "Wave-themed water slide with a splash pool, perfect for summer days." },
+      "size": "8 × 4 m",
+      "price": 1100
+    },
+    {
+      "id": "castle",
+      "img": "r-castle.webp",
+      "name": { "ar": "قلعة نطاطة", "en": "Bouncy Castle" },
+      "desc": { "ar": "قلعة نطاطة ملونة مع زحليقة صغيرة، تناسب الحدائق والمجالس.", "en": "Colourful bouncy castle with a mini slide, fits gardens and majlis yards." },
+      "size": "5 × 5 m",
+      "price": 650
+    },
+    {
+      "id": "popcorn",
+      "img": "f-snacks.webp",
+      "name": { "ar": "عربة سناكات الحفلة", "en": "Party Snack Cart" },
+      "desc": { "ar": "بوب كورن وغزل البنات مع موظف يقدّم للأطفال طوال الحفلة.", "en": "Popcorn and cotton candy with staff serving the kids all party long." },
+      "size": "",
+      "price": 450
+    },
+    {
+      "id": "face",
+      "img": "p-face.webp",
+      "name": { "ar": "رسام وجوه للبيت", "en": "Face Painter at Home" },
+      "desc": { "ar": "فنان رسم على الوجوه يحوّل الأطفال إلى أبطالهم المفضلين في بيتك.", "en": "A face-painting artist turns kids into their favourite heroes at your home." },
+      "size": "",
+      "price": 400
+    }
+  ],
+  "reviews": [
+    { "name": { "ar": "أم سلطان", "en": "Umm Sultan" }, "text": { "ar": "حفلة ولدي كانت أحلى من المتوقع، الفريق رتّب كل شي وما احتجت أسوي أي شي.", "en": "My son's party was better than expected. The team arranged everything." }, "stars": 5 },
+    { "name": { "ar": "أبو حمدان", "en": "Abu Hamdan" }, "text": { "ar": "المكان نظيف والمشرفين منتبهين للأطفال طول الوقت. أكيد بنرجع.", "en": "Clean place and the supervisors watch the kids all the time. We'll be back." }, "stars": 5 },
+    { "name": { "ar": "مريم", "en": "Mariam" }, "text": { "ar": "الملعب الصابوني في حوش البيت كان نجم العيد عندنا!", "en": "The soap football pitch in our yard was the star of Eid!" }, "stars": 5 },
+    { "name": { "ar": "أم راشد", "en": "Umm Rashid" }, "text": { "ar": "بنتي ما بغت تطلع من ركن الصغار، مكان آمن ومريح للأمهات.", "en": "My daughter didn't want to leave the toddler corner. Safe and relaxing for mums." }, "stars": 5 },
+    { "name": { "ar": "خالد", "en": "Khalid" }, "text": { "ar": "جدار التسلق تحدي حقيقي، عيالي تنافسوا مين يوصل أول.", "en": "The climbing wall is a real challenge. My kids raced to the top." }, "stars": 4 },
+    { "name": { "ar": "فاطمة", "en": "Fatima" }, "text": { "ar": "رسم الوجوه والبالونات خلّى الحفلة ملونة وفرحانة. شكراً أرض المغامرات.", "en": "Face painting and balloons made the party so colourful. Thank you Adventure Land." }, "stars": 5 }
+  ],
+  "faq": [
+    { "q": { "ar": "هل يوجد مشرفون داخل مناطق اللعب؟", "en": "Are there supervisors in the play zones?" }, "a": { "ar": "نعم، فريق مدرب يتابع الأطفال في كل منطقة طوال وقت التشغيل.", "en": "Yes, a trained team watches the kids in every zone during opening hours." } },
+    { "q": { "ar": "كم يوماً قبل الحفلة يجب أن أحجز؟", "en": "How early should I book a party?" }, "a": { "ar": "ننصح بالحجز قبل 5 أيام على الأقل، وفي العطلات قبل أسبوعين.", "en": "We recommend at least 5 days ahead, and two weeks during holidays." } },
+    { "q": { "ar": "هل تؤجرون الألعاب خارج العين؟", "en": "Do you rent outside Al Ain?" }, "a": { "ar": "خدمة التأجير المنزلي متاحة داخل مدينة العين، وللمناطق الأخرى تواصل معنا.", "en": "Home rentals are available within Al Ain; contact us for other areas." } },
+    { "q": { "ar": "هل يمكن إحضار كعكة من الخارج؟", "en": "Can we bring our own cake?" }, "a": { "ar": "أكيد، ويمكننا أيضاً ترتيب الكعكة لك ضمن الباقة.", "en": "Of course, and we can also arrange the cake within your package." } }
+  ]
+}

@@ -1,0 +1,12 @@
+Options -Indexes
+<FilesMatch "\.(json|lock|md)$">
+  Require all denied
+</FilesMatch>
+<Files "manifest.webmanifest">
+  Require all granted
+</Files>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(webp|png|jpg|svg|woff2|js|css)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
