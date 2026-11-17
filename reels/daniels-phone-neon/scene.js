@@ -14,8 +14,8 @@ const bump = (u, a, d) => { const p = (u - a) / d; return p > 0 && p < 1 ? Math.
 
 // warm neon palette (brand orange + magenta + amber + cream)
 const MG = '#FF3D8B', OR = '#FF7A00', AM = '#FFC14A', CR = '#FFEBD0', RD = '#FF4A1C', VI = '#C24DFF';
-const mark = new Image(); mark.src = 'assets/mark.png';
-const logo = new Image(); logo.src = 'assets/logo.png';
+const mark = new Image(); mark.src = 'assets/mark2.png';
+const logo = new Image(); logo.src = 'assets/logo_round.png';
 
 const G = 1.32; // vertical-format upscale of the reference layout
 function cam(s = 1, fx = CX, fy = CY, ox = 0, oy = 0) { s *= G; x.setTransform(s, 0, 0, s, fx - s * fx + ox, fy - s * fy + oy); }
@@ -296,7 +296,7 @@ const SHOTS = [
     const arcsA = seg(u, 0, .3, lin) * (1 - seg(u, 1.6, .5, lin)); const sp = 20 * u;
     [[-1, -1, MG], [1, -1, OR], [-1, 1, AM], [1, 1, VI]].forEach(([a, b, c]) => { const px = CX + a * (330 + sp), py = CY - 60 + b * (300 + sp); neon(() => { x.beginPath(); x.arc(px, py, 60, a < 0 ? (b < 0 ? Math.PI : Math.PI / 2) : (b < 0 ? -Math.PI / 2 : 0), (a < 0 ? (b < 0 ? Math.PI : Math.PI / 2) : (b < 0 ? -Math.PI / 2 : 0)) + Math.PI / 2); }, c, 5, arcsA, null); });
     if (!logo.complete) return;
-    const lw = 760, lh = lw * logo.height / logo.width, lx = CX - lw / 2, ly = CY - 80 - lh / 2;
+    const lw = 700, lh = lw * logo.height / logo.width, lx = CX - lw / 2, ly = CY - 110 - lh / 2;
     const settle = seg(u, 1.4, .6, oc), end = 1 - seg(u, 4.0, .4, lin);
     aura(CX, CY - 60, 520, 'rgba(255,110,0,.28)', settle * end);
     const N = 14;
@@ -309,11 +309,11 @@ const SHOTS = [
     }
     const info = seg(u, 2.0, .5, oc) * end;
     if (info > 0) {
-      x.save(); x.globalAlpha = info; x.fillStyle = grad(CX - 200, 0, CX + 200, 0, ['rgba(255,122,0,0)', OR, 'rgba(255,122,0,0)']); x.fillRect(CX - 200 * info, CY + 290, 400 * info, 3); x.restore();
-      typeAr('لسنا مجرد خيار... نحن المعيار', 1, CX, CY + 360, 40, { wt: 700, a: info, caret: false, glow: 'rgba(255,122,0,.45)' });
+      x.save(); x.globalAlpha = info; x.fillStyle = grad(CX - 200, 0, CX + 200, 0, ['rgba(255,122,0,0)', OR, 'rgba(255,122,0,0)']); x.fillRect(CX - 200 * info, CY + 300, 400 * info, 3); x.restore();
+      typeAr('لسنا مجرد خيار... نحن المعيار', 1, CX, CY + 370, 40, { wt: 700, a: info, caret: false, glow: 'rgba(255,122,0,.45)' });
       x.save(); x.globalAlpha = info * .9; font(32, 500, 'Man'); x.direction = 'ltr'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = '#e8e2da';
-      x.fillText('@the.danielsphone  ·  +970 599 996 762', CX, CY + 500); x.restore();
-      typeAr('بيت جالا · شارع معصرة الزيتون', 1, CX, CY + 430, 32, { wt: 600, a: info * .9, caret: false, col: '#e8e2da', glow: 'rgba(0,0,0,0)' });
+      x.fillText('@the.danielsphone  ·  +970 599 996 762', CX, CY + 510); x.restore();
+      typeAr('بيت جالا · شارع معصرة الزيتون', 1, CX, CY + 440, 32, { wt: 600, a: info * .9, caret: false, col: '#e8e2da', glow: 'rgba(0,0,0,0)' });
     }
   }],
 ];
