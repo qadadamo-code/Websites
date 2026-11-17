@@ -1,0 +1,44 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/g.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans Arabic',sans-serif;color:#EEF2F7;background:#050B15}
+#st{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-between;width:1080px;overflow:hidden;background:radial-gradient(90% 60% at 50% 40%,#13294B 0%,#0A1730 50%,#050B15 100%)}
+.gold{background:linear-gradient(180deg,#F7E7BC 0%,#D9B567 48%,#A57E39 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lat{font-family:'Manrope';direction:ltr;unicode-bidi:isolate}
+.logo{position:relative;width:100%;text-align:center}.logo img{height:64px}
+.h1{position:relative;width:100%;text-align:center}
+.h1 .a{font:300 52px/1.3 'IBM Plex Sans Arabic'}
+.h1 .b{font:700 92px/1.2 'IBM Plex Sans Arabic'}
+.dev{position:relative;width:1080px;flex:none}
+.bw{position:absolute;width:760px;left:90px;border-radius:20px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 0 1.5px rgba(212,175,98,.4);background:#0d1117}
+.bw .bar{height:40px;background:#161B24;display:flex;align-items:center;gap:9px;padding:0 16px;direction:ltr}.bw .bar i{width:12px;height:12px;border-radius:50%;background:#3A4252}
+.bw img{display:block;width:100%;height:400px;object-fit:cover;object-position:top}
+.mph{position:absolute;width:250px;height:520px;left:740px;border-radius:40px;background:#0b0d12;padding:9px;box-shadow:0 40px 90px rgba(0,0,0,.65),0 0 0 1.5px rgba(212,175,98,.5)}
+.mph div{width:100%;height:100%;border-radius:32px;overflow:hidden}.mph img{width:100%}
+.price{position:relative;width:100%;text-align:center}
+.price .pre{font:400 40px 'IBM Plex Sans Arabic'}
+.price .num{font:800 190px/1 'Manrope';direction:ltr;letter-spacing:-4px}
+.price .cur{font:700 60px 'IBM Plex Sans Arabic'}
+.inc{display:inline-block;margin-top:18px;font:500 32px 'IBM Plex Sans Arabic';padding:12px 30px;border-radius:40px;border:1.5px solid rgba(212,175,98,.55);background:rgba(10,22,42,.7)}
+.feats{position:relative;padding:0 50px;display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.feats span{font:500 28px 'IBM Plex Sans Arabic';padding:10px 24px;border-radius:30px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14)}
+.cta{position:relative;width:100%;text-align:center}
+.btn{display:inline-flex;align-items:center;gap:16px;padding:22px 48px;border-radius:60px;background:linear-gradient(180deg,#2FE07A,#16A34A);font:700 44px 'IBM Plex Sans Arabic';color:#fff;box-shadow:0 20px 50px rgba(22,163,74,.4)}
+.ph{margin-top:16px;font:700 38px 'Manrope';direction:ltr}
+</style></head><body><div id="st"></div>
+<script>
+const q=new URLSearchParams(location.search),V=q.get('v')||'sa',F=q.get('f')||'post';
+const X={sa:{cur:'ريال سعودي',btn:'راسلنا على واتساب',f:['بلغتين عربي · English','يشتغل على الجوال','يظهر في Google','طلبات واتساب','لوحة تحكم سهلة']},
+ae:{cur:'درهم إماراتي',btn:'كلمنا ع الواتساب',f:['بلغتين عربي · English','يشتغل ع الموبايل','يطلع في Google','طلبات واتساب','لوحة تحكم سهلة']}}[V];
+const H=F=='post'?1350:1920;const st=document.getElementById('st');st.style.height=H+'px';st.style.padding=(F=='post'?'50px 0 60px':'130px 0 230px');
+const L=F=='post'?{h:140,dev:370,price:790,feats:0,cta:1150,bw:0,mp:60}:{h:300,dev:600,price:1180,feats:1110,cta:1560,bw:0,mp:80};
+const wa='<svg width="52" height="52" viewBox="0 0 24 24"><path fill="#fff" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>';
+let h=`<div class="logo"><img src="img/lockup-light.png"></div>
+<div class="h1" ><div class="a">مشروعك يستاهل</div><div class="b gold">حضور يليق فيه</div></div>
+<div class="dev" style="height:600px;transform-origin:50% 0;transform:scale(${F=='post'?.8:1});margin-bottom:${F=='post'?-120:0}px"><div class="bw" style="top:0"><div class="bar"><i></i><i></i><i></i></div><img src="img/d1.jpg"></div><div class="mph" style="top:60px"><div><img src="img/m1.jpg"></div></div></div>`;
+if(F=='story') h+=`<div class="feats" >${X.f.map(s=>'<span>'+s+'</span>').join('')}</div>`;
+h+=`<div class="price" ><div class="pre">موقع إلكتروني فخم كامل بـ</div><div class="num gold">1,299</div><div class="cur gold">${X.cur}</div><div class="inc">شامل الاستضافة والدومين لسنة كاملة</div></div>`;
+h+=`<div class="cta" ><div class="btn">${wa}${X.btn}</div>${F=='story'?'<div class="ph">+20 120 310 1104</div>':''}</div>`;
+st.innerHTML=h;
+</script></body></html>
