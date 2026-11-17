@@ -157,19 +157,19 @@ function endScene(t) {
   // P mark (white) + brand mint dot, stacked above wordmark
   const ps = 0.62, PX = -419 * ps / 2 - 10, PY = -330; x.save(); x.translate(PX, PY); x.scale(ps, ps); x.fillStyle = '#ffffff'; x.fill(PLOGO);
   x.fillStyle = MINT; x.beginPath(); x.arc(364, 362, 51, 0, 7); x.fill(); x.restore();
-  x.font = '700 150px Plex'; x.fillStyle = '#ffffff'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.direction = 'ltr'; x.letterSpacing = '-4px'; x.fillText('Planet', 0, 60); x.letterSpacing = '0px';
+  x.font = '700 150px Plex'; x.fillStyle = '#ffffff'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.direction = 'ltr'; x.letterSpacing = '-4px'; x.fillText('Planet', 0, 40); x.font = '600 44px Plex'; x.fillStyle = MINT; x.letterSpacing = '12px'; x.fillText('CREATIVE MARKETING', 6, 150); x.letterSpacing = '0px';
   x.restore();
   const pp = k01(t, 9.82, 10.05);
   if (pp > 0) {
-    const ps2 = back(pp); x.save(); x.translate(CX, 1150); x.scale(ps2, ps2);
+    const ps2 = back(pp); x.save(); x.translate(CX, 1200); x.scale(ps2, ps2);
     x.fillStyle = MINT; x.beginPath(); x.roundRect(-230, -52, 460, 104, 52); x.fill();
     txt('ابدأ معانا  ←', 0, 2, '700 46px Plex', NAVY); x.restore();
   }
   const cp = eo(k01(t, 10.1, 10.45));
   if (cp > 0) {
     x.save(); x.globalAlpha = cp;
-    txt('واتساب 01203101104', CX, 1290 + (1 - cp) * 14, '600 46px Plex', '#ffffff');
-    txt('theplanetco.com', CX, 1356 + (1 - cp) * 14, '600 38px Plex', MINT, 2);
+    txt('واتساب 01203101104', CX, 1340 + (1 - cp) * 14, '600 46px Plex', '#ffffff');
+    txt('theplanetco.com', CX, 1406 + (1 - cp) * 14, '600 38px Plex', MINT, 2);
     x.restore();
   }
 }
