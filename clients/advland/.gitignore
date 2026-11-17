@@ -1,0 +1,6 @@
+app/node_modules/
+build-web/
+site/storage/
+site/uploads/
+php/storage/
+php/uploads/

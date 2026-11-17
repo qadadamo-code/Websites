@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-orange: #f26a1b;
+  --color-orange-deep: #d9530a;
+  --color-navy: #172a7a;
+  --color-navy-deep: #0d1a55;
+  --color-red: #c8161d;
+  --color-sun: #ffd60a;
+  --color-sky: #9bdcf7;
+  --color-cream: #fff8ee;
+  --color-night: #070b24;
+
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted-bg);
+  --color-muted-foreground: var(--mut);
+  --color-border: var(--line);
+  --color-primary: var(--color-orange);
+
+  --font-display: var(--fd);
+  --font-body: var(--fb);
+
+  --animate-marquee: marquee var(--duration, 40s) linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-wiggle: wiggle 2.4s ease-in-out infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+
+  @keyframes marquee { from { transform: translateX(0) } to { transform: translateX(calc(-100% - var(--gap, 1rem))) } }
+  @keyframes float { 0%,100% { transform: translateY(0) rotate(-2deg) } 50% { transform: translateY(-18px) rotate(2deg) } }
+  @keyframes wiggle { 0%,100% { transform: rotate(-6deg) } 50% { transform: rotate(6deg) } }
+}
+
+:root {
+  --bg: #fff8ee;
+  --surface: #ffffff;
+  --ink: #111a4a;
+  --mut: #5d6488;
+  --muted-bg: #f3ece0;
+  --line: #ebe2d3;
+  --glow: 0 0 0 transparent;
+  --fd: "Readex Pro", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --fb: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  color-scheme: light;
+}
+:root[lang="en"] {
+  --fd: "Unbounded", "Manrope", system-ui, sans-serif;
+  --fb: "Manrope", system-ui, sans-serif;
+}
+.dark {
+  --bg: #070b24;
+  --surface: #0f1640;
+  --ink: #f3f1ff;
+  --mut: #a9aed6;
+  --muted-bg: #141c4d;
+  --line: #222b62;
+  color-scheme: dark;
+}
+
+@layer base {
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--fb);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  transition: background-color .5s ease, color .5s ease;
+}
+h1, h2, h3, h4 { font-family: var(--fd); line-height: 1.15; margin: 0; font-weight: 700; }
+:root[lang="ar"] h1, :root[lang="ar"] h2, :root[lang="ar"] h3 { line-height: 1.35; letter-spacing: 0; }
+:root[lang="en"] h1, :root[lang="en"] h2 { letter-spacing: -0.02em; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+::selection { background: var(--color-orange); color: #fff; }
+
+}
+
+.wrap { width: min(1200px, 100% - 32px); margin-inline: auto; }
+
+/* Night mode: the park turns into a glow-in-the-dark playground */
+.dark .glow-o { text-shadow: 0 0 24px #f26a1b88, 0 0 2px #f26a1b; }
+.dark .glow-s { text-shadow: 0 0 24px #ffd60a77; }
+
+/* dotted "map" texture used behind sections */
+.dots {
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--ink) 14%, transparent) 1.2px, transparent 1.3px);
+  background-size: 22px 22px;
+}
+.stripe {
+  background: repeating-linear-gradient(-45deg, var(--color-orange) 0 18px, #ff8b47 18px 36px);
+}
+
+@layer components {
+/* playful sticker buttons */
+.btn {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  padding: .9rem 1.5rem; border-radius: 999px; font-weight: 700; font-family: var(--fd); font-size: 1rem;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, background-color .3s;
+  cursor: pointer; border: 0; white-space: nowrap;
+}
+.btn:hover { transform: translateY(-3px) rotate(-1deg); }
+.btn:active { transform: translateY(1px) scale(.98); }
+.btn-o { background: var(--color-orange); color: #fff; box-shadow: 0 6px 0 var(--color-orange-deep), 0 18px 30px -12px #f26a1bcc; }
+.btn-o:hover { box-shadow: 0 9px 0 var(--color-orange-deep), 0 24px 34px -12px #f26a1bcc; }
+.btn-n { background: var(--color-navy); color: #fff; box-shadow: 0 6px 0 var(--color-navy-deep); }
+.dark .btn-n { background: #fff; color: var(--color-navy); box-shadow: 0 6px 0 #b9c0e8; }
+.btn-g { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); }
+.btn-g:hover { box-shadow: inset 0 0 0 2px var(--ink); }
+.btn-wa { background: #1fa855; color: #fff; box-shadow: 0 6px 0 #138040; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .8rem; border-radius: 999px;
+  font-size: .82rem; font-weight: 600; background: var(--muted-bg); color: var(--ink);
+}
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 28px;
+  box-shadow: 0 1px 0 #ffffff inset, 0 24px 50px -36px #111a4a55;
+}
+.dark .card { box-shadow: 0 1px 0 #ffffff10 inset, 0 24px 60px -30px #000; }
+
+.field { display: flex; flex-direction: column; gap: .4rem; font-size: .9rem; font-weight: 600; }
+.field input, .field select, .field textarea {
+  font: inherit; font-weight: 500; padding: .85rem 1rem; border-radius: 16px; border: 2px solid var(--line);
+  background: var(--bg); color: var(--ink); width: 100%; transition: border-color .2s, box-shadow .2s;
+}
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--color-orange); box-shadow: 0 0 0 4px #f26a1b26; }
+
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+
+}
+
+/* Arabic dots get clipped by tight overflow masks; keep room */
+.mask-line { display: inline-block; overflow: hidden; padding-bottom: .28em; margin-bottom: -.28em; vertical-align: bottom; }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+.hero-in { animation: heroIn .95s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes heroIn { from { opacity: 0; transform: translateY(45%); } }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
