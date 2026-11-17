@@ -2,7 +2,9 @@
 Run: python3 -I mix.py <sfx_kit_dir> <out.wav>"""
 import sys, json, subprocess, numpy as np
 SFX, OUT = sys.argv[1:3]
-SR = 44100; DUR = 10.6; N = int(SR * DUR)
+SR = 44100; DUR = 15.0; F = 1.5
+M = lambda t: t * F if t < 7.6 else t + 3.8  # v2 retime
+N = int(SR * DUR)
 bus = np.zeros((N, 2), np.float32); bed = np.zeros((N, 2), np.float32)
 _c = {}
 d = json.load(open(SFX + '/sounds.json')); d = d['sounds'] if isinstance(d, dict) else d
@@ -15,6 +17,7 @@ def load(name):
 def S(name, t, g=1.0, pan=0.0, end=False, maxlen=None):
     a = load(name)
     if maxlen: a = a[:int(maxlen * SR)].copy(); f = min(len(a), int(0.03 * SR)); a[-f:] *= np.linspace(1, 0, f)[:, None]
+    t = M(t)
     if end: t -= len(a) / SR
     i = int(round(t * SR));
     if i < 0: a = a[-i:]; i = 0
@@ -27,16 +30,16 @@ tt = np.arange(N) / SR
 # --- bed: dark drone + heartbeat sub pulses on a 0.5s grid, silent gaps where the reference drops out
 drone = (np.sin(2 * np.pi * 49 * tt) * 0.5 + np.sin(2 * np.pi * 73.5 * tt + 0.3) * 0.22 + np.sin(2 * np.pi * 98 * tt) * 0.12)
 drone *= 0.5 + 0.5 * np.sin(2 * np.pi * 0.35 * tt)
-env = np.clip(tt / 0.4, 0, 1) * np.where(tt < 7.55, 1.0, 0.0)
-gap = np.ones(N); gap[(tt > 1.68) & (tt < 1.96)] = 0.25; gap[(tt > 3.99) & (tt < 4.05)] = 0.1
+env = np.clip(tt / 0.4, 0, 1) * np.where(tt < 11.35, 1.0, 0.0)
+gap = np.ones(N); gap[(tt > 2.52) & (tt < 2.94)] = 0.25; gap[(tt > 5.99) & (tt < 6.07)] = 0.1
 bed[:, 0] += drone * env * gap * 0.10; bed[:, 1] += drone * env * gap * 0.10
 def pulse(t, g=1.0, f0=62):
-    i = int(t * SR); L = int(0.42 * SR); x = np.arange(L) / SR
+    i = int(M(t) * SR); L = int(0.42 * SR); x = np.arange(L) / SR
     w = np.sin(2 * np.pi * (f0 * x + 40 * (1 - np.exp(-x * 30)) / 30)) * np.exp(-x * 9) * g
     n = min(L, N - i); bed[i:i + n, 0] += w[:n]; bed[i:i + n, 1] += w[:n]
 rng = np.random.default_rng(3)
 def tick(t, g=0.05):
-    i = int(t * SR); L = int(0.03 * SR); w = rng.standard_normal(L) * np.exp(-np.arange(L) / SR * 180) * g
+    i = int(M(t) * SR); L = int(0.03 * SR); w = rng.standard_normal(L) * np.exp(-np.arange(L) / SR * 180) * g
     w = np.diff(np.concatenate([[0], w]))  # bright
     n = min(L, N - i); bed[i:i + n, 0] += w[:n] * 0.8; bed[i:i + n, 1] += w[:n] * 1.2
 k = 0.0

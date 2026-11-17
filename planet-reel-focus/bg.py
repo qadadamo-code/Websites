@@ -6,7 +6,7 @@ Rows with clip None are left black (rendered shots are drawn by index.html)."""
 import sys, os, subprocess
 from PIL import Image, ImageFilter, ImageEnhance
 CLIPS, OUT = sys.argv[1:3]
-FPS = 30; DUR = 10.6; W, H = 1920, 1080
+FPS = 30; DUR = 15.0; W, H = 1920, 1080; F = 1.5  # v2: montage slowed 1.5x so captions read
 EDL = [
     (0.00, 0.36, '17702', 1.4, 1.0, 1.12, 1.32, .47, .50),   # eye macro
     (0.36, 0.56, '39839', 2.0, 1.0, 1.10, 1.16, .45, .45),   # dark office wide
@@ -47,7 +47,7 @@ black = Image.new('RGB', (W, H), (4, 7, 12))
 n = round(DUR * FPS)
 done = set()
 for row in EDL:
-    t0, t1 = row[:2]
+    t0, t1 = row[0] * F, (row[1] * F if row[1] != DUR else DUR)
     i0, i1 = round(t0 * FPS), round(t1 * FPS)
     if row[2] is None:
         for i in range(i0, i1): black.save(f'{OUT}/f{i:05d}.jpg', quality=93); done.add(i)
