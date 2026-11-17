@@ -19,7 +19,7 @@ float map(vec3 p){
 vec3 nor(vec3 p){vec2 e=vec2(0.0015,0.);return normalize(vec3(map(p+e.xyy)-map(p-e.xyy),map(p+e.yxy)-map(p-e.yxy),map(p+e.yyx)-map(p-e.yyx)));}
 vec3 pal(float x){
   // mint / aqua / blue / soft gold / white thin-film palette
-  vec3 a=vec3(0.55,0.62,0.72),b=vec3(0.45,0.38,0.38),c=vec3(1.0,1.0,1.0),d=vec3(0.08,0.33,0.62);
+  vec3 a=vec3(0.62,0.5,0.55),b=vec3(0.48,0.5,0.45),c=vec3(1.0,1.0,1.0),d=vec3(0.0,0.1,0.3);
   return clamp(a+b*cos(6.28318*(c*x+d)),0.,1.);
 }
 void main(){

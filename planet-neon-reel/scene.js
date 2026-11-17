@@ -3,7 +3,7 @@
 const W = 1920, H = 1080, DUR = 37.8;
 const cv = document.getElementById('c'); const ctx = cv.getContext('2d');
 const BG = '#0A0F1D';
-const MINT = '#92C5B4', AQUA = '#5CEBD3', SKY = '#6CC4FF', BLUE = '#2F66FF', DEEP = '#2433C9', WARM = '#FFE2AE', GOLD = '#FFB65C', WHITE = '#FFFFFF', LILAC = '#8C7BFF';
+const MINT = '#92C5B4', AQUA = '#5FE6D2', SKY = '#5FA8FF', BLUE = '#3346FF', DEEP = '#3A1FD6', WARM = '#FFE6B0', GOLD = '#FFA94D', WHITE = '#FFFFFF', LILAC = '#A35CFF', PINK = '#F45CE8';
 
 // ---------- helpers
 const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
@@ -28,10 +28,10 @@ function rrPath(x, y, w, h, r) { r = Math.min(r, w / 2, h / 2); ctx.beginPath();
 function rrLen(w, h, r) { r = Math.min(r, w / 2, h / 2); return 2 * (w + h - 4 * r) + 2 * Math.PI * r; }
 // neon stroke: path() must build the path (beginPath included)
 function neon(path, style, w, o = {}) {
-  const a = o.alpha ?? 1, g = o.glow ?? 1, core = (o.core ?? 0.85) * 0.6;
+  const a = o.alpha ?? 1, g = o.glow ?? 1, core = (o.core ?? 0.85) * 0.35;
   ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.globalCompositeOperation = 'lighter';
   if (o.dash) ctx.setLineDash(o.dash), (ctx.lineDashOffset = o.dashOff || 0);
-  const passes = [[w * 9, 36 * g, 0.42], [w * 3.2, 11 * g, 0.8], [w * 1.3, 1.5, 1.0]];
+  const passes = [[w * 10, 40 * g, 0.5], [w * 3.6, 12 * g, 0.95], [w * 1.4, 1.5, 1.0]];
   for (const [lw, b, al] of passes) { ctx.filter = `blur(${b}px)`; ctx.globalAlpha = al * a; ctx.strokeStyle = style; ctx.lineWidth = lw; path(); ctx.stroke(); }
   ctx.filter = 'none';
   if (core > 0) { ctx.globalAlpha = a * core; ctx.strokeStyle = o.coreColor || 'rgba(255,255,255,0.9)'; ctx.lineWidth = Math.max(1, w * 0.32); path(); ctx.stroke(); }
@@ -78,6 +78,7 @@ function glitch(x, y, size, t, a) {
   ctx.restore();
 }
 function textC(s, cx, y, size, o = {}) { // centered single run
+  if (size < 60) size = Math.round(size * 1.3);
   const w = measure(s, size, o.wt || 400);
   return drawRuns([{ s, wt: o.wt || 400, fill: o.fill }], cx + w / 2, y, size, o);
 }
@@ -174,9 +175,10 @@ function s2(t) {
   const x = lerp(W * 0.6, cx, k);
   const a = 1 - out;
   // blue cloud growing on the left (where RTL text grows)
-  const cg = seg(t, 2.55, 3.2);
-  cloud(x - w * 0.38, cy, 260 * (0.4 + cg), 190 * (0.4 + cg), BLUE, 0.65 * cg * a);
-  cloud(x - w * 0.42, cy, 140 * (0.4 + cg), 110 * (0.4 + cg), LILAC, 0.45 * cg * a);
+  const cg = seg(t, 2.4, 2.9);
+  cloud(x + w * 0.42, cy - 10, 330 * (0.4 + cg), 250 * (0.4 + cg), BLUE, 1.0 * cg * a);
+  cloud(x + w * 0.34, cy, 200 * (0.4 + cg), 150 * (0.4 + cg), LILAC, 0.8 * cg * a);
+  cloud(x - w * 0.5, cy, 70, 70, WARM, 0.6 * cg * a);
   // fill: gradient that darkens
   const dk = seg(t, 2.3, 2.62);
   ctx.save(); ctx.globalAlpha = a; rrPath(x - w / 2, cy - h / 2, w, h, h / 2);
@@ -215,19 +217,19 @@ function s4(t) {
     ctx.save(); ctx.translate(W / 2, cy); ctx.rotate(-0.025); ctx.translate(-W / 2, -cy);
     const x0 = W / 2 + L / 2 - len - toggle * 200, x1 = x0 + len;
     // underglow
-    if (lit > 0) { cloud(lerp(x0, x1, 0.55), cy + 26, len * 0.55, 46, BLUE, 0.85 * lit); cloud(lerp(x0, x1, 0.25), cy + 18, len * 0.25, 30, LILAC, 0.55 * lit); }
+    if (lit > 0) { cloud(lerp(x0, x1, 0.6), cy + 34, len * 0.6, 72, BLUE, 1.0 * lit); cloud(lerp(x0, x1, 0.25), cy + 26, len * 0.3, 50, PINK, 0.85 * lit); cloud(lerp(x0, x1, 0.8), cy + 20, len * 0.25, 40, LILAC, 0.8 * lit); }
     ctx.save(); ctx.globalAlpha = 0.35 + 0.65 * lit; ctx.strokeStyle = lin(x0, 0, x1, 0, [SKY, BLUE, LILAC, WARM]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x0, cy); ctx.lineTo(x1, cy); ctx.stroke(); ctx.restore();
     if (lit > 0) neon(() => { ctx.beginPath(); ctx.moveTo(x0, cy); ctx.lineTo(x1, cy); }, lin(x0, 0, x1, 0, [AQUA, BLUE, LILAC, WARM]), 3, { alpha: lit, glow: 0.7 });
     ctx.restore();
   }
   // text
   const txt = 'هوية تشبهك.';
-  const tw = measure(txt, 44, 400);
+  const tw = measure(txt, 56, 400);
   const txR = lerp(xR - 60, W / 2 + tw / 2 + 70, toggle);
   const ty = lerp(cy - 34, H * 0.5, toggle);
   if (t > 4.95) {
     ctx.save(); if (sweep > 0) { ctx.globalAlpha = 1 - sweep; }
-    drawRuns([{ s: txt, wt: 400 }], txR, ty, 44, { typed: seg(t, 4.98, 5.5), t, alpha: a, bloom: 0.3 });
+    drawRuns([{ s: txt, wt: 400 }], txR, ty, 56, { typed: seg(t, 4.98, 5.5), t, alpha: a, bloom: 0.3 });
     ctx.restore();
   }
   // star above
@@ -285,8 +287,7 @@ function s6(t) {
   ctx.save(); ctx.translate(-pan * 30, -pan * 12);
   // outside field (right of vertical, below horizontal)
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
-  ctx.fillStyle = lin(cornerX, 0, W, 0, [rgba(BLUE, 0.95), rgba(BLUE, 0.85), rgba(DEEP, 0.7)]); ctx.fillRect(cornerX + 6, 0, W, H);
-  ctx.fillStyle = lin(0, lineY, 0, H, [rgba(LILAC, 0.55), rgba(BLUE, 0.6)]); ctx.fillRect(0, lineY + 6, cornerX + 6, H);
+  ctx.fillStyle = rad(cornerX, lineY, W * 0.75, [[0, rgba('#F4A6FF', 0.95)], [0.18, rgba(LILAC, 0.9)], [0.45, rgba(BLUE, 0.9)], [1, rgba(DEEP, 0.6)]]); ctx.fillRect(cornerX + 6, -100, W, H + 200); ctx.fillRect(-100, lineY + 6, cornerX + 106, H);
   ctx.restore();
   cloud(cornerX, lineY, 520, 320, SKY, 0.5);
   // inside dark (card) with rounded corner
@@ -351,8 +352,8 @@ function s7(t) {
   const bx = lerp(cx, cx + Math.cos(ang) * RR, k0), by = lerp(cy, cy + Math.sin(ang) * RR, k0);
   const ang2 = ang - 0.32; const gx = cx + Math.cos(ang2) * RR, gy = cy + Math.sin(ang2) * RR;
   ctx.save(); ctx.globalAlpha = 0.5 * k0 * (1 - out); ctx.strokeStyle = LILAC; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(gx, gy, rc * 0.8, 0, 7); ctx.stroke(); ctx.restore();
-  cloud(bx, by, 150, 150, GOLD, 0.25); cloud(bx + 20, by, 110, 110, MINT, 0.35);
-  neon(() => { ctx.beginPath(); ctx.arc(bx, by, rc * 0.85, 0, 7); }, conic(t * 3, bx, by, [MINT, WARM, GOLD, SKY, BLUE, MINT]), 8, { glow: 1, core: 0.7 });
+  cloud(bx, by, 170, 170, PINK, 0.45); cloud(bx + 20, by, 110, 110, '#FF4D6D', 0.35);
+  neon(() => { ctx.beginPath(); ctx.arc(bx, by, rc * 0.85, 0, 7); }, conic(t * 3, bx, by, [PINK, '#FF4D6D', GOLD, PINK, LILAC, PINK]), 10, { glow: 1.2, core: 0.6 });
   ctx.save(); ctx.fillStyle = '#0B1222'; ctx.beginPath(); ctx.arc(bx, by, rc * 0.62, 0, 7); ctx.fill(); ctx.restore();
   // text
   textC('جمهورك بيكبر.', cx, cy, 40, { typed: seg(t, 11.45, 12.4), t, alpha: 1 - out, bloom: 0.3 });
@@ -387,7 +388,7 @@ function s8(t) {
     neon(() => { ctx.beginPath(); ctx.ellipse(cx, cy, 300, 210 * open, 0, 0, 7); }, conic(0, cx, cy, [WARM, WHITE, GOLD, LILAC, BLUE, LILAC, WARM]), 9, { glow: 1.4, alpha: 0.85 * fade, core: 0.4 });
     cloud(cx + 200, cy, 160, 200 * open, WARM, 0.35 * fade);
   }
-  neon(() => eyePath(cx, cy, w, Math.max(h, 8)), phase2 ? lin(cx - w / 2, 0, cx + w / 2, 0, [BLUE, SKY, LILAC, GOLD]) : lin(cx - w / 2, 0, cx + w / 2, 0, [LILAC, '#B58CFF', LILAC, BLUE]), 10, { glow: 1.3, alpha: fade, core: 0.55 });
+  neon(() => eyePath(cx, cy, w, Math.max(h, 8)), phase2 ? lin(cx - w / 2, 0, cx + w / 2, 0, [BLUE, SKY, LILAC, GOLD]) : lin(cx - w / 2, 0, cx + w / 2, 0, [LILAC, PINK, LILAC, BLUE]), 10, { glow: 1.3, alpha: fade, core: 0.55 });
   // iris
   const pill = eio(seg(t, 14.42, 14.62)) * (1 - eio(seg(t, 16.08, 16.22)));
   const irisR = phase2 ? 150 : 115;
@@ -435,7 +436,7 @@ function s9(t) {
       const x = bx + u * 760 * zoom + Math.sin(t * 1.3 + i) * 10, y = by + v * 760 * zoom * 0.62 + Math.cos(t * 1.1 + i) * 8;
       neon(() => { ctx.beginPath(); ctx.arc(x, y, r, 0, 7); }, conic(t + i, x, y, [AQUA, GOLD, BLUE, WHITE, AQUA]), 2.5, { glow: 0.4, alpha: bk * zA });
     });
-    if (zA > 0) drawRuns([{ s: 'تطبيقك ياخد شكله.', wt: 400 }], W * 0.075 + measure('تطبيقك ياخد شكله.', 34, 400), H * 0.86, 40, { typed: seg(t, 17.85, 18.55), t, alpha: bk * (1 - seg(t, 18.9, 19.15)), bloom: 0.25 });
+    if (zA > 0) drawRuns([{ s: 'تطبيقك ياخد شكله.', wt: 400 }], W * 0.075 + measure('تطبيقك ياخد شكله.', 52, 400), H * 0.86, 52, { typed: seg(t, 17.85, 18.55), t, alpha: bk * (1 - seg(t, 18.9, 19.15)), bloom: 0.25 });
   }
 }
 // S10 19.4-22.9: giant pill pan "موقع حيّ."
@@ -448,7 +449,7 @@ function s10(t) {
   const pulse = 1 + 0.06 * Math.sin(t * 9) * seg(t, 21.2, 22.9);
   const intro = seg(t, 19.4, 19.6);
   // aura
-  const topC = t < 22.2 ? AQUA : MINT, botC = t < 21.6 ? LILAC : t < 22.3 ? WARM : AQUA;
+  const topC = t < 22.2 ? AQUA : MINT, botC = t < 21.6 ? PINK : t < 22.3 ? WARM : AQUA;
   ctx.save(); const pad = 150; rrPath(leftX - pad, y0 - pad, rightX - leftX + pad * 2, ph + pad * 2, (ph + pad * 2) / 2); ctx.clip(); ctx.globalCompositeOperation = 'lighter';
   ctx.globalAlpha = intro;
   ctx.fillStyle = lin(0, y0 - pad, 0, y1 + pad, [rgba(topC, 0.0), rgba(topC, 0.95), rgba(topC, 0.2), rgba(botC, 0.2), rgba(botC, 0.95), rgba(botC, 0.0)]); ctx.fillRect(leftX - pad, 0, W * 3, H);
@@ -495,8 +496,8 @@ function s11(t) {
   if (big > 0) {
     const gk = seg(t, 25.5, 25.9) * (1 - coll * 0.5);
     cloud(cx + w * 0.15, y + h, w * 0.32, 90, GOLD, 0.8 * gk * a);
-    cloud(cx - w * 0.2, y, w * 0.3, 60, '#5FE0C0', 0.5 * gk * a);
-    neon(() => rrPath(x, y, w, h, Math.min(36, h / 2)), conic(-Math.PI * 0.75, cx, cy, [LILAC, AQUA, MINT, WARM, GOLD, GOLD, BLUE, LILAC]), 3.4, { alpha: gk * a, glow: 1 });
+    cloud(cx - w * 0.2, y, w * 0.3, 60, PINK, 0.55 * gk * a);
+    neon(() => rrPath(x, y, w, h, Math.min(36, h / 2)), conic(-Math.PI * 0.75, cx, cy, [PINK, PINK, GOLD, GOLD, GOLD, BLUE, BLUE, PINK]), 3.4, { alpha: gk * a, glow: 1 });
   }
   if (t < 25.55) textC('مش مجرد بوست.', cx, cy, 40, { typed: seg(t, 24.0, 24.55), t, alpha: dot, bloom: 0.25 });
   if (t > 25.7) textC('محتوى شغّال 24/7.', cx, cy, 42, { typed: seg(t, 25.75, 26.8), t, alpha: 1 - seg(t, 27.25, 27.4), bloom: 0.3 });
@@ -567,7 +568,7 @@ function s14(t) {
     const b = eo(seg(t, 32.15, 32.9));
     if (b > 0) {
       const bx = lerp(W * 0.42, W * 0.36, seg(t, 32.15, 33)), byTurn = lerp(H * 0.7, H * 0.55, b);
-      neon(() => { ctx.beginPath(); ctx.moveTo(bx, H + 50); ctx.lineTo(bx, byTurn + 70); if (b > 0.45) { ctx.arcTo(bx, byTurn, bx + 70, byTurn, 70); ctx.lineTo(bx + 70 + 520 * seg(b, 0.45, 1), byTurn); } }, lin(bx, H, bx + 600, byTurn, [LILAC, '#B58CFF', GOLD, WARM]), 3.4, { glow: 1 });
+      neon(() => { ctx.beginPath(); ctx.moveTo(bx, H + 50); ctx.lineTo(bx, byTurn + 70); if (b > 0.45) { ctx.arcTo(bx, byTurn, bx + 70, byTurn, 70); ctx.lineTo(bx + 70 + 520 * seg(b, 0.45, 1), byTurn); } }, lin(bx, H, bx + 600, byTurn, [LILAC, PINK, GOLD, WARM]), 3.4, { glow: 1 });
     }
     return;
   }
@@ -583,7 +584,7 @@ function s14(t) {
     const d = lerp(0, 1, sp);
     corner(lerp(cx, W * 0.24, d), lerp(cy, H * 0.33, d), 60, 'ru', 600, 120, lin(0, 0, W * 0.3, 0, [LILAC, BLUE, AQUA]), fr);
     corner(lerp(cx, W * 0.66, d), lerp(cy, H * 0.69, d), 60, 'ur', 120, 700, lin(W * 0.6, 0, W, 0, [LILAC, GOLD, WHITE]), fr);
-    corner(lerp(cx, W * 0.66, d), lerp(cy, H * 0.25, d), 70, 'arcTR', 0, 0, lin(W * 0.6, 0, W * 0.7, 0, [LILAC, '#B58CFF']), fr * sp);
+    corner(lerp(cx, W * 0.66, d), lerp(cy, H * 0.25, d), 70, 'arcTR', 0, 0, lin(W * 0.6, 0, W * 0.7, 0, [LILAC, PINK]), fr * sp);
     corner(lerp(cx, W * 0.3, d), lerp(cy, H * 0.78, d), 80, 'arcBL', 0, 0, lin(W * 0.25, 0, W * 0.35, 0, [BLUE, SKY]), fr * sp);
   }
   if (flash > 0) { cloud(cx, cy, 160, 160, WHITE, flash); sparkle(cx, cy, 60 * flash, { fill: WHITE, alpha: flash }); }
@@ -617,7 +618,7 @@ function markBuild(t) {
     const shift = (1 - eo(k)) * (i % 2 ? 60 : -60);
     ctx.save(); ctx.translate(shift, 0);
     const outline = k < 0.6;
-    drawMark(cx, cy, hgt, { clip: () => ctx.rect(-10, y0, 440, y1 - y0 + 1), fill: outline ? rgba(AQUA, 0.9) : (i % 3 === 0 && k < 0.9 ? '#B58CFF' : WHITE), dot: i >= 5 && k > 0.8, glow: 0.6, glowColor: outline ? AQUA : LILAC });
+    drawMark(cx, cy, hgt, { clip: () => ctx.rect(-10, y0, 440, y1 - y0 + 1), fill: outline ? rgba(AQUA, 0.9) : (i % 3 === 0 && k < 0.9 ? PINK : WHITE), dot: i >= 5 && k > 0.8, glow: 0.6, glowColor: outline ? AQUA : LILAC });
     ctx.restore();
   }
 }
