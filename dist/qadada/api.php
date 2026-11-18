@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 2;
+const DATA_VERSION = 3;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -129,6 +129,21 @@ function migrate(array &$t): void {
             'note' => 'مصطفى محمود أحمد علي قدادة، رحمه الله. أبناؤه: أحمد ومحمد ومصطفى وفوزي وفؤاد.']);
         foreach ([['mm21', 'أحمد'], ['mm22', 'محمد'], ['mm23', 'مصطفى'], ['mm24', 'فوزي'], ['mm25', 'فؤاد']] as [$id, $n])
             $add(['id' => $id, 'parent' => 'mm2', 'name' => $n]);
+    }
+    if ($v < 3) {
+        // 2026-11-18: real photos of Ghattas and Mustafa Ghattas; the family uses «الحاج» instead of «المختار» in names
+        $patch('m14', ['photo' => 'assets/img/ghattas-photo.webp']);
+        $i = find_index($M, 'm30');
+        if ($i >= 0 && in_array($M[$i]['photo'] ?? '', ['', 'assets/img/mustafa.webp'], true)) $M[$i]['photo'] = 'assets/img/mustafa-ghattas.webp';
+        foreach (['m12', 'm14', 'm30', 'm15'] as $id) $patch($id, ['title' => 'الحاج']);
+        foreach ($M as &$mm) {
+            foreach (['title', 'note', 'name'] as $k)
+                if (isset($mm[$k]) && is_string($mm[$k])) $mm[$k] = str_replace(['المختار الكبير', 'المختار'], ['الحاج', 'الحاج'], $mm[$k]);
+        }
+        unset($mm);
+        $patch('m12', ['note' => 'الحاج محمد مصطفى محمد قدادة، رحمه الله، مختار العائلة. أبناؤه: غطاس وسعيد وعبد.']);
+        $patch('m14', ['note' => 'الحاج غطاس محمد قدادة، رحمه الله، خلف والده في المخترة، ووالد الحاج مصطفى. ويرد اسمه «غطاس محمد قدادة» في وثيقة مؤرخة عام 1953. أبناؤه: مصطفى وأحمد ومحمود وسليم وحسن وخليل.']);
+        $patch('m30', ['note' => 'الحاج مصطفى غطاس قدادة، رحمه الله، مختار العائلة الكبير، خلف والده غطاس وجده محمد في المخترة.']);
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;

@@ -12,7 +12,7 @@
   const STATUS = { confirmed: 'مؤكَّد من العائلة', documented: 'موثَّق بمصدر', narrative: 'رواية عائلية', proposed: 'موضعٌ مقترح' };
   const PLACES = ['غزة', 'يافا', 'القاهرة', 'كفر الشيخ', 'عمّان', 'الخبر', 'تركيا', 'بلغاريا', 'نيوجيرسي', 'جرين باي', 'تورنتو'];
 
-  const state = { members: [], byId: new Map(), kids: new Map(), admin: false, user: null, setup: false, csrf: '', pending: 0, collapsed: new Set(), sel: null };
+  const state = { members: [], byId: new Map(), kids: new Map(), admin: false, user: null, setup: false, csrf: '', pending: 0, collapsed: new Set(), sel: null, view: 'tree', fv: null };
   let rootId = null;
 
   const el = (tag, attrs = {}, parent) => {
@@ -210,8 +210,8 @@
     // collapse toggle
     let tog = null;
     if ((state.kids.get(id) || []).length) {
-      tog = el('g', { class: 't-toggle', transform: `translate(${R + 8} ${-R + 2})` }, g);
-      el('circle', { r: 10 }, tog);
+      tog = el('g', { class: 't-toggle', transform: `translate(${R + 10} ${-R + 2})` }, g);
+      el('circle', { r: 13 }, tog);
       el('text', { y: 0 }, tog);
     }
     g.addEventListener('click', e => {
@@ -410,6 +410,7 @@
   }
   function initialView() {
     const b = bounds(), { W, H } = size(), mob = W < 700;
+    if (mob && to.get('m14')) { const p = to.get('m14'); camS.k = .62; camS.x = p.x; camS.y = p.y - 40; return; }
     const k = clamp(Math.min(W / (b.x1 - b.x0), H / (b.y1 - b.y0)) * .96, mob ? .5 : .5, 1.2);
     camS.k = k; camS.x = mob ? 0 : (b.x0 + b.x1) / 2;
     camS.y = (b.y1 - b.y0) * k <= H ? (b.y0 + b.y1) / 2 : b.y1 - H / 2 / k;
@@ -517,7 +518,7 @@
       </div>`;
     tp.classList.add('is-open'); tp.setAttribute('aria-hidden', 'false');
     kick();
-    focus(id);
+    if (state.view !== 'family') focus(id);
   }
   function closePanel() { tp.classList.remove('is-open'); tp.setAttribute('aria-hidden', 'true'); state.sel = null; kick(); }
   $('#tpClose').addEventListener('click', closePanel);
@@ -530,12 +531,98 @@
     ({ add: () => memberForm({ parent: id }), bulk: () => bulkForm(id), edit: () => memberForm({ id }), photo: () => photoForm(id), unphoto: () => unphoto(id), del: () => delMember(id), suggest: () => suggestForm(id) })[a.dataset.a]();
   });
   function reveal(id) {
+    if (state.view === 'family') { if (tp.classList.contains('is-open')) closePanel(); fvGo(id); return; }
     // open collapsed ancestors so the node becomes visible
     let p = state.byId.get(id)?.parent, changed = false;
     while (p) { if (state.collapsed.delete(p)) changed = true; p = state.byId.get(p)?.parent; }
     if (changed) relayout(true);
     setTimeout(() => select(id), changed ? ANIM : 0);
   }
+
+  /* ---------------- Family cards view (clear on phones) ---------------- */
+  const ft = $('#ft'), fv = $('#fv');
+  const fvCrumbs = $('#fvCrumbs'), fvFocus = $('#fvFocus'), fvKids = $('#fvKids'), fvSibs = $('#fvSibs');
+  const dispName = m => {
+    const t = m.title && /المرحوم|الأستاذ|اللواء|المهندس|الدكتور|الحاج|الحاجة/.test(m.title) && m.title.length < 12 ? m.title + ' ' : '';
+    return t + m.name;
+  };
+  const avatar = (m, cls) => m.photo
+    ? `<span class="${cls}"><img src="${esc(m.photo)}" alt="" loading="lazy"></span>`
+    : `<span class="${cls} ${cls}--i${m.gender === 'f' ? ' is-f' : ''}">${esc((m.name || '؟').trim().charAt(0))}</span>`;
+  function fvRender(anim) {
+    if (!fv || !state.members.length) return;
+    let id = state.fv && state.byId.has(state.fv) ? state.fv : rootId;
+    state.fv = id;
+    const m = state.byId.get(id);
+    // ancestors
+    const chain = [];
+    for (let a = m, g = 0; a && g < 60; a = state.byId.get(a.parent), g++) chain.unshift(a);
+    fvCrumbs.innerHTML = chain.map((a, i) => i === chain.length - 1
+      ? `<b>${esc(a.name)}</b>` : `<button data-fv="${a.id}">${esc(a.name)}</button><i aria-hidden="true">‹</i>`).join('');
+    requestAnimationFrame(() => { fvCrumbs.scrollLeft = -fvCrumbs.scrollWidth; });
+    const kids = (state.kids.get(id) || []).map(k => state.byId.get(k));
+    const parent = state.byId.get(m.parent);
+    const sibs = parent ? (state.kids.get(parent.id) || []).filter(k => k !== id).map(k => state.byId.get(k)) : [];
+    const dead = m.deceased ? (m.gender === 'f' ? 'رحمها الله' : 'رحمه الله') : '';
+    const gen = chain.length;
+    const ed = canEdit(id);
+    fvFocus.innerHTML = `
+      <div class="fvc">
+        ${avatar(m, 'fvc__ph')}
+        <div class="fvc__txt">
+          ${m.title && !/^(الحاج|المرحوم)$/.test(m.title) ? `<span class="fvc__title">${esc(m.title)}</span>` : ''}
+          <h3 class="fvc__name">${esc(dispName(m))}</h3>
+          <p class="fvc__nasab">${esc(nasab(id))}</p>
+          <div class="fvc__badges"><span>الجيل ${gen}</span>${dead ? `<span>${dead}</span>` : ''}${m.place ? `<span>${esc(m.place)}</span>` : ''}${m.status === 'proposed' ? '<span class="is-warn">موضع مقترح</span>' : m.status === 'narrative' ? '<span>رواية عائلية</span>' : ''}</div>
+        </div>
+      </div>
+      <div class="fvc__acts">
+        ${parent ? `<button class="btn btn--line" data-fv="${parent.id}">↑ الأب: ${esc(parent.name)}</button>` : ''}
+        <button class="btn btn--line" data-fva="info">التفاصيل والنسب</button>
+        ${ed ? `<button class="btn btn--gold" data-fva="add">+ إضافة ابن أو ابنة</button><button class="btn btn--gold" data-fva="bulk">+ عدة أبناء</button>`
+             : `<button class="btn btn--gold" data-fva="suggest">اقترح إضافة</button>`}
+      </div>`;
+    fvKids.innerHTML = kids.length ? kids.map(k => {
+      const n = (state.kids.get(k.id) || []).length, all = descCount(k.id);
+      return `<button class="fvk" data-fv="${k.id}">
+        ${avatar(k, 'fvk__ph')}
+        <span class="fvk__t">${k.title && k.title.length < 12 ? `<small>${esc(k.title)}</small>` : ''}<b>${esc(k.name)}</b>
+        <em>${n ? `${n} ${n === 1 ? 'ابن' : n === 2 ? 'ابنان' : n <= 10 ? 'أبناء' : 'ابنًا'}${all > n ? ` · ${all} من الذرية` : ''}` : 'لم يُضف أبناء بعد'}</em></span>
+        <i class="fvk__go" aria-hidden="true">‹</i>
+      </button>`;
+    }).join('') : `<p class="fv__empty">لم نُضف أبناء ${esc(m.name)} بعد${ed ? '. أضفهم من الزر أعلاه.' : '. إن كنت تعرفهم فاقترح إضافتهم.'}</p>`;
+    $('#fvKidsTitle').textContent = kids.length ? `أبناء ${m.name} (${kids.length})` : `أبناء ${m.name}`;
+    fvSibs.parentElement.hidden = !sibs.length;
+    fvSibs.innerHTML = sibs.map(k => `<button data-fv="${k.id}">${avatar(k, 'fvs__ph')}<span>${esc(k.name)}</span></button>`).join('');
+    if (anim && window.gsap && !reduced) {
+      gsap.fromTo(fvFocus.firstElementChild, { opacity: 0, y: anim > 0 ? 26 : -26 }, { opacity: 1, y: 0, duration: .55, ease: 'power3.out' });
+      gsap.fromTo(fvKids.children, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: .5, stagger: .04, ease: 'power3.out', delay: .08 });
+    }
+  }
+  function fvGo(id) {
+    const old = state.fv;
+    state.fv = id;
+    const down = old && state.byId.get(id)?.parent === old ? 1 : -1;
+    fvRender(down);
+    const top = fv.getBoundingClientRect().top;
+    if (top < 0 || top > innerHeight * .6) (window.QLenis ? window.QLenis.scrollTo(fv, { offset: -90 }) : fv.scrollIntoView({ behavior: 'smooth' }));
+  }
+  fv && fv.addEventListener('click', e => {
+    const b = e.target.closest('[data-fv]');
+    if (b) { fvGo(b.dataset.fv); return; }
+    const a = e.target.closest('[data-fva]');
+    if (!a) return;
+    const id = state.fv;
+    ({ info: () => select(id), add: () => memberForm({ parent: id }), bulk: () => bulkForm(id), suggest: () => suggestForm(id) })[a.dataset.fva]();
+  });
+  function setView(v) {
+    state.view = v;
+    ft.classList.toggle('ft--family', v === 'family');
+    document.querySelectorAll('[data-view]').forEach(b => b.classList.toggle('is-on', b.dataset.view === v));
+    if (v === 'family') fvRender(1);
+    else { requestAnimationFrame(() => { initialView(); applyCam(); kick(); if (!started) { started = true; if (!reduced) { growing = true; growStart = performance.now(); } kick(); } }); }
+  }
+  document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
 
   /* ---------------- Modals & forms ---------------- */
   const modal = $('#modal'), modalBody = $('#modalBody');
@@ -602,7 +689,7 @@
       closeModal();
       await refresh();
       toast(id ? 'تم حفظ التعديلات' : 'تمت إضافة ' + j.member.name + ' إلى الشجرة');
-      reveal(j.member.id);
+      if (state.view === 'family') { if (!id) fvRender(); } else reveal(j.member.id);
     });
   }
   function photoForm(id) {
@@ -637,7 +724,7 @@
       state.collapsed.delete(parent);
       closeModal(); await refresh();
       toast(`تمت إضافة ${j.added.length} إلى الشجرة`);
-      select(parent);
+      if (state.view !== 'family') select(parent);
     });
   }
   function unphoto(id) {
@@ -656,7 +743,7 @@
     if (!needOnline()) return;
     openModal(`
       <h3>اقترح إضافة فرد إلى الشجرة</h3>
-      <p class="sub">يصل اقتراحك إلى القائمين على الموقع، ويُضاف إلى الشجرة بعد المراجعة.</p>
+      <p class="sub">يصلنا اقتراحك، ونضيفه إلى الشجرة بعد التأكد منه.</p>
       <form class="form" autocomplete="off">
         <label class="full">ابن أو ابنة لـ *<select name="parent" required>${parentOptions(parent)}</select></label>
         <label>الاسم الأول *<input name="name" required maxlength="60"></label>
@@ -686,7 +773,7 @@
       await api(setup ? 'setup' : 'login', data);
       closeModal(); await refresh();
       if (state.admin) toast('مرحبًا بك في وضع الإدارة');
-      else if (state.user) { toast('أهلًا بك، يمكنك الآن تعديل فرع ' + (state.byId.get(state.user.root)?.name || '')); reveal(state.user.root); }
+      else if (state.user) { toast('أهلًا بك، يمكنك الآن تعديل فرع ' + (state.byId.get(state.user.root)?.name || '')); if (state.view === 'family') fvGo(state.user.root); else reveal(state.user.root); }
     });
   }
   async function adminMenu() {
@@ -815,6 +902,7 @@
     clearAll();
     from = new Map(); cur = new Map();
     relayout(false);
+    if (state.view === 'family') fvRender();
     if (keepSel && state.byId.has(keepSel) && tp.classList.contains('is-open')) select(keepSel);
   }
 
@@ -858,18 +946,33 @@
   }
   setInterval(spawnLeaf, 2200);
 
+  // first look: keep the mukhtars' line open and fold the deeper branches, so the tree reads clearly
+  function defaultCollapse() {
+    const keep = new Set();
+    const focusId = state.byId.has('m30') ? 'm30' : null;
+    for (let a = state.byId.get(focusId); a; a = state.byId.get(a.parent)) keep.add(a.id);
+    const walk = (id, d) => {
+      const kids = state.kids.get(id) || [];
+      if (d >= 3 && kids.length && !keep.has(id)) state.collapsed.add(id);
+      kids.forEach(k => walk(k, d + 1));
+    };
+    if (rootId) walk(rootId, 0);
+  }
+
   /* ---------------- Boot ---------------- */
   let growing = false, growStart = 0, started = false;
   window.QTree = { suggest: () => suggestForm(state.sel || rootId) };
   (async () => {
     buildGround();
     await load();
+    defaultCollapse();
     relayout(false);
+    if (innerWidth < 760) setView('family');
     initialView();
     applyCam(); render();
     new IntersectionObserver(es => {
       stageVisible = es[0].isIntersecting;
-      if (stageVisible && !started) {
+      if (stageVisible && !started && state.view === 'tree') {
         started = true;
         if (!reduced) { growing = true; growStart = performance.now(); }
         kick();
