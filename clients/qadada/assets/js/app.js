@@ -457,3 +457,61 @@
   // safety: never leave the loader up
   setTimeout(() => $('#loader') && !$('#loader').classList.contains('is-done') && hideLoader(), 6000);
 })();
+
+/* ---------------- Background music (oud theme) ----------------
+   Browsers only allow sound after the visitor's first tap or key press, so the
+   music starts with the first interaction unless the visitor turned it off. */
+(() => {
+  const btn = document.getElementById('music'), au = document.getElementById('bgm');
+  if (!btn || !au) return;
+  const KEY = 'qadada-music';
+  let pref = null;
+  try { pref = localStorage.getItem(KEY); } catch (e) {}
+  let on = false, fadeT = 0;
+  const TARGET = .55;
+  function fade(to, ms, done) {
+    cancelAnimationFrame(fadeT);
+    const from = au.volume, t0 = performance.now();
+    const step = now => {
+      const k = Math.min(1, (now - t0) / ms);
+      au.volume = Math.max(0, Math.min(1, from + (to - from) * k));
+      if (k < 1) fadeT = requestAnimationFrame(step); else done && done();
+    };
+    fadeT = requestAnimationFrame(step);
+  }
+  function ui() {
+    btn.classList.toggle('is-on', on);
+    btn.setAttribute('aria-pressed', on);
+    btn.setAttribute('aria-label', on ? 'إيقاف الموسيقى' : 'تشغيل الموسيقى');
+    btn.querySelector('.music__txt').textContent = on ? 'إيقاف الموسيقى' : 'تشغيل الموسيقى';
+  }
+  function play(save) {
+    au.volume = 0;
+    const p = au.play();
+    const ok = () => { on = true; ui(); fade(TARGET, 2200); };
+    if (p && p.then) p.then(ok).catch(() => { on = false; ui(); }); else ok();
+    if (save) try { localStorage.setItem(KEY, 'on'); } catch (e) {}
+  }
+  function stop(save) {
+    on = false; ui();
+    fade(0, 700, () => au.pause());
+    if (save) try { localStorage.setItem(KEY, 'off'); } catch (e) {}
+  }
+  btn.addEventListener('click', e => { e.stopPropagation(); on ? stop(true) : play(true); });
+  // try right away (works when the browser already trusts the site), otherwise on the first interaction
+  const first = e => {
+    if (e.target.closest && e.target.closest('#music')) return;
+    off();
+    if (pref !== 'off' && !on) play(false);
+  };
+  const evs = ['pointerdown', 'keydown', 'touchstart'];
+  const off = () => evs.forEach(ev => removeEventListener(ev, first, true));
+  if (pref !== 'off') {
+    evs.forEach(ev => addEventListener(ev, first, true));
+    setTimeout(() => { if (!on) { au.volume = 0; const p = au.play(); p && p.then && p.then(() => { off(); on = true; ui(); fade(TARGET, 2200); }).catch(() => {}); } }, 1600);
+  }
+  // pause when the tab is hidden, resume when back
+  document.addEventListener('visibilitychange', () => { if (!on) return; document.hidden ? au.pause() : au.play().catch(() => {}); });
+  setTimeout(() => btn.classList.add('is-ready'), 1800);
+  ui();
+})();
