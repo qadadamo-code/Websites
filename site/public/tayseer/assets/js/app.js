@@ -5,6 +5,7 @@
   const H = document.documentElement;
   const IMG = n => `assets/img/${n}.webp`;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const weak = (navigator.hardwareConcurrency || 4) <= 4 || (navigator.deviceMemory || 8) <= 4;
   let L = H.lang === 'en' ? 1 : 0;
   const t = (ar, en) => L ? en : ar;
   const tx = a => Array.isArray(a) ? a[L] : a;
@@ -353,29 +354,32 @@
   $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const h = a.getAttribute('href'); if (h.length > 1 && $(h)) { e.preventDefault(); scrollToEl(h); $('#nav').classList.remove('open'); } }));
   $('#navBtn').onclick = () => $('#nav').classList.toggle('open');
 
-  // sparks canvas
+  // sparks canvas (light: pre-rendered glow sprite, 1x, ~30fps, pauses off-screen)
+  const sprite = (() => { const c = document.createElement('canvas'); c.width = c.height = 32; const g = c.getContext('2d'); const r = g.createRadialGradient(16, 16, 0, 16, 16, 16); r.addColorStop(0, 'rgba(255,230,160,1)'); r.addColorStop(.25, 'rgba(255,170,50,.9)'); r.addColorStop(1, 'rgba(255,90,20,0)'); g.fillStyle = r; g.fillRect(0, 0, 32, 32); return c; })();
   function sparks(cv, opts) {
-    const ctx = cv.getContext('2d'); let W, Hh, P = [], dpr = Math.min(2, devicePixelRatio || 1), run = false;
-    const size = () => { W = cv.offsetWidth; Hh = cv.offsetHeight; cv.width = W * dpr; cv.height = Hh * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+    const ctx = cv.getContext('2d'); let W, Hh, P = [], run = false, lastT = 0;
+    const size = () => { W = cv.offsetWidth; Hh = cv.offsetHeight; cv.width = W; cv.height = Hh; };
     size(); addEventListener('resize', size);
-    const spawn = () => ({ x: opts.x() * W, y: Hh * (opts.y0 || 1) + Math.random() * 20, vx: (Math.random() - .5) * .6, vy: -(Math.random() * 1.6 + .6) * (opts.speed || 1), life: 0, max: 120 + Math.random() * 160, r: Math.random() * 2 + .6 });
+    const spawn = () => ({ x: opts.x() * W, y: Hh * (opts.y0 || 1) + Math.random() * 20, vx: (Math.random() - .5) * 1.2, vy: -(Math.random() * 3 + 1.2) * (opts.speed || 1), life: 0, max: 60 + Math.random() * 80, r: Math.random() * 7 + 4, ph: Math.random() * 6 });
     for (let i = 0; i < opts.n; i++) { const p = spawn(); p.y = Math.random() * Hh; p.life = Math.random() * p.max; P.push(p); }
-    const loop = () => {
-      if (!run) return; ctx.clearRect(0, 0, W, Hh); ctx.globalCompositeOperation = 'lighter';
-      P.forEach((p, i) => { p.life++; p.x += p.vx + Math.sin((p.life + i) * .05) * .4; p.y += p.vy; const k = 1 - p.life / p.max; if (k <= 0 || p.y < -10) { P[i] = spawn(); return; }
-        ctx.beginPath(); ctx.fillStyle = `rgba(255,${150 + Math.random() * 60 | 0},40,${k})`; ctx.shadowBlur = 8; ctx.shadowColor = '#ff8a1f'; ctx.arc(p.x, p.y, p.r * k + .3, 0, 7); ctx.fill(); });
-      requestAnimationFrame(loop);
+    const loop = t => {
+      if (!run) return; requestAnimationFrame(loop);
+      if (t - lastT < 33) return; lastT = t;
+      ctx.clearRect(0, 0, W, Hh); ctx.globalCompositeOperation = 'lighter';
+      for (let i = 0; i < P.length; i++) { const p = P[i]; p.life++; p.x += p.vx + Math.sin(p.life * .1 + p.ph) * .6; p.y += p.vy; const k = 1 - p.life / p.max; if (k <= 0 || p.y < -10) { P[i] = spawn(); continue; }
+        ctx.globalAlpha = k; const sz = p.r * (.4 + k * .6); ctx.drawImage(sprite, p.x - sz / 2, p.y - sz / 2, sz, sz); }
+      ctx.globalAlpha = 1;
     };
-    new IntersectionObserver(es => es.forEach(e => { run = e.isIntersecting; if (run) loop(); })).observe(cv);
+    new IntersectionObserver(es => es.forEach(e => { const was = run; run = e.isIntersecting; if (run && !was) requestAnimationFrame(loop); })).observe(cv);
   }
   if (!reduced) {
-    sparks($('#sparks'), { n: innerWidth < 700 ? 40 : 80, x: () => (H.dir === 'rtl' ? .3 : .7) + (Math.random() - .5) * .35, y0: .8 });
-    sparks($('#embers'), { n: innerWidth < 700 ? 50 : 110, x: () => Math.random(), y0: 1, speed: 1.3 });
+    sparks($('#sparks'), { n: weak || innerWidth < 700 ? 22 : 45, x: () => (H.dir === 'rtl' ? .3 : .7) + (Math.random() - .5) * .35, y0: .8 });
+    sparks($('#embers'), { n: weak || innerWidth < 700 ? 25 : 55, x: () => Math.random(), y0: 1, speed: 1.3 });
   }
 
   // hero float: mouse parallax
   if (!reduced && matchMedia('(pointer:fine)').matches) {
-    const fl = $$('.hf'); addEventListener('mousemove', e => { const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5; fl.forEach((f, i) => { const d = (i + 1) * 14; f.style.translate = `${x * d}px ${y * d}px`; }); });
+    const fl = $$('.hf'); let mx = 0, my = 0, pend = false; addEventListener('mousemove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; if (pend || scrollY > innerHeight) return; pend = true; requestAnimationFrame(() => { pend = false; fl.forEach((f, i) => { const d = (i + 1) * 14; f.style.translate = `${mx * d}px ${my * d}px`; }); }); }, { passive: true });
   }
 
   // header + mobile bar
@@ -386,7 +390,7 @@
   function startMotion() {
     if (!window.gsap || reduced) { $$('.reveal').forEach(e => { e.style.opacity = 1; e.style.transform = 'none'; }); wheelFallback(); return; }
     gsap.registerPlugin(ScrollTrigger);
-    if (window.Lenis) { lenis = new Lenis({ lerp: .1, smoothWheel: true }); lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+    if (window.Lenis && !weak) { lenis = new Lenis({ lerp: .1, smoothWheel: true }); lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
 
     // hero entrance
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
@@ -412,7 +416,6 @@
         dial.style.transform = `translate(-50%,-50%) rotate(${rot}deg)`;
         items.forEach(it => it.style.transform = `rotate(${-rot}deg)`);
         wheelSet(Math.round(pos));
-        $('#wheelWord').style.transform = `translate(calc(-50% + ${(pos % 1 - .5) * -60}px),-50%)`;
       }
     });
     $$('#wiDots button, .wd-item').forEach(b => b.addEventListener('click', () => {
