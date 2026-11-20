@@ -205,8 +205,8 @@
     const plateH = hasTitle ? 48 : 31, plateY = R + 10;
     const nameW = Math.max(70, (m.name.length * 12.5) + 30, hasTitle ? m.title.length * 7.2 + 24 : 0);
     el('rect', { x: -nameW / 2, y: plateY, width: nameW, height: plateH, rx: 14, fill: big ? '#0d2a18' : '#fffaf0', stroke: '#c9a43c', 'stroke-width': 1.2, filter: 'url(#tShadow)' }, g);
-    const tn = el('text', { class: 't-name', y: plateY + 21, style: big ? 'fill:#f3dd95;stroke:#0d2a18' : '' }, g); tn.textContent = m.name;
-    if (hasTitle) { const tt = el('text', { class: 't-title', y: plateY + 40, style: big ? 'fill:#e8cd7a;stroke:#0d2a18' : '' }, g); tt.textContent = m.title; }
+    const tn = el('text', { class: 't-name', y: plateY + 21, style: big ? 'fill:#f3dd95' : '' }, g); tn.textContent = m.name;
+    if (hasTitle) { const tt = el('text', { class: 't-title', y: plateY + 40, style: big ? 'fill:#e8cd7a' : '' }, g); tt.textContent = m.title; }
     // collapse toggle
     let tog = null;
     if ((state.kids.get(id) || []).length) {
