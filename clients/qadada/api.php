@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 9;
+const DATA_VERSION = 10;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -267,6 +267,20 @@ function migrate(array &$t): void {
         if ($i >= 0 && find_index($M, 'm10') >= 0 && ($M[$i]['parent'] ?? '') !== 'm10') {
             $h = $M[$i]; $h['parent'] = 'm10'; array_splice($M, $i, 1);
             $j = find_index($M, 'm12'); array_splice($M, $j >= 0 ? $j + 1 : count($M), 0, [$h]);
+        }
+    }
+    if ($v < 10) {
+        // Zuhair's sons: كريم is أكرم, سميح comes before him, and a brother فضل
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        $toEnd = function (?string $id) use (&$M) { if (!$id) return; $i = find_index($M, $id); if ($i < 0) return; $m = $M[$i]; array_splice($M, $i, 1); $M[] = $m; };
+        if ($z = $cid('m15', 'زهير')) {
+            if ($k = $cid($z, 'كريم')) $patch($k, ['name' => 'أكرم']);
+            foreach (['محمد', 'محمود', 'أحمد', 'فايز', 'سميح', 'أكرم'] as $n) $toEnd($cid($z, $n));
+            if (!$cid($z, 'فضل')) $add(['id' => 'z1f', 'parent' => $z, 'name' => 'فضل']);
         }
     }
     $t['members'] = $M;
