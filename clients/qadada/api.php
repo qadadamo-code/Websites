@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 8;
+const DATA_VERSION = 9;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -259,6 +259,14 @@ function migrate(array &$t): void {
             $M[$i]['parent'] = $M[$j]['parent'];
             $h = $M[$i]; array_splice($M, $i, 1);
             $j = find_index($M, 'm10'); array_splice($M, $j + 1, 0, [$h]);
+        }
+    }
+    if ($v < 9) {
+        // confirmed by the family: «محمد حلمي حسين مصطفى», so Hussein is Mustafa's son (brother of Hajj Mohammed)
+        $i = find_index($M, 'm18');
+        if ($i >= 0 && find_index($M, 'm10') >= 0 && ($M[$i]['parent'] ?? '') !== 'm10') {
+            $h = $M[$i]; $h['parent'] = 'm10'; array_splice($M, $i, 1);
+            $j = find_index($M, 'm12'); array_splice($M, $j >= 0 ? $j + 1 : count($M), 0, [$h]);
         }
     }
     $t['members'] = $M;
