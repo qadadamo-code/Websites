@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 13;
+const DATA_VERSION = 14;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -336,6 +336,15 @@ function migrate(array &$t): void {
         };
         if ($j = $cid('m33', 'جلال'))
             foreach (['تيسير', 'ياسين'] as $k => $n) if (!$cid($j, $n)) $add(['id' => 'n33j' . ($k + 1), 'parent' => $j, 'name' => $n]);
+    }
+    if ($v < 14) {
+        // 2026-11-20: Amin bin Mustafa Ghattas' son
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        if (($a = $cid('m30', 'أمين')) && !$cid($a, 'تامر')) $add(['id' => 'n30a1', 'parent' => $a, 'name' => 'تامر']);
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
