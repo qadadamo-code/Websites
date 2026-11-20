@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 4;
+const DATA_VERSION = 5;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -191,6 +191,40 @@ function migrate(array &$t): void {
         $kids('m36', ['سامر', 'تامر', 'نادر', 'مصطفى'], 'n36x'); // Mohammed
         // Helmi: Hussein has daughters only, so drop the old "no children" wording; محمد's son is سميح
         $patch('h3', ['note' => 'حسين حلمي حسين مصطفى قدادة.']);
+    }
+    if ($v < 5) {
+        // 2026-11-20 corrections to Saeed's branch from the family
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        $kidsOf = function (string $parent) use (&$M) { $o = []; foreach ($M as $x) if (($x['parent'] ?? '') === $parent) $o[] = $x['id']; return $o; };
+        $delLeaf = function (?string $id) use (&$M, $kidsOf) {
+            if (!$id || $kidsOf($id)) return;
+            $i = find_index($M, $id); if ($i >= 0) array_splice($M, $i, 1);
+        };
+        $reparent = function (string $id, string $to) use (&$M) {   // moves to the end so order follows the call order
+            $i = find_index($M, $id); if ($i < 0) return;
+            $m = $M[$i]; array_splice($M, $i, 1); $m['parent'] = $to; $M[] = $m;
+        };
+        $ghaleb = $cid('m15', 'غالب'); $zuhair = $cid('m15', 'زهير'); $suhail = $cid('m15', 'سهيل');
+        $saad = $cid('m15', 'سعد'); $saado = $cid('m15', 'سعدو'); $nafez = $cid('m15', 'نافذ') ?? $cid('m15', 'نافز');
+        if ($nafez) $patch($nafez, ['name' => 'نافذ']);
+        // Ghaleb's listed sons belong to Zuhair; Ghaleb's sons are Saeed, Mahmoud, Yasser
+        if ($ghaleb && $zuhair) {
+            foreach ($kidsOf($ghaleb) as $k) $reparent($k, $zuhair);
+            foreach ([['s1y1', 'سعيد'], ['s1y2', 'محمود'], ['s1y3', 'ياسر']] as [$id, $n]) $add(['id' => $id, 'parent' => $ghaleb, 'name' => $n]);
+        }
+        // Nafez's sons: Ahmad, Sami, Tawfiq, Munther, Bashar (the list shown under Suhail); Hisham removed, duplicate Sami removed
+        if ($nafez && $suhail) {
+            $delLeaf($cid($nafez, 'هشام'));
+            $delLeaf($cid($suhail, 'سامح'));
+            if ($ah = $cid($nafez, 'أحمد')) $reparent($ah, $nafez);
+            foreach (['سامي', 'توفيق', 'منذر', 'بشار'] as $n) if ($k = $cid($suhail, $n)) $reparent($k, $nafez);
+        }
+        if ($saado) $delLeaf($cid($saado, 'سعيد'));
+        if ($saad) $delLeaf($cid($saad, 'سعيد'));
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
