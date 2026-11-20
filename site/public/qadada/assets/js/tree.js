@@ -768,7 +768,7 @@
       <p class="sub">${id ? esc(nasab(id)) : 'إلى: ' + esc(pName)}</p>
       <form class="form" autocomplete="off">
         <label class="full">الاسم الأول *<input name="name" required maxlength="60" value="${esc(m.name || '')}" placeholder="مثال: أحمد"></label>
-        <label class="full">اللقب أو الصفة<input name="title" maxlength="60" value="${esc(m.title || '')}" placeholder="مثال: المهندس، اللواء، مختار العائلة"></label>
+        <label class="full">اللقب أو الصفة<input name="title" maxlength="60" value="${esc(m.title || '')}" placeholder="مثال: المهندس، اللواء، الحاج"></label>
         <label>الجنس<select name="gender"><option value="m" ${m.gender !== 'f' ? 'selected' : ''}>ذكر</option><option value="f" ${m.gender === 'f' ? 'selected' : ''}>أنثى</option></select></label>
         <label>مكان الإقامة<input name="place" list="placesDL" maxlength="40" value="${esc(m.place || '')}"></label>
         <label>سنة الميلاد<input name="born" inputmode="numeric" pattern="[0-9]{1,4}" maxlength="4" value="${esc(m.born || '')}" placeholder="1950"></label>

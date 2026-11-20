@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 16;
+const DATA_VERSION = 17;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -367,6 +367,17 @@ function migrate(array &$t): void {
             $kids($cid($ah, 'محمد'), ['أحمد', 'حمزة'], 'h11m');
             $kids($cid($ah, 'محمود'), ['مهند', 'هاشم'], 'h11d');
         }
+    }
+    if ($v < 17) {
+        // 2026-11-20: the family says these three were not mukhtars; no «مختار/المخترة» anywhere in the data
+        $patch('m12', ['title' => 'الحاج', 'note' => 'الحاج محمد مصطفى محمد قدادة، رحمه الله. أبناؤه: غطاس وسعيد وعبد.']);
+        $patch('m14', ['title' => 'الحاج', 'note' => 'الحاج غطاس محمد قدادة، رحمه الله، ووالد الحاج مصطفى. ويرد اسمه «غطاس محمد قدادة» في وثيقة مؤرخة عام 1953. أبناؤه: مصطفى وأحمد ومحمود وسليم وحسن وخليل.']);
+        $patch('m30', ['title' => 'الحاج', 'note' => 'الحاج مصطفى غطاس قدادة، رحمه الله، كبير العائلة.']);
+        foreach ($M as &$mm) {
+            foreach (['title', 'note'] as $k) if (isset($mm[$k]) && is_string($mm[$k]) && preg_match('/مخت/u', $mm[$k]))
+                $mm[$k] = $k === 'title' ? 'الحاج' : trim(preg_replace('/،?\s*[^،.]*مخت[^،.]*/u', '', $mm[$k]));
+        }
+        unset($mm);
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
