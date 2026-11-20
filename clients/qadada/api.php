@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 6;
+const DATA_VERSION = 5;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -225,12 +225,6 @@ function migrate(array &$t): void {
         }
         if ($saado) $delLeaf($cid($saado, 'سعيد'));
         if ($saad) $delLeaf($cid($saad, 'سعيد'));
-    }
-    if ($v < 6) {
-        // photo of Hajj Saeed Mohammed Mustafa
-        $i = find_index($M, 'm15');
-        if ($i >= 0 && empty($M[$i]['photo'])) $M[$i]['photo'] = 'assets/img/saeed.webp';
-        $patch('m15', ['note' => 'الحاج سعيد محمد مصطفى قدادة، ابن الحاج محمد مصطفى وأخو الحاج غطاس وعبد.']);
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
