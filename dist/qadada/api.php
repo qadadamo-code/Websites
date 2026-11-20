@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 10;
+const DATA_VERSION = 11;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -281,6 +281,33 @@ function migrate(array &$t): void {
             if ($k = $cid($z, 'كريم')) $patch($k, ['name' => 'أكرم']);
             foreach (['محمد', 'محمود', 'أحمد', 'فايز', 'سميح', 'أكرم'] as $n) $toEnd($cid($z, $n));
             if (!$cid($z, 'فضل')) $add(['id' => 'z1f', 'parent' => $z, 'name' => 'فضل']);
+        }
+    }
+    if ($v < 11) {
+        // 2026-11-20: Ahmad bin Ghattas has a son سمير after حسام; Salim's and Mahmoud's sons were swapped
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        $kidsOf = function (string $parent) use (&$M) { $o = []; foreach ($M as $x) if (($x['parent'] ?? '') === $parent) $o[] = $x['id']; return $o; };
+        $reparent = function (string $id, string $to) use (&$M) {
+            $i = find_index($M, $id); if ($i < 0) return;
+            $m = $M[$i]; array_splice($M, $i, 1); $m['parent'] = $to; $M[] = $m;
+        };
+        if (($ahmad = $cid('m14', 'أحمد')) && !$cid($ahmad, 'سمير')) {
+            $add(['id' => 'g1s', 'parent' => $ahmad, 'name' => 'سمير'], $cid($ahmad, 'حسام'));
+        }
+        // Hasan's sons: شادي، فادي، محمد، أحمد، محمود
+        if ($has = $cid('m14', 'حسن')) {
+            if (!$cid($has, 'فادي')) $add(['id' => 'g4f', 'parent' => $has, 'name' => 'فادي'], $cid($has, 'شادي'));
+            if (!$cid($has, 'محمود')) $add(['id' => 'g4m', 'parent' => $has, 'name' => 'محمود'], $cid($has, 'أحمد'));
+        }
+        $mah = $cid('m14', 'محمود'); $sal = $cid('m14', 'سليم');
+        if ($mah && $sal) {
+            $a = $kidsOf($mah); $b = $kidsOf($sal);
+            foreach ($a as $id) $reparent($id, $sal);
+            foreach ($b as $id) $reparent($id, $mah);
         }
     }
     $t['members'] = $M;

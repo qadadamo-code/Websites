@@ -953,7 +953,7 @@
     for (let a = state.byId.get(focusId); a; a = state.byId.get(a.parent)) keep.add(a.id);
     const walk = (id, d) => {
       const kids = state.kids.get(id) || [];
-      if (d >= 5 && kids.length && !keep.has(id)) state.collapsed.add(id);
+      if (d >= 99 && kids.length && !keep.has(id)) state.collapsed.add(id);
       kids.forEach(k => walk(k, d + 1));
     };
     if (rootId) walk(rootId, 0);
