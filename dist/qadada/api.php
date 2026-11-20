@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 20;
+const DATA_VERSION = 21;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -431,6 +431,18 @@ function migrate(array &$t): void {
             $kids($cid('h2', 'محمد'), ['إبراهيم', 'عبد الرحمن', 'خالد'], 'h21x');
             $kids($cid('h2', 'سعيد'), ['إبراهيم', 'أحمد', 'يوسف'], 'h22x');
         }
+    }
+    if ($v < 21) {
+        // 2026-11-20: no professional titles for anyone; only تيسير بن مصطفى غطاس keeps الأستاذ
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        foreach ($M as &$mm) {
+            $tt = (string)($mm['title'] ?? '');
+            if ($tt === '') continue;
+            $isTayseer = ($mm['parent'] ?? '') === 'm30' && $norm($mm['name']) === 'تيسير';
+            if ($isTayseer) { $mm['title'] = 'الأستاذ'; continue; }
+            if (preg_match('/لواء|مهندس|م\.|دكتور|د\.|عميد|عقيد|عسكري|ضابط|السيد|الأستاذ|الاستاذ|المحامي|الشيخ/u', $tt)) $mm['title'] = '';
+        }
+        unset($mm);
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;

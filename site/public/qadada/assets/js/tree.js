@@ -497,7 +497,7 @@
     tpBody.innerHTML = `
       <div class="tp__hero">
         ${m.photo ? `<img class="tp__photo" src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<div class="tp__photo">${esc(m.name.charAt(0))}</div>`}
-        <div class="tp__name">${esc(m.title && /مختار|المرحوم|الأستاذ|اللواء|المهندس|الدكتور|الحاج/.test(m.title) && !/فرع|الجد/.test(m.title) && m.title.length < 12 ? m.title + ' ' : '')}${esc(m.name)}</div>
+        <div class="tp__name">${esc(m.title && /مختار|المرحوم|الأستاذ|السيد|اللواء|المهندس|الدكتور|الحاج/.test(m.title) && !/فرع|الجد/.test(m.title) && m.title.length < 12 ? m.title + ' ' : '')}${esc(m.name)}</div>
         ${m.title ? `<div class="tp__title">${esc(m.title)}</div>` : ''}
         <div class="tp__badges"><span class="tp__b">${STATUS[m.status] || STATUS.confirmed}</span>${dead ? `<span class="tp__b">${dead}</span>` : ''}</div>
       </div>
@@ -544,7 +544,7 @@
   const ft = $('#ft'), fv = $('#fv');
   const fvCrumbs = $('#fvCrumbs'), fvFocus = $('#fvFocus'), fvKids = $('#fvKids'), fvSibs = $('#fvSibs');
   const dispName = m => {
-    const t = m.title && /المرحوم|الأستاذ|اللواء|المهندس|الدكتور|الحاج|الحاجة/.test(m.title) && m.title.length < 12 ? m.title + ' ' : '';
+    const t = m.title && /المرحوم|الأستاذ|السيد|اللواء|المهندس|الدكتور|الحاج|الحاجة/.test(m.title) && m.title.length < 12 ? m.title + ' ' : '';
     return t + m.name;
   };
   const avatar = (m, cls) => m.photo
@@ -768,7 +768,7 @@
       <p class="sub">${id ? esc(nasab(id)) : 'إلى: ' + esc(pName)}</p>
       <form class="form" autocomplete="off">
         <label class="full">الاسم الأول *<input name="name" required maxlength="60" value="${esc(m.name || '')}" placeholder="مثال: أحمد"></label>
-        <label class="full">اللقب أو الصفة<input name="title" maxlength="60" value="${esc(m.title || '')}" placeholder="مثال: المهندس، اللواء، الحاج"></label>
+        <label class="full">اللقب أو الصفة<input name="title" maxlength="60" value="${esc(m.title || '')}" placeholder="مثال: الحاج، المرحوم"></label>
         <label>الجنس<select name="gender"><option value="m" ${m.gender !== 'f' ? 'selected' : ''}>ذكر</option><option value="f" ${m.gender === 'f' ? 'selected' : ''}>أنثى</option></select></label>
         <label>مكان الإقامة<input name="place" list="placesDL" maxlength="40" value="${esc(m.place || '')}"></label>
         <label>سنة الميلاد<input name="born" inputmode="numeric" pattern="[0-9]{1,4}" maxlength="4" value="${esc(m.born || '')}" placeholder="1950"></label>
