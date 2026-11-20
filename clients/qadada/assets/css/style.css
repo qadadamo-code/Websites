@@ -1,5 +1,6 @@
 /* ===== عائلة قدادة — identity from the family seal: deep green, gold, cream, olive, bark ===== */
 :root{
+  color-scheme:light only;
   --g950:#081d10; --g900:#0d2a18; --g800:#123a22; --g700:#1a4d2e; --g600:#24623b;
   --olive:#6e7b34; --olive-l:#9aa755; --olive-d:#4c5a22;
   --gold:#c9a43c; --gold-l:#e8cd7a; --gold-d:#94761f;
@@ -329,8 +330,8 @@ strong,b{font-weight:600}
 .t-node{cursor:pointer}
 .t-node .t-medal{transition:transform .35s var(--ease)}
 .t-node:hover .t-medal,.t-node.is-sel .t-medal{transform:scale(1.12)}
-.t-name{font-family:var(--f-display);font-size:19px;font-weight:600;fill:var(--g900);text-anchor:middle;paint-order:stroke;stroke:#f7efd9;stroke-width:5px;stroke-linejoin:round}
-.t-title{font-family:var(--f-body);font-size:12.5px;fill:var(--gold-d);text-anchor:middle;paint-order:stroke;stroke:#f7efd9;stroke-width:4px}
+.t-name{font-family:var(--f-display);font-size:19px;font-weight:600;fill:var(--g900);text-anchor:middle;}
+.t-title{font-family:var(--f-body);font-size:12.5px;fill:var(--gold-d);text-anchor:middle;}
 .t-initial{font-family:var(--f-display);font-size:22px;font-weight:600;fill:var(--gold-l);text-anchor:middle;dominant-baseline:central}
 .t-leaf{transform-box:fill-box;transform-origin:0 50%;animation:sway 4.5s ease-in-out infinite alternate}
 @keyframes sway{from{transform:rotate(var(--r0))}to{transform:rotate(var(--r1))}}
