@@ -246,6 +246,15 @@ function migrate(array &$t): void {
         $i = find_index($M, 'h14');
         if ($i >= 0 && !$kidsOf('h14') && $norm($M[$i]['name']) === 'عماد') array_splice($M, $i, 1);
     }
+    if ($v < 8) {
+        // Hussein is Mustafa's brother (both sons of the common grandfather), not his son
+        $i = find_index($M, 'm18'); $j = find_index($M, 'm10');
+        if ($i >= 0 && $j >= 0 && ($M[$i]['parent'] ?? '') === 'm10') {
+            $M[$i]['parent'] = $M[$j]['parent'];
+            $h = $M[$i]; array_splice($M, $i, 1);
+            $j = find_index($M, 'm10'); array_splice($M, $j + 1, 0, [$h]);
+        }
+    }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
 }
