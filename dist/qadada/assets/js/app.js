@@ -472,6 +472,14 @@
   try { pref = localStorage.getItem(KEY); } catch (e) {}
   let on = false, fadeT = 0;
   const TARGET = .55;
+  // two oud pieces take turns: when one ends the other starts
+  const TRACKS = ['assets/audio/olive-branch.mp3', 'assets/audio/mawtini-oud.mp3'];
+  let ti = 0;
+  au.addEventListener('ended', () => {
+    ti = (ti + 1) % TRACKS.length;
+    au.src = TRACKS[ti];
+    if (on) au.play().catch(() => {});
+  });
   function fade(to, ms, done) {
     cancelAnimationFrame(fadeT);
     const from = au.volume, t0 = performance.now();
