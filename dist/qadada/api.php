@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 21;
+const DATA_VERSION = 22;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -441,6 +441,21 @@ function migrate(array &$t): void {
             $isTayseer = ($mm['parent'] ?? '') === 'm30' && $norm($mm['name']) === 'تيسير';
             if ($isTayseer) { $mm['title'] = 'الأستاذ'; continue; }
             if (preg_match('/لواء|مهندس|م\.|دكتور|د\.|عميد|عقيد|عسكري|ضابط|السيد|الأستاذ|الاستاذ|المحامي|الشيخ/u', $tt)) $mm['title'] = '';
+        }
+        unset($mm);
+    }
+    if ($v < 22) {
+        // 2026-11-20: the user wants facts only, no doubt wording anywhere
+        foreach ($M as &$mm) {
+            $mm['status'] = 'confirmed';
+            if (($mm['title'] ?? '') === 'الجد المشترك بحسب الرواية العائلية') $mm['title'] = 'الجد الجامع';
+            $n = (string)($mm['note'] ?? '');
+            if ($n === '') continue;
+            $n = str_replace(
+                ['تتفرع منه ذرية العائلة في غزة ويافا. اسم والده غير معروف حتى الآن.', 'بحسب الشهادة العائلية المنشورة في 5 ديسمبر 2025.', 'الجد المذكور في الرواية العائلية لفرع غزة.', 'لم تُستكمل ذريته بعد.', 'بحسب المعلومات العائلية، أنجب محمدًا وغالبًا.', ' موضعه في الشجرة مقترح بحسب تسلسل الاسم، وينتظر تأكيد العائلة.'],
+                ['تتفرع منه ذرية العائلة في غزة ويافا.', 'جدّ فرع يافا.', 'جدّ فرع غزة.', '', 'أنجب محمدًا وغالبًا.', ''],
+                $n);
+            $mm['note'] = trim($n);
         }
         unset($mm);
     }

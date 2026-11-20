@@ -194,8 +194,8 @@
       const t = el('text', { class: 't-initial', y: 1, style: big ? 'font-size:28px' : '' }, medal);
       t.textContent = (m.name || '؟').trim().charAt(0);
     }
-    const dash = m.status === 'narrative' ? '5 4' : m.status === 'proposed' ? '1.5 4' : '';
-    el('circle', { r: R + 7, fill: 'none', stroke: m.status === 'proposed' ? '#94761f' : '#c9a43c', 'stroke-width': 1.6, 'stroke-dasharray': dash, class: 't-ring', opacity: .9 }, medal);
+    const dash = '';
+    el('circle', { r: R + 7, fill: 'none', stroke: '#c9a43c', 'stroke-width': 1.6, 'stroke-dasharray': dash, class: 't-ring', opacity: .9 }, medal);
     if (big) {
       const star = el('path', { d: 'M0 -9 L2.6 -2.6 9 0 2.6 2.6 0 9 -2.6 2.6 -9 0 -2.6 -2.6Z', fill: 'url(#tGold)', transform: `translate(0 ${-R - 16})` }, medal);
       star.setAttribute('stroke', '#94761f');
@@ -574,7 +574,7 @@
           ${m.title && !/^(الحاج|المرحوم)$/.test(m.title) ? `<span class="fvc__title">${esc(m.title)}</span>` : ''}
           <h3 class="fvc__name">${esc(dispName(m))}</h3>
           <p class="fvc__nasab">${esc(nasab(id))}</p>
-          <div class="fvc__badges"><span>الجيل ${gen}</span>${dead ? `<span>${dead}</span>` : ''}${m.place ? `<span>${esc(m.place)}</span>` : ''}${m.status === 'proposed' ? '<span class="is-warn">موضع مقترح</span>' : m.status === 'narrative' ? '<span>رواية عائلية</span>' : ''}</div>
+          <div class="fvc__badges"><span>الجيل ${gen}</span>${dead ? `<span>${dead}</span>` : ''}${m.place ? `<span>${esc(m.place)}</span>` : ''}</div>
         </div>
       </div>
       <div class="fvc__acts">
