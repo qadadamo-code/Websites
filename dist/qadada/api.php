@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 3;
+const DATA_VERSION = 4;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -144,6 +144,53 @@ function migrate(array &$t): void {
         $patch('m12', ['note' => 'الحاج محمد مصطفى محمد قدادة، رحمه الله، مختار العائلة. أبناؤه: غطاس وسعيد وعبد.']);
         $patch('m14', ['note' => 'الحاج غطاس محمد قدادة، رحمه الله، خلف والده في المخترة، ووالد الحاج مصطفى. ويرد اسمه «غطاس محمد قدادة» في وثيقة مؤرخة عام 1953. أبناؤه: مصطفى وأحمد ومحمود وسليم وحسن وخليل.']);
         $patch('m30', ['note' => 'الحاج مصطفى غطاس قدادة، رحمه الله، مختار العائلة الكبير، خلف والده غطاس وجده محمد في المخترة.']);
+    }
+    if ($v < 4) {
+        // 2026-11-20: full sons and grandsons of Mohammed Mustafa's three branches (family tree images sent by the family)
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $kids = function (string $parent, array $names, string $prefix) use (&$M, $add, $norm) {
+            if (find_index($M, $parent) < 0) return;
+            foreach ($names as $k => $n) {
+                $dup = false;
+                foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($n)) { $dup = true; break; }
+                if (!$dup) $add(['id' => $prefix . ($k + 1), 'parent' => $parent, 'name' => $n]);
+            }
+        };
+        $childId = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        // Saeed's sons (Mohammed and Ghaleb already exist), then grandsons
+        $kids('m15', ['محمد', 'غالب', 'زهير', 'سهيل', 'سعد', 'سعدو', 'نافذ', 'ناصر', 'زكي', 'فرج'], 's');
+        $g = [
+            'غالب' => ['محمد', 'محمود', 'أحمد', 'فايز', 'كريم', 'سميح'],
+            'سهيل' => ['سامح', 'توفيق', 'منذر', 'سامي', 'بشار'],
+            'سعد'  => ['فاروق', 'سعيد'],
+            'سعدو' => ['سعيد'],
+            'نافذ' => ['أحمد', 'هشام'],
+            'ناصر' => ['نائل', 'وائل'],
+            'زكي'  => ['محمد'],
+            'فرج'  => ['محمد', 'سعيد'],
+        ];
+        $i = 0;
+        foreach ($g as $son => $names) { $i++; if ($sid = $childId('m15', $son)) $kids($sid, $names, "s{$i}x"); }
+        // Abd's grandsons
+        $g = ['عدنان' => ['عبد'], 'عادل' => ['رائد', 'محمد', 'رأفت'], 'زياد' => ['إيهاب', 'محمد'], 'عماد' => ['محمود'], 'أسامة' => ['رامي']];
+        $i = 0;
+        foreach ($g as $son => $names) { $i++; if ($sid = $childId('m13', $son)) $kids($sid, $names, "a{$i}x"); }
+        // Ghattas' grandsons
+        $g = ['أحمد' => ['جمال', 'مصطفى', 'طلال', 'حكيم', 'حسام'], 'محمود' => ['خالد', 'طارق', 'هشام'], 'سليم' => ['إبراهيم'],
+              'حسن' => ['شادي', 'محمد', 'أحمد'], 'خليل' => ['إبراهيم', 'طلعت', 'بهجت', 'بهاء', 'محمد']];
+        $i = 0;
+        foreach ($g as $son => $names) { $i++; if ($sid = $childId('m14', $son)) $kids($sid, $names, "g{$i}x"); }
+        // Mustafa Ghattas' grandsons
+        $kids('m32', ['مصطفى'], 'n32x');   // Nabil
+        $kids('m37', ['محمد'], 'n37x');    // Samir
+        $kids('m33', ['جلال', 'نضال', 'محمد', 'أحمد'], 'n33x'); // Tayseer
+        if ($tm = $childId('m33', 'محمد')) $kids($tm, ['آدم'], 'n33m');
+        $kids('m36', ['سامر', 'تامر', 'نادر', 'مصطفى'], 'n36x'); // Mohammed
+        // Helmi: Hussein has daughters only, so drop the old "no children" wording; محمد's son is سميح
+        $patch('h3', ['note' => 'حسين حلمي حسين مصطفى قدادة.']);
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
