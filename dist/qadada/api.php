@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 18;
+const DATA_VERSION = 19;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -389,6 +389,31 @@ function migrate(array &$t): void {
         if ($has = $cid('m14', 'حسن')) {
             if (($s = $cid($has, 'شادي')) && !$cid($s, 'حسن')) $add(['id' => 'g4s1', 'parent' => $s, 'name' => 'حسن']);
             if (($m = $cid($has, 'محمد')) && !$cid($m, 'كريم')) $add(['id' => 'g4d1', 'parent' => $m, 'name' => 'كريم']);
+        }
+    }
+    if ($v < 19) {
+        // 2026-11-20: Mohammed Helmi's sons' children; عماد is back between سميح and سامر
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        $kids = function (?string $parent, array $names, string $prefix) use (&$M, $add, $cid) {
+            if (!$parent) return;
+            foreach ($names as $k => $n) if (!$cid($parent, $n)) $add(['id' => $prefix . ($k + 1), 'parent' => $parent, 'name' => $n]);
+        };
+        if (find_index($M, 'h1') >= 0) {
+            if (!$cid('h1', 'عماد')) $add(['id' => 'h14', 'parent' => 'h1', 'name' => 'عماد'], $cid('h1', 'سميح'));
+            $sami = $cid('h1', 'سامي');
+            $kids($sami, ['خالد', 'محمد', 'صبحي'], 'h12x');
+            if ($sami) $kids($cid($sami, 'خالد'), ['سامي', 'زين', 'عزمي'], 'h12k');
+            $sameeh = $cid('h1', 'سميح');
+            $kids($sameeh, ['محمد', 'مصطفى', 'معتصم'], 'h13x');
+            if ($sameeh) $kids($cid($sameeh, 'مصطفى'), ['سميح'], 'h13m');
+            $kids($cid('h1', 'عماد'), ['إياد', 'محمد', 'حاتم'], 'h14x');
+            $samer = $cid('h1', 'سامر');
+            $kids($samer, ['عبدالله', 'حلمي', 'محمد'], 'h15x');
+            if ($samer) $kids($cid($samer, 'عبدالله'), ['سامر'], 'h15a');
         }
     }
     $t['members'] = $M;
