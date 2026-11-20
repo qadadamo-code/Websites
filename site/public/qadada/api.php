@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 17;
+const DATA_VERSION = 18;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -378,6 +378,18 @@ function migrate(array &$t): void {
                 $mm[$k] = $k === 'title' ? 'الحاج' : trim(preg_replace('/،?\s*[^،.]*مخت[^،.]*/u', '', $mm[$k]));
         }
         unset($mm);
+    }
+    if ($v < 18) {
+        // 2026-11-20: Hasan bin Ghattas' grandsons
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        if ($has = $cid('m14', 'حسن')) {
+            if (($s = $cid($has, 'شادي')) && !$cid($s, 'حسن')) $add(['id' => 'g4s1', 'parent' => $s, 'name' => 'حسن']);
+            if (($m = $cid($has, 'محمد')) && !$cid($m, 'كريم')) $add(['id' => 'g4d1', 'parent' => $m, 'name' => 'كريم']);
+        }
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
