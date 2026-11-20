@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 15;
+const DATA_VERSION = 16;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -350,6 +350,23 @@ function migrate(array &$t): void {
         // 2026-11-20: Hussein Helmi's photo; the elders shown with photos carry «الحاج»
         $patch('h3', ['photo' => 'assets/img/hussein-helmi.webp']);
         foreach (['h1', 'h2', 'h3'] as $id) { $i = find_index($M, $id); if ($i >= 0 && empty($M[$i]['title'])) $M[$i]['title'] = 'الحاج'; }
+    }
+    if ($v < 16) {
+        // 2026-11-20: Ahmad bin Mohammed Helmi's sons and grandsons
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        $kids = function (?string $parent, array $names, string $prefix) use (&$M, $add, $cid) {
+            if (!$parent) return;
+            foreach ($names as $k => $n) if (!$cid($parent, $n)) $add(['id' => $prefix . ($k + 1), 'parent' => $parent, 'name' => $n]);
+        };
+        if ($ah = $cid('h1', 'أحمد')) {
+            $kids($ah, ['محمد', 'محمود', 'مهند', 'مؤيد', 'أنس'], 'h11x');
+            $kids($cid($ah, 'محمد'), ['أحمد', 'حمزة'], 'h11m');
+            $kids($cid($ah, 'محمود'), ['مهند', 'هاشم'], 'h11d');
+        }
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
