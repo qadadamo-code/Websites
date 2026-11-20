@@ -202,9 +202,6 @@
       const end = +b.dataset.count, pre = b.dataset.prefix || '', o = { v: 0 };
       gsap.to(o, { v: end, duration: 2, ease: 'power2.out', scrollTrigger: { trigger: b, start: 'top 90%' }, onUpdate: () => (b.textContent = pre + Math.round(o.v)) });
     });
-    gsap.to('.mk__link path', { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut', scrollTrigger: { trigger: '.mk', start: 'top 60%' } });
-    gsap.from('.sons__list li', { opacity: 0, y: 30, duration: .8, stagger: .08, ease: 'power3.out', scrollTrigger: { trigger: '.sons__list', start: 'top 85%' } });
-    gsap.from('.mk__frame img', { scale: 1.3, duration: 1.8, ease: 'power3.out', scrollTrigger: { trigger: '.mk', start: 'top 75%' } });
     // genealogy chain grows link by link
     const items = $$('.chain__list li');
     gsap.set(items, { opacity: 0, y: -14 });
