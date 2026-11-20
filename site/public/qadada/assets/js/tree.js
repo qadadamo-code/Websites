@@ -10,9 +10,9 @@
 
   const LEVEL = 172, SLOT = 128, GROUND = 250;
   const STATUS = { confirmed: 'مؤكَّد من العائلة', documented: 'موثَّق بمصدر', narrative: 'رواية عائلية', proposed: 'موضعٌ مقترح' };
-  const PLACES = ['غزة', 'يافا', 'القاهرة', 'كفر الشيخ', 'عمّان', 'الخبر', 'تركيا', 'بلغاريا', 'نيوجيرسي', 'جرين باي', 'تورنتو'];
+  const PLACES = ['غزة', 'يافا', 'القاهرة', 'كفر الشيخ', 'عمّان', 'الخبر', 'تركيا', 'بلغاريا', 'روسيا', 'بلجيكا', 'إيرلندا', 'السويد', 'إسبانيا', 'جرين باي', 'تورنتو'];
 
-  const state = { members: [], byId: new Map(), kids: new Map(), admin: false, user: null, setup: false, csrf: '', pending: 0, collapsed: new Set(), sel: null, view: 'tree', fv: null };
+  const state = { members: [], byId: new Map(), kids: new Map(), admin: false, user: null, setup: false, csrf: '', pending: 0, collapsed: new Set(), sel: null, view: 'vt', fv: null, path: [] };
   let rootId = null;
 
   const el = (tag, attrs = {}, parent) => {
@@ -492,7 +492,7 @@
     if (m.branch) facts.push(['الفرع', m.branch]);
     if (m.born) facts.push(['سنة الميلاد', m.born]);
     if (m.died) facts.push(['سنة الوفاة', m.died]);
-    facts.push(['الجيل', String((to.get(id) || cur.get(id) || { d: 0 }).d + 1)]);
+    facts.push(['الجيل', String(genOf(id))]);
     if (kids.length) facts.push(['الأبناء', String(kids.length)]);
     tpBody.innerHTML = `
       <div class="tp__hero">
@@ -518,7 +518,7 @@
       </div>`;
     tp.classList.add('is-open'); tp.setAttribute('aria-hidden', 'false');
     kick();
-    if (state.view !== 'family') focus(id);
+    if (state.view === 'tree') focus(id);
   }
   function closePanel() { tp.classList.remove('is-open'); tp.setAttribute('aria-hidden', 'true'); state.sel = null; kick(); }
   $('#tpClose').addEventListener('click', closePanel);
@@ -532,6 +532,7 @@
   });
   function reveal(id) {
     if (state.view === 'family') { if (tp.classList.contains('is-open')) closePanel(); fvGo(id); return; }
+    if (state.view === 'vt') { vtReveal(id); select(id); return; }
     // open collapsed ancestors so the node becomes visible
     let p = state.byId.get(id)?.parent, changed = false;
     while (p) { if (state.collapsed.delete(p)) changed = true; p = state.byId.get(p)?.parent; }
@@ -619,10 +620,108 @@
     state.view = v;
     ft.classList.toggle('ft--family', v === 'family');
     document.querySelectorAll('[data-view]').forEach(b => b.classList.toggle('is-on', b.dataset.view === v));
+    ft.classList.toggle('ft--vt', v === 'vt');
+    ft.classList.toggle('ft--tree', v === 'tree');
     if (v === 'family') fvRender(1);
-    else { requestAnimationFrame(() => { initialView(); applyCam(); kick(); if (!started) { started = true; if (!reduced) { growing = true; growStart = performance.now(); } kick(); } }); }
+    else if (v === 'vt') vtRender();
+    else { ensureSvg(); requestAnimationFrame(() => { initialView(); applyCam(); kick(); if (!started) { started = true; if (!reduced) { growing = true; growStart = performance.now(); } kick(); } }); }
   }
   document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+
+  /* ---------------- Vertical tree (top to bottom, tap a name to open his sons) ---------------- */
+  let svgReady = false;
+  function ensureSvg() {
+    if (svgReady) return;
+    svgReady = true;
+    buildGround(); defaultCollapse(); relayout(false); initialView(); applyCam(); render();
+  }
+  function genOf(id) { let g = 0; for (let a = state.byId.get(id); a && g < 80; a = state.byId.get(a.parent)) g++; return g; }
+  const vt = $('#vt'), vtList = $('#vtList');
+  const kidsWord = n => n === 1 ? 'ابن واحد' : n === 2 ? 'ابنان' : n <= 10 ? `${n} أبناء` : `${n} ابنًا`;
+  // the open line: root, then one opened son per generation; every generation is a full-width band
+  function vtDefaultOpen() {
+    state.path = [];
+    if (!rootId) return;
+    const f = state.byId.has('m30') ? 'm30' : rootId;
+    for (let a = state.byId.get(f); a; a = state.byId.get(a.parent)) state.path.unshift(a.id);
+  }
+  function vtChip(id, on) {
+    const m = state.byId.get(id);
+    const kids = state.kids.get(id) || [];
+    const all = kids.length ? descCount(id) : 0;
+    const t = m.title && m.title.length < 16 ? m.title : '';
+    const ph = m.photo
+      ? `<span class="vc__ph"><img src="${esc(m.photo)}" alt="" loading="lazy" decoding="async" width="60" height="60"></span>`
+      : `<span class="vc__ph vc__ph--i${m.gender === 'f' ? ' is-f' : ''}">${esc((m.name || '؟').trim().charAt(0))}</span>`;
+    const prev = kids.slice(0, 6).map(k => state.byId.get(k).name).join('، ') + (kids.length > 6 ? '…' : '');
+    return `<div class="vc${on ? ' is-on' : ''}${m.photo ? ' has-ph' : ''}${m.featured ? ' is-feat' : ''}">
+      <button class="vc__b" data-vt="${id}" ${kids.length ? `aria-expanded="${on ? 'true' : 'false'}"` : ''}>
+        ${ph}
+        <span class="vc__t">${t ? `<small>${esc(t)}</small>` : ''}<b>${esc(m.name)}</b>
+          <em>${kids.length ? `${kidsWord(kids.length)}${all > kids.length ? ` · ${all} من الذرية` : ''}` : 'اضغط للتفاصيل'}</em>
+          ${kids.length ? `<span class="vc__k">${esc(prev)}</span>` : ''}</span>
+        ${kids.length ? `<i class="vc__chev" aria-hidden="true"></i>` : ''}
+      </button>
+      <button class="vc__i" data-vti="${id}" aria-label="تفاصيل ${esc(m.name)}">i</button>
+    </div>`;
+  }
+  function vtBand(parentId, g, anim) {
+    const kids = state.kids.get(parentId) || [];
+    const p = state.byId.get(parentId);
+    const sel = state.path[g];
+    return `<section class="vb${anim ? ' is-new' : ''}" data-g="${g}">
+      <h4 class="vb__h"><span>الجيل ${g + 1}</span>أبناء ${esc(dispName(p))} <em>${kids.length}</em></h4>
+      <div class="vb__grid${kids.length === 1 ? ' is-one' : ''}">${kids.map((k, j) => `<div class="vb__c" style="--i:${j}">${vtChip(k, k === sel)}</div>`).join('')}</div>
+    </section>`;
+  }
+  function vtRender(fromG) {
+    if (!vtList || !rootId) return;
+    if (!state.path || !state.path.length || state.path[0] !== rootId) state.path = [rootId];
+    // drop anything in the path that no longer exists after an edit
+    for (let g = 1; g < state.path.length; g++) if (state.byId.get(state.path[g])?.parent !== state.path[g - 1]) { state.path.length = g; break; }
+    let h = `<section class="vb vb--root" data-g="0"><div class="vb__grid is-one"><div class="vb__c">${vtChip(rootId, true)}</div></div></section>`;
+    state.path.forEach((id, g) => { if ((state.kids.get(id) || []).length) h += vtBand(id, g + 1, fromG !== undefined && g + 1 > fromG); });
+    vtList.innerHTML = h;
+  }
+  function scrollToEl(el, frac) {
+    const y = scrollY + el.getBoundingClientRect().top - innerHeight * frac;
+    window.QLenis ? window.QLenis.scrollTo(y, { duration: .9 }) : scrollTo({ top: y, behavior: 'smooth' });
+  }
+  function vtToggle(id) {
+    const m = state.byId.get(id);
+    if (!m) return;
+    const kids = state.kids.get(id) || [];
+    const g = genOf(id) - 1;              // index of this person in the path
+    if (!kids.length) { select(id); return; }
+    if (state.path[g] === id) {           // already open: fold its descendants
+      if (g === 0) return;
+      state.path.length = g;
+      vtRender();
+      return;
+    }
+    state.path.length = g; state.path.push(id);
+    vtRender(g);
+    const band = vtList.querySelector(`.vb[data-g="${g + 1}"]`);
+    if (band) scrollToEl(band, .22);
+  }
+  function vtReveal(id) {
+    const chain = [];
+    for (let a = state.byId.get(id); a; a = state.byId.get(a.parent)) chain.unshift(a.id);
+    if (!(state.kids.get(id) || []).length) chain.pop();
+    state.path = chain;
+    vtRender();
+    const b = vtList.querySelector(`[data-vt="${id}"]`);
+    if (!b) return;
+    const c = b.parentElement;
+    c.classList.remove('is-flash'); void c.offsetWidth; c.classList.add('is-flash');
+    scrollToEl(c, .3);
+  }
+  vt && vt.addEventListener('click', e => {
+    const info = e.target.closest('[data-vti]');
+    if (info) { select(info.dataset.vti); return; }
+    const c = e.target.closest('[data-vt]');
+    if (c) vtToggle(c.dataset.vt);
+  });
 
   /* ---------------- Modals & forms ---------------- */
   const modal = $('#modal'), modalBody = $('#modalBody');
@@ -899,10 +998,9 @@
   async function refresh() {
     const keepSel = state.sel;
     await load();
-    clearAll();
-    from = new Map(); cur = new Map();
-    relayout(false);
+    if (svgReady) { clearAll(); from = new Map(); cur = new Map(); relayout(false); }
     if (state.view === 'family') fvRender();
+    if (state.view === 'vt') vtRender();
     if (keepSel && state.byId.has(keepSel) && tp.classList.contains('is-open')) select(keepSel);
   }
 
@@ -963,16 +1061,12 @@
   let growing = false, growStart = 0, started = false;
   window.QTree = { suggest: () => suggestForm(state.sel || rootId) };
   (async () => {
-    buildGround();
     await load();
-    defaultCollapse();
-    relayout(false);
-    if (innerWidth < 760) setView('family');
-    initialView();
-    applyCam(); render();
+    vtDefaultOpen();
+    setView('vt');
     new IntersectionObserver(es => {
       stageVisible = es[0].isIntersecting;
-      if (stageVisible && !started && state.view === 'tree') {
+      if (stageVisible && !started && svgReady && state.view === 'tree') {
         started = true;
         if (!reduced) { growing = true; growStart = performance.now(); }
         kick();

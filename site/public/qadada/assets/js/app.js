@@ -260,7 +260,11 @@
     { id: 'khobar', name: 'الخبر', country: 'السعودية', code: 'SA', lon: 50.2083, lat: 26.2172, stage: 1 },
     { id: 'tr', name: 'تركيا', country: '', code: 'TR', lon: 32.85, lat: 39.93, stage: 2 },
     { id: 'bg', name: 'بلغاريا', country: '', code: 'BG', lon: 25.48, lat: 42.73, stage: 2 },
-    { id: 'nj', name: 'نيوجيرسي', country: 'الولايات المتحدة', code: 'US', lon: -74.41, lat: 40.06, stage: 3 },
+    { id: 'ru', name: 'روسيا', country: '', sub: 'الاتحاد الروسي', code: 'RU', lon: 37.62, lat: 55.75, stage: 2 },
+    { id: 'se', name: 'السويد', country: '', sub: 'مملكة السويد', code: 'SE', lon: 18.07, lat: 59.33, stage: 2 },
+    { id: 'ie', name: 'إيرلندا', country: '', sub: 'جمهورية إيرلندا', code: 'IE', lon: -6.26, lat: 53.35, stage: 2 },
+    { id: 'be', name: 'بلجيكا', country: '', sub: 'مملكة بلجيكا', code: 'BE', lon: 4.35, lat: 50.85, stage: 2 },
+    { id: 'es', name: 'إسبانيا', country: '', sub: 'مملكة إسبانيا', code: 'ES', lon: -3.70, lat: 40.42, stage: 2 },
     { id: 'gb', name: 'جرين باي', country: 'ويسكونسن · الولايات المتحدة', code: 'US', lon: -88.0198, lat: 44.5192, stage: 3 },
     { id: 'to', name: 'تورنتو', country: 'كندا', code: 'CA', lon: -79.3832, lat: 43.6532, stage: 3 }
   ];
@@ -269,7 +273,7 @@
     CITIES.forEach(c => {
       const li = document.createElement('li');
       if (c.origin) li.className = 'is-origin';
-      li.innerHTML = `<span class="flag">${c.code}</span><div><b>${c.name}</b><small>${c.country || (c.code === 'TR' ? 'الجمهورية التركية' : 'جمهورية بلغاريا')}</small></div>`;
+      li.innerHTML = `<span class="flag">${c.code}</span><div><b>${c.name}</b><small>${c.sub || c.country || (c.code === 'TR' ? 'الجمهورية التركية' : 'جمهورية بلغاريا')}</small></div>`;
       ul.appendChild(li);
     });
   }
@@ -292,8 +296,8 @@
     const cityM = CITIES.map(c => ({ ...c, m: merc(c.lon, c.lat) }));
     const origin = cityM[0];
     // camera keyframes: [lon, lat, visible longitude span]
-    const CAMS = [[34.6, 31.75, 3.2], [38.5, 30.2, 30], [33, 35.5, 44], [-19, 38, 150]];
-    const CAMS_M = [[34.6, 31.75, 2.6], [40, 29.5, 29], [33, 36, 30], [-19, 40, 150]];
+    const CAMS = [[34.6, 31.75, 3.2], [38.5, 30.2, 30], [16, 47, 62], [-19, 40, 150]];
+    const CAMS_M = [[34.6, 31.75, 2.6], [40, 29.5, 29], [17, 46, 54], [-19, 42, 150]];
     const labels = cityM.map(c => {
       const d = document.createElement('div');
       d.className = 'mlabel' + (c.origin ? ' mlabel--origin' : '');
@@ -408,7 +412,7 @@
           ctx.beginPath(); ctx.arc(q[0], q[1], 2.2, 0, Math.PI * 2); ctx.fill();
           const pr = (now / 1800 + i * .3) % 1;
           ctx.strokeStyle = `rgba(232,205,122,${1 - pr})`; ctx.lineWidth = 1.2;
-          ctx.beginPath(); ctx.arc(p[0], p[1], 4 + pr * 14, 0, Math.PI * 2); ctx.stroke();
+          ctx.beginPath(); ctx.arc(p[0], p[1], 4 + pr * 10, 0, Math.PI * 2); ctx.stroke();
           ctx.fillStyle = '#f3dd95';
           ctx.beginPath(); ctx.arc(p[0], p[1], 4, 0, Math.PI * 2); ctx.fill();
         }
@@ -416,11 +420,11 @@
       // origin
       for (let r = 0; r < 3; r++) {
         const pr = ((now / 2200) + r / 3) % 1;
-        ctx.strokeStyle = `rgba(200,16,46,${.9 * (1 - pr)})`; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.arc(o[0], o[1], 6 + pr * 34, 0, Math.PI * 2); ctx.stroke();
+        ctx.strokeStyle = `rgba(200,16,46,${.95 * (1 - pr)})`; ctx.lineWidth = 2.6;
+        ctx.beginPath(); ctx.arc(o[0], o[1], 8 + pr * 54, 0, Math.PI * 2); ctx.stroke();
       }
-      ctx.fillStyle = '#f3dd95'; ctx.beginPath(); ctx.arc(o[0], o[1], 7, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#c8102e'; ctx.beginPath(); ctx.arc(o[0], o[1], 3.5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#f3dd95'; ctx.beginPath(); ctx.arc(o[0], o[1], 9, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#c8102e'; ctx.beginPath(); ctx.arc(o[0], o[1], 4.5, 0, Math.PI * 2); ctx.fill();
       // labels
       cityM.forEach((c, i) => {
         const p = c.origin ? o : c._p;

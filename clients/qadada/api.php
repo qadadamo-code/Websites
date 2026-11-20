@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 14;
+const DATA_VERSION = 15;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -345,6 +345,11 @@ function migrate(array &$t): void {
             return null;
         };
         if (($a = $cid('m30', 'أمين')) && !$cid($a, 'تامر')) $add(['id' => 'n30a1', 'parent' => $a, 'name' => 'تامر']);
+    }
+    if ($v < 15) {
+        // 2026-11-20: Hussein Helmi's photo; the elders shown with photos carry «الحاج»
+        $patch('h3', ['photo' => 'assets/img/hussein-helmi.webp']);
+        foreach (['h1', 'h2', 'h3'] as $id) { $i = find_index($M, $id); if ($i >= 0 && empty($M[$i]['title'])) $M[$i]['title'] = 'الحاج'; }
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
