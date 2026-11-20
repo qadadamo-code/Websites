@@ -109,7 +109,9 @@
     }
     const leafColors = ['#6e7b34', '#8a9a45', '#4c5a22', '#a3ad62', '#5d6b2a', '#7d8b3a'];
     function leafCluster(x, y, ang, n) {
-      const g = el('g', {}, leafG);
+      // leaves grow per cluster with a CSS animation (thousands of per-leaf tweens froze phones)
+      const g = el('g', { class: 'ht-cl', style: `--d:${(1.9 + rnd() * 1.6).toFixed(2)}s` }, leafG);
+      if (innerWidth < 760) n = Math.ceil(n * .55);
       for (let i = 0; i < n; i++) {
         const a = ang + rr(-1.6, 1.6), len = rr(16, 26);
         const lx = x + rr(-14, 14), ly = y + rr(-12, 12);
@@ -119,11 +121,10 @@
           transform: `translate(${lx.toFixed(1)} ${ly.toFixed(1)}) rotate(${(a * 180 / Math.PI).toFixed(0)})`,
           class: 'ht-leaf'
         }, g);
-        groups.leaves.push(L);
       }
       if (rnd() < .45) {
         const o = el('ellipse', { cx: x + rr(-8, 8), cy: y + rr(-4, 8), rx: 4.2, ry: 5.6, fill: rnd() < .5 ? '#8f9b38' : '#3f4a17' }, g);
-        groups.leaves.push(o);
+        void o;
       }
     }
     function branch(x, y, ang, len, w, d) {
@@ -153,24 +154,24 @@
     const title = $$('.hero__line');
     if (reduced || !hasGsap) {
       groups.pin.setAttribute('opacity', 1);
+      tree.classList.add('is-static');
       return;
     }
     const all = [...groups.trunk, ...groups.branches.flat(), ...groups.roots, groups.gold];
     all.forEach(p => { p.style.strokeDasharray = 1; p.style.strokeDashoffset = 1; });
-    gsap.set(groups.leaves, { scale: 0, transformOrigin: '0% 50%' });
     gsap.set('.hero__eyebrow, .hero__motto, .hero__lead, .hero__actions, .hero__scroll', { opacity: 0, y: 24 });
     gsap.set(title, { yPercent: 110 });
     const tl = gsap.timeline({ delay: .2 });
     tl.to(groups.roots, { strokeDashoffset: 0, duration: 1.4, stagger: .01, ease: 'power2.out' }, 0)
       .to(groups.trunk, { strokeDashoffset: 0, duration: 1.3, stagger: .12, ease: 'power2.inOut' }, .2);
     groups.branches.forEach((lvl, i) => lvl && tl.to(lvl, { strokeDashoffset: 0, duration: .7, stagger: { amount: .25 }, ease: 'power1.out' }, 1.1 + i * .32));
-    tl.to(groups.leaves, { scale: 1, duration: .6, ease: 'back.out(2.4)', stagger: { amount: 1.6, from: 'random' } }, 1.9)
-      .to(groups.gold, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' }, 2.4)
+    tree.classList.add('is-grow');
+    tl.to(groups.gold, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' }, 2.4)
       .to(groups.pin, { attr: { opacity: 1 }, duration: .6 }, 3.3)
       .to(title, { yPercent: 0, duration: 1.1, stagger: .14, ease: 'power4.out' }, .5)
       .to('.hero__eyebrow, .hero__motto, .hero__lead, .hero__actions, .hero__scroll', { opacity: 1, y: 0, duration: .9, stagger: .1, ease: 'power3.out' }, .9);
     // gentle breathing of the canopy
-    gsap.to(groups.canopy, { rotation: .9, svgOrigin: '500 820', duration: 4.5, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 3 });
+    if (innerWidth >= 1024) gsap.to(groups.canopy, { rotation: .9, svgOrigin: '500 820', duration: 4.5, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 4 });
     // scroll: tree rises, content drifts
     gsap.to('#heroTree', { yPercent: -8, scale: 1.06, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
     gsap.to('.hero__content', { y: -80, opacity: .1, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'center center', end: 'bottom top', scrub: true } });
@@ -456,10 +457,8 @@
   buildHeroTree();
   buildGazaMini();
   buildCityList();
-  const ready = () => setTimeout(hideLoader, reduced ? 0 : 1500);
-  if (document.readyState === 'complete') ready(); else addEventListener('load', ready);
-  // safety: never leave the loader up
-  setTimeout(() => $('#loader') && !$('#loader').classList.contains('is-done') && hideLoader(), 6000);
+  // show the page as soon as the HTML and scripts are ready; images and fonts keep loading behind it
+  setTimeout(hideLoader, reduced ? 0 : 450);
 })();
 
 /* ---------------- Background music (oud theme) ----------------
