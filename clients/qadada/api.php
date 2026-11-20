@@ -226,6 +226,26 @@ function migrate(array &$t): void {
         if ($saado) $delLeaf($cid($saado, 'سعيد'));
         if ($saad) $delLeaf($cid($saad, 'سعيد'));
     }
+    if ($v < 7) {
+        // Hussein bin Mustafa has one son, Helmi; Helmi's sons are Hussein, Mohammed, Ibrahim (in that order)
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $kidsOf = function (string $parent) use (&$M) { $o = []; foreach ($M as $x) if (($x['parent'] ?? '') === $parent) $o[] = $x['id']; return $o; };
+        $toEnd = function (string $id, string $parent) use (&$M) {
+            $i = find_index($M, $id); if ($i < 0) return;
+            $m = $M[$i]; array_splice($M, $i, 1); $m['parent'] = $parent; $M[] = $m;
+        };
+        $map = ['m19' => 'h3', 'm20' => 'h1', 'm21' => 'h2'];  // old wrong entries under Hussein -> Helmi's real sons
+        foreach ($map as $old => $new) {
+            if (find_index($M, $old) < 0) continue;
+            if (find_index($M, $new) >= 0) foreach ($kidsOf($old) as $k) $toEnd($k, $new);
+            if (!$kidsOf($old)) { $i = find_index($M, $old); array_splice($M, $i, 1); }
+        }
+        foreach (['h3', 'h1', 'h2'] as $id) $toEnd($id, 'm22');
+        foreach (['h11', 'h12', 'h13', 'h15', 'h21', 'h22'] as $id) { $i = find_index($M, $id); if ($i >= 0) { $p = $M[$i]['parent']; $toEnd($id, $p); } }
+        // Mohammed Helmi's sons per the family's tree image: Ahmad, Sami, Sameeh, Samer
+        $i = find_index($M, 'h14');
+        if ($i >= 0 && !$kidsOf('h14') && $norm($M[$i]['name']) === 'عماد') array_splice($M, $i, 1);
+    }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
 }
