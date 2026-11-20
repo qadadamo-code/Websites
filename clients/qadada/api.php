@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 11;
+const DATA_VERSION = 12;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -308,6 +308,23 @@ function migrate(array &$t): void {
             $a = $kidsOf($mah); $b = $kidsOf($sal);
             foreach ($a as $id) $reparent($id, $sal);
             foreach ($b as $id) $reparent($id, $mah);
+        }
+    }
+    if ($v < 12) {
+        // 2026-11-20: Khalil bin Ghattas' grandsons
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        if ($kh = $cid('m14', 'خليل')) {
+            $g = ['إبراهيم' => ['محمد', 'أحمد', 'عمر'], 'طلعت' => ['خميس'], 'بهجت' => ['خليل', 'يزن', 'كنان'], 'بهاء' => ['شيراز', 'تيم']];
+            $i = 0;
+            foreach ($g as $son => $names) {
+                $i++;
+                if (!($sid = $cid($kh, $son))) continue;
+                foreach ($names as $k => $n) if (!$cid($sid, $n)) $add(['id' => "k{$i}x" . ($k + 1), 'parent' => $sid, 'name' => $n]);
+            }
         }
     }
     $t['members'] = $M;
