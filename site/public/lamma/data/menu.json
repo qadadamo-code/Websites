@@ -1,0 +1,1760 @@
+{
+ "settings": {
+  "name": "لمّة",
+  "whatsapp": "201203101104",
+  "phone": "01203101104",
+  "area": "التجمع الأول، القاهرة الجديدة",
+  "hours": "كل يوم من 12 الضهر لـ 11 بالليل",
+  "announce": "توصيل في التجمع الأول وحواليه · العزايم الكبيرة اطلبها قبلها بيوم",
+  "deliveryNote": "مصاريف التوصيل بتتحدد حسب منطقتك وبنقولك عليها في الواتساب",
+  "minOrder": 0,
+  "facebook": "#",
+  "instagram": "#"
+ },
+ "cats": [
+  {
+   "id": "soup",
+   "name": "الشوربة",
+   "img": "soup",
+   "note": "كل طبق يكفي فرد"
+  },
+  {
+   "id": "mahshi",
+   "name": "المحاشي",
+   "img": "mahshi",
+   "note": "ملفوفة بإيد ستات البيت"
+  },
+  {
+   "id": "veg",
+   "name": "الخضار",
+   "img": "peas",
+   "note": "سادة أو باللحمة · الخضار في طاجن زيادة 50 جنيه"
+  },
+  {
+   "id": "trays",
+   "name": "الصواني",
+   "img": "bechamel",
+   "note": "صواني فرن بتكفي العيلة"
+  },
+  {
+   "id": "apps",
+   "name": "المقبلات",
+   "img": "apps",
+   "note": "حجم كبير"
+  },
+  {
+   "id": "meat",
+   "name": "اللحوم",
+   "img": "grill",
+   "note": "بالكيلو"
+  },
+  {
+   "id": "chicken",
+   "name": "الفراخ والطيور",
+   "img": "chicken",
+   "note": "فراخ وحمام وبط وديوك"
+  },
+  {
+   "id": "tagine",
+   "name": "الطواجن",
+   "img": "okra",
+   "note": "في طاجن فخار من الفرن على طول"
+  },
+  {
+   "id": "rice",
+   "name": "الأرز",
+   "img": "rice",
+   "note": "بالكيلو"
+  },
+  {
+   "id": "pasta",
+   "name": "المكرونات",
+   "img": "pasta",
+   "note": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "soup-1",
+   "cat": "soup",
+   "name": "شوربة لسان عصفور",
+   "desc": "",
+   "img": "soup",
+   "variants": [
+    {
+     "label": "طبق فرد",
+     "price": 55
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "soup-2",
+   "cat": "soup",
+   "name": "شوربة مشروم",
+   "desc": "كريمي وتقيل",
+   "img": "soup",
+   "variants": [
+    {
+     "label": "طبق فرد",
+     "price": 110
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "soup-3",
+   "cat": "soup",
+   "name": "ملوخية",
+   "desc": "بالتقلية والطشة",
+   "img": "soup",
+   "variants": [
+    {
+     "label": "طبق فرد",
+     "price": 60
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "soup-4",
+   "cat": "soup",
+   "name": "شوربة كوارع",
+   "desc": "زي ما بتتعمل في البيت",
+   "img": "soup",
+   "variants": [
+    {
+     "label": "طبق فرد",
+     "price": 125
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "soup-5",
+   "cat": "soup",
+   "name": "شوربة خضار",
+   "desc": "",
+   "img": "soup",
+   "variants": [
+    {
+     "label": "طبق فرد",
+     "price": 70
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "soup-6",
+   "cat": "soup",
+   "name": "شوربة عدس",
+   "desc": "بالليمون والعيش المحمص",
+   "img": "soup",
+   "variants": [
+    {
+     "label": "طبق فرد",
+     "price": 70
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "mahshi-7",
+   "cat": "mahshi",
+   "name": "محشي مشكل",
+   "desc": "كوسة وفلفل وباذنجان",
+   "img": "mahshi",
+   "variants": [
+    {
+     "label": "الطلب",
+     "price": 220
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": "الأكثر طلبًا"
+  },
+  {
+   "id": "mahshi-8",
+   "cat": "mahshi",
+   "name": "محشي ورق عنب",
+   "desc": "بالليمون ودبس الرمان",
+   "img": "warak",
+   "variants": [
+    {
+     "label": "الطلب",
+     "price": 250
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "mahshi-9",
+   "cat": "mahshi",
+   "name": "محشي كرنب",
+   "desc": "",
+   "img": "mahshi",
+   "variants": [
+    {
+     "label": "الطلب",
+     "price": 220
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "mahshi-10",
+   "cat": "mahshi",
+   "name": "ممبار",
+   "desc": "",
+   "img": "mombar",
+   "variants": [
+    {
+     "label": "الطلب",
+     "price": 420
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "mahshi-11",
+   "cat": "mahshi",
+   "name": "ممبار بوبس",
+   "desc": "",
+   "img": "mombar",
+   "variants": [
+    {
+     "label": "الطلب",
+     "price": 480
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "mahshi-12",
+   "cat": "mahshi",
+   "name": "بطاطس محشية لحمة مفرومة",
+   "desc": "",
+   "img": "mahshi",
+   "variants": [
+    {
+     "label": "تكفي 6 أفراد",
+     "price": 500
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "veg-13",
+   "cat": "veg",
+   "name": "بسلة",
+   "desc": "",
+   "img": "peas",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 250
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 350
+    },
+    {
+     "label": "نص كيلو باللحمة",
+     "price": 500
+    },
+    {
+     "label": "كيلو باللحمة",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "veg-14",
+   "cat": "veg",
+   "name": "كوسة",
+   "desc": "",
+   "img": "peas",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 250
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 350
+    },
+    {
+     "label": "نص كيلو باللحمة",
+     "price": 500
+    },
+    {
+     "label": "كيلو باللحمة",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "veg-15",
+   "cat": "veg",
+   "name": "تورلي",
+   "desc": "",
+   "img": "peas",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 250
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 350
+    },
+    {
+     "label": "نص كيلو باللحمة",
+     "price": 500
+    },
+    {
+     "label": "كيلو باللحمة",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "veg-16",
+   "cat": "veg",
+   "name": "قلقاس",
+   "desc": "",
+   "img": "peas",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 250
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 350
+    },
+    {
+     "label": "نص كيلو باللحمة",
+     "price": 500
+    },
+    {
+     "label": "كيلو باللحمة",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "veg-17",
+   "cat": "veg",
+   "name": "بامية",
+   "desc": "",
+   "img": "okra",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 250
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 350
+    },
+    {
+     "label": "نص كيلو باللحمة",
+     "price": 500
+    },
+    {
+     "label": "كيلو باللحمة",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "veg-18",
+   "cat": "veg",
+   "name": "بطاطس",
+   "desc": "",
+   "img": "peas",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 250
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 350
+    },
+    {
+     "label": "نص كيلو باللحمة",
+     "price": 500
+    },
+    {
+     "label": "كيلو باللحمة",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-19",
+   "cat": "trays",
+   "name": "مكرونة بشاميل",
+   "desc": "",
+   "img": "bechamel",
+   "variants": [
+    {
+     "label": "وسط · 5 أفراد",
+     "price": 420
+    },
+    {
+     "label": "كبير · 10 أفراد",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": "الأكثر طلبًا"
+  },
+  {
+   "id": "trays-20",
+   "cat": "trays",
+   "name": "لازانيا سبانخ وجبن",
+   "desc": "",
+   "img": "bechamel",
+   "variants": [
+    {
+     "label": "وسط · 5 أفراد",
+     "price": 390
+    },
+    {
+     "label": "كبير · 10 أفراد",
+     "price": 720
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-21",
+   "cat": "trays",
+   "name": "لازانيا فراخ وجبن",
+   "desc": "",
+   "img": "bechamel",
+   "variants": [
+    {
+     "label": "وسط · 5 أفراد",
+     "price": 450
+    },
+    {
+     "label": "كبير · 10 أفراد",
+     "price": 800
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-22",
+   "cat": "trays",
+   "name": "بطاطس كبيرة بفرخة كاملة",
+   "desc": "",
+   "img": "bechamel",
+   "variants": [
+    {
+     "label": "الصينية",
+     "price": 650
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-23",
+   "cat": "trays",
+   "name": "كوسة بشاميل",
+   "desc": "",
+   "img": "bechamel",
+   "variants": [
+    {
+     "label": "وسط · 5 أفراد",
+     "price": 420
+    },
+    {
+     "label": "كبير · 10 أفراد",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-24",
+   "cat": "trays",
+   "name": "لازانيا لحمة",
+   "desc": "",
+   "img": "bechamel",
+   "variants": [
+    {
+     "label": "وسط · 5 أفراد",
+     "price": 450
+    },
+    {
+     "label": "كبير · 10 أفراد",
+     "price": 800
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-25",
+   "cat": "trays",
+   "name": "مسقعة باللحمة المفرومة",
+   "desc": "",
+   "img": "bechamel",
+   "variants": [
+    {
+     "label": "وسط · 5 أفراد",
+     "price": 420
+    },
+    {
+     "label": "كبير · 10 أفراد",
+     "price": 650
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-26",
+   "cat": "trays",
+   "name": "مسقعة سادة",
+   "desc": "",
+   "img": "bechamel",
+   "variants": [
+    {
+     "label": "وسط · 5 أفراد",
+     "price": 300
+    },
+    {
+     "label": "كبير · 10 أفراد",
+     "price": 450
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-27",
+   "cat": "trays",
+   "name": "جلاش لحمة",
+   "desc": "",
+   "img": "golash",
+   "variants": [
+    {
+     "label": "الصينية",
+     "price": 450
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-28",
+   "cat": "trays",
+   "name": "رقاق لحمة",
+   "desc": "",
+   "img": "golash",
+   "variants": [
+    {
+     "label": "الصينية",
+     "price": 520
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-29",
+   "cat": "trays",
+   "name": "جلاش فراخ وجبن وفلفل ألوان",
+   "desc": "",
+   "img": "golash",
+   "variants": [
+    {
+     "label": "الصينية",
+     "price": 450
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-30",
+   "cat": "trays",
+   "name": "جلاش جبن ميكس",
+   "desc": "جبن وشيدر وموتزاريلا ورومي وفلفل وزيتون",
+   "img": "golash",
+   "variants": [
+    {
+     "label": "الصينية",
+     "price": 400
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "trays-31",
+   "cat": "trays",
+   "name": "نيجرسكو فراخ وجبن",
+   "desc": "",
+   "img": "pasta",
+   "variants": [
+    {
+     "label": "وسط · 5 أفراد",
+     "price": 420
+    },
+    {
+     "label": "كبير · 10 أفراد",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "apps-32",
+   "cat": "apps",
+   "name": "سلطة خضراء",
+   "desc": "",
+   "img": "apps",
+   "variants": [
+    {
+     "label": "حجم كبير",
+     "price": 130
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "apps-33",
+   "cat": "apps",
+   "name": "سلطة زبادي",
+   "desc": "",
+   "img": "apps",
+   "variants": [
+    {
+     "label": "حجم كبير",
+     "price": 130
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "apps-34",
+   "cat": "apps",
+   "name": "سلطة بابا غنوج",
+   "desc": "",
+   "img": "apps",
+   "variants": [
+    {
+     "label": "حجم كبير",
+     "price": 130
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "apps-35",
+   "cat": "apps",
+   "name": "سلطة طحينة",
+   "desc": "",
+   "img": "apps",
+   "variants": [
+    {
+     "label": "حجم كبير",
+     "price": 130
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "apps-36",
+   "cat": "apps",
+   "name": "سلطة بنجر بالبرتقال",
+   "desc": "",
+   "img": "apps",
+   "variants": [
+    {
+     "label": "حجم كبير",
+     "price": 130
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "apps-37",
+   "cat": "apps",
+   "name": "سمبوسك لحمة أو فراخ",
+   "desc": "",
+   "img": "apps",
+   "variants": [
+    {
+     "label": "حجم كبير",
+     "price": 420
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "apps-38",
+   "cat": "apps",
+   "name": "سمبوسك جبنة",
+   "desc": "",
+   "img": "apps",
+   "variants": [
+    {
+     "label": "حجم كبير",
+     "price": 350
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "apps-39",
+   "cat": "apps",
+   "name": "سبرنج رول",
+   "desc": "",
+   "img": "apps",
+   "variants": [
+    {
+     "label": "القطعة",
+     "price": 15
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-40",
+   "cat": "meat",
+   "name": "لحمة كباب حلة",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-41",
+   "cat": "meat",
+   "name": "استيك",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-42",
+   "cat": "meat",
+   "name": "بيكاتا لحم",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-43",
+   "cat": "meat",
+   "name": "روز بيف",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-44",
+   "cat": "meat",
+   "name": "كفتة",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 700
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-45",
+   "cat": "meat",
+   "name": "سكالوب بانيه",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-46",
+   "cat": "meat",
+   "name": "كفتة أرز",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 400
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-47",
+   "cat": "meat",
+   "name": "ورقة لحمة",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "نص كيلو",
+     "price": 350
+    },
+    {
+     "label": "كيلو",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-48",
+   "cat": "meat",
+   "name": "ورقة سجق",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "نص كيلو",
+     "price": 250
+    },
+    {
+     "label": "كيلو",
+     "price": 550
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-49",
+   "cat": "meat",
+   "name": "حواوشي",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "رغيف",
+     "price": 80
+    },
+    {
+     "label": "كيلو",
+     "price": 380
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-50",
+   "cat": "meat",
+   "name": "كبدة ردة",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 550
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-51",
+   "cat": "meat",
+   "name": "كبدة اسكندراني",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 500
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-52",
+   "cat": "meat",
+   "name": "كفتة داود باشا",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 660
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-53",
+   "cat": "meat",
+   "name": "فتة",
+   "desc": "عيش وأرز وصلصة بالخل والتوم",
+   "img": "fatta",
+   "variants": [
+    {
+     "label": "صينية",
+     "price": 280
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-54",
+   "cat": "meat",
+   "name": "فتة لحمة",
+   "desc": "",
+   "img": "fatta",
+   "variants": [],
+   "note": "السعر حسب الوزن",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "meat-55",
+   "cat": "meat",
+   "name": "فتة كوارع",
+   "desc": "",
+   "img": "fatta",
+   "variants": [],
+   "note": "السعر حسب الكمية",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-56",
+   "cat": "chicken",
+   "name": "فراخ محشية",
+   "desc": "",
+   "img": "chicken",
+   "variants": [
+    {
+     "label": "فرخة بالأرز",
+     "price": 430
+    },
+    {
+     "label": "فرخة بالفريك",
+     "price": 450
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": "الأكثر طلبًا"
+  },
+  {
+   "id": "chicken-57",
+   "cat": "chicken",
+   "name": "فراخ محمرة بالسمن البلدي",
+   "desc": "",
+   "img": "chicken",
+   "variants": [
+    {
+     "label": "الفرخة",
+     "price": 380
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-58",
+   "cat": "chicken",
+   "name": "كبسة فراخ كاملة",
+   "desc": "",
+   "img": "chicken",
+   "variants": [
+    {
+     "label": "الفرخة",
+     "price": 580
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-59",
+   "cat": "chicken",
+   "name": "فراخ فرن بخلطة لمّة المميزة",
+   "desc": "",
+   "img": "chicken",
+   "variants": [
+    {
+     "label": "الفرخة",
+     "price": 380
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-60",
+   "cat": "chicken",
+   "name": "فراخ تكا",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "الفرخة",
+     "price": 380
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-61",
+   "cat": "chicken",
+   "name": "فراخ تندوري",
+   "desc": "",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "الفرخة",
+     "price": 380
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-62",
+   "cat": "chicken",
+   "name": "كوردن بلو",
+   "desc": "محشي تركي مدخن وموتزاريلا وشيدر",
+   "img": "chicken",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 600
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-63",
+   "cat": "chicken",
+   "name": "استربس",
+   "desc": "",
+   "img": "chicken",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 550
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-64",
+   "cat": "chicken",
+   "name": "بانيه",
+   "desc": "",
+   "img": "chicken",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 500
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-65",
+   "cat": "chicken",
+   "name": "بط",
+   "desc": "برتقال أو محشي مرتة أو محمر",
+   "img": "chicken",
+   "variants": [],
+   "note": "السعر حسب الوزن",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-66",
+   "cat": "chicken",
+   "name": "أرانب محمرة بالسمن البلدي",
+   "desc": "",
+   "img": "chicken",
+   "variants": [],
+   "note": "السعر حسب الوزن",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-67",
+   "cat": "chicken",
+   "name": "حمام محشي أرز",
+   "desc": "بالكبد والقوانص",
+   "img": "pigeon",
+   "variants": [
+    {
+     "label": "الجوز",
+     "price": 550
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-68",
+   "cat": "chicken",
+   "name": "حمام محشي فريك",
+   "desc": "بالكبد والقوانص",
+   "img": "pigeon",
+   "variants": [
+    {
+     "label": "الجوز",
+     "price": 580
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-69",
+   "cat": "chicken",
+   "name": "ديك رومي",
+   "desc": "",
+   "img": "chicken",
+   "variants": [],
+   "note": "السعر حسب الوزن",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-70",
+   "cat": "chicken",
+   "name": "حمام كداب",
+   "desc": "",
+   "img": "pigeon",
+   "variants": [
+    {
+     "label": "الفرد",
+     "price": 140
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-71",
+   "cat": "chicken",
+   "name": "فراخ بيكاتا",
+   "desc": "فراخ مشروم أو صوص أبيض",
+   "img": "chicken",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 640
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "chicken-72",
+   "cat": "chicken",
+   "name": "صدور فراخ مشوية",
+   "desc": "بالليمون والزعتر",
+   "img": "grill",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 550
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-73",
+   "cat": "tagine",
+   "name": "طاجن بسلة",
+   "desc": "",
+   "img": "okra",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 300
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 400
+    },
+    {
+     "label": "وسط باللحمة · 4 أفراد",
+     "price": 550
+    },
+    {
+     "label": "كبير باللحمة · 7 أفراد",
+     "price": 800
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-74",
+   "cat": "tagine",
+   "name": "طاجن كوسة",
+   "desc": "",
+   "img": "okra",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 300
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 400
+    },
+    {
+     "label": "وسط باللحمة · 4 أفراد",
+     "price": 550
+    },
+    {
+     "label": "كبير باللحمة · 7 أفراد",
+     "price": 800
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-75",
+   "cat": "tagine",
+   "name": "طاجن تورلي",
+   "desc": "",
+   "img": "okra",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 300
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 400
+    },
+    {
+     "label": "وسط باللحمة · 4 أفراد",
+     "price": 550
+    },
+    {
+     "label": "كبير باللحمة · 7 أفراد",
+     "price": 800
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-76",
+   "cat": "tagine",
+   "name": "طاجن بامية",
+   "desc": "",
+   "img": "okra",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 300
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 400
+    },
+    {
+     "label": "وسط باللحمة · 4 أفراد",
+     "price": 550
+    },
+    {
+     "label": "كبير باللحمة · 7 أفراد",
+     "price": 800
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-77",
+   "cat": "tagine",
+   "name": "طاجن بطاطس",
+   "desc": "",
+   "img": "okra",
+   "variants": [
+    {
+     "label": "وسط سادة · 4 أفراد",
+     "price": 300
+    },
+    {
+     "label": "كبير سادة · 7 أفراد",
+     "price": 400
+    },
+    {
+     "label": "وسط باللحمة · 4 أفراد",
+     "price": 550
+    },
+    {
+     "label": "كبير باللحمة · 7 أفراد",
+     "price": 800
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-78",
+   "cat": "tagine",
+   "name": "طاجن كبد وقوانص",
+   "desc": "",
+   "img": "okra",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 390
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-79",
+   "cat": "tagine",
+   "name": "طاجن مزاليكا",
+   "desc": "",
+   "img": "okra",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 400
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-80",
+   "cat": "tagine",
+   "name": "طاجن لسان عصفور بالكبد والقوانص",
+   "desc": "",
+   "img": "meammar",
+   "variants": [
+    {
+     "label": "الطاجن",
+     "price": 320
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-81",
+   "cat": "tagine",
+   "name": "طاجن أرز معمر",
+   "desc": "",
+   "img": "meammar",
+   "variants": [
+    {
+     "label": "الطاجن",
+     "price": 300
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-82",
+   "cat": "tagine",
+   "name": "طاجن أرز معمر باللحمة",
+   "desc": "",
+   "img": "meammar",
+   "variants": [
+    {
+     "label": "الطاجن",
+     "price": 550
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-83",
+   "cat": "tagine",
+   "name": "طاجن أرز معمر بالحمام",
+   "desc": "",
+   "img": "meammar",
+   "variants": [],
+   "note": "بالطلب",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-84",
+   "cat": "tagine",
+   "name": "طاجن ورق عنب بالكوارع",
+   "desc": "",
+   "img": "warak",
+   "variants": [
+    {
+     "label": "نص كارع",
+     "price": 500
+    },
+    {
+     "label": "كارع كامل",
+     "price": 850
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-85",
+   "cat": "tagine",
+   "name": "طاجن عكاوي",
+   "desc": "",
+   "img": "okra",
+   "variants": [],
+   "note": "بالطلب",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "tagine-86",
+   "cat": "tagine",
+   "name": "طاجن موزة",
+   "desc": "",
+   "img": "okra",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 750
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "rice-87",
+   "cat": "rice",
+   "name": "أرز بسمتي سادة بالكاري",
+   "desc": "",
+   "img": "rice",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 180
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "rice-88",
+   "cat": "rice",
+   "name": "أرز بسمتي بالمكسرات والزبيب",
+   "desc": "",
+   "img": "rice",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 250
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "rice-89",
+   "cat": "rice",
+   "name": "أرز بسمتي مكرمل بالمكسرات والزبيب",
+   "desc": "",
+   "img": "rice",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 260
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "rice-90",
+   "cat": "rice",
+   "name": "أرز بسمتي بالخلطة",
+   "desc": "كبدة وزبيب ومكسرات",
+   "img": "rice",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 320
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "rice-91",
+   "cat": "rice",
+   "name": "أرز بالشعرية",
+   "desc": "",
+   "img": "rice",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 140
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "pasta-92",
+   "cat": "pasta",
+   "name": "مكرونة وايت صوص فراخ",
+   "desc": "",
+   "img": "pasta",
+   "variants": [
+    {
+     "label": "تكفي 4 أفراد",
+     "price": 450
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "pasta-93",
+   "cat": "pasta",
+   "name": "مكرونة ريد صوص",
+   "desc": "",
+   "img": "pasta",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 200
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  },
+  {
+   "id": "pasta-94",
+   "cat": "pasta",
+   "name": "مكرونة ريد صوص باللحمة المفرومة",
+   "desc": "",
+   "img": "pasta",
+   "variants": [
+    {
+     "label": "كيلو",
+     "price": 250
+    }
+   ],
+   "note": "",
+   "available": true,
+   "badge": ""
+  }
+ ],
+ "offers": [
+  {
+   "id": "of1",
+   "title": "لمّة الجمعة",
+   "desc": "محشي مشكل + فرخة محمرة بالسمن البلدي + أرز بالشعرية كيلو + سلطة خضراء",
+   "price": 850,
+   "old": 950,
+   "img": "mahshi",
+   "active": true
+  },
+  {
+   "id": "of2",
+   "title": "صينية العيلة",
+   "desc": "مكرونة بشاميل كبير (10 أفراد) + سلطة زبادي + سلطة خضراء",
+   "price": 920,
+   "old": 1010,
+   "img": "bechamel",
+   "active": true
+  },
+  {
+   "id": "of3",
+   "title": "طاجن ولمّة",
+   "desc": "طاجن بامية كبير باللحمة + أرز بسمتي بالمكسرات كيلو",
+   "price": 990,
+   "old": 1050,
+   "img": "okra",
+   "active": true
+  }
+ ]
+}
