@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="assets/img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marhey:wght@500;700&family=Readex+Pro:wght@300;400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=2">
+<link rel="stylesheet" href="assets/css/style.css?v=3">
 <script>try{var t=localStorage.getItem('nb-theme');if(t)document.documentElement.dataset.theme=t;var l=new URLSearchParams(location.search).get('lang')||localStorage.getItem('nb-lang');if(l==='en'){document.documentElement.lang='en';document.documentElement.dir='ltr'}}catch(e){}</script>
 </head>
 <body>
@@ -58,6 +58,7 @@
     <symbol id="ico-fb" viewBox="0 0 24 24"><path fill="currentColor" d="M14 8.5V6.8c0-.8.5-1 1-1h2.5V2H14c-3 0-4 2-4 4.4v2.1H7.5V12H10v10h4V12h3l.5-3.5H14Z"/></symbol>
     <symbol id="ico-plus" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
     <symbol id="ico-minus" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M5 12h14"/></symbol>
+    <symbol id="ico-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
     <symbol id="ico-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
     <symbol id="ico-star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9L12 2.8Z"/></symbol>
     <symbol id="ico-tray" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 17h18M5 17a7 7 0 0 1 14 0M12 8V6M10 6h4"/></g></symbol>
@@ -66,20 +67,20 @@
 
 <!-- ===== INTRO ===== -->
 <div class="intro" id="intro" aria-hidden="true">
-  <div class="intro-badge">
-    <svg class="intro-shape" viewBox="0 0 440 330">
-      <path class="ib-outline" d="M70 300 Q30 300 30 262 L30 210 Q30 178 58 168 Q76 38 220 26 Q364 38 382 168 Q410 178 410 210 L410 262 Q410 300 370 300 Z" fill="#FBF5EA" stroke="#C9A27A" stroke-width="5" pathLength="1"/>
-    </svg>
-    <svg class="intro-mark"><use href="#mark"/></svg>
-    <div class="intro-word"><span class="w1">خليج</span> <span class="w2">نعمة</span></div>
-    <div class="intro-sub">كافيه · Naama Bay</div>
+  <div class="intro-glow"></div>
+  <div class="intro-inner">
+    <div class="intro-logo"><img src="assets/img/logo.webp" alt="" width="640" height="603"><i class="intro-shine"></i></div>
+    <div class="intro-word"><span><i class="c1">خليج</i> <i class="c2">نعمة</i></span></div>
+    <i class="intro-line"></i>
+    <div class="intro-sub">NAAMA BAY CAFE · TAHTA</div>
   </div>
 </div>
+<div class="atmo" aria-hidden="true"></div>
 
 <!-- ===== HEADER ===== -->
 <header class="hdr" id="hdr">
   <a href="#top" class="brand" aria-label="كافيه خليج نعمة">
-    <span class="brand-badge"><svg><use href="#mark"/></svg></span>
+    <span class="brand-logo"><img src="assets/img/logo-sm.webp" alt="" width="160" height="151"></span>
     <span class="brand-txt"><b><i class="c1">خليج</i> <i class="c2">نعمة</i></b><small data-en="Naama Bay · Cafe">كافيه · Naama Bay</small></span>
   </a>
   <nav class="nav" id="nav">
@@ -123,7 +124,7 @@
       </div>
       <div class="hc hc4">
         <div class="hero-lockup">
-          <span class="lock-badge"><svg><use href="#mark"/></svg></span>
+          <img class="lock-logo" src="assets/img/logo.webp" alt="" width="640" height="603">
           <div class="lock-word"><i class="c1">خليج</i> <i class="c2">نعمة</i></div>
         </div>
         <p class="lock-tag" data-en="A seat on the Nile with a story of its own.">قعدة على النيل ليها حكاية.</p>
@@ -173,29 +174,43 @@
   </div>
 </section>
 
-<!-- ===== SIGNATURES (pinned horizontal) ===== -->
-<section class="sig" id="signature">
-  <div class="sig-pin">
-    <div class="wrap sig-head">
+<!-- ===== SIGNATURE SHOWCASE ===== -->
+<section class="show sec" id="signature">
+  <div class="wrap">
+    <div class="show-head">
       <div><span class="kicker" data-en="Naama signatures">توقيع خليج نعمة</span>
-      <h2 class="title" data-en="Six cups… six stories.">ست حاجات… ست حكايات.</h2></div>
-      <p class="sig-hint" data-en="Scroll to taste">اسحب وطعّم</p>
+      <h2 class="title reveal" data-en="Six cups… <em>six stories.</em>">ست حاجات… <em>ست حكايات.</em></h2></div>
+      <div class="show-nav">
+        <button class="sn-btn" id="shPrev" aria-label="previous"><svg><use href="#ico-arrow"/></svg></button>
+        <span class="sn-count"><b id="shIdx">01</b><i></i><span>06</span></span>
+        <button class="sn-btn next" id="shNext" aria-label="next"><svg><use href="#ico-arrow"/></svg></button>
+      </div>
     </div>
-    <div class="sig-track" id="sigTrack"></div>
+    <div class="show-stage">
+      <div class="show-info" id="shInfo"></div>
+      <div class="show-product" id="shProduct">
+        <span class="sp-num" id="shNum">01</span>
+        <i class="sp-disc"></i><i class="sp-ring"></i><i class="sp-ring r2"></i>
+        <img id="shImg" src="assets/img/cut-cider.webp" alt="">
+        <i class="sp-shadow"></i>
+      </div>
+      <div class="show-thumbs" id="shThumbs"></div>
+    </div>
+    <div class="show-progress"><b id="shBar"></b></div>
   </div>
 </section>
 
-<!-- ===== SPACES (stacked full-screen panels) ===== -->
-<section class="spaces" id="spaces">
+<!-- ===== SPACES ===== -->
+<section class="spaces sec" id="spaces">
   <div class="wrap spaces-head">
     <span class="kicker" data-en="Pick your seat">اختار قعدتك</span>
     <h2 class="title reveal" data-en="Four corners, one Nile.">أربع قعدات… <em>ونيل واحد.</em></h2>
   </div>
-  <div class="panels">
-    <article class="panel"><div class="pn-media"><img src="assets/img/real-terrace.webp" alt="" loading="lazy"></div><div class="pn-body"><span class="pn-num">01</span><span class="badge-real" data-en="Real photo">صورة حقيقية</span><h3 data-en="The Nile terrace">تراس النيل</h3><p data-en="Front row on the river, the best spot for sunset.">أول صف على النهر، وأحلى مكان للغروب.</p></div></article>
-    <article class="panel"><div class="pn-media"><img src="assets/img/x-match.webp" alt="" loading="lazy"></div><div class="pn-body"><span class="pn-num">02</span><h3 data-en="Match nights">سهرات الماتشات</h3><p data-en="A big screen under the palms, every big game, and the whole crowd cheering.">شاشة كبيرة تحت النخل، كل ماتش مهم، والناس كلها بتشجع.</p></div></article>
-    <article class="panel"><div class="pn-media"><img src="assets/img/x-kids.webp" alt="" loading="lazy"></div><div class="pn-body"><span class="pn-num">03</span><h3 data-en="Kids play area">منطقة ألعاب الأطفال</h3><p data-en="Swings and slides on the grass, right in front of your seat.">مراجيح وزحاليق على النجيلة، قدام عينك وإنت قاعد مرتاح.</p></div></article>
-    <article class="panel"><div class="pn-media"><img src="assets/img/x-shisha.webp" alt="" loading="lazy"></div><div class="pn-body"><span class="pn-num">04</span><h3 data-en="Shisha corner">ركن الشيشة</h3><p data-en="Flavours from classic to blueberry, with the river breeze.">نكهات من السلوم للبلوبيري، ومعاها نسمة النيل.</p></div></article>
+  <div class="spaces-grid">
+    <article class="space"><div class="sp-media"><img src="assets/img/real-terrace.webp" alt="" loading="lazy"></div><div class="sp-body"><span class="sp-n">01</span><span class="badge-real" data-en="Real photo">صورة حقيقية</span><h3 data-en="The Nile terrace">تراس النيل</h3><p data-en="Front row on the river, the best spot for sunset.">أول صف على النهر، وأحلى مكان للغروب.</p></div></article>
+    <article class="space"><div class="sp-media"><img src="assets/img/x-match.webp" alt="" loading="lazy"></div><div class="sp-body"><span class="sp-n">02</span><h3 data-en="Match nights">سهرات الماتشات</h3><p data-en="A big screen under the palms, every big game, and the whole crowd cheering.">شاشة كبيرة تحت النخل، كل ماتش مهم، والناس كلها بتشجع.</p></div></article>
+    <article class="space"><div class="sp-media"><img src="assets/img/x-kids.webp" alt="" loading="lazy"></div><div class="sp-body"><span class="sp-n">03</span><h3 data-en="Kids play area">منطقة ألعاب الأطفال</h3><p data-en="Swings and slides on the grass, right in front of your seat.">مراجيح وزحاليق على النجيلة، قدام عينك وإنت قاعد مرتاح.</p></div></article>
+    <article class="space"><div class="sp-media"><img src="assets/img/x-shisha.webp" alt="" loading="lazy"></div><div class="sp-body"><span class="sp-n">04</span><h3 data-en="Shisha corner">ركن الشيشة</h3><p data-en="Flavours from classic to blueberry, with the river breeze.">نكهات من السلوم للبلوبيري، ومعاها نسمة النيل.</p></div></article>
   </div>
 </section>
 
@@ -337,7 +352,7 @@
 
 <footer class="ftr">
   <div class="wrap ftr-in">
-    <div class="ftr-brand"><span class="brand-badge big"><svg><use href="#mark"/></svg></span><div><b class="ftr-word"><i class="c1">خليج</i> <i class="c2">نعمة</i></b><p data-en="A garden and park right on the Nile, Tahta, Sohag.">حديقة ومنتزه ع النيل مباشرة بمركز طهطا بسوهاج.</p></div></div>
+    <div class="ftr-brand"><img class="ftr-logo" src="assets/img/logo-sm.webp" alt="" width="160" height="151"><div><b class="ftr-word"><i class="c1">خليج</i> <i class="c2">نعمة</i></b><p data-en="A garden and park right on the Nile, Tahta, Sohag.">حديقة ومنتزه ع النيل مباشرة بمركز طهطا بسوهاج.</p></div></div>
     <nav class="ftr-nav"><a href="#menu" data-en="Menu">المنيو</a><a href="#events" data-en="Occasions">المناسبات</a><a href="#book" data-en="Book">احجز</a><a href="https://www.facebook.com/khalegneamaa" target="_blank" rel="noopener">Facebook</a></nav>
   </div>
   <div class="wrap ftr-bottom"><span>© <span id="yr">2026</span> Naama Bay Cafe</span><a href="https://theplanetco.com" target="_blank" rel="noopener" data-en="Designed by Planet Creative Marketing">تصميم بلانيت كرييتيف ماركتينج</a></div>
@@ -354,13 +369,20 @@
     <div class="drawer-ft"><div class="total"><span data-en="Total">الإجمالي</span><b id="drawerTotal">0</b></div><a href="#book" class="btn btn-sun wide" id="drawerGo" data-en="Continue to booking">كمّل للحجز</a></div>
   </div>
 </aside>
+<div class="sheet" id="sheet" aria-hidden="true" role="dialog">
+  <div class="sheet-card">
+    <button class="sheet-x" id="sheetX" aria-label="close"><svg><use href="#ico-x"/></svg></button>
+    <div class="sheet-media" id="sheetMedia"></div>
+    <div class="sheet-body" id="sheetBody"></div>
+  </div>
+</div>
 <div class="scrim" id="scrim"></div>
 <div class="toast" id="toast"></div>
 
 <script src="assets/js/vendor/gsap.min.js"></script>
 <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/js/vendor/lenis.min.js"></script>
-<script src="assets/js/data.js?v=2"></script>
-<script src="assets/js/app.js?v=2"></script>
+<script src="assets/js/data.js?v=3"></script>
+<script src="assets/js/app.js?v=3"></script>
 </body>
 </html>

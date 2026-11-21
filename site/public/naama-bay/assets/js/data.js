@@ -91,13 +91,16 @@ window.NB_MENU = [
 
 /* Signature strip (6 cards) */
 window.NB_SIG = [
-  { id: 'h1', ar2: 'تفاح سخن وقرفة وعود قرفة، أحلى رفيق لساعة الغروب على التراس.', en2: 'Warm apple, cinnamon and a cinnamon stick: the best friend of sunset on the terrace.' },
-  { id: 'f8', ar2: 'طبقات مانجو وفراولة وموز وقشطة… كوكتيل على طريقة خليج نعمة.', en2: 'Layers of mango, strawberry, banana and cream: a cocktail the Naama Bay way.' },
-  { id: 'h8', ar2: 'سحلب كريمي بالمكسرات وجوز الهند، دفا الشتا كله في كوباية.', en2: 'Creamy sahlab with nuts and coconut: all of winter warmth in one cup.' },
-  { id: 'd4', ar2: 'كنافة مقرمشة دهبي بالقشطة والفستق، على ترابيزة رخام جنب النيل.', en2: 'Golden crispy kunafa with cream and pistachio, on a marble table by the Nile.' },
-  { id: 'd3', ar2: 'وافل سخن بالنوتيلا والأوريو والفراولة والموز، للسهرة الطويلة.', en2: 'Hot waffle with Nutella, Oreo, strawberries and banana, for the long nights.' },
-  { id: 'd2', ar2: 'مولتن كيك بيسيح شوكولاتة، مع بولة آيس كريم فانيليا.', en2: 'Molten cake oozing chocolate, with a scoop of vanilla ice cream.' }
+  { id: 'h1', whenAr: 'العصرية والغروب', whenEn: 'Afternoon & sunset', tempAr: 'سخن', tempEn: 'Hot', ar2: 'تفاح سخن وقرفة وعود قرفة، أحلى رفيق لساعة الغروب على التراس.', en2: 'Warm apple, cinnamon and a cinnamon stick: the best friend of sunset on the terrace.' },
+  { id: 'f8', whenAr: 'العصرية', whenEn: 'Afternoon', tempAr: 'ساقع', tempEn: 'Cold', ar2: 'طبقات مانجو وفراولة وموز وقشطة… كوكتيل على طريقة خليج نعمة.', en2: 'Layers of mango, strawberry, banana and cream: a cocktail the Naama Bay way.' },
+  { id: 'h8', whenAr: 'ليالي الشتا', whenEn: 'Winter nights', tempAr: 'سخن', tempEn: 'Hot', ar2: 'سحلب كريمي بالمكسرات وجوز الهند، دفا الشتا كله في كوباية.', en2: 'Creamy sahlab with nuts and coconut: all of winter warmth in one cup.' },
+  { id: 'd4', whenAr: 'بعد الغدا', whenEn: 'After lunch', tempAr: 'طازة', tempEn: 'Fresh', ar2: 'كنافة مقرمشة دهبي بالقشطة والفستق، على ترابيزة رخام جنب النيل.', en2: 'Golden crispy kunafa with cream and pistachio, on a marble table by the Nile.' },
+  { id: 'd3', whenAr: 'السهرة', whenEn: 'Late night', tempAr: 'سخن', tempEn: 'Warm', ar2: 'وافل سخن بالنوتيلا والأوريو والفراولة والموز، للسهرة الطويلة.', en2: 'Hot waffle with Nutella, Oreo, strawberries and banana, for the long nights.' },
+  { id: 'd2', whenAr: 'السهرة', whenEn: 'Late night', tempAr: 'سخن', tempEn: 'Warm', ar2: 'مولتن كيك بيسيح شوكولاتة، مع بولة آيس كريم فانيليا.', en2: 'Molten cake oozing chocolate, with a scoop of vanilla ice cream.' }
 ];
+
+/* Products that have a transparent studio cut-out (assets/img/cut-*.webp) */
+window.NB_CUTS = ['capp','choc','cider','cocktail','kunafa','latte','lemon','mango','mojito','molten','sahlab','shake','straw','tea','waffle'];
 
 /* Time-of-day mood picker */
 window.NB_MOODS = [
