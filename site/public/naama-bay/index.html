@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-theme="light">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>كافيه خليج نعمة | Naama Bay Cafe — طهطا، سوهاج</title>
 <meta name="description" content="كافيه خليج نعمة — حديقة ومنتزه على النيل مباشرة بمركز طهطا بسوهاج. مشروبات، حلويات، شيشة، ماتشات، منطقة أطفال، أفراح ومناسبات ورحلات نيلية.">
-<meta name="theme-color" content="#0E3550">
+<meta name="theme-color" content="#06121C">
 <meta property="og:title" content="كافيه خليج نعمة — قعدة على النيل ليها حكاية">
 <meta property="og:description" content="حديقة ومنتزه على النيل مباشرة في طهطا • مفتوح دايمًا • احجز ترابيزتك على واتساب">
 <meta property="og:image" content="assets/img/og.jpg">
@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="assets/img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marhey:wght@500;700&family=Readex+Pro:wght@300;400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=1">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
 <script>try{var t=localStorage.getItem('nb-theme');if(t)document.documentElement.dataset.theme=t;var l=new URLSearchParams(location.search).get('lang')||localStorage.getItem('nb-lang');if(l==='en'){document.documentElement.lang='en';document.documentElement.dir='ltr'}}catch(e){}</script>
 </head>
 <body>
@@ -100,91 +100,26 @@
 
 <main id="top">
 
-<!-- ===== HERO: a day on the Nile ===== -->
+<!-- ===== HERO: one afternoon on the Nile, scrubbed by scroll ===== -->
 <section class="hero" id="hero">
   <div class="hero-pin">
-    <svg class="scene" id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
-          <stop id="sky0" offset="0" stop-color="#7EC3E6"/>
-          <stop id="sky1" offset=".55" stop-color="#BFE3F0"/>
-          <stop id="sky2" offset="1" stop-color="#FCE9C8"/>
-        </linearGradient>
-        <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1">
-          <stop id="wat0" offset="0" stop-color="#8FC9D9"/>
-          <stop id="wat1" offset="1" stop-color="#2E7E98"/>
-        </linearGradient>
-        <radialGradient id="sunG"><stop offset="0" stop-color="#FFF6D8"/><stop offset=".6" stop-color="#FFD877"/><stop offset="1" stop-color="#F7A54A"/></radialGradient>
-        <radialGradient id="haloG"><stop offset="0" stop-color="#FFD58A" stop-opacity=".55"/><stop offset="1" stop-color="#FFD58A" stop-opacity="0"/></radialGradient>
-        <radialGradient id="bulbG"><stop offset="0" stop-color="#FFE7A8" stop-opacity=".9"/><stop offset="1" stop-color="#FFB547" stop-opacity="0"/></radialGradient>
-        <radialGradient id="moonG"><stop offset="0" stop-color="#FFFDF2"/><stop offset="1" stop-color="#E9E3C8"/></radialGradient>
-      </defs>
-      <rect width="1600" height="900" fill="url(#skyG)"/>
-      <g id="stars" opacity="0"></g>
-      <g id="moon" opacity="0"><circle cx="800" cy="110" r="110" fill="url(#haloG)" opacity=".5"/><circle cx="800" cy="110" r="34" fill="url(#moonG)"/><circle cx="790" cy="102" r="6" fill="#DCD4B4" opacity=".6"/><circle cx="809" cy="120" r="4.5" fill="#DCD4B4" opacity=".5"/></g>
-      <g id="sun"><circle cx="0" cy="0" r="230" fill="url(#haloG)"/><circle cx="0" cy="0" r="74" fill="url(#sunG)"/></g>
-      <g id="birds" fill="none" stroke="#2B4150" stroke-width="3" stroke-linecap="round">
-        <path d="M0 0 q10 -10 20 0 q10 -10 20 0"/><path transform="translate(60 26) scale(.8)" d="M0 0 q10 -10 20 0 q10 -10 20 0"/><path transform="translate(-50 34) scale(.7)" d="M0 0 q10 -10 20 0 q10 -10 20 0"/>
-      </g>
-      <!-- eastern cliffs (Tahta plateau) -->
-      <path id="cliffs" fill="#DDB582" d="M0 560 L0 470 L120 466 L180 452 L320 450 L360 440 L520 438 L560 428 L700 426 L760 446 L860 448 L900 432 L1060 430 L1100 420 L1260 418 L1300 436 L1420 438 L1460 426 L1600 424 L1600 560 Z"/>
-      <path id="cliffs2" fill="#C99A64" opacity=".7" d="M0 560 L0 506 L140 500 L260 512 L420 498 L600 510 L760 494 L940 508 L1100 496 L1300 510 L1460 498 L1600 506 L1600 560 Z"/>
-      <!-- far bank palms -->
-      <g id="bank" fill="#3D6B4F">
-        <path d="M0 600 L0 548 C200 540 400 552 600 544 C800 538 1000 552 1200 544 C1400 538 1500 548 1600 544 L1600 600Z"/>
-        <g id="palms"></g>
-        <g id="houses" fill="#C9A87F" opacity=".9"><rect x="250" y="530" width="60" height="22"/><rect x="318" y="522" width="40" height="30"/><rect x="980" y="526" width="70" height="26"/><rect x="1060" y="532" width="34" height="20"/></g>
-        <g id="winLights" fill="#FFD58A" opacity="0"><rect x="262" y="537" width="8" height="6"/><rect x="290" y="537" width="8" height="6"/><rect x="330" y="530" width="7" height="6"/><rect x="996" y="533" width="8" height="6"/><rect x="1024" y="533" width="8" height="6"/><rect x="1070" y="538" width="7" height="5"/></g>
-      </g>
-      <!-- Nile -->
-      <rect id="nile" y="590" width="1600" height="310" fill="url(#waterG)"/>
-      <g id="glitter" fill="#FFF1C9"></g>
-      <g id="nightRefl" opacity="0"></g>
-      <!-- felucca -->
-      <g id="felucca">
-        <path d="M-130 0 Q0 30 130 0 L110 26 Q0 44 -110 26Z" fill="#5B3A27"/>
-        <path d="M-10 -2 L-10 -230" stroke="#4A2E1F" stroke-width="5"/>
-        <path id="sail" d="M-8 -228 L-160 -40 Q-60 -18 92 -10 Q20 -110 -8 -228Z" fill="#F7EEDC"/>
-        <path d="M-8 -228 L92 -10" stroke="#B88A5A" stroke-width="3"/>
-        <g id="boatLights" fill="#FFD58A" opacity="0"></g>
-        <path d="M-120 34 Q0 50 120 34" stroke="#ffffff" stroke-opacity=".35" stroke-width="3" fill="none"/>
-      </g>
-      <!-- terrace foreground -->
-      <g id="terrace">
-        <path d="M0 900 L0 770 L1600 770 L1600 900Z" fill="#1E3B2E"/>
-        <path id="lawn" d="M0 900 L0 790 C400 780 1200 780 1600 790 L1600 900Z" fill="#2F6B45"/>
-        <g id="rail" stroke="#F4EFE6" stroke-width="7" stroke-linecap="round">
-          <path d="M0 700 L1600 700"/><path d="M0 735 L1600 735" stroke-width="4"/>
-        </g>
-        <g id="posts" fill="#EFE7D8"></g>
-        <path id="wire" d="M-20 120 Q400 230 800 150 Q1200 70 1620 170" fill="none" stroke="#2A2A2A" stroke-width="3"/>
-        <g id="bulbs"></g>
-        <!-- table with two cups -->
-        <g id="table" transform="translate(1180 760)">
-          <ellipse cx="0" cy="-6" rx="210" ry="30" fill="#F2E8D6"/>
-          <path d="M-12 -6 L-18 140 L18 140 L12 -6Z" fill="#E7DCC7"/>
-          <g transform="translate(-60 -40)"><path d="M-26 -50 L26 -50 L20 26 L-20 26Z" fill="#E8A040" opacity=".92"/><path d="M-26 -50 L26 -50 L20 26 L-20 26Z" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3"/><path d="M-6 -44 L4 18" stroke="#7A4A26" stroke-width="7" stroke-linecap="round"/><path d="M26 -34 C48 -34 48 0 22 0" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="5"/><path class="steam" d="M-6 -62 C-18 -84 8 -96 -4 -124" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/></g>
-          <g transform="translate(60 -36)"><path d="M-26 -50 L26 -50 L20 26 L-20 26Z" fill="#E8A040" opacity=".92"/><path d="M-26 -50 L26 -50 L20 26 L-20 26Z" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3"/><path d="M8 -44 L-2 18" stroke="#7A4A26" stroke-width="7" stroke-linecap="round"/><path d="M26 -34 C48 -34 48 0 22 0" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="5"/><path class="steam" d="M4 -62 C-8 -84 18 -96 6 -124" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/></g>
-        </g>
-      </g>
-      <rect id="nightVeil" width="1600" height="900" fill="#08142A" opacity="0" pointer-events="none"/>
-    </svg>
-
-    <div class="hero-clock" id="heroClock"><svg><use href="#ico-clock"/></svg><span id="clockTxt">6:40</span><em id="clockAmPm">ص</em></div>
+    <picture class="hero-poster"><source media="(max-aspect-ratio: 4/5)" srcset="assets/img/hero-day-m.webp"><img src="assets/img/hero-day.webp" alt="تراس كافيه خليج نعمة على النيل" fetchpriority="high"></picture>
+    <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="hero-shade"></div>
 
     <div class="hero-copy">
       <div class="hc hc1">
-        <span class="eyebrow" data-en="Tahta · Sohag · right on the Nile">طهطا · سوهاج · ع النيل مباشرة</span>
-        <h1 data-en="Good morning,<br>Nile.">صباح الخير<br>يا نيل.</h1>
-        <p data-en="A garden and park right on the river. Scroll and spend a whole day with us.">حديقة ومنتزه على النيل مباشرة. اسحب لتحت وعيش معانا يوم كامل.</p>
+        <span class="eyebrow"><i class="dot"></i><span data-en="Tahta · Sohag · right on the Nile">طهطا · سوهاج · ع النيل مباشرة</span></span>
+        <h1 data-en="The Nile in front,<br><em>the garden around.</em>">النيل قدامك،<br><em>والجنينة حواليك.</em></h1>
+        <p data-en="A garden and park right on the river. Scroll and watch a whole afternoon turn into a night out.">حديقة ومنتزه على النيل مباشرة. اسحب لتحت وشوف العصرية بتتحول لسهرة.</p>
       </div>
       <div class="hc hc2">
-        <span class="eyebrow" data-en="5:30 PM · terrace">5:30 م · التراس</span>
-        <h2 data-en="A golden sunset<br>and a hot cider.">غروب دهبي<br>وكوباية هوت سيدر.</h2>
+        <span class="eyebrow"><i class="dot"></i><span data-en="5:30 PM · the terrace">5:30 م · التراس</span></span>
+        <h2 data-en="A golden sunset<br><em>and a hot cider.</em>">غروب دهبي<br><em>وكوباية هوت سيدر.</em></h2>
       </div>
       <div class="hc hc3">
-        <span class="eyebrow" data-en="11:00 PM · lights on">11:00 م · اللمبات نوّرت</span>
-        <h2 data-en="A night under<br>the stars.">سهرة تحت<br>النجوم.</h2>
+        <span class="eyebrow"><i class="dot"></i><span data-en="11:00 PM · lights on">11:00 م · اللمبات نوّرت</span></span>
+        <h2 data-en="A night under<br><em>the lights and the moon.</em>">سهرة تحت<br><em>اللمبات والقمر.</em></h2>
       </div>
       <div class="hc hc4">
         <div class="hero-lockup">
@@ -194,57 +129,73 @@
         <p class="lock-tag" data-en="A seat on the Nile with a story of its own.">قعدة على النيل ليها حكاية.</p>
         <div class="hero-ctas">
           <a href="#book" class="btn btn-sun" data-en="Book a table">احجز ترابيزتك</a>
-          <a href="#menu" class="btn btn-ghost" data-en="See the menu">شوف المنيو</a>
+          <a href="#menu" class="btn btn-glass" data-en="See the menu">شوف المنيو</a>
         </div>
       </div>
     </div>
-    <div class="scroll-hint" id="scrollHint"><span data-en="Scroll · from sunrise to late night">اسحب · من الشروق للسهرة</span><i></i></div>
+
+    <div class="hero-foot">
+      <div class="hero-clock" id="heroClock"><svg><use href="#ico-clock"/></svg><span id="clockTxt">4:00</span><em id="clockAmPm">م</em></div>
+      <div class="hero-phases" aria-hidden="true">
+        <span class="hp on" data-en="Afternoon">العصرية</span><span class="hp" data-en="Sunset">الغروب</span><span class="hp" data-en="Night out">السهرة</span>
+        <i class="hp-bar"><b id="heroBar"></b></i>
+      </div>
+      <div class="scroll-hint" id="scrollHint"><span data-en="Scroll">اسحب</span><i></i></div>
+    </div>
   </div>
 </section>
+
+<!-- ===== MARQUEE ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track">
+    <span data-en="Weddings">أفراح</span><b>✦</b><span data-en="Engagements">خطوبة</span><b>✦</b><span data-en="Birthdays">أعياد ميلاد</span><b>✦</b><span data-en="Match nights">سهرات الماتشات</span><b>✦</b><span data-en="Nile trips">رحلات نيلية</span><b>✦</b><span data-en="Shisha corner">ركن الشيشة</span><b>✦</b><span data-en="Kids area">ألعاب أطفال</span><b>✦</b>
+    <span data-en="Weddings">أفراح</span><b>✦</b><span data-en="Engagements">خطوبة</span><b>✦</b><span data-en="Birthdays">أعياد ميلاد</span><b>✦</b><span data-en="Match nights">سهرات الماتشات</span><b>✦</b><span data-en="Nile trips">رحلات نيلية</span><b>✦</b><span data-en="Shisha corner">ركن الشيشة</span><b>✦</b><span data-en="Kids area">ألعاب أطفال</span><b>✦</b>
+  </div>
+</div>
 
 <!-- ===== STORY ===== -->
 <section class="story sec" id="story">
   <div class="wrap story-grid">
     <div class="story-text">
       <span class="kicker" data-en="Our story">حكايتنا</span>
-      <h2 class="title reveal" data-en="Green garden, open sky<br>and the Nile at your feet.">جنينة خضرا، سما مفتوحة<br>والنيل تحت رجليك.</h2>
+      <h2 class="title reveal" data-en="Green garden, open sky<br>and the Nile at your feet.">جنينة خضرا، سما مفتوحة<br><em>والنيل تحت رجليك.</em></h2>
       <p class="lead reveal" data-en="At the northern entrance of Tahta, Naama Bay opens its gate onto the river: white seats with blue cushions, string lights, a big screen for the matches, a play area for the kids and a lawn wide enough for your biggest night.">على مدخل طهطا البحري، خليج نعمة فاتح بوابته على النيل: قعدات بيضا بمخدات زرقا، لمبات متعلقة، شاشة كبيرة للماتشات، منطقة ألعاب للأطفال، وجنينة واسعة تساع أكبر فرح عندك.</p>
       <div class="stats">
-        <div class="stat reveal"><b data-count="10">0</b><i>K+</i><span data-en="followers on Facebook">متابع على فيسبوك</span></div>
-        <div class="stat reveal"><b data-count="100">0</b><i>%</i><span data-en="of reviewers recommend us">من التقييمات بترشّحنا</span></div>
-        <div class="stat reveal"><b>24</b><i>h</i><span data-en="always open">مفتوحين دايمًا</span></div>
+        <div class="stat reveal"><b><span data-count="10">0</span><i>K+</i></b><span data-en="followers on Facebook">متابع على فيسبوك</span></div>
+        <div class="stat reveal"><b><span data-count="100">0</span><i>%</i></b><span data-en="of reviewers recommend us">من التقييمات بترشّحنا</span></div>
+        <div class="stat reveal"><b>24<i>h</i></b><span data-en="always open">مفتوحين دايمًا</span></div>
       </div>
     </div>
     <div class="story-media">
-      <figure class="ph ph-gate reveal"><img src="assets/img/real-gate.webp" alt="بوابة كافيه خليج نعمة" loading="lazy"><figcaption data-en="The gate · real photo">البوابة · صورة حقيقية</figcaption></figure>
-      <figure class="ph ph-ring reveal"><img src="assets/img/real-ring.webp" alt="النيل من خليج نعمة" loading="lazy"><figcaption data-en="The Nile from our garden">النيل من جنينتنا</figcaption></figure>
+      <figure class="sm sm-a"><img src="assets/img/real-gate.webp" alt="بوابة كافيه خليج نعمة" loading="lazy"><figcaption data-en="Our gate · real photo">البوابة · صورة حقيقية</figcaption></figure>
+      <figure class="sm sm-b"><img src="assets/img/real-ring.webp" alt="النيل من خليج نعمة" loading="lazy"><figcaption data-en="The Nile from our garden">النيل من جنينتنا</figcaption></figure>
     </div>
   </div>
 </section>
 
-<!-- ===== SPACES ===== -->
-<section class="spaces sec" id="spaces">
-  <div class="wrap">
-    <span class="kicker" data-en="Pick your seat">اختار قعدتك</span>
-    <h2 class="title reveal" data-en="Four corners, one Nile.">أربع قعدات… ونيل واحد.</h2>
+<!-- ===== SIGNATURES (pinned horizontal) ===== -->
+<section class="sig" id="signature">
+  <div class="sig-pin">
+    <div class="wrap sig-head">
+      <div><span class="kicker" data-en="Naama signatures">توقيع خليج نعمة</span>
+      <h2 class="title" data-en="Six cups… six stories.">ست حاجات… ست حكايات.</h2></div>
+      <p class="sig-hint" data-en="Scroll to taste">اسحب وطعّم</p>
+    </div>
+    <div class="sig-track" id="sigTrack"></div>
   </div>
-  <div class="spaces-track" id="spacesTrack">
-    <article class="space">
-      <img src="assets/img/real-terrace.webp" alt="" loading="lazy"><span class="badge-real" data-en="Real photo">صورة حقيقية</span>
-      <div class="space-body"><span class="num">01</span><h3 data-en="The Nile terrace">تراس النيل</h3><p data-en="Front row on the river, the best spot for sunset.">أول صف على النهر، وأحلى مكان للغروب.</p></div>
-    </article>
-    <article class="space">
-      <img src="assets/img/ev2.webp" alt="" loading="lazy">
-      <div class="space-body"><span class="num">02</span><h3 data-en="Match corner">ركن الماتشات</h3><p data-en="A big screen, every big game, and the whole crowd cheering.">شاشة كبيرة، كل ماتش مهم، والناس كلها بتشجع.</p></div>
-    </article>
-    <article class="space">
-      <img src="assets/img/ev3.webp" alt="" loading="lazy">
-      <div class="space-body"><span class="num">03</span><h3 data-en="Kids play area">منطقة ألعاب الأطفال</h3><p data-en="Swings and slides in front of your eyes while you relax.">مراجيح وزحاليق قدام عينك وإنت قاعد مرتاح.</p></div>
-    </article>
-    <article class="space">
-      <img src="assets/img/shisha.webp" alt="" loading="lazy">
-      <div class="space-body"><span class="num">04</span><h3 data-en="Shisha corner">ركن الشيشة</h3><p data-en="Flavours from classic to blueberry, with the breeze of the river.">نكهات من السلوم للبلوبيري، ومعاها نسمة النيل.</p></div>
-    </article>
+</section>
+
+<!-- ===== SPACES (stacked full-screen panels) ===== -->
+<section class="spaces" id="spaces">
+  <div class="wrap spaces-head">
+    <span class="kicker" data-en="Pick your seat">اختار قعدتك</span>
+    <h2 class="title reveal" data-en="Four corners, one Nile.">أربع قعدات… <em>ونيل واحد.</em></h2>
+  </div>
+  <div class="panels">
+    <article class="panel"><div class="pn-media"><img src="assets/img/real-terrace.webp" alt="" loading="lazy"></div><div class="pn-body"><span class="pn-num">01</span><span class="badge-real" data-en="Real photo">صورة حقيقية</span><h3 data-en="The Nile terrace">تراس النيل</h3><p data-en="Front row on the river, the best spot for sunset.">أول صف على النهر، وأحلى مكان للغروب.</p></div></article>
+    <article class="panel"><div class="pn-media"><img src="assets/img/x-match.webp" alt="" loading="lazy"></div><div class="pn-body"><span class="pn-num">02</span><h3 data-en="Match nights">سهرات الماتشات</h3><p data-en="A big screen under the palms, every big game, and the whole crowd cheering.">شاشة كبيرة تحت النخل، كل ماتش مهم، والناس كلها بتشجع.</p></div></article>
+    <article class="panel"><div class="pn-media"><img src="assets/img/x-kids.webp" alt="" loading="lazy"></div><div class="pn-body"><span class="pn-num">03</span><h3 data-en="Kids play area">منطقة ألعاب الأطفال</h3><p data-en="Swings and slides on the grass, right in front of your seat.">مراجيح وزحاليق على النجيلة، قدام عينك وإنت قاعد مرتاح.</p></div></article>
+    <article class="panel"><div class="pn-media"><img src="assets/img/x-shisha.webp" alt="" loading="lazy"></div><div class="pn-body"><span class="pn-num">04</span><h3 data-en="Shisha corner">ركن الشيشة</h3><p data-en="Flavours from classic to blueberry, with the river breeze.">نكهات من السلوم للبلوبيري، ومعاها نسمة النيل.</p></div></article>
   </div>
 </section>
 
@@ -252,7 +203,7 @@
 <section class="mood sec" id="mood">
   <div class="wrap">
     <span class="kicker" data-en="What brings you?">جاي إمتى؟</span>
-    <h2 class="title reveal" data-en="Tell us the time,<br>we'll pour the right cup.">قولنا الساعة كام…<br>نقولك تشرب إيه.</h2>
+    <h2 class="title reveal" data-en="Tell us the time,<br>we'll pour the right cup.">قولنا الساعة كام…<br><em>نقولك تشرب إيه.</em></h2>
     <div class="mood-dial">
       <div class="mood-tabs" id="moodTabs"></div>
       <div class="mood-stage" id="moodStage"></div>
@@ -266,7 +217,7 @@
     <div class="menu-head">
       <div>
         <span class="kicker" data-en="The menu">المنيو</span>
-        <h2 class="title reveal" data-en="From the hot corner<br>to the shisha corner.">من الركن السخن<br>لركن الشيشة.</h2>
+        <h2 class="title reveal" data-en="From the hot corner<br>to the shisha corner.">من الركن السخن<br><em>لركن الشيشة.</em></h2>
       </div>
       <label class="search"><input id="menuSearch" type="search" placeholder="دوّر على مشروب أو حلو…" data-en-ph="Search a drink or a dessert…"></label>
     </div>
@@ -281,15 +232,14 @@
 <section class="gallery sec" id="gallery">
   <div class="wrap">
     <span class="kicker" data-en="Straight from our page">من صفحتنا مباشرة</span>
-    <h2 class="title reveal" data-en="Real moments at Naama Bay.">لحظات حقيقية في خليج نعمة.</h2>
+    <h2 class="title reveal" data-en="Real moments at Naama Bay.">لحظات حقيقية <em>في خليج نعمة.</em></h2>
   </div>
-  <div class="polaroids" id="polaroids">
-    <figure class="pol" style="--r:-4deg"><img src="assets/img/real-terrace.webp" alt="" loading="lazy"><figcaption data-en="Sunset on the terrace">غروب على التراس</figcaption></figure>
-    <figure class="pol" style="--r:3deg"><img src="assets/img/real-cider.webp" alt="" loading="lazy"><figcaption data-en="Two hot ciders, please">اتنين هوت سيدر لو سمحت</figcaption></figure>
-    <figure class="pol" style="--r:-2deg"><img src="assets/img/real-ring.webp" alt="" loading="lazy"><figcaption data-en="Our famous ring">الحلقة المشهورة</figcaption></figure>
-    <figure class="pol" style="--r:5deg"><img src="assets/img/real-berry.webp" alt="" loading="lazy"><figcaption data-en="Berry under neon">بلوبيري تحت النيون</figcaption></figure>
-    <figure class="pol" style="--r:-5deg"><img src="assets/img/real-dessert.webp" alt="" loading="lazy"><figcaption data-en="Pistachio dessert">حلو البستاشيو</figcaption></figure>
-    <figure class="pol" style="--r:2deg"><img src="assets/img/real-gate.webp" alt="" loading="lazy"><figcaption data-en="See you at the gate">مستنيينك على البوابة</figcaption></figure>
+  <div class="gal-grid wrap">
+    <figure class="g g1"><img src="assets/img/real-terrace.webp" alt="" loading="lazy"><figcaption data-en="Sunset on the terrace">غروب على التراس</figcaption></figure>
+    <figure class="g g2"><img src="assets/img/real-cider.webp" alt="" loading="lazy"><figcaption data-en="Two hot ciders, please">اتنين هوت سيدر لو سمحت</figcaption></figure>
+    <figure class="g g3"><img src="assets/img/real-berry.webp" alt="" loading="lazy"><figcaption data-en="Berry under neon">بلوبيري تحت النيون</figcaption></figure>
+    <figure class="g g5"><img src="assets/img/real-dessert.webp" alt="" loading="lazy"><figcaption data-en="Pistachio dessert">حلو البستاشيو</figcaption></figure>
+    <figure class="g g6"><img src="assets/img/real-gate.webp" alt="" loading="lazy"><figcaption data-en="See you at the gate">مستنيينك على البوابة</figcaption></figure>
   </div>
 </section>
 
@@ -297,15 +247,14 @@
 <section class="events sec" id="events">
   <div class="wrap">
     <span class="kicker" data-en="Occasions">المناسبات</span>
-    <h2 class="title reveal" data-en="Fully ready for every occasion.">استعداد تام لجميع المناسبات.</h2>
+    <h2 class="title reveal" data-en="Fully ready for every occasion.">استعداد تام <em>لجميع المناسبات.</em></h2>
     <p class="lead reveal" data-en="Weddings, engagements and birthdays on the lawn by the river, plus night trips on the Nile.">أفراح، خطوبة وأعياد ميلاد على الجنينة جنب النهر، وكمان رحلات نيلية بالليل.</p>
     <div class="ev-grid">
-      <article class="ev ev-big" data-ev="wedding"><img src="assets/img/wedding.webp" alt="" loading="lazy"><div><h3 data-en="Weddings">أفراح</h3><p data-en="A Nile-side aisle, an arch of flowers and a sky full of lights.">ممشى جنب النيل، قوس ورد وسما كلها نور.</p></div></article>
-      <article class="ev" data-ev="engagement"><img src="assets/img/ev1.webp" alt="" loading="lazy"><div><h3 data-en="Engagements">خطوبة</h3><p data-en="Candles, flowers and the river behind you.">شموع وورد والنهر وراكم.</p></div></article>
-      <article class="ev" data-ev="birthday"><img src="assets/img/ev0.webp" alt="" loading="lazy"><div><h3 data-en="Birthdays">أعياد ميلاد</h3><p data-en="Balloons, cake and a garden for the kids.">بالونات وتورتة وجنينة للأطفال.</p></div></article>
-      <article class="ev ev-wide" data-ev="trip"><img src="assets/img/felucca.webp" alt="" loading="lazy"><div><h3 data-en="Night Nile trips">رحلات نيلية ليلية</h3><p data-en="Sail out under the lights and come back to a hot drink.">اتفسّح في النيل تحت اللمبات وارجع على مشروب سخن.</p></div></article>
+      <article class="ev ev-big" data-ev="wedding"><img src="assets/img/x-wedding.webp" alt="" loading="lazy"><div><h3 data-en="Weddings">أفراح</h3><p data-en="A Nile-side aisle, an arch of flowers and a sky full of lights.">ممشى جنب النيل، قوس ورد وسما كلها نور.</p></div></article>
+      <article class="ev" data-ev="engagement"><img src="assets/img/x-engage.webp" alt="" loading="lazy"><div><h3 data-en="Engagements">خطوبة</h3><p data-en="Candles, flowers and the river behind you.">شموع وورد والنهر وراكم.</p></div></article>
+      <article class="ev" data-ev="birthday"><img src="assets/img/x-bday.webp" alt="" loading="lazy"><div><h3 data-en="Birthdays">أعياد ميلاد</h3><p data-en="Balloons, cake and a garden for the kids.">بالونات وتورتة وجنينة للأطفال.</p></div></article>
+      <article class="ev ev-wide" data-ev="trip"><img src="assets/img/x-felucca.webp" alt="" loading="lazy"><div><h3 data-en="Nile trips">رحلات نيلية</h3><p data-en="Sail out at golden hour and come back to a hot drink.">اتفسّح في النيل وقت الغروب وارجع على مشروب سخن.</p></div></article>
     </div>
-
     <form class="planner" id="planner">
       <h3 data-en="Plan your occasion">خطّط لمناسبتك</h3>
       <div class="pl-types" id="plTypes">
@@ -377,7 +326,7 @@
       <div class="review"><div class="stars"><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg></div><p data-en="100% recommend · Facebook reviews">100% بيرشّحونا · تقييمات فيسبوك</p></div>
       <div class="visit-ctas">
         <a class="btn btn-sun" id="mapBtn" target="_blank" rel="noopener" data-en="Directions">الاتجاهات</a>
-        <a class="btn btn-ghost" href="https://www.facebook.com/khalegneamaa" target="_blank" rel="noopener"><svg><use href="#ico-fb"/></svg><span data-en="Our page">صفحتنا</span></a>
+        <a class="btn btn-glass" href="https://www.facebook.com/khalegneamaa" target="_blank" rel="noopener"><svg><use href="#ico-fb"/></svg><span data-en="Our page">صفحتنا</span></a>
       </div>
     </div>
     <div class="map-wrap"><iframe id="mapFrame" title="map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
@@ -411,7 +360,7 @@
 <script src="assets/js/vendor/gsap.min.js"></script>
 <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/js/vendor/lenis.min.js"></script>
-<script src="assets/js/data.js?v=1"></script>
-<script src="assets/js/app.js?v=1"></script>
+<script src="assets/js/data.js?v=2"></script>
+<script src="assets/js/app.js?v=2"></script>
 </body>
 </html>
