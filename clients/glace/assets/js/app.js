@@ -106,7 +106,7 @@ function vesselSVG(){
 function scoopSVG(f,i,n){
   const W=[168,152,138][i], s=W/184, by=st.v==='cup'?352-i*78:350-i*78, cx=200+(i===1?12:i===2?-8:0);
   const tx=cx-150*s, ty=by-176*s;
-  return `<g class="scoop-g" data-i="${i}"><g transform="translate(${tx} ${ty}) scale(${s})"><path d="${FB.frill}" fill="${f.d}"/><path d="${FB.body}" fill="${f.c}"/><path d="${FB.hi}" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="8" stroke-linecap="round"/></g></g>`;
+  return `<g class="scoop-g" data-i="${i}"><g transform="translate(${tx} ${ty}) scale(${s})"><ellipse cx="150" cy="122" rx="94" ry="80" fill="${f.c}"/><path d="${FB.frill}" fill="${f.d}"/><path d="M58 172 C74 160 84 186 100 170 C114 158 126 188 142 172 C156 160 168 188 184 172 C198 160 212 186 226 172 C234 166 240 168 244 172" fill="none" stroke="${f.c}" stroke-width="10" stroke-linecap="round"/><path d="${FB.hi}" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="8" stroke-linecap="round"/></g></g>`;
 }
 function topsSVG(){
   const n=st.scoops.length;if(!n) return '';
