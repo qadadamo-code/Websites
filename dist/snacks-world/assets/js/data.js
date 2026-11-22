@@ -1,7 +1,7 @@
 /* Snacks World — Arabic texts (single language per client request). Edit contacts in SW_CONFIG. */
 window.SW_CONFIG = {
-  whatsapp: '201100889670',          // client's number from Instagram bio (01100889670)
-  phone: '01100889670',
+  whatsapp: '201203101104',          // Planet company WhatsApp (user rule)
+  phone: '01203101104',
   instagram: 'https://www.instagram.com/snacks_worled_egypt/'
 };
 
