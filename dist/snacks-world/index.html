@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="assets/img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=1">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
 <script>try{var t=localStorage.getItem('sw-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
 <body>
@@ -249,7 +249,7 @@
           <input type="range" id="plGuests" min="20" max="2000" step="10" value="150">
         </label>
         <div class="fld-row">
-          <label class="fld"><span>التاريخ</span><input type="date" id="plDate"></label>
+          <label class="fld"><span>التاريخ</span><input type="text" id="plDate" placeholder="اختار يوم الحفلة" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'"></label>
           <label class="fld"><span>المكان</span><input type="text" id="plPlace" placeholder="مثلًا: التجمع الخامس"></label>
         </div>
         <ul class="pl-list" id="plList"></ul>
