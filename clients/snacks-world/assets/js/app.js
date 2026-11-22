@@ -28,6 +28,7 @@ $('#themeBtn').addEventListener('click', () => {
 });
 
 /* ---------- smooth scroll ---------- */
+ScrollTrigger.config({ ignoreMobileResize: true });
 let lenis = null;
 if (!reduce && !weak && !('ontouchstart' in window)) {
   lenis = new Lenis({ lerp: .11, wheelMultiplier: 1 });
