@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Snacks World Egypt | سناكس وورلد — كاترينج وفود تراك وحفلات شركات</title>
+<meta name="description" content="Snacks World Egypt — شركة متخصصة في تنظيم الحفلات والفود تراك وجميع أنواع الكاترينج لحفلات الشركات والمدارس والمعارض والمؤتمرات وكل المناسبات.">
+<meta name="theme-color" content="#0B0B12">
+<meta property="og:title" content="Snacks World — الفود تراك وصل حفلتك">
+<meta property="og:description" content="فود تراك بكل أنواعه، العاب كرنفال ومولد، والشيف فلفل. خطّط حفلتك وابعتلنا على واتساب.">
+<meta property="og:image" content="assets/img/og.jpg">
+<link rel="icon" href="assets/img/icon.png">
+<link rel="apple-touch-icon" href="assets/img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=1">
+<script>try{var t=localStorage.getItem('sw-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+
+<!-- ===== INTRO: logo gets sprayed on ===== -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-logo" id="introLogo">
+    <img class="il-splat" src="assets/img/logo-splat.webp" alt="">
+    <img class="il-text" src="assets/img/logo-text.webp" alt="">
+    <img class="il-mascot" src="assets/img/logo-mascot.webp" alt="">
+    <i class="drip d1"></i><i class="drip d2"></i><i class="drip d3"></i>
+  </div>
+  <canvas class="intro-spray" id="introSpray"></canvas>
+  <p class="intro-tag">GOOD FOOD · GOOD MOOD · GOOD TIME</p>
+  <button class="intro-skip" id="introSkip">تخطي</button>
+</div>
+
+<!-- ===== NAV ===== -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav-logo" aria-label="Snacks World"><img src="assets/img/logo-600.webp" alt="Snacks World" width="120" height="85"></a>
+  <nav class="nav-links" id="navLinks">
+    <a href="#passport">جواز السناكس</a>
+    <a href="#services">خدماتنا</a>
+    <a href="#game">العاب القوة</a>
+    <a href="#planner">خطّط حفلتك</a>
+    <a href="#moments">من حفلاتنا</a>
+    <a href="#contact">تواصل</a>
+  </nav>
+  <div class="nav-actions">
+    <button class="theme-btn" id="themeBtn" aria-label="نهاري / ليلي">
+      <span class="tb-track"><span class="tb-knob"></span></span>
+      <span class="tb-lbl" id="themeLbl">ليلي</span>
+    </button>
+    <a class="btn btn-yellow nav-cta" data-wa href="#">اطلب عرض سعر</a>
+    <button class="burger" id="burger" aria-label="القائمة"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===== HERO: the shutter opens with scroll ===== -->
+<section class="hero" id="hero">
+  <div class="hero-pin">
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <img class="hero-poster" id="heroPoster" src="assets/seq/d/000.webp" alt="فود تراك Snacks World">
+    <div class="hero-shade"></div>
+    <div class="hero-side"></div>
+    <div class="bulbs bulbs-top" aria-hidden="true"></div>
+
+    <div class="hero-copy">
+      <p class="eyebrow hero-eyebrow"><span class="dot"></span>كاترينج · فود تراك · حفلات شركات</p>
+      <h1 class="hero-title">
+        <span class="ht-line ht1"><span>الفود تراك</span></span>
+        <span class="ht-line ht2"><span>وصل حفلتك<b class="ht-dot">.</b></span></span>
+      </h1>
+      <div class="hero-more">
+        <p class="hero-sub">من أول الفقرات لحد آخر سندوتش: فود تراك بكل أنواعه، العاب كرنفال ومولد، والشيف فلفل بنفسه. لحفلات الشركات والمدارس والمعارض وكل مناسباتك.</p>
+        <div class="hero-ctas">
+          <a href="#planner" class="btn btn-yellow">خطّط حفلتك</a>
+          <a data-wa href="#" class="btn btn-ghost"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>كلّمنا واتساب</a>
+        </div>
+      </div>
+    </div>
+
+    <ul class="hero-chips" aria-label="مميزات">
+      <li><b>+15</b> محطة سناكس</li>
+      <li><b>🎡</b> العاب كرنفال ومولد</li>
+      <li><b>✦</b> من الفكرة للتنفيذ</li>
+    </ul>
+
+    <div class="pull" id="pull" aria-hidden="true">
+      <span class="pull-chain"></span>
+      <span class="pull-ring"></span>
+      <span class="pull-lbl">اسحب لتحت… وافتح الشباك</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TICKER: caution-tape bands ===== -->
+<section class="tape" aria-label="Good food good mood good time">
+  <div class="tape-band tb-y"><div class="tape-run" data-dir="1"></div></div>
+  <div class="tape-band tb-r"><div class="tape-run" data-dir="-1"></div></div>
+</section>
+
+<!-- ===== PASSPORT ===== -->
+<section class="passport" id="passport">
+  <div class="pp-pin">
+    <header class="sec-head pp-head">
+      <p class="eyebrow">TASTE THE WORLD</p>
+      <h2 class="sec-title">جواز سفر <em>السناكس</em></h2>
+      <p class="sec-sub">لفّ العالم في حفلة واحدة. كل محطة بتعدّي عليها = ختم جديد في جوازك.</p>
+    </header>
+
+    <div class="pp-stage">
+      <div class="pp-book" id="ppBook">
+        <div class="pp-page pp-photo">
+          <div class="pp-glow"></div>
+          <div class="pp-imgs" id="ppImgs"></div>
+          <div class="pp-num" id="ppNum">01</div>
+        </div>
+        <div class="pp-spine"></div>
+        <div class="pp-page pp-info" id="ppInfo">
+          <div class="pp-guilloche"></div>
+          <div class="pp-mrz" aria-hidden="true">P&lt;EGY&lt;SNACKS&lt;&lt;WORLD&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
+          <div class="pp-content" id="ppContent"></div>
+          <div class="pp-stamps" id="ppStamps"></div>
+        </div>
+        <div class="pp-leaf" id="ppLeaf"></div>
+      </div>
+
+      <aside class="pp-side">
+        <div class="pp-counter"><b id="ppCount">0</b><span>/9</span> <small>أختام</small></div>
+        <ol class="pp-dots" id="ppDots"></ol>
+        <div class="pp-done" id="ppDone">
+          <p>جوازك اكتمل! ودّي محطاتك على مخطط الحفلة</p>
+          <a href="#planner" class="btn btn-yellow">افتح المخطط</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES: carnival tickets ===== -->
+<section class="services" id="services">
+  <header class="sec-head">
+    <p class="eyebrow">خدماتنا</p>
+    <h2 class="sec-title">هنظم حفلتك من أول الفقرات… <em>لحد الفود تراك</em></h2>
+    <p class="sec-sub">مهما كان نوع المناسبة، هنوفرلك كل احتياجاتك في مكان واحد.</p>
+  </header>
+  <div class="tickets" id="tickets">
+    <article class="ticket" style="--tc:#FFD60A">
+      <div class="tk-photo"><img src="assets/img/real/grill.webp" alt="شيفات Snacks World على الصاج" loading="lazy"></div>
+      <div class="tk-body"><span class="tk-no">No. 01</span><h3>فود تراك ومحطات أكل</h3><p>شاورما، برجر، كورن دوج، بطاطس، وافل، بان كيك، زلابيا، آيس كريم وفشار… كل أنواع الفود تراك.</p></div>
+      <div class="tk-stub"><span>تذكرة دخول</span><b>ADMIT ONE</b></div>
+    </article>
+    <article class="ticket" style="--tc:#7BD389">
+      <div class="tk-photo"><img src="assets/img/real/fruit.webp" alt="فروت ستيكس للشركات" loading="lazy"></div>
+      <div class="tk-body"><span class="tk-no">No. 02</span><h3>كاترينج الشركات</h3><p>كوفي بريك، فروت كب وسلطات فواكه، فريسكا وسلاش… طعم الفواكه الطبيعية وانت في شركتك.</p></div>
+      <div class="tk-stub"><span>تذكرة دخول</span><b>ADMIT ONE</b></div>
+    </article>
+    <article class="ticket" style="--tc:#FF6B4A">
+      <div class="tk-photo"><img src="assets/img/real/mawlid.webp" alt="العاب المولد مع الشركات" loading="lazy"></div>
+      <div class="tk-body"><span class="tk-no">No. 03</span><h3>العاب الكرنفال والمولد</h3><p>الهامر والبوكس وألعاب المولد وأكشاك الكرنفال والنطاطات. العاب المولد مع الشركات ليها طعم تاني.</p></div>
+      <div class="tk-stub"><span>تذكرة دخول</span><b>ADMIT ONE</b></div>
+    </article>
+    <article class="ticket" style="--tc:#B98CFF">
+      <div class="tk-photo"><img src="assets/img/real/led.webp" alt="روبوتات LED" loading="lazy"></div>
+      <div class="tk-body"><span class="tk-no">No. 04</span><h3>عروض وترفيه</h3><p>الشيف فلفل، فرقة نحاسية، روبوتات LED، حفلات هالوين وفقرات للأطفال والكبار.</p></div>
+      <div class="tk-stub"><span>تذكرة دخول</span><b>ADMIT ONE</b></div>
+    </article>
+    <article class="ticket" style="--tc:#FF8FC7">
+      <div class="tk-photo"><img src="assets/img/real/birthday.webp" alt="باك دروب وأقواس بالونات" loading="lazy"></div>
+      <div class="tk-body"><span class="tk-no">No. 05</span><h3>ديكور ومداخل</h3><p>أقواس بالونات، باك دروب بالاسم، أرقام مضيئة، وتجهيز ركن التصوير.</p></div>
+      <div class="tk-stub"><span>تذكرة دخول</span><b>ADMIT ONE</b></div>
+    </article>
+    <article class="ticket" style="--tc:#5EC8F2">
+      <div class="tk-photo"><img src="assets/img/real/carnival.webp" alt="كرنفال في مول" loading="lazy"></div>
+      <div class="tk-body"><span class="tk-no">No. 06</span><h3>تنظيم كامل</h3><p>افتتاحات، معارض، مؤتمرات، أعياد ميلاد وأفراح… من الفكرة لحد آخر ضيف.</p></div>
+      <div class="tk-stub"><span>تذكرة دخول</span><b>ADMIT ONE</b></div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== STRENGTH GAME ===== -->
+<section class="game" id="game">
+  <div class="game-wrap">
+    <div class="game-copy">
+      <p class="eyebrow">العاب القوة</p>
+      <h2 class="sec-title">اختبر <em>قوتك</em></h2>
+      <p class="sec-sub">اضغط مطوّل عشان تشحن الضربة، وسيب في اللحظة الصح. نفس ماكينة الهامر اللي في حفلاتنا.</p>
+      <div class="game-score">
+        <div class="led"><span id="gScore">00</span><small>SCORE</small></div>
+        <div class="led led-sm"><span id="gBest">00</span><small>أعلى رقم</small></div>
+      </div>
+      <p class="game-verdict" id="gVerdict">&nbsp;</p>
+      <div class="game-real">
+        <img src="assets/img/real/boxing.webp" alt="ماكينة البوكس في حفلة" loading="lazy">
+        <div><p>عايز الماكينة الحقيقية في حفلتك؟</p><a class="link-arrow" data-wa data-msg="عايز أحجز العاب القوة (الهامر والبوكس) لحفلة" href="#">احجز العاب القوة ←</a></div>
+      </div>
+    </div>
+
+    <div class="striker" id="striker">
+      <div class="st-bell" id="stBell"><svg viewBox="0 0 80 60"><path d="M10 52c4-6 6-14 6-24C16 14 27 4 40 4s24 10 24 24c0 10 2 18 6 24Z" fill="url(#bellG)"/><rect x="4" y="50" width="72" height="7" rx="3.5" fill="#B8860B"/><circle cx="40" cy="4" r="4" fill="#B8860B"/><defs><linearGradient id="bellG" x1="0" x2="1"><stop offset="0" stop-color="#FFE680"/><stop offset=".5" stop-color="#F5B400"/><stop offset="1" stop-color="#B8860B"/></linearGradient></defs></svg></div>
+      <div class="st-tower">
+        <div class="st-scale" id="stScale"></div>
+        <div class="st-rail"></div>
+        <div class="st-fill" id="stFill"></div>
+        <div class="st-puck" id="stPuck"></div>
+      </div>
+      <div class="st-base">
+        <div class="st-pad" id="stPad"></div>
+        <div class="st-hammer" id="stHammer"><i class="h-handle"></i><i class="h-head"></i></div>
+      </div>
+      <div class="st-meter"><i id="stMeter"></i></div>
+      <button class="btn btn-red st-btn" id="stBtn"><span id="stBtnLbl">اضغط مطوّل</span></button>
+      <canvas class="confetti" id="confetti"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PLANNER ===== -->
+<section class="planner" id="planner">
+  <header class="sec-head">
+    <p class="eyebrow">مخطط الحفلة</p>
+    <h2 class="sec-title">خطّط حفلتك <em>على النجيلة</em></h2>
+    <p class="sec-sub">اختار المحطات وارمِيها على الأرض، حرّكها زي ما تحب، وابعت لنا الخطة. هنرجعلك بعرض السعر.</p>
+  </header>
+  <div class="pl-grid">
+    <div class="pl-board-wrap">
+      <div class="pl-tabs" id="plTabs" role="tablist">
+        <button class="on" data-g="food">أكل</button>
+        <button data-g="games">ألعاب</button>
+        <button data-g="shows">عروض</button>
+        <button data-g="decor">ديكور</button>
+      </div>
+      <div class="pl-palette" id="plPalette"></div>
+      <div class="pl-board" id="plBoard">
+        <div class="pl-lights" aria-hidden="true"></div>
+        <div class="pl-entrance">المدخل</div>
+        <p class="pl-empty" id="plEmpty">الأرض لسه فاضية… دوس على أي محطة وارميها هنا</p>
+      </div>
+      <p class="pl-hint">اسحب أي محطة لمكان تاني، ودوس × للحذف</p>
+    </div>
+    <aside class="pl-side">
+      <div class="pl-card">
+        <h3>خطة حفلتك <span class="pl-badge"><b id="plCount">0</b> محطة</span></h3>
+        <label class="fld"><span>نوع المناسبة</span>
+          <div class="seg" id="plType">
+            <button class="on" data-v="حفلة شركة">حفلة شركة</button><button data-v="مدرسة">مدرسة</button><button data-v="معرض / مؤتمر">معرض / مؤتمر</button><button data-v="عيد ميلاد">عيد ميلاد</button><button data-v="فرح / خطوبة">فرح / خطوبة</button><button data-v="افتتاح">افتتاح</button><button data-v="هالوين">هالوين</button>
+          </div>
+        </label>
+        <label class="fld"><span>عدد الضيوف <b class="pl-guests" id="plGuestsV">150</b></span>
+          <input type="range" id="plGuests" min="20" max="2000" step="10" value="150">
+        </label>
+        <div class="fld-row">
+          <label class="fld"><span>التاريخ</span><input type="date" id="plDate"></label>
+          <label class="fld"><span>المكان</span><input type="text" id="plPlace" placeholder="مثلًا: التجمع الخامس"></label>
+        </div>
+        <ul class="pl-list" id="plList"></ul>
+        <a class="btn btn-yellow btn-block" id="plSend" href="#">ابعت الخطة على واتساب</a>
+        <button class="btn-text" id="plClear">فضّي الأرض</button>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ===== MOMENTS: polaroids on string lights ===== -->
+<section class="moments" id="moments">
+  <header class="sec-head">
+    <p class="eyebrow">من حفلاتنا</p>
+    <h2 class="sec-title">صور حقيقية… <em>مش كلام</em></h2>
+    <p class="sec-sub">لقطات من صفحتنا: مولات، مدارس، شركات، معارض وأعياد ميلاد.</p>
+  </header>
+  <div class="line-wrap" id="lineWrap">
+    <svg class="line-wire" id="lineWire" preserveAspectRatio="none"><path id="wirePath" d=""/></svg>
+    <div class="line-track" id="lineTrack"></div>
+  </div>
+  <p class="drag-hint">اسحب ←→</p>
+</section>
+
+<!-- ===== OCCASIONS ===== -->
+<section class="occasions" id="occasions">
+  <p class="eyebrow oc-eb">بنحضر في</p>
+  <div class="oc-words" id="ocWords"></div>
+</section>
+
+<!-- ===== CHEF FELFEL ===== -->
+<section class="felfel" id="felfel">
+  <div class="ff-wrap">
+    <div class="ff-stage">
+      <div class="ff-sun"></div>
+      <img class="ff-img" id="ffImg" src="assets/img/felfel.webp" alt="الشيف فلفل ماسكوت Snacks World" loading="lazy">
+      <div class="ff-bubble" id="ffBubble"><span id="ffText">أهلًا بيكم في عالم السناكس! 👋</span></div>
+    </div>
+    <div class="ff-copy">
+      <p class="eyebrow">ضيف الشرف</p>
+      <h2 class="sec-title">الشيف <em>فلفل</em> 🌶️</h2>
+      <p class="sec-sub">متخصص فرحة وبهجة. بيسلّم على الأطفال، بيتصور مع الكبار، وبيقلب الحفلة.</p>
+      <a class="btn btn-red" data-wa data-msg="عايز أحجز الشيف فلفل لحفلة" href="#">احجز الشيف فلفل</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq" id="faq">
+  <header class="sec-head"><h2 class="sec-title">أسئلة <em>بتتسأل كتير</em></h2></header>
+  <div class="faq-list">
+    <details><summary>إزاي أحجز وأعرف السعر؟</summary><p>ابعتلنا رسالة على واتساب أو استخدم مخطط الحفلة، وهنبعتلك عرض الأسعار حسب عدد الضيوف والمحطات.</p></details>
+    <details><summary>بتشتغلوا في حفلات الشركات والمدارس؟</summary><p>أيوه، ده تخصصنا: حفلات شركات، مدارس، معارض، مؤتمرات، مولات، وكمان المناسبات الخاصة.</p></details>
+    <details><summary>ممكن نختار أكتر من فود تراك؟</summary><p>طبعًا، تقدر تجمع أي عدد من المحطات والألعاب والعروض في نفس الحفلة.</p></details>
+    <details><summary>ممكن تحطوا اسم أو لوجو شركتنا؟</summary><p>ممكن نجهز الباك دروب والمداخل وأكواب وعلب التقديم بهوية شركتك (حسب الاتفاق).</p></details>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact" id="contact">
+  <div class="ct-splat" aria-hidden="true"><img src="assets/img/splat-solid.webp" alt=""></div>
+  <div class="ct-inner">
+    <p class="eyebrow">تواصل معانا</p>
+    <h2 class="ct-title">حفلتك الجاية…<br><em>عندنا</em></h2>
+    <p class="sec-sub">ابعتلنا مسدج وهنبعتلك عروض الأسعار. يشرفنا زيارتكم لينا.</p>
+    <div class="ct-btns">
+      <a class="btn btn-yellow" data-wa href="#">واتساب</a>
+      <a class="btn btn-ghost" id="ctCall" href="#">اتصل بينا <span class="num" id="ctNum"></span></a>
+      <a class="btn btn-ghost" id="ctIg" href="#" target="_blank" rel="noopener">إنستجرام</a>
+    </div>
+    <p class="ct-area">📍 القاهرة والجيزة، ونوصل لأماكن تانية حسب الحفلة</p>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <img src="assets/img/logo-600.webp" alt="Snacks World" width="90" height="64" loading="lazy">
+  <p>© <span id="yr"></span> Snacks World Egypt — كل الحقوق محفوظة</p>
+  <p class="foot-by">تصميم وتطوير <a href="https://web.theplanetco.com/" target="_blank" rel="noopener">Planet Creative Marketing</a></p>
+</footer>
+
+<a class="wa-float" data-wa href="#" aria-label="واتساب"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg></a>
+
+<div class="lightbox" id="lightbox" aria-hidden="true"><button class="lb-x" aria-label="إغلاق">×</button><figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/data.js?v=1"></script>
+<script src="assets/js/app.js?v=1"></script>
+</body>
+</html>
