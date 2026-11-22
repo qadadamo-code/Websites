@@ -20,7 +20,7 @@
   const waLink = text => `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(text)}`;
   const mailLink = (subject, body) => `mailto:${CFG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   const waTexts = {
-    nav: "مرحبًا باركود كافيه! أريد أن أطلب أونلاين 🍕☕",
+    nav: "مرحبًا باركود كافيه! أريد أن أطلب أونلاين ☕🥤",
     fab: "مرحبًا باركود كافيه! عندي سؤال بسيط…",
     footer: "مرحبًا باركود كافيه!",
     opening: "مرحبًا باركود كافيه! أريد دعوة يوم الافتتاح، وأرجو إبلاغي بالموعد أول بأول ✨"
@@ -150,23 +150,25 @@
         <div class="items" id="items-${c.id}">
           <div class="wrap">
             <div class="items__head">
-              <h3>${c.title}<span class="copper" style="color:var(--copper)">.</span></h3>
+              <h3>${c.title}<span class="copper">.</span></h3>
               <p>${c.items.length} أصناف · اضغط «أضف» وسنجهّز لك الفاتورة.</p>
             </div>
-            <div class="items__hero"><img src="assets/img/${c.seq}.jpg" alt="${c.title} في باركود كافيه" loading="lazy"></div>
             <div class="grid">
-              ${c.items.map((it, i) => `
+              ${c.items.map((it, i) => {
+                const head = it.group && (i === 0 || c.items[i - 1].group !== it.group)
+                  ? `<div class="group"><h4>${it.group}</h4><i></i><span>${c.items.filter(x => x.group === it.group).length} أصناف</span></div>` : "";
+                return `${head}
                 <article class="item" data-id="${it.id}">
                   <span class="item__qty latin" data-qty="${it.id}"></span>
                   <div class="item__top"><span class="item__code latin">${ITEMS[it.id].code}</span>${it.tag ? `<span class="item__tag">${it.tag}</span>` : ""}</div>
                   <h4>${it.name}</h4>
-                  <p>${it.desc}</p>
                   <div class="item__bottom">
-                    <div class="item__barcode" style="color:var(--brown)">${barcodeSVG(it.id + it.name)}</div>
+                    <div class="item__barcode">${barcodeSVG(it.id + it.name)}</div>
                     <div class="item__price latin">${fmt(it.price)}<small>EGP</small></div>
                   </div>
-                  <button class="item__add" data-add="${it.id}"><span>+</span> أضف إلى الفاتورة</button>
-                </article>`).join("")}
+                  <button class="item__add" data-add="${it.id}"><span>+</span> أضف</button>
+                </article>`;
+              }).join("")}
             </div>
           </div>
         </div>
@@ -287,8 +289,7 @@
 
   // item reveals + hero image parallax
   $$(".items").forEach(sec => {
-    gsap.from($$(".item", sec), { y: 60, opacity: 0, rotate: .6, duration: 1, ease: "expo.out", stagger: { each: .06 }, scrollTrigger: { trigger: $(".grid", sec), start: "top 85%" } });
-    gsap.fromTo($(".items__hero img", sec), { yPercent: -12 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: $(".items__hero", sec), start: "top bottom", end: "bottom top", scrub: true } });
+    gsap.from($$(".item", sec), { y: 60, opacity: 0, rotate: .6, duration: 1, ease: "expo.out", stagger: { each: .025 }, scrollTrigger: { trigger: $(".grid", sec), start: "top 85%" } });
   });
 
   // tabs active state
