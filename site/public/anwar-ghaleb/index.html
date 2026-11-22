@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أنور غالب | إكسسوارات الموبايل</title>
+<meta name="description" content="أنور غالب لإكسسوارات الموبايل: كفرات، شواحن سريعة، كابلات، سماعات، باور بانك، ساعات ذكية وحمايات شاشة. أصلي ومضمون مع توصيل لكل المحافظات.">
+<meta name="theme-color" content="#0A0B12">
+<meta property="og:title" content="أنور غالب | إكسسوارات الموبايل">
+<meta property="og:description" content="اشحن أسلوبك. إكسسوارات أصلية بضمان حقيقي وتوصيل سريع.">
+<meta property="og:image" content="assets/img/og.jpg">
+<link rel="icon" href="assets/img/icon.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/style.css?v=1">
+<script>
+  (function () { try { var t = localStorage.getItem('ag-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {} })();
+</script>
+<script type="importmap">{"imports":{"three":"./assets/js/vendor/three.module.min.js"}}</script>
+</head>
+<body>
+
+<!-- intro: charge the dot -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-in">
+    <div class="intro-mark"><span class="ic"><b>ع<i></i></b></span></div>
+    <div class="intro-bar"><span></span></div>
+    <div class="intro-txt"><span data-i="charging">جاري الشحن</span> <em id="introPct">0</em>%</div>
+  </div>
+</div>
+
+<header class="hdr" id="hdr">
+  <a class="logo" href="#top" aria-label="Anwar Ghaleb">
+    <span class="ic sm"><b>ع<i></i></b></span>
+    <span class="logo-t"><strong class="wm" data-wm>أنور <span class="g">ع<i></i></span>الب</strong><small data-i="brandSub">إكسسوارات الموبايل</small></span>
+  </a>
+  <nav class="nav" id="nav">
+    <a href="#cats" data-i="navCats">الأقسام</a>
+    <a href="#shop" data-i="navShop">المتجر</a>
+    <a href="#studio" data-i="navStudio">صمّم كفرك</a>
+    <a href="#lab" data-i="navLab">مختبر الشحن</a>
+    <a href="#bundles" data-i="navBundles">الباقات</a>
+    <a href="#contact" data-i="navContact">تواصل</a>
+  </nav>
+  <div class="tools">
+    <div class="lang" id="lang">
+      <button class="tbtn" id="langBtn" aria-haspopup="true" aria-label="Language"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3C9.5 5.6 8.2 8.6 8.2 12s1.3 6.4 3.8 9"/></svg><span id="langCode">AR</span></button>
+      <div class="lang-menu" id="langMenu"></div>
+    </div>
+    <button class="tbtn" id="themeBtn" aria-label="Theme"><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+    <button class="tbtn cartbtn" id="cartBtn" aria-label="Cart"><svg viewBox="0 0 24 24"><path d="M5 7h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><em id="cartCount">0</em></button>
+    <button class="tbtn burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <canvas id="heroGL" aria-hidden="true"></canvas>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-in wrap">
+      <p class="eyebrow"><span class="pulse"></span><span data-i="heroEyebrow">إكسسوارات أصلية</span></p>
+      <h1 class="h1"><span class="ln"><span data-i="heroL1">اشحن</span></span><span class="ln"><span class="volt" data-i="heroL2">أسلوبك.</span></span></h1>
+      <p class="lead" data-i="heroSub"></p>
+      <div class="btns">
+        <a class="btn pri" href="#shop"><span data-i="heroShop">تسوّق الآن</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn ghost" href="#studio" data-i="heroStudio">صمّم كفرك</a>
+      </div>
+      <ul class="stats">
+        <li><b data-count="300">0</b><span>+</span><small data-i="statProducts"></small></li>
+        <li><b data-count="12">0</b><small data-i="statWarranty"></small></li>
+        <li><b data-count="24">0</b><small data-i="statDelivery"></small></li>
+        <li><b data-count="4.9" data-dec="1">0</b><small data-i="statRating"></small></li>
+      </ul>
+    </div>
+    <div class="hero-batt" aria-hidden="true">
+      <div class="hb-top"><span data-i="battery">البطارية</span><b id="battPct">12%</b></div>
+      <div class="hb-bar"><i id="battBar"></i></div>
+      <div class="hb-bolt"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg> <span>65W GaN</span></div>
+    </div>
+    <a class="scroll" href="#cats"><span data-i="scroll">مرّر</span><i></i></a>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div class="mq-track" id="mq"></div></div>
+
+  <!-- CATEGORIES -->
+  <section class="sec" id="cats">
+    <div class="wrap">
+      <div class="sec-head"><p class="kicker" data-i="catsKicker"></p><h2 class="h2" data-i="catsTitle"></h2></div>
+      <div class="bento" id="bento"></div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section class="sec shop" id="shop">
+    <div class="wrap">
+      <div class="sec-head row">
+        <div><p class="kicker" data-i="shopKicker"></p><h2 class="h2" data-i="shopTitle"></h2></div>
+        <div class="shop-tools">
+          <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></svg><input id="q" type="search" data-iph="search" autocomplete="off"></label>
+          <select id="sort" class="sel"><option value="f" data-i="sortFeat"></option><option value="l" data-i="sortLow"></option><option value="h" data-i="sortHigh"></option></select>
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="grid" id="grid"></div>
+      <p class="empty" id="empty" hidden><span data-i="noResults"></span> <a class="link" id="emptyWa" target="_blank" rel="noopener" data-i="orderWa"></a></p>
+      <p class="note" data-i="samplePrices"></p>
+    </div>
+  </section>
+
+  <!-- STUDIO -->
+  <section class="sec studio" id="studio">
+    <div class="wrap studio-in">
+      <div class="st-stage">
+        <canvas id="studioGL"></canvas>
+        <div class="st-glow"></div>
+        <span class="st-hint"><svg viewBox="0 0 24 24"><path d="M8 12h8M5 9l-3 3 3 3M19 9l3 3-3 3"/></svg><span data-i="stDrag"></span></span>
+        <div class="st-engr" id="stEngr"></div>
+      </div>
+      <div class="st-panel">
+        <p class="kicker" data-i="studioKicker"></p>
+        <h2 class="h2" data-i="studioTitle"></h2>
+        <p class="lead sm" data-i="studioSub"></p>
+        <div class="st-field"><label data-i="stModel"></label><div class="seg wrapit" id="stModels"></div></div>
+        <div class="st-field"><label data-i="stMaterial"></label><div class="seg" id="stMats"></div></div>
+        <div class="st-field"><label data-i="stColor"></label><div class="sw" id="stColors"></div></div>
+        <div class="st-field"><label data-i="stEngrave"></label><input class="inp" id="stName" maxlength="14" data-iph="stEngravePh"></div>
+        <div class="st-foot"><div><small data-i="stTotal"></small><b id="stPrice">450</b> <span data-i="currency"></span></div><button class="btn pri" id="stAdd"><span data-i="add"></span></button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAB -->
+  <section class="sec lab" id="lab">
+    <div class="wrap">
+      <div class="sec-head center"><p class="kicker" data-i="labKicker"></p><h2 class="h2" data-i="labTitle"></h2><p class="lead sm" data-i="labSub"></p></div>
+      <div class="lab-in">
+        <div class="lab-phones" id="labPhones"></div>
+        <div class="lab-ctl">
+          <div class="seg" id="labW"></div>
+          <button class="btn pri" id="labRun"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg><span data-i="labRun"></span></button>
+          <div class="lab-res"><b id="labX">3.5×</b> <span data-i="labFaster"></span></div>
+          <a class="lab-rec" id="labRec" href="#shop"></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUNDLES -->
+  <section class="sec" id="bundles">
+    <div class="wrap">
+      <div class="sec-head"><p class="kicker" data-i="bundlesKicker"></p><h2 class="h2" data-i="bundlesTitle"></h2></div>
+      <div class="bundles" id="bundleGrid"></div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="sec why" id="why">
+    <div class="wrap">
+      <div class="sec-head"><p class="kicker" data-i="whyKicker"></p><h2 class="h2" data-i="whyTitle"></h2></div>
+      <div class="why-grid" id="whyGrid"></div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="sec revs">
+    <div class="wrap">
+      <div class="sec-head"><p class="kicker" data-i="revKicker"></p><h2 class="h2" data-i="revTitle"></h2></div>
+      <div class="rev-grid" id="revGrid"></div>
+      <p class="note" data-i="sampleReviews"></p>
+    </div>
+  </section>
+
+  <!-- CTA / CONTACT -->
+  <section class="sec cta" id="contact">
+    <div class="wrap">
+      <div class="cta-card">
+        <div class="cta-cable" aria-hidden="true"><svg viewBox="0 0 1200 300" preserveAspectRatio="none"><path id="ctaPath" d="M-20 220 C 200 220, 260 60, 460 80 S 760 260, 940 160 S 1120 40, 1240 90"/></svg></div>
+        <div class="cta-txt">
+          <h2 class="h2" data-i="ctaTitle"></h2>
+          <p class="lead sm" data-i="ctaSub"></p>
+          <a class="btn pri big" id="ctaWa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 2.6 6.5 6.5 6.5l1-1.6-2-1-1 .8c-1-.4-2-1.4-2.4-2.4l.8-1-1-2z" class="fill"/></svg><span data-i="orderWa"></span></a>
+        </div>
+        <ul class="cta-info">
+          <li><small data-i="whatsapp"></small><a id="infoWa" target="_blank" rel="noopener" dir="ltr"></a></li>
+          <li><small data-i="email"></small><a id="infoMail" dir="ltr"></a></li>
+          <li><small data-i="hours"></small><span data-i="hoursV"></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap ftr-in">
+    <div class="logo"><span class="ic sm"><b>ع<i></i></b></span><span class="logo-t"><strong class="wm">أنور <span class="g">ع<i></i></span>الب</strong><small>ANWAR GHALEB</small></span></div>
+    <p>© <span id="yr"></span> <span data-i="brand"></span> · <span data-i="rights"></span></p>
+    <p class="made"><span data-i="madeBy"></span> <a href="https://web.theplanetco.com/" target="_blank" rel="noopener">Planet</a></p>
+  </div>
+</footer>
+
+<!-- quick view -->
+<div class="modal" id="qv" hidden>
+  <div class="modal-bg" data-close></div>
+  <div class="modal-card">
+    <button class="x" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="qv-img" id="qvImg"></div>
+    <div class="qv-body" id="qvBody"></div>
+  </div>
+</div>
+
+<!-- cart -->
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-bg" data-dclose></div>
+  <div class="drawer-in">
+    <div class="dr-head"><h3 data-i="cart"></h3><button class="x" data-dclose aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dr-list" id="drList"></div>
+    <div class="dr-foot" id="drFoot">
+      <div class="dr-total"><span data-i="subtotal"></span><b id="drTotal">0</b></div>
+      <input class="inp" id="oName" data-iph="name">
+      <input class="inp" id="oAddr" data-iph="address">
+      <input class="inp" id="oNotes" data-iph="notes">
+      <button class="btn pri wide" id="sendWa"><span data-i="sendWa"></span></button>
+      <p class="note" data-i="deliveryNote"></p>
+    </div>
+  </div>
+</aside>
+
+<a class="fab" id="fab" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 2.6 6.5 6.5 6.5l1-1.6-2-1-1 .8c-1-.4-2-1.4-2.4-2.4l.8-1-1-2z" class="fill"/></svg></a>
+<div class="toast" id="toast"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/i18n.js?v=1"></script>
+<script src="assets/js/data.js?v=1"></script>
+<script src="assets/js/app.js?v=1"></script>
+<script type="module" src="assets/js/scene.js?v=1"></script>
+</body>
+</html>

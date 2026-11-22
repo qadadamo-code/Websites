@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>لمسة ديكور | Lamset Decor</title>
+<meta name="description" content="لمسة ديكور: بنصمّم شقتك تصميم داخلي كامل، وبنفرشها من شبكة معارض ومصانع وورش شريكة بسعر المصنع. عقد واحد، ضمان واحد، ومتابعة لحد تسليم المفتاح.">
+<meta name="theme-color" content="#f7f4ef">
+<meta property="og:title" content="لمسة ديكور | تصميم داخلي، تشطيب، تنفيذ وفرش">
+<meta property="og:description" content="تصميم داخلي + فرش كامل من معارض ومصانع وورش شريكة.">
+<meta property="og:image" content="assets/img/living.webp">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/Readex-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css?v=1">
+</head>
+<body class="is-loading">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></symbol>
+  <symbol id="i-call" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2Z"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M4 21V10a8 8 0 0 1 16 0v11M4 21h16M10 21v-6a2 2 0 0 1 4 0v6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6-6-6 6 6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+</svg>
+
+<!-- ============ INTRO: the logo is drawn, then poured ============ -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__cols"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="intro__grid"></div>
+  <div class="intro__stage">
+    <div class="intro__mark" id="introMark"></div>
+    <div class="intro__tag" id="introTag"><span data-en="Interior design">تصميم داخلي</span><i></i><span data-en="Finishing">تشطيب</span><i></i><span data-en="Fit-out &amp; furnishing">تنفيذ وفرش</span></div>
+  </div>
+  <div class="intro__meta"><span>N 30°02′ · E 31°14′</span><span id="introPct">00</span></div>
+  <button class="intro__skip" id="introSkip" type="button" data-en="Skip">تخطي</button>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a href="#top" class="brand" aria-label="Lamset Decor">
+    <span class="brand__mark" data-mark="nav"></span>
+  </a>
+  <nav class="nav__links" aria-label="القائمة">
+    <a href="#network" data-en="How it works">فكرتنا</a>
+    <a href="#styles" data-en="Styles">الستايلات</a>
+    <a href="#shop" data-en="Shop the look">اشتري اللوك</a>
+    <a href="#market" data-en="Marketplace">سوق لمسة</a>
+    <a href="#journey" data-en="Journey">الرحلة</a>
+    <a href="#partners" data-en="Partners">الشركاء</a>
+  </nav>
+  <div class="nav__end">
+    <button class="lang" id="langBtn" type="button" aria-label="English / العربية">EN</button>
+    <button class="bag" id="bagBtn" type="button" aria-label="بيتي"><svg viewBox="0 0 24 24"><use href="#i-home"/></svg><b id="bagCount">0</b></button>
+    <a class="btn btn--teal btn--sm hide-m" href="#plan" data-en="Plan my home">خطّط بيتك</a>
+    <button class="burger" id="burger" aria-label="القائمة" aria-expanded="false"><i></i><i></i></button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer__in">
+    <a href="#network"><small>01</small><span data-en="How it works">فكرتنا</span></a>
+    <a href="#styles"><small>02</small><span data-en="Styles">الستايلات</span></a>
+    <a href="#shop"><small>03</small><span data-en="Shop the look">اشتري اللوك</span></a>
+    <a href="#market"><small>04</small><span data-en="Marketplace">سوق لمسة</span></a>
+    <a href="#journey"><small>05</small><span data-en="Journey">الرحلة</span></a>
+    <a href="#partners"><small>06</small><span data-en="Partners">الشركاء</span></a>
+    <a href="#plan"><small>07</small><span data-en="Plan my home">خطّط بيتك</span></a>
+  </div>
+  <div class="drawer__foot"><a class="btn btn--teal" data-wa="hello" href="#"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg><span data-en="Chat on WhatsApp">كلّمنا واتساب</span></a></div>
+</div>
+
+<main id="top">
+
+<!-- ============ HERO: from bare concrete to a furnished home ============ -->
+<section class="hero" id="hero">
+  <div class="hero__pin" id="heroPin">
+    <div class="hero__media" id="heroMedia">
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <svg class="hero__plan" id="heroPlan" aria-hidden="true"></svg>
+      <div class="hero__pins" id="heroPins"></div>
+      <div class="hero__shade"></div>
+    </div>
+
+    <div class="hero__copy" id="heroCopy">
+      <p class="eyebrow"><span class="dot"></span><span data-en="Lamset Decor · Interior design · Finishing · Furnishing">لمسة ديكور · تصميم · تشطيب · فرش</span></p>
+      <h1 class="hero__title">
+        <span class="ln"><span data-en="Your whole home,">بيتك كله،</span></span>
+        <span class="ln"><span class="tl" data-en="in one touch.">في لمسة واحدة.</span></span>
+      </h1>
+      <p class="hero__lead" data-en="We design your apartment, then furnish it from a network of partner showrooms, factories and workshops at factory prices. One contract, one warranty, one team until you get the keys.">بنصمّم شقتك تصميم كامل، وبنفرشها من شبكة معارض ومصانع وورش شريكة بأسعار المصنع. عقد واحد، ضمان واحد، وفريق واحد لحد ما تستلم المفتاح.</p>
+      <div class="hero__cta">
+        <a class="btn btn--teal" href="#plan"><span data-en="Plan my home">خطّط بيتك</span><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn--ghost" href="#market" data-en="Browse the market">تصفّح السوق</a>
+      </div>
+    </div>
+
+    <div class="hero__end" id="heroEnd">
+      <p class="eyebrow"><span class="dot"></span><span data-en="Same room. After the build.">نفس الأوضة. بعد التنفيذ.</span></p>
+      <h2 data-en="Your home is ready.<br>And the keys are yours.">بيتك جاهز.<br>ومفتاحه في إيدك.</h2>
+      <a class="btn btn--teal" href="#plan" data-en="Start with a free visit">ابدأ بزيارة معاينة</a>
+    </div>
+
+    <div class="hero__rail" id="heroRail">
+      <div class="rail__bar"><i id="railFill"></i></div>
+      <ol>
+        <li data-en="On the plan">على المخطط</li>
+        <li data-en="Finishing">التشطيب</li>
+        <li data-en="Furnishing">الفرش</li>
+        <li data-en="Keys">المفتاح</li>
+      </ol>
+      <b id="railPct">0%</b>
+    </div>
+    <div class="hero__hint" id="heroHint"><i></i><span data-en="Scroll and watch it get built">انزل وشوف البيت بيتبني</span></div>
+    <button class="hero__replay" id="heroReplay" type="button" data-en="Replay">إعادة</button>
+  </div>
+</section>
+
+<!-- ============ NETWORK: the party that gathers all parties ============ -->
+<section class="network" id="network">
+  <div class="wrap network__grid">
+    <div class="network__copy">
+      <p class="eyebrow"><span class="dot"></span><span data-en="Our idea">فكرتنا</span></p>
+      <h2 class="h2" data-en="One touch<br>that gathers <em>every</em> maker.">لمسة واحدة<br>بتجمع <em>كل</em> الصنّاع.</h2>
+      <p class="lead" data-en="Instead of visiting twenty showrooms and managing ten craftsmen, you deal with one team. We design, then we source every piece from partners we trust, and we stand behind all of it.">بدل ما تلف على عشرين معرض وتتعامل مع عشر صنايعية، بتتعامل مع فريق واحد. إحنا بنصمّم، وبعدين بنجيب كل قطعة من شركاء واثقين فيهم، وبنقف ورا الشغل كله.</p>
+      <ul class="ticks">
+        <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><span data-en="<b>Factory prices</b>, no showroom markup on markup">أسعار <b>المصنع مباشرة</b>، من غير لفّ ولا وسطاء كتير</span></li>
+        <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><span data-en="<b>One design language</b>, every piece fits the next">تصميم <b>متناسق</b>، كل قطعة لايقة على اللي جنبها</span></li>
+        <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><span data-en="<b>One contract, one warranty</b>, one person to call">عقد واحد، <b>ضمان واحد</b>، ورقم واحد تكلّمه</span></li>
+        <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><span data-en="<b>Quality checks</b> inside the workshop, before delivery">مراجعة <b>جودة جوه الورشة</b> قبل ما القطعة توصلك</span></li>
+      </ul>
+    </div>
+    <div class="network__viz" id="netViz">
+      <svg class="net__lines" id="netLines" viewBox="0 0 600 600" aria-hidden="true"></svg>
+      <div class="net__core"><span data-mark="core"></span></div>
+      <div class="net__you"><b data-en="You">إنت</b><small data-en="one call">مكالمة واحدة</small></div>
+      <div class="net__nodes" id="netNodes"></div>
+    </div>
+  </div>
+  <div class="wrap counters">
+    <div class="counter"><b>1</b><span data-en="contract for the whole home">عقد للبيت كله</span></div>
+    <div class="counter"><b>1</b><span data-en="engineer follows your project">مهندس متابع لمشروعك</span></div>
+    <div class="counter"><b>0</b><span data-en="showrooms for you to chase">معارض تلف عليها إنت</span></div>
+    <div class="counter"><b>3D</b><span data-en="see it before it is built">تشوفه قبل ما يتنفّذ</span></div>
+  </div>
+</section>
+
+<!-- ============ STYLES: same room, your taste ============ -->
+<section class="styles" id="styles">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow"><span class="dot"></span><span data-en="Try a style">جرّب ستايل</span></p>
+      <h2 class="h2" data-en="Same room.<br>Your taste.">نفس الأوضة.<br>ذوقك إنت.</h2>
+      <p class="lead" data-en="Drag the line to compare the bare shell with the finished room, then switch styles. This is how we present a design before a single piece is made.">اسحب الخط وقارن الشقة على الطوب بالأوضة بعد التنفيذ، وبدّل بين الستايلات. كده بالظبط بنعرض عليك التصميم قبل ما أي قطعة تتصنع.</p>
+    </div>
+    <div class="compare" id="compare">
+      <img class="compare__after" id="cmpAfter" src="assets/img/living.webp" alt="" decoding="async">
+      <div class="compare__before" id="cmpBefore"><img src="assets/img/shell.webp" alt="" decoding="async"></div>
+      <div class="compare__wipe" id="cmpWipe"></div>
+      <div class="compare__handle" id="cmpHandle" role="slider" tabindex="0" aria-label="قبل / بعد" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><i></i><span><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></span></div>
+      <span class="compare__tag compare__tag--b" data-en="Before">قبل</span>
+      <span class="compare__tag compare__tag--a" data-en="After">بعد</span>
+    </div>
+    <div class="stylebar" id="styleBar"></div>
+  </div>
+</section>
+
+<!-- ============ SHOP THE LOOK ============ -->
+<section class="shop" id="shop">
+  <div class="wrap">
+    <div class="sec-head sec-head--row">
+      <div>
+        <p class="eyebrow"><span class="dot"></span><span data-en="Shop the look">اشتري اللوك</span></p>
+        <h2 class="h2" data-en="Like the room?<br>Every piece is for sale.">عجبتك الأوضة؟<br>كل قطعة فيها للبيع.</h2>
+      </div>
+      <div class="tabs" id="roomTabs" role="tablist"></div>
+    </div>
+    <div class="look" id="look">
+      <div class="look__img" id="lookImg"></div>
+      <aside class="look__card" id="lookCard" aria-live="polite"></aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARKET ============ -->
+<section class="market" id="market">
+  <div class="wrap">
+    <div class="sec-head sec-head--row">
+      <div>
+        <p class="eyebrow"><span class="dot"></span><span data-en="Lamsa market">سوق لمسة</span></p>
+        <h2 class="h2" data-en="Hundreds of pieces.<br>One trusted source.">قطع من معارض كتير.<br>ومصدر واحد تثق فيه.</h2>
+      </div>
+      <div class="chips" id="catChips"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="note" data-en="Prices are starting points and change with size and fabric. We confirm the final price on WhatsApp.">الأسعار «تبدأ من» وبتتغير حسب المقاس والخامة. السعر النهائي بنأكده معاك على واتساب.</p>
+  </div>
+</section>
+
+<!-- ============ JOURNEY: the building rises floor by floor ============ -->
+<section class="journey" id="journey">
+  <div class="journey__pin" id="journeyPin">
+    <div class="wrap journey__grid">
+      <div class="journey__copy">
+        <p class="eyebrow"><span class="dot"></span><span data-en="The journey">الرحلة</span></p>
+        <h2 class="h2" data-en="Five floors<br>to your front door.">خمس أدوار<br>لحد باب بيتك.</h2>
+        <ol class="steps" id="steps"></ol>
+      </div>
+      <div class="tower" id="tower">
+        <svg class="crane" id="crane" viewBox="0 0 400 520" aria-hidden="true">
+          <path class="crane__mast" d="M300 520V40M320 520V40M300 60l20 30-20 30 20 30-20 30 20 30-20 30 20 30-20 30 20 30-20 30 20 30-20 30 20 30-20 30 20 30"/>
+          <path class="crane__jib" d="M40 40h340M40 40l260-30h20l60 30M60 40l20 14h220"/>
+          <rect class="crane__cab" x="292" y="46" width="36" height="24" rx="3"/>
+        </svg>
+        <div class="tower__hook" id="hook"><i></i></div>
+        <div class="tower__stack" id="stack"></div>
+        <div class="tower__ground"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow"><span class="dot"></span><span data-en="What we do">بنعمل إيه</span></p>
+      <h2 class="h2" data-en="Take one step,<br>or the whole way.">خد خطوة واحدة،<br>أو الطريق كله.</h2>
+    </div>
+    <div class="svc" id="svc"></div>
+  </div>
+</section>
+
+<!-- ============ PARTNERS ============ -->
+<section class="partners" id="partners">
+  <div class="partners__bg"><img src="assets/img/workshop.webp" alt="" loading="lazy" decoding="async"></div>
+  <div class="wrap partners__grid">
+    <div>
+      <p class="eyebrow eyebrow--light"><span class="dot"></span><span data-en="For showrooms, factories &amp; workshops">للمعارض والمصانع والورش</span></p>
+      <h2 class="h2" data-en="You make it beautifully.<br>We bring it home.">إنت بتصنع حلو.<br>وإحنا نوصّله للبيوت.</h2>
+      <p class="lead" data-en="Join the Lamsa network. We bring you clients with a finished design, clear measurements and confirmed orders, so your team just does what it does best.">انضم لشبكة لمسة. بنجيب لك عملاء معاهم تصميم جاهز، ومقاسات واضحة، وطلبات مؤكدة، وفريقك يركّز في اللي بيعمله أحسن حاجة.</p>
+      <div class="ptypes" id="ptypes">
+        <button type="button" class="on" data-en="Furniture showroom">معرض موبيليا</button>
+        <button type="button" data-en="Furniture factory">مصنع أثاث</button>
+        <button type="button" data-en="Joinery / upholstery">ورشة نجارة / تنجيد</button>
+        <button type="button" data-en="Lighting &amp; decor">إضاءة وديكور</button>
+      </div>
+      <a class="btn btn--teal" href="#" id="partnerBtn"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg><span data-en="Join as a partner">سجّل كشريك</span></a>
+    </div>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__row" id="mq1"></div>
+      <div class="marquee__row marquee__row--r" id="mq2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="gallery" id="gallery">
+  <div class="gallery__pin" id="galPin">
+    <div class="wrap gallery__head">
+      <div>
+        <p class="eyebrow"><span class="dot"></span><span data-en="Design directions">من تصميماتنا</span></p>
+        <h2 class="h2" data-en="Rooms we love to make.">أوض بنحب نعملها.</h2>
+      </div>
+      <p class="note note--small" data-en="Concept visuals for illustration.">صور تصميمات توضيحية.</p>
+    </div>
+    <div class="track" id="track"></div>
+  </div>
+</section>
+
+<!-- ============ PLAN ============ -->
+<section class="plan" id="plan">
+  <div class="wrap plan__grid">
+    <div class="plan__form" id="planForm">
+      <p class="eyebrow"><span class="dot"></span><span data-en="Plan your home">خطّط بيتك</span></p>
+      <h2 class="h2" data-en="Tell us about your place.">احكيلنا عن مكانك.</h2>
+      <div class="field"><label data-en="Type">نوع المكان</label><div class="chips chips--pick" id="pType"></div></div>
+      <div class="field"><label data-en="Current state">حالته دلوقتي</label><div class="chips chips--pick" id="pStage"></div></div>
+      <div class="field"><label><span data-en="Area">المساحة</span> <b id="areaVal">160 م²</b></label><input type="range" id="pArea" min="50" max="500" step="10" value="160"></div>
+      <div class="field"><label data-en="Rooms to design">الأوض اللي عايز تصمّمها</label><div class="chips chips--multi" id="pRooms"></div></div>
+      <div class="field"><label data-en="Service">الخدمة</label><div class="chips chips--pick" id="pSvc"></div></div>
+      <div class="field"><label data-en="Style">الستايل</label><div class="chips chips--pick" id="pStyle"></div></div>
+      <div class="field field--row">
+        <div><label for="pName" data-en="Your name">اسمك</label><input id="pName" type="text" autocomplete="name"></div>
+        <div><label for="pArea2" data-en="Area / city">المنطقة</label><input id="pArea2" type="text" autocomplete="address-level2"></div>
+      </div>
+    </div>
+    <div class="ticket" id="ticket">
+      <div class="ticket__head"><span data-mark="ticket"></span><small>BRIEF · <b id="ticketNo">TA-0000</b></small></div>
+      <div class="ticket__plan"><svg id="ticketPlan" viewBox="0 0 320 200" aria-hidden="true"></svg></div>
+      <dl class="ticket__rows" id="ticketRows"></dl>
+      <a class="btn btn--teal btn--block" href="#" id="ticketSend"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg><span data-en="Send my brief on WhatsApp">ابعت الطلب على واتساب</span></a>
+      <a class="btn btn--line btn--block" href="#" data-wa="visit" data-en="Book a site visit">احجز زيارة معاينة</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div class="foot__brand"><span data-mark="foot"></span><p data-en="Interior design and full furnishing from a network of partner showrooms, factories and workshops.">تصميم داخلي وفرش كامل من شبكة معارض ومصانع وورش شريكة.</p></div>
+    <div><h4 data-en="Explore">استكشف</h4><a href="#network" data-en="How it works">فكرتنا</a><a href="#market" data-en="Marketplace">سوق لمسة</a><a href="#journey" data-en="Journey">الرحلة</a><a href="#partners" data-en="Become a partner">كن شريك</a></div>
+    <div><h4 data-en="Talk to us">كلّمنا</h4><a href="#" data-wa="hello"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg> <span data-en="WhatsApp">واتساب</span></a><a href="#" id="callBtn"><svg viewBox="0 0 24 24"><use href="#i-call"/></svg> <span id="phoneTxt" dir="ltr"></span></a><a href="#" data-wa="visit" data-en="Book a visit">احجز زيارة</a></div>
+  </div>
+  <div class="wrap foot__bar"><span>© <span id="year"></span> Lamset Decor</span><a href="https://web.theplanetco.com/" target="_blank" rel="noopener">Made by Planet</a></div>
+</footer>
+
+<!-- bag drawer -->
+<aside class="sheet" id="sheet" aria-hidden="true">
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__panel" role="dialog" aria-label="بيتي">
+    <header><h3 data-en="My home list">قائمة بيتي</h3><button type="button" class="icon" data-close aria-label="close"><svg viewBox="0 0 24 24"><use href="#i-x"/></svg></button></header>
+    <div class="sheet__list" id="bagList"></div>
+    <footer>
+      <div class="sheet__total"><span data-en="Starting from">يبدأ من</span><b id="bagTotal">0</b></div>
+      <a class="btn btn--teal btn--block" href="#" id="bagSend"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg><span data-en="Ask for these on WhatsApp">اطلبهم على واتساب</span></a>
+    </footer>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status"></div>
+
+<nav class="mbar" id="mbar" aria-label="quick actions">
+  <a href="#" data-wa="hello"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg><span data-en="WhatsApp">واتساب</span></a>
+  <a href="#" id="mbarCall"><svg viewBox="0 0 24 24"><use href="#i-call"/></svg><span data-en="Call">اتصال</span></a>
+  <a href="#" id="mbarBag"><svg viewBox="0 0 24 24"><use href="#i-home"/></svg><span data-en="My list">بيتي</span><b id="mbarCount">0</b></a>
+  <a href="#plan" class="mbar__main" data-en="Plan my home">خطّط بيتك</a>
+</nav>
+
+<div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/mark-data.js?v=1"></script>
+<script src="assets/js/mark.js?v=1"></script>
+<script src="assets/js/data.js?v=1"></script>
+<script src="assets/js/app.js?v=1"></script>
+</body>
+</html>

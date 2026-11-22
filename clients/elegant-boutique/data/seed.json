@@ -1,0 +1,196 @@
+{
+  "settings": {
+    "store_name_ar": "إليجانس بوتيك",
+    "store_name_en": "Elegance Boutique",
+    "tagline_ar": "مجوهرات تُرتدى… لا تُشرح",
+    "tagline_en": "Elegance, worn — not explained.",
+    "email": "ebeleganceboutique51@gmail.com",
+    "order_email": "ebeleganceboutique51@gmail.com",
+    "whatsapp": "",
+    "phone": "",
+    "instagram": "elegance.boutiquee",
+    "facebook": "",
+    "tiktok": "",
+    "announcement_ar": "شحن لكل محافظات مصر  •  الدفع عند الاستلام  •  ضمان 6 شهور على الطلاء",
+    "announcement_en": "Delivery across Egypt  •  Cash on delivery  •  6-month plating warranty",
+    "currency_ar": "ج.م",
+    "currency_en": "EGP",
+    "free_shipping_over": 2500,
+    "default_shipping": 85,
+    "pay_cod": true,
+    "pay_instapay": true,
+    "pay_vodafone": true,
+    "instapay_handle": "",
+    "vodafone_number": "",
+    "callmebot_phone": "",
+    "callmebot_key": "",
+    "low_stock": 2
+  },
+  "shipping": [
+    {"id": "cairo", "ar": "القاهرة", "en": "Cairo", "fee": 70},
+    {"id": "giza", "ar": "الجيزة", "en": "Giza", "fee": 70},
+    {"id": "alex", "ar": "الإسكندرية", "en": "Alexandria", "fee": 80},
+    {"id": "qalyubia", "ar": "القليوبية", "en": "Qalyubia", "fee": 80},
+    {"id": "sharqia", "ar": "الشرقية", "en": "Sharqia", "fee": 85},
+    {"id": "dakahlia", "ar": "الدقهلية", "en": "Dakahlia", "fee": 85},
+    {"id": "gharbia", "ar": "الغربية", "en": "Gharbia", "fee": 85},
+    {"id": "monufia", "ar": "المنوفية", "en": "Monufia", "fee": 85},
+    {"id": "beheira", "ar": "البحيرة", "en": "Beheira", "fee": 85},
+    {"id": "kafr", "ar": "كفر الشيخ", "en": "Kafr El Sheikh", "fee": 85},
+    {"id": "damietta", "ar": "دمياط", "en": "Damietta", "fee": 85},
+    {"id": "portsaid", "ar": "بورسعيد", "en": "Port Said", "fee": 85},
+    {"id": "ismailia", "ar": "الإسماعيلية", "en": "Ismailia", "fee": 85},
+    {"id": "suez", "ar": "السويس", "en": "Suez", "fee": 85},
+    {"id": "fayoum", "ar": "الفيوم", "en": "Fayoum", "fee": 90},
+    {"id": "benisuef", "ar": "بني سويف", "en": "Beni Suef", "fee": 90},
+    {"id": "minya", "ar": "المنيا", "en": "Minya", "fee": 95},
+    {"id": "assiut", "ar": "أسيوط", "en": "Assiut", "fee": 100},
+    {"id": "sohag", "ar": "سوهاج", "en": "Sohag", "fee": 100},
+    {"id": "qena", "ar": "قنا", "en": "Qena", "fee": 105},
+    {"id": "luxor", "ar": "الأقصر", "en": "Luxor", "fee": 105},
+    {"id": "aswan", "ar": "أسوان", "en": "Aswan", "fee": 110},
+    {"id": "redsea", "ar": "البحر الأحمر", "en": "Red Sea", "fee": 110},
+    {"id": "newvalley", "ar": "الوادي الجديد", "en": "New Valley", "fee": 120},
+    {"id": "matrouh", "ar": "مطروح", "en": "Matrouh", "fee": 110},
+    {"id": "northsinai", "ar": "شمال سيناء", "en": "North Sinai", "fee": 120},
+    {"id": "southsinai", "ar": "جنوب سيناء", "en": "South Sinai", "fee": 120}
+  ],
+  "categories": [
+    {"id": "necklaces", "ar": "العقود", "en": "Necklaces", "image": "assets/img/products/pearl-gold-link-necklace-2.webp", "sort": 1},
+    {"id": "earrings", "ar": "الحلقان", "en": "Earrings", "image": "assets/img/products/floral-earrings-gold-1.webp", "sort": 2},
+    {"id": "bracelets", "ar": "الأساور", "en": "Bracelets", "image": "assets/img/products/floral-shoulder-cuff-1.webp", "sort": 3},
+    {"id": "sets", "ar": "الأطقم", "en": "Sets", "image": "assets/img/products/necklace-earrings-set-1.webp", "sort": 4},
+    {"id": "rings", "ar": "الخواتم", "en": "Rings", "image": "assets/img/products/floral-tennis-set-3.webp", "sort": 5}
+  ],
+  "coupons": [
+    {"code": "WELCOME10", "type": "percent", "value": 10, "min": 1000, "active": true, "uses": 0, "max_uses": 0}
+  ],
+  "products": [
+    {
+      "id": "floral-tennis-set", "category": "sets", "price": 3000, "compare": 0, "stock": 5, "featured": true, "best": false, "badge_ar": "طقم كامل", "badge_en": "Full set",
+      "name_ar": "طقم فلورال تنس", "name_en": "Floral Tennis Set",
+      "desc_ar": "طقم متكامل بتصميم الزهور اللامعة، كل قطعة فيه مرصّعة بكريستالات دائرية متلاصقة تلتقط الضوء من كل زاوية. يجمع لكِ الإطلالة كاملة في هدية واحدة.",
+      "desc_en": "A complete floral tennis set. Every piece is lined with clustered round crystals that catch the light from every angle — the whole look, in one gift.",
+      "details_ar": ["يحتوي على: خاتم، إسورة، حلق، عقد", "كريستالات دائرية بتصميم زهور", "طلاء بلاتيني لامع", "مثالي للمناسبات والسهرات"],
+      "details_en": ["Includes: ring, bracelet, earrings, necklace", "Floral clusters of round crystals", "Bright platinum plating", "Made for occasions and evenings"],
+      "images": ["assets/img/products/floral-tennis-set-1.webp", "assets/img/products/floral-tennis-set-2.webp", "assets/img/products/floral-tennis-set-3.webp"]
+    },
+    {
+      "id": "multicolor-gemstone-necklace", "category": "necklaces", "price": 1500, "compare": 0, "stock": 4, "featured": true, "best": false, "badge_ar": "جديد", "badge_en": "New",
+      "name_ar": "عقد الأحجار الملوّنة", "name_en": "Multicolor Gemstone Necklace",
+      "desc_ar": "عقد استيتمنت يجمع أحجاراً ملوّنة نابضة في إطار ذهبي: فيروزي، أخضر زمردي، وبنفسجي. لمسة لون أنيقة تغيّر أي إطلالة.",
+      "desc_en": "A statement necklace of vibrant gemstones set in gold-tone metal — turquoise, emerald green and purple hues for a distinctive touch of colour.",
+      "details_ar": ["إطار بلون ذهبي", "أحجار فيروزي وزمردي وبنفسجي", "تصميم استيتمنت"],
+      "details_en": ["Gold-tone setting", "Turquoise, emerald and purple stones", "Statement design"],
+      "images": ["assets/img/products/multicolor-gemstone-necklace-1.webp", "assets/img/products/multicolor-gemstone-necklace-2.webp"]
+    },
+    {
+      "id": "floral-earrings-gold", "category": "earrings", "price": 500, "compare": 0, "stock": 6, "featured": false, "best": true, "badge_ar": "", "badge_en": "",
+      "name_ar": "حلق الزهرة الذهبية", "name_en": "Golden Bloom Earrings",
+      "desc_ar": "حلق بتلات ذهبية مموّجة بحواف بيضاء ناعمة، كأنها زهرة تتفتح على أذنك. خفيف وجريء في نفس الوقت.",
+      "desc_en": "Ruffled golden petals edged in soft white, like a flower opening at your ear. Light to wear, bold to look at.",
+      "details_ar": ["طلاء ذهبي", "بتلات محفورة بخطوط دقيقة", "حواف بيضاء من المينا"],
+      "details_en": ["Gold plated", "Finely textured petals", "White enamel edges"],
+      "images": ["assets/img/products/floral-earrings-gold-1.webp", "assets/img/products/floral-earrings-gold-2.webp"]
+    },
+    {
+      "id": "floral-tennis-necklace", "category": "necklaces", "price": 1800, "compare": 0, "stock": 4, "featured": true, "best": true, "badge_ar": "", "badge_en": "",
+      "name_ar": "عقد فلورال تنس", "name_en": "Floral Tennis Necklace",
+      "desc_ar": "صُمّم ليلتقط الضوء من كل زاوية: صف من الأحجار اللامعة مرتّبة بنقشة زهور رقيقة. أناقة كلاسيكية ترفع إطلالتك اليومية وتكمّل سهرتك.",
+      "desc_en": "Designed to catch the light from every angle: a refined row of brilliant stones in a delicate floral pattern — effortless sophistication, day or evening.",
+      "details_ar": ["أحجار لامعة بنقشة زهور", "طلاء بلاتيني", "قفل آمن"],
+      "details_en": ["Brilliant stones in floral clusters", "Platinum plated", "Secure clasp"],
+      "images": ["assets/img/products/floral-tennis-necklace-1.webp", "assets/img/products/floral-tennis-set-1.webp"]
+    },
+    {
+      "id": "gold-plated-necklace", "category": "necklaces", "price": 500, "compare": 0, "stock": 8, "featured": false, "best": false, "badge_ar": "", "badge_en": "",
+      "name_ar": "عقد هيرينجبون ذهبي", "name_en": "Gold Herringbone Necklace",
+      "desc_ar": "سلسلة هيرينجبون مسطّحة بلمعة ذهبية ناعمة. البسيها وحدها لإطلالة مينيمال، أو مع عقودك المفضّلة لإطلالة أفخم.",
+      "desc_en": "A flat herringbone chain with a soft golden sheen. Wear it alone for a minimal look, or layer it with your favourite necklaces.",
+      "details_ar": ["طلاء ذهبي", "سلسلة هيرينجبون مسطّحة", "مناسبة للتنسيق مع عقود أخرى"],
+      "details_en": ["Gold plated", "Flat herringbone chain", "Made for layering"],
+      "images": ["assets/img/products/gold-plated-necklace-1.webp", "assets/img/products/gold-plated-necklace-2.webp"]
+    },
+    {
+      "id": "floral-shoulder-cuff", "category": "bracelets", "price": 700, "compare": 0, "stock": 5, "featured": true, "best": true, "badge_ar": "قطعة مميزة", "badge_en": "Signature",
+      "name_ar": "إسورة الذراع الفلورال", "name_en": "Floral Arm Cuff",
+      "desc_ar": "إسورة ذراع رقيقة بزهرتين من البتلات الشفافة وتفاصيل ذهبية دقيقة، بتصميم مفتوح يلتفّ حول الذراع بنعومة. قطعة استيتمنت أنثوية وراقية.",
+      "desc_en": "A delicate arm cuff with translucent flower petals, intricate golden detailing and an open design that wraps the upper arm — feminine, refined, unforgettable.",
+      "details_ar": ["بتلات مينا شفافة", "تفاصيل ذهبية دقيقة", "تصميم مفتوح قابل للضبط"],
+      "details_en": ["Translucent enamel petals", "Intricate golden detailing", "Open, adjustable design"],
+      "images": ["assets/img/products/floral-shoulder-cuff-1.webp"]
+    },
+    {
+      "id": "classic-necklace", "category": "necklaces", "price": 500, "compare": 0, "stock": 10, "featured": false, "best": true, "badge_ar": "", "badge_en": "",
+      "name_ar": "عقد الهالة الكلاسيكي", "name_en": "Classic Halo Necklace",
+      "desc_ar": "دلّاية خالدة بحجر دائري لامع تحيط به هالة من الكريستالات الصغيرة، على سلسلة رفيعة. أناقة يومية بلا مجهود.",
+      "desc_en": "A timeless pendant: a brilliant round centre stone in a halo of sparkling stones, on a refined fine-link chain.",
+      "details_ar": ["طلاء بلاتيني", "حجر دائري مع هالة لامعة", "سلسلة رفيعة", "لليوم وللمناسبات"],
+      "details_en": ["Platinum plated", "Round centre stone with halo", "Fine-link chain", "Everyday and occasions"],
+      "images": ["assets/img/products/classic-necklace-1.webp"]
+    },
+    {
+      "id": "floral-wreath-earrings", "category": "earrings", "price": 700, "compare": 0, "stock": 6, "featured": false, "best": true, "badge_ar": "", "badge_en": "",
+      "name_ar": "حلق إكليل الزهور", "name_en": "Floral Wreath Earrings",
+      "desc_ar": "تصميم مستوحى من أكاليل الزهور: أحجار ماركيز لامعة مرتّبة في دائرة أنيقة، تمزج الكلاسيكية بلمسة عصرية أنثوية.",
+      "desc_en": "A floral-inspired wreath of sparkling marquise-cut stones in an elegant circle — timeless with a modern feminine feel.",
+      "details_ar": ["طلاء بلاتيني", "أحجار ماركيز لامعة", "تصميم دائري مستوحى من الزهور"],
+      "details_en": ["Platinum plated", "Marquise-cut sparkling stones", "Floral circular design"],
+      "images": ["assets/img/products/floral-earrings-1.webp"]
+    },
+    {
+      "id": "classic-coin-necklace", "category": "necklaces", "price": 1200, "compare": 0, "stock": 4, "featured": true, "best": true, "badge_ar": "الأكثر طلباً", "badge_en": "Best seller",
+      "name_ar": "عقد العملة الكلاسيكي", "name_en": "Classic Coin Necklace",
+      "desc_ar": "عقد العملة الخالد: دلّاية مستوحاة من العملات القديمة على سلسلة ذهبية عريضة. البسيه وحده أو نسّقيه مع عقود أخرى.",
+      "desc_en": "A timeless coin necklace: a classic coin-inspired pendant on a bold gold-tone chain — wear it alone or layered.",
+      "details_ar": ["سلسلة بلون ذهبي", "دلّاية عملة كلاسيكية", "ضمان 6 شهور ضد بهتان الطلاء"],
+      "details_en": ["Gold-tone chain", "Classic coin pendant", "6-month plating warranty"],
+      "images": ["assets/img/products/classic-coin-necklace-1.webp"]
+    },
+    {
+      "id": "handcrafted-beaded-necklace", "category": "necklaces", "price": 950, "compare": 0, "stock": 3, "featured": false, "best": false, "badge_ar": "صُنع يدوياً", "badge_en": "Handmade",
+      "name_ar": "عقد الخرز اليدوي", "name_en": "Handcrafted Beaded Necklace",
+      "desc_ar": "عقد مصنوع يدوياً يمزج خرز الكريستال الشفاف مع أحجار طبيعية بدرجات الزيتوني والعنبري والبني والشامبين. دفء ترابي بلمسة بوهيمية.",
+      "desc_en": "Handcrafted with translucent crystal beads and natural-inspired beads in olive, amber, brown and champagne — warm, earthy, softly bohemian.",
+      "details_ar": ["تصميم بخرز مختلط", "درجات الأخضر والعنبري", "خرز شفاف بلمعة خفيفة", "خفيف وقابل للتنسيق"],
+      "details_en": ["Mixed-bead design", "Green and amber palette", "Faceted transparent beads", "Lightweight, layerable"],
+      "images": ["assets/img/products/handcrafted-beaded-necklace-1.webp"]
+    },
+    {
+      "id": "pearl-gold-link-necklace", "category": "necklaces", "price": 700, "compare": 0, "stock": 6, "featured": true, "best": false, "badge_ar": "", "badge_en": "",
+      "name_ar": "عقد اللؤلؤ والسلسلة الذهبية", "name_en": "Pearl & Gold Link Necklace",
+      "desc_ar": "عقد يجمع حلقات ذهبية لامعة مع خيط من اللؤلؤ المضيء، بقفل دائري مميز ولؤلؤة متدلية. أنوثة راقية لكل يوم ولكل مناسبة.",
+      "desc_en": "Polished gold-tone links meet a strand of luminous pearls, finished with a circular toggle clasp and an elegant pearl drop.",
+      "details_ar": ["لون ذهبي", "تفاصيل لؤلؤ", "قفل دائري", "لؤلؤة متدلية", "خفيف ومريح"],
+      "details_en": ["Gold-tone finish", "Pearl details", "Circular toggle clasp", "Pearl drop", "Lightweight & comfortable"],
+      "images": ["assets/img/products/pearl-gold-link-necklace-1.webp", "assets/img/products/pearl-gold-link-necklace-2.webp"]
+    },
+    {
+      "id": "ruby-necklace-earrings-set", "category": "sets", "price": 1500, "compare": 0, "stock": 3, "featured": true, "best": false, "badge_ar": "طقم", "badge_en": "Set",
+      "name_ar": "طقم الياقوت الأحمر", "name_en": "Ruby Necklace & Earrings Set",
+      "desc_ar": "طقم مذهل لكل مناسبة: عقد من الكريستال الرقيق مع حلق مطابق، مرصّع بأحجار لامعة وحجر أحمر في المنتصف لإطلالة ملكية.",
+      "desc_en": "A stunning set for any occasion: a delicate crystal necklace with matching earrings, sparkling stones and a striking red centre stone.",
+      "details_ar": ["طلاء بلاتيني", "كريستالات لامعة", "حجر أحمر في المنتصف", "عقد وحلق متطابقان"],
+      "details_en": ["Platinum-plated finish", "Sparkling crystal embellishments", "Red centre stone", "Matching necklace and earrings"],
+      "images": ["assets/img/products/necklace-earrings-set-1.webp", "assets/img/products/necklace-earrings-set-2.webp", "assets/img/products/necklace-earrings-set-3.webp", "assets/img/products/necklace-earrings-set-4.webp"]
+    },
+    {
+      "id": "classic-tennis-bracelet", "category": "bracelets", "price": 1500, "compare": 0, "stock": 5, "featured": false, "best": true, "badge_ar": "", "badge_en": "",
+      "name_ar": "إسورة تنس كلاسيك", "name_en": "Classic Tennis Bracelet",
+      "desc_ar": "إسورة تنس خالدة بصف رقيق من الكريستالات الدائرية اللامعة، تعطي لمسة فخامة تلتقط الضوء بجمال.",
+      "desc_en": "A timeless tennis bracelet with a delicate row of sparkling round-cut crystals — a luxurious finish that beautifully catches the light.",
+      "details_ar": ["طلاء بلاتيني", "كريستالات دائرية", "قفل مزدوج آمن"],
+      "details_en": ["Platinum plated", "Round-cut crystals", "Secure double clasp"],
+      "images": ["assets/img/products/tennis-bracelet-1.webp"]
+    },
+    {
+      "id": "golden-fan-earrings", "category": "earrings", "price": 600, "compare": 0, "stock": 7, "featured": false, "best": true, "badge_ar": "", "badge_en": "",
+      "name_ar": "حلق المروحة الذهبي", "name_en": "Golden Fan Earrings",
+      "desc_ar": "زوج استيتمنت يضيف لمعة بلا مجهود: أشعة ذهبية مرصّعة بكريستالات صغيرة تنتهي بأحجار ماركيز.",
+      "desc_en": "A statement pair that adds effortless sparkle: golden rays pavé-set with tiny crystals, finished with marquise stones.",
+      "details_ar": ["طلاء ذهبي", "للعناية: تجنّبي الماء والعطر مباشرة"],
+      "details_en": ["Gold-plated finish", "Care: avoid direct contact with water and perfume"],
+      "images": ["assets/img/products/statement-earrings-1.webp", "assets/img/products/statement-earrings-2.webp"]
+    }
+  ]
+}

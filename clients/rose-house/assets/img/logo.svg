@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 290">
+<defs>
+<linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbfbfc"/><stop offset=".45" stop-color="#c3c8cf"/><stop offset=".55" stop-color="#8d939c"/><stop offset="1" stop-color="#e3e6ea"/></linearGradient>
+<linearGradient id="r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4a4f"/><stop offset=".5" stop-color="#d7141e"/><stop offset="1" stop-color="#9e0b13"/></linearGradient>
+</defs>
+<g transform="translate(30 0)">
+<path fill="url(#s)" fill-rule="evenodd" d="M2 20H122C152 20 170 40 170 66C170 89 155 104 134 109L176 152H136L100 113H54V152H22V46ZM54 46V87H120C132 87 138 78 138 66C138 54 132 46 120 46Z"/>
+<path fill="url(#r)" d="M176 6H214V14H208V152H180V14H176ZM258 6H296V14H290V152H262V14H258Z"/>
+<path fill="none" stroke="url(#r)" stroke-width="15" d="M136 150L235 76L336 150"/>
+<g fill="url(#s)"><rect x="222" y="112" width="12" height="12"/><rect x="237" y="112" width="12" height="12"/><rect x="222" y="127" width="12" height="12"/><rect x="237" y="127" width="12" height="12"/></g>
+</g>
+<text x="200" y="222" text-anchor="middle" font-family="Montserrat,Arial,Helvetica,sans-serif" font-weight="800" font-size="50" letter-spacing="1"><tspan fill="#9aa0a8">ROSE </tspan><tspan fill="#d7141e">HOUSE</tspan></text>
+<g fill="#5b4330"><rect x="14" y="258" width="62" height="3"/><rect x="324" y="258" width="62" height="3"/></g>
+<text x="200" y="268" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="24" letter-spacing="8" fill="#5b4330">FURNITURE</text>
+</svg>
