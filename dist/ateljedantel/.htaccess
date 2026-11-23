@@ -1,7 +1,13 @@
 # Ateljé Dantel webshop (PHP + JSON storage)
 DirectoryIndex index.php
 Options -Indexes
-ErrorDocument 404 /ateljedantel/404.php
+# 404 page without an absolute path, so the same file works in /ateljedantel and on ateljedantel.se
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ 404.php [L]
+</IfModule>
 <IfModule mod_headers.c>
   <FilesMatch "\.(php|html)$">
     Header set Cache-Control "no-cache"

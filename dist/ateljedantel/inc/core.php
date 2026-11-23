@@ -407,3 +407,11 @@ function logo_svg(string $class = 'logo', bool $tagline = true): string {
     if (!$tagline) { $s = preg_replace('~<path id="tg".*?/>~s', '', $s); $s = str_replace('viewBox="80 410 1860 680"', 'viewBox="80 410 1860 560"', $s); }
     return str_replace('<svg ', '<svg class="' . e($class) . '" role="img" aria-label="Ateljé Dantel" ', $s);
 }
+
+/** WhatsApp number (digits only, international) used for booking/order hand-off. Falls back to the shop phone. */
+function wa_number(): string {
+    $s = settings();
+    $n = preg_replace('/\D/', '', (string)($s['whatsapp'] ?? ''));
+    if ($n === '') $n = preg_replace('/\D/', '', (string)($s['phoneIntl'] ?? ''));
+    return $n;
+}

@@ -66,7 +66,15 @@
     try {
       const r = await fetch('api/book.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const d = await r.json();
-      if (d.ok) { f.hidden = true; $('#bkOk').hidden = false; $('#bkOkWhen').textContent = $('#sType').textContent + ' — ' + $('#sDate').textContent + ' ' + time; scrollTo({ top: 0, behavior: 'smooth' }); window.__lenis && __lenis.scrollTo(0); return; }
+      if (d.ok) { f.hidden = true; $('#bkOk').hidden = false; $('#bkOkWhen').textContent = $('#sType').textContent + ' — ' + $('#sDate').textContent + ' ' + time;
+        const wa = f.dataset.wa, wb = $('#bkWa');
+        if (wa && wb) {
+          const lines = [T('bk.waMsg'), '', '#' + (d.ref || ''), $('#sType').textContent, $('#sDate').textContent + ' ' + time, fd.get('name'), fd.get('phone'), fd.get('email')];
+          if (fd.get('event')) lines.push(T('bk.date') + ': ' + fd.get('event'));
+          if (fd.get('note')) lines.push(fd.get('note'));
+          wb.href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(lines.join('\n')); wb.hidden = false;
+          if (matchMedia('(pointer:coarse)').matches) setTimeout(() => { location.href = wb.href; }, 1400);
+        } scrollTo({ top: 0, behavior: 'smooth' }); window.__lenis && __lenis.scrollTo(0); return; }
       $('#bkErr').textContent = d.msg || T('f.err');
       if (d.taken) loadSlots();
     } catch (er) { $('#bkErr').textContent = T('f.err'); }

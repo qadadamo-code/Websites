@@ -59,6 +59,8 @@ return [
     'bk.type' => ['Vad vill du boka?', 'What would you like to book?'], 'bk.day' => ['Välj dag', 'Choose a day'], 'bk.time' => ['Välj tid', 'Choose a time'], 'bk.you' => ['Dina uppgifter', 'Your details'],
     'bk.guests' => ['Antal personer i sällskapet', 'People in your party'], 'bk.date' => ['Datum för bröllop/bal (valfritt)', 'Date of wedding/prom (optional)'], 'bk.send' => ['Boka tid', 'Book time'],
     'bk.none' => ['Inga lediga tider denna dag.', 'No free times this day.'], 'bk.closed' => ['Stängt', 'Closed'], 'bk.ok' => ['Din tid är bokad!', 'Your time is booked!'],
+    'bk.wa' => ['Skicka bokningen på WhatsApp', 'Send the booking on WhatsApp'],
+    'bk.waMsg' => ['Hej! Jag har bokat en tid hos Ateljé Dantel.', 'Hi! I have booked a time at Ateljé Dantel.'],
     'bk.okD' => ['Vi har skickat en bekräftelse. Behöver du ändra tiden? Ring eller mejla oss.', 'We have sent a confirmation. Need to change the time? Call or email us.'],
     'bk.min' => ['min', 'min'], 'bk.sat' => ['Lördagar endast efter bokning', 'Saturdays by appointment only'], 'bk.wish' => ['Klänningar jag vill prova', 'Dresses I want to try'],
     'bk.taken' => ['Tiden hann tyvärr bli bokad. Välj en annan tid.', 'Sorry, that time was just booked. Please choose another.'],

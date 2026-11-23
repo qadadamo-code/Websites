@@ -132,7 +132,7 @@ function site_foot(array $o = []): void {
     $s = settings(); $L = lang();
     $i18n = [];
     foreach (['ui.add', 'ui.added', 'ui.choose', 'ui.remove', 'ui.cartempty', 'ui.wishempty', 'ui.from', 'ui.soldout', 'ui.order', 'ui.results', 'ui.noresults', 'ui.view', 'ui.wishadd', 'ui.copied', 'ui.size', 'ui.color', 'ui.sale', 'ui.instock',
-        'co.free', 'co.sending', 'co.err', 'co.place', 'f.req', 'f.email', 'f.err', 'f.rate', 'bk.none', 'bk.closed', 'bk.taken', 'home.newsOk', 'ui.seeall', 'ui.onlyone', 'ui.sizeguide', 'ui.continue', 'ui.qty'] as $k) $i18n[$k] = t($k);
+        'co.free', 'co.sending', 'co.err', 'co.place', 'f.req', 'f.email', 'f.err', 'f.rate', 'bk.none', 'bk.closed', 'bk.taken', 'bk.waMsg', 'bk.date', 'home.newsOk', 'ui.seeall', 'ui.onlyone', 'ui.sizeguide', 'ui.continue', 'ui.qty'] as $k) $i18n[$k] = t($k);
     ?>
 </main>
 <footer class="ft">
