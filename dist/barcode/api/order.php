@@ -33,6 +33,7 @@ $order = [
     'id' => bc_id('o'), 'no' => clean((string)($in['no'] ?? ''), 10), 'at' => now_iso(),
     'items' => $lines, 'subtotal' => $subtotal, 'discount' => $discount, 'coupon' => $coupon, 'total' => $subtotal - $discount,
     'type' => clean((string)($in['type'] ?? ''), 40), 'name' => $name, 'phone' => $phone,
+    'table' => clean((string)($in['table'] ?? ''), 20),
     'address' => clean((string)($in['address'] ?? ''), 300), 'notes' => clean((string)($in['notes'] ?? ''), 300),
     'channel' => ($in['channel'] ?? '') === 'email' ? 'email' : 'whatsapp', 'status' => 'new',
 ];

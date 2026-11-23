@@ -82,7 +82,10 @@
       if (this.started) return this.promise;
       this.started = true;
       // first frame first, then the rest
-      const order = [0, ...Array.from({ length: this.count - 1 }, (_, i) => i + 1)];
+      // phones and data-saver: every 2nd frame (half the download, scrubbing still looks smooth)
+      const step = (innerWidth < 760 || (navigator.connection && navigator.connection.saveData)) ? 2 : 1;
+      const order = Array.from({ length: this.count }, (_, i) => i).filter(i => i % step === 0);
+      const need = order.length;
       this.promise = new Promise(res => {
         order.forEach(i => {
           const img = new Image();
@@ -90,8 +93,8 @@
           img.onload = img.onerror = () => {
             this.loaded++;
             if (i === this.current || (i === 0 && !this.frames[this.current])) this.draw(this.current);
-            onProgress && onProgress(this.loaded / this.count);
-            if (this.loaded === this.count) res();
+            onProgress && onProgress(this.loaded / need);
+            if (this.loaded === need) res();
           };
           img.src = this.src(i);
           this.frames[i] = img;
@@ -518,6 +521,7 @@
       ...(discount() ? [`المجموع: ${money(subtotal())}`, `كود الخصم ${coupon.code}: − ${money(discount())}`] : []),
       `الإجمالي: ${money(total())}`,
       `نوع الطلب: ${f.type.value}`,
+      table ? `🪑 ترابيزة رقم: ${table}` : "",
       `الاسم: ${f.name.value.trim()}`,
       `الموبايل: ${f.phone.value.trim()}`,
       f.address.value.trim() ? `العنوان: ${f.address.value.trim()}` : "",
@@ -533,10 +537,23 @@
     return ok;
   }
   const of = $("#orderForm");
+  /* table QR: ?t=7 opens the menu as an in-café order for that table */
+  let table = "";
+  try {
+    const qt = new URLSearchParams(location.search).get("t");
+    if (qt) sessionStorage.setItem("bcTable", qt.replace(/[^\p{L}\p{N} _-]/gu, "").slice(0, 20));
+    table = sessionStorage.getItem("bcTable") || "";
+  } catch (_) { /* storage blocked */ }
+  if (table) {
+    const inCafe = of.querySelector('input[value="داخل الكافيه"]');
+    if (inCafe) inCafe.checked = true;
+    of.insertAdjacentHTML("afterbegin", `<div class="table-pill">طلبك هيوصل على <b>ترابيزة <span class="latin">${esc(table)}</span></b></div>`);
+    if (of.address) of.address.placeholder = "مش محتاج عنوان، إحنا عارفين ترابيزتك";
+  }
   const logOrder = channel => post("api/order.php", {
     no: orderNo, channel, coupon: coupon ? coupon.code : "", website: of.website ? of.website.value : "",
     items: Object.entries(cart).map(([id, qty]) => ({ id, qty })),
-    type: of.type.value, name: of.name.value, phone: of.phone.value, address: of.address.value, notes: of.notes.value
+    type: of.type.value, table, name: of.name.value, phone: of.phone.value, address: of.address.value, notes: of.notes.value
   });
   of.addEventListener("submit", e => {
     e.preventDefault();

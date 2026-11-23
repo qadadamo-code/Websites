@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-const BC_VERSION = '3.2.0';
+const BC_VERSION = '3.3.0';
 define('BC_ROOT', dirname(__DIR__));
 define('BC_STORAGE', BC_ROOT . '/storage');
 define('BC_UPLOADS', BC_ROOT . '/uploads');
@@ -15,6 +15,17 @@ define('BC_UPLOADS', BC_ROOT . '/uploads');
 ini_set('display_errors', '0');
 date_default_timezone_set('Africa/Cairo');
 mb_internal_encoding('UTF-8');
+
+/* ---------- security headers (every PHP response) ---------- */
+if (!headers_sent()) {
+    header_remove('X-Powered-By');
+    header('X-Content-Type-Options: nosniff');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header('Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()');
+    header('X-Frame-Options: SAMEORIGIN');
+    header("Content-Security-Policy: object-src 'none'; base-uri 'self'; frame-ancestors 'self'");
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') header('Strict-Transport-Security: max-age=31536000');
+}
 
 /* ---------- storage ---------- */
 function bc_boot(): void {
@@ -29,6 +40,7 @@ function bc_boot(): void {
         foreach (['orders', 'reservations', 'rsvps'] as $k) bc_save($k, []);
     }
     bc_migrate();
+    bc_backup_auto();
     if (!is_file(BC_STORAGE . '/admin.json') && is_file(BC_ROOT . '/data/admin.seed.json')) {
         @copy(BC_ROOT . '/data/admin.seed.json', BC_STORAGE . '/admin.json');
     }
@@ -60,11 +72,18 @@ function bc_load(string $name): array {
     return is_array($data) ? $data : [];
 }
 
-function bc_save(string $name, $data): void {
+function bc_write(string $name, $data): void {
     $f = BC_STORAGE . "/$name.json";
     $tmp = $f . '.' . bin2hex(random_bytes(4)) . '.tmp';
-    file_put_contents($tmp, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    file_put_contents($tmp, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), LOCK_EX);
     rename($tmp, $f);
+}
+/** Save a whole file. The dashboard hooks bc_on_change() to keep an undo record of every edit. */
+function bc_save(string $name, $data): void {
+    $hook = function_exists('bc_on_change');
+    $old = $hook ? bc_load($name) : null;
+    bc_write($name, $data);
+    if ($hook) bc_on_change($name, $old, $data);
 }
 
 /** Read-modify-write one file under an exclusive lock. */
@@ -72,11 +91,57 @@ function bc_tx(string $name, callable $fn) {
     $lock = fopen(BC_STORAGE . "/$name.lock", 'c');
     flock($lock, LOCK_EX);
     $data = bc_load($name);
+    $old = $data;
     $result = $fn($data);
-    bc_save($name, $data);
+    bc_write($name, $data);
     flock($lock, LOCK_UN);
     fclose($lock);
+    if (function_exists('bc_on_change')) bc_on_change($name, $old, $data);
     return $result;
+}
+
+/* ---------- automatic backups: every 3 hours, on the first visit after that (site or dashboard) ---------- */
+const BC_BACKUP_EVERY = 3 * 3600;
+const BC_BACKUP_KEEP = ['auto' => 56, 'manual' => 30, 'pre' => 15];
+function bc_backup_dir(): string { $d = BC_STORAGE . '/backups'; if (!is_dir($d)) @mkdir($d, 0750, true); return $d; }
+function bc_backup_list(): array {
+    $out = [];
+    foreach (glob(bc_backup_dir() . '/bk-*.json*') ?: [] as $f) {
+        if (!preg_match('~bk-(\d{8}-\d{6})-(auto|manual|pre)-[0-9a-f]+\.json(\.gz)?$~', $f, $m)) continue;
+        $out[] = ['file' => basename($f), 'at' => DateTime::createFromFormat('Ymd-His', $m[1])->format('c'), 'type' => $m[2], 'size' => filesize($f)];
+    }
+    usort($out, fn($a, $b) => strcmp($b['file'], $a['file']));
+    return $out;
+}
+function bc_backup_make(string $type = 'auto', string $by = ''): ?string {
+    $files = [];
+    foreach (glob(BC_STORAGE . '/*.json') ?: [] as $f) {
+        $k = basename($f, '.json');
+        if (in_array($k, ['ratelimit'], true)) continue;
+        $files[$k] = json_decode((string)file_get_contents($f), true);
+    }
+    $json = json_encode(['site' => 'barcode-cafe', 'version' => BC_VERSION, 'created' => date('c'), 'type' => $type, 'by' => $by, 'files' => $files], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    $gz = function_exists('gzencode');
+    $name = 'bk-' . date('Ymd-His') . "-$type-" . bin2hex(random_bytes(3)) . '.json' . ($gz ? '.gz' : '');
+    if (@file_put_contents(bc_backup_dir() . '/' . $name, $gz ? gzencode($json, 6) : $json, LOCK_EX) === false) return null;
+    $same = array_values(array_filter(bc_backup_list(), fn($b) => $b['type'] === $type));
+    foreach (array_slice($same, BC_BACKUP_KEEP[$type] ?? 30) as $old) @unlink(bc_backup_dir() . '/' . $old['file']);
+    return $name;
+}
+function bc_backup_read(string $path): ?array {
+    $raw = (string)@file_get_contents($path);
+    if (substr($raw, 0, 2) === "\x1f\x8b") $raw = (string)@gzdecode($raw);
+    $d = json_decode($raw, true);
+    return (is_array($d) && ($d['site'] ?? '') === 'barcode-cafe' && is_array($d['files'] ?? null)) ? $d : null;
+}
+function bc_backup_auto(): void {
+    $stamp = BC_STORAGE . '/backups/.last';
+    if (is_file($stamp) && time() - (int)@filemtime($stamp) < BC_BACKUP_EVERY) return;
+    bc_backup_dir();
+    $fp = @fopen(BC_STORAGE . '/backup.lock', 'c');
+    if (!$fp || !flock($fp, LOCK_EX | LOCK_NB)) return;      // another request is already doing it
+    if (!is_file($stamp) || time() - (int)@filemtime($stamp) >= BC_BACKUP_EVERY) { @touch($stamp); bc_backup_make('auto'); }
+    flock($fp, LOCK_UN); fclose($fp);
 }
 
 bc_boot();

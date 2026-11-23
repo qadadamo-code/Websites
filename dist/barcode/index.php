@@ -7,6 +7,16 @@ $ribbon = $C['ribbon'] ?: ['لكلّ مزاجٍ كود'];
 $O = $D['offers']; $hasOffers = $O['items'] || $O['coupons'];
 foreach (array_reverse($O['coupons']) as $cp) array_unshift($ribbon, 'كود ' . $cp['code'] . ' · خصم ' . $cp['value'] . ($cp['type'] === 'fixed' ? ' ج.م' : '%') . ' على فاتورتك');
 header('Cache-Control: no-cache');
+$https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+$siteUrl = ($https ? 'https' : 'http') . '://' . preg_replace('/[^A-Za-z0-9.:-]/', '', $_SERVER['HTTP_HOST'] ?? 'localhost') . rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/')), '/') . '/';
+$ld = ['@context' => 'https://schema.org', '@type' => 'CafeOrCoffeeShop', 'name' => $C['brand'], 'url' => $siteUrl, 'image' => $siteUrl . 'assets/img/latte.jpg',
+    'logo' => $siteUrl . 'assets/brand/favicon.png', 'servesCuisine' => ['قهوة', 'مشروبات', 'عصائر', 'شيشة'], 'priceRange' => '$$', 'acceptsReservations' => (bool)$C['reservations'],
+    'hasMenu' => ['@type' => 'Menu', 'url' => $siteUrl . '#menu', 'hasMenuSection' => array_map(fn($c) => ['@type' => 'MenuSection', 'name' => $c['title'],
+        'hasMenuItem' => array_map(fn($it) => ['@type' => 'MenuItem', 'name' => $it['name'], 'offers' => ['@type' => 'Offer', 'price' => $it['price'], 'priceCurrency' => 'EGP']], array_slice($c['items'], 0, 30))], $D['menu'])]];
+if ($C['whatsappDisplay']) $ld['telephone'] = $C['whatsappDisplay'];
+if ($C['address']) $ld['address'] = ['@type' => 'PostalAddress', 'streetAddress' => $C['address'], 'addressCountry' => 'EG'];
+if ($C['mapUrl']) $ld['hasMap'] = $C['mapUrl'];
+$same = array_values(array_filter((array)$C['social'])); if ($same) $ld['sameAs'] = $same;
 ?><!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -17,7 +27,12 @@ header('Cache-Control: no-cache');
 <meta name="theme-color" content="#140A04">
 <meta property="og:title" content="باركود كافيه | لكلّ مزاجٍ كود">
 <meta property="og:description" content="قهوة، ميلك شيك، عصائر وموهيتو. امسح مزاجك واطلب عبر واتساب.">
-<meta property="og:image" content="assets/img/latte.jpg">
+<meta property="og:image" content="<?= e($siteUrl) ?>assets/img/latte.jpg">
+<meta property="og:url" content="<?= e($siteUrl) ?>">
+<meta property="og:type" content="restaurant.restaurant">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="<?= e($siteUrl) ?>">
+<script type="application/ld+json"><?= json_encode($ld, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 <meta property="og:locale" content="ar_EG">
 <link rel="icon" type="image/png" href="assets/brand/favicon.png">
 <link rel="apple-touch-icon" href="assets/brand/favicon.png">

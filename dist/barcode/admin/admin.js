@@ -156,4 +156,32 @@
     e.preventDefault();
     const r = document.getElementById(b.dataset.toggleRow); if (r) { r.hidden = !r.hidden; if (!r.hidden) { const i = $('input', r); i && i.focus(); } }
   });
+  // ---- WhatsApp one-tap sender ----
+  const run = $('#waRun');
+  if (run) {
+    const items = () => $$('#waList li:not(.is-sent):not(.is-skip)');
+    const go = $('#waGo'), skip = $('#waSkip'), msg = $('#waMsg');
+    let cur = null;
+    const link = (li) => 'https://wa.me/' + li.dataset.wa + '?text=' + encodeURIComponent(msg.value.replace(/\{name\}/g, li.dataset.name || '').trim());
+    const show = () => {
+      $$('#waList li.is-cur').forEach((x) => x.classList.remove('is-cur'));
+      cur = items()[0] || null;
+      $('#waLeft').textContent = items().length;
+      if (!cur) { $('#waCur').hidden = true; skip.hidden = true; go.removeAttribute('href'); go.classList.add('is-done'); go.textContent = 'خلصت القائمة ✓'; return; }
+      cur.classList.add('is-cur'); cur.scrollIntoView({ block: 'nearest' });
+      $('#waCur').hidden = false; skip.hidden = false;
+      $('#waName').textContent = cur.dataset.full || 'عميل'; $('#waPhone').textContent = '+' + cur.dataset.wa;
+      go.href = link(cur); go.lastChild.textContent = ' افتح واتساب وابعت';
+    };
+    msg.addEventListener('input', () => cur && (go.href = link(cur)));
+    go.addEventListener('click', () => {
+      if (!cur) return;
+      const li = cur, body = new URLSearchParams({ _t: run.dataset.csrf, act: 'mark', wa: li.dataset.wa, t: run.dataset.key });
+      fetch(location.pathname, { method: 'POST', body }).catch(() => {});
+      li.classList.add('is-sent'); $('em', li).textContent = '✓ اتبعت';
+      setTimeout(show, 150);
+    });
+    skip.addEventListener('click', () => { if (cur) { cur.classList.add('is-skip'); show(); } });
+    show();
+  }
 })();

@@ -2,13 +2,26 @@
 /** Dashboard core: session, auth, CSRF, layout and small helpers. Arabic, RTL. */
 require dirname(__DIR__) . '/inc/core.php';
 if (session_status() === PHP_SESSION_NONE) {
-    session_name('bc_admin');
-    session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax', 'secure' => !empty($_SERVER['HTTPS'])]);
+    $https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    session_name($https ? '__Secure-bc_admin' : 'bc_admin');
+    $cookiePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/')), '/') . '/';
+    session_set_cookie_params(['lifetime' => 0, 'path' => $cookiePath, 'httponly' => true, 'samesite' => 'Lax', 'secure' => $https]);
     session_start();
+    // idle timeout 2h, hard limit 12h, and the session stays tied to the browser that signed in
+    $now = time(); $fp = hash('sha256', (string)($_SERVER['HTTP_USER_AGENT'] ?? ''));
+    if (!empty($_SESSION['uid'])) {
+        if ($now - (int)($_SESSION['seen'] ?? $now) > 7200 || $now - (int)($_SESSION['born'] ?? $now) > 43200 || ($_SESSION['fp'] ?? $fp) !== $fp) {
+            $_SESSION = []; session_regenerate_id(true); $_SESSION['expired'] = 1;
+        }
+    }
+    $_SESSION['seen'] = $now;
 }
 header('X-Robots-Tag: noindex, nofollow');
-header('X-Frame-Options: SAMEORIGIN');
-header('Cache-Control: no-store');
+header('X-Frame-Options: DENY');
+header('Cache-Control: no-store, private');
+header("Content-Security-Policy: default-src 'self'; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; object-src 'none'");
 
 /* ---------- users, roles, permissions ---------- */
 const ROLES = [
@@ -27,10 +40,10 @@ const PERMS = [
     'disc.edit' => 'الخصومات والكوبونات', 'events.edit' => 'إنشاء وتعديل الفعاليات', 'events.guests' => 'إدارة ضيوف الفعاليات والدعوات',
     'reports.view' => 'التقارير', 'export' => 'تنزيل ملفات Excel',
     'settings.site' => 'بيانات التواصل وخدمات الموقع', 'settings.marketing' => 'الشريط المتحرك والسوشيال ميديا',
-    'log.view' => 'سجل النشاط', 'users.manage' => 'إدارة المستخدمين والصلاحيات',
+    'log.view' => 'سجل النشاط', 'undo.all' => 'التراجع عن عمليات الموظفين الآخرين', 'backup.manage' => 'النسخ الاحتياطي والاسترجاع', 'users.manage' => 'إدارة المستخدمين والصلاحيات',
 ];
 const ROLE_PERMS = [
-    'manager' => ['orders.view', 'orders.edit', 'orders.delete', 'res.view', 'res.edit', 'res.delete', 'items.edit', 'items.delete', 'disc.edit', 'events.edit', 'events.guests', 'reports.view', 'export', 'settings.site', 'settings.marketing', 'log.view'],
+    'manager' => ['orders.view', 'orders.edit', 'orders.delete', 'res.view', 'res.edit', 'res.delete', 'items.edit', 'items.delete', 'disc.edit', 'events.edit', 'events.guests', 'reports.view', 'export', 'settings.site', 'settings.marketing', 'log.view', 'undo.all'],
     'accountant' => ['orders.view', 'orders.edit', 'orders.delete', 'res.view', 'reports.view', 'export', 'log.view'],
     'editor' => ['items.edit', 'items.delete', 'events.edit'],
     'marketer' => ['disc.edit', 'events.edit', 'events.guests', 'reports.view', 'export', 'settings.marketing'],
@@ -79,12 +92,79 @@ function require_perm(string ...$perms): void {
 }
 /** Deny a single action inside a page the user can open. */
 function need(string ...$perms): void { if (!can(...$perms)) { flash('العملية دي مش ضمن صلاحياتك', 'bad'); go($_SERVER['REQUEST_URI'] ?? 'index.php'); } }
+function weak_pass(string $p): ?string {
+    if (strlen($p) < 10) return 'كلمة المرور لازم 10 حروف على الأقل';
+    if (!preg_match('/[A-Za-z]/', $p) || !preg_match('/\d/', $p)) return 'كلمة المرور لازم يكون فيها حروف إنجليزي وأرقام';
+    if (preg_match('/^(.)\1+$/', $p) || in_array(strtolower($p), ['password123', '1234567890', 'qwerty1234', 'barcode123', 'admin12345'], true)) return 'كلمة المرور سهلة جدًا';
+    return null;
+}
 function role_label(array $u): string { return ROLES[$u['role'] ?? ''][0] ?? ($u['role'] ?? ''); }
+
+/* ---------- undo: every dashboard write keeps the records it changed, grouped per request ---------- */
+const UNDO_SKIP = ['log', 'undo', 'migrations', 'users', 'admin', 'ratelimit', 'invites'];
+function bc_req(): string { static $r = null; if ($r === null) $r = bin2hex(random_bytes(6)); return $r; }
+function bc_is_id_list($a): bool {
+    if (!is_array($a)) return false;
+    if (!$a) return true;
+    if (array_keys($a) !== range(0, count($a) - 1)) return false;
+    foreach ($a as $r) if (!is_array($r) || !isset($r['id'])) return false;
+    return true;
+}
+/** Smallest set of steps that turns $new back into $old. */
+function bc_diff($old, $new): array {
+    if (json_encode($old) === json_encode($new)) return [];
+    if (bc_is_id_list($old) && bc_is_id_list($new) && count($old) + count($new) > 0) {
+        $o = []; foreach ($old as $i => $r) $o[(string)$r['id']] = [$i, $r];
+        $n = []; foreach ($new as $r) $n[(string)$r['id']] = $r;
+        $ch = [];
+        foreach ($o as $id => [$i, $r]) {
+            if (!isset($n[$id])) $ch[] = ['t' => 'del', 'id' => $id, 'pos' => $i, 'before' => $r];
+            elseif (json_encode($n[$id]) !== json_encode($r)) $ch[] = ['t' => 'mod', 'id' => $id, 'before' => $r];
+        }
+        foreach ($n as $id => $r) if (!isset($o[$id])) $ch[] = ['t' => 'add', 'id' => $id];
+        return $ch ?: [['t' => 'all', 'before' => $old]];
+    }
+    return [['t' => 'all', 'before' => $old]];
+}
+function bc_on_change(string $name, $old, $new): void {
+    if (in_array($name, UNDO_SKIP, true) || !empty($GLOBALS['bc_no_undo']) || session_status() !== PHP_SESSION_ACTIVE) return;
+    $u = me(); if (!$u) return;
+    $ch = bc_diff($old, $new); if (!$ch) return;
+    $row = ['req' => bc_req(), 'at' => now_iso(), 'uid' => $u['id'], 'file' => $name, 'ch' => $ch];
+    $GLOBALS['bc_no_undo'] = true;
+    bc_tx('undo', function (&$d) use ($row) { array_unshift($d, $row); if (count($d) > 600) $d = array_slice($d, 0, 600); });
+    $GLOBALS['bc_no_undo'] = false;
+    $_SESSION['undo_req'] = bc_req();
+}
+/** Put the records of one request back the way they were. Returns the number of files touched. */
+function bc_undo(string $req): int {
+    $rows = array_values(array_filter(bc_load('undo'), fn($r) => $r['req'] === $req && empty($r['undone'])));
+    foreach ($rows as $row) {               // newest first, so steps unwind in reverse order
+        bc_tx($row['file'], function (&$d) use ($row) {
+            foreach (array_reverse($row['ch']) as $c) {
+                if ($c['t'] === 'all') { $d = $c['before']; continue; }
+                if (!is_array($d)) $d = [];
+                $idx = null; foreach ($d as $i => $x) if ((string)($x['id'] ?? '') === $c['id']) { $idx = $i; break; }
+                if ($c['t'] === 'add') { if ($idx !== null) array_splice($d, $idx, 1); }
+                elseif ($c['t'] === 'mod') { if ($idx !== null) $d[$idx] = $c['before']; else array_unshift($d, $c['before']); }
+                elseif ($c['t'] === 'del' && $idx === null) array_splice($d, min((int)$c['pos'], count($d)), 0, [$c['before']]);
+            }
+            $d = is_array($d) && bc_is_id_list($d) ? array_values($d) : $d;
+        });
+    }
+    if ($rows) { $GLOBALS['bc_no_undo'] = true; bc_tx('undo', function (&$d) use ($req) { foreach ($d as &$r) if ($r['req'] === $req) $r['undone'] = now_iso(); }); $GLOBALS['bc_no_undo'] = false; }
+    return count($rows);
+}
+function undo_ok(string $req): bool {
+    if ($req === '') return false;
+    foreach (bc_load('undo') as $r) if ($r['req'] === $req && empty($r['undone'])) return $r['uid'] === (me()['id'] ?? '') || can('undo.all');
+    return false;
+}
 
 /* ---------- activity log ---------- */
 function log_act(string $action, string $detail = ''): void {
     $u = me();
-    $row = ['at' => now_iso(), 'uid' => $u['id'] ?? '', 'name' => $u['name'] ?? ($u['user'] ?? 'النظام'), 'action' => $action, 'detail' => mb_substr($detail, 0, 300)];
+    $row = ['at' => now_iso(), 'uid' => $u['id'] ?? '', 'name' => $u['name'] ?? ($u['user'] ?? 'النظام'), 'action' => $action, 'detail' => mb_substr($detail, 0, 300), 'req' => bc_req()];
     bc_tx('log', function (&$d) use ($row) { array_unshift($d, $row); if (count($d) > 4000) $d = array_slice($d, 0, 4000); });
 }
 function csrf(): string { if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(16)); return $_SESSION['csrf']; }
@@ -126,7 +206,7 @@ function seq_options(): array {
 }
 const SEQ_LABELS = ['espresso' => 'إسبريسو', 'latte' => 'لاتيه', 'iced' => 'آيس كوفي', 'shake' => 'ميلك شيك', 'juice' => 'عصير', 'mojito' => 'موهيتو', 'pizza' => 'بيتزا', 'pasta' => 'باستا', 'dessert' => 'حلويات'];
 const ORDER_ST = ['new' => 'جديد', 'preparing' => 'قيد التحضير', 'ready' => 'جاهز', 'done' => 'تم التسليم', 'cancelled' => 'ملغي'];
-const ORDER_TYPES = ['توصيل', 'استلام', 'في الكافيه'];
+const ORDER_TYPES = ['توصيل', 'استلام من الفرع', 'داخل الكافيه'];
 const PAY_METHODS = ['' => 'لم يُدفع بعد', 'cash' => 'كاش', 'card' => 'فيزا', 'instapay' => 'إنستاباي', 'wallet' => 'محفظة إلكترونية'];
 const RES_ST = ['new' => 'جديد', 'confirmed' => 'مؤكد', 'seated' => 'حضر', 'noshow' => 'لم يحضر', 'cancelled' => 'ملغي'];
 function wa_phone(string $p): string { $d = preg_replace('/\D/', '', digits_en($p)); return strpos($d, '0') === 0 ? '2' . $d : $d; }
@@ -178,7 +258,7 @@ function icon(string $name): string {
         'wa' => 'M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z', 'search' => 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4',
         'trash' => 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13', 'edit' => 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4', 'copy' => 'M8 8h12v12H8zM4 16V4h12',
         'down' => 'M12 4v12M6 11l6 6 6-6M4 20h16',
-        'chart' => 'M4 20V10M10 20V4M16 20v-7M22 20H2', 'users' => 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 12 0v1M16 3.5a4 4 0 0 1 0 7M18 14a6 6 0 0 1 4 6v1',
+        'send' => 'M22 2 11 13M22 2l-7 20-4-9-9-4z', 'qr' => 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2zM16 16h2v2h-2z', 'undo' => 'M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11', 'shield' => 'M12 3 4 6v6c0 5 3.4 8.4 8 9 4.6-.6 8-4 8-9V6zM9 12l2 2 4-4', 'chart' => 'M4 20V10M10 20V4M16 20v-7M22 20H2', 'users' => 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 12 0v1M16 3.5a4 4 0 0 1 0 7M18 14a6 6 0 0 1 4 6v1',
         'log' => 'M12 7v5l3 2M12 3a9 9 0 1 0 9 9', 'user' => 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21v-1a8 8 0 0 1 16 0v1', 'print' => 'M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z',
     ][$name] ?? '';
     return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="' . $d . '"/></svg>';
@@ -191,8 +271,8 @@ function admin_head(string $title, string $active = '', string $actions = ''): v
         '' => ['index' => ['الرئيسية', 'home', 0, []]],
         'التشغيل' => ['orders' => ['الطلبات', 'orders', $newOrders, ['orders.view']], 'reservations' => ['الحجوزات', 'res', $newRes, ['res.view']]],
         'المنيو' => ['items' => ['الأصناف', 'items', 0, ['items.edit']], 'categories' => ['الأقسام', 'cats', 0, ['items.edit']], 'discounts' => ['الخصومات والعروض', 'disc', 0, ['disc.edit']]],
-        'التسويق' => ['events' => ['الفعاليات والدعوات', 'events', 0, ['events.edit', 'events.guests']]],
-        'الإدارة' => ['reports' => ['التقارير', 'chart', 0, ['reports.view']], 'log' => ['سجل النشاط', 'log', 0, ['log.view']], 'users' => ['المستخدمين والصلاحيات', 'users', 0, ['users.manage']], 'settings' => ['الإعدادات', 'settings', 0, ['settings.site', 'settings.marketing']]],
+        'التسويق' => ['events' => ['الفعاليات والدعوات', 'events', 0, ['events.edit', 'events.guests']], 'invite' => ['إرسال على واتساب', 'send', 0, ['events.guests', 'disc.edit']], 'tables' => ['QR الترابيزات', 'qr', 0, ['settings.site']]],
+        'الإدارة' => ['reports' => ['التقارير', 'chart', 0, ['reports.view']], 'log' => ['سجل النشاط والتراجع', 'log', 0, ['log.view']], 'backups' => ['النسخ الاحتياطي', 'shield', 0, ['backup.manage']], 'users' => ['المستخدمين والصلاحيات', 'users', 0, ['users.manage']], 'settings' => ['الإعدادات', 'settings', 0, ['settings.site', 'settings.marketing']]],
     ];
     $me = me();
     ?><!doctype html>
@@ -226,7 +306,7 @@ function admin_head(string $title, string $active = '', string $actions = ''): v
     <h1><?= e($title) ?></h1>
     <div class="top__actions"><?= $actions ?></div>
   </header>
-  <?php if ($f = flash()): ?><div class="flash flash--<?= e($f[1]) ?>"><?= e($f[0]) ?></div><?php endif; ?>
+  <?php if ($f = flash()): $ur = $_SESSION['undo_req'] ?? ''; unset($_SESSION['undo_req']); ?><div class="flash flash--<?= e($f[1]) ?>"><span><?= e($f[0]) ?></span><?php if ($f[1] === 'ok' && undo_ok($ur)): ?><form method="post" action="undo.php" class="flash__undo"><?= csrf_field() ?><input type="hidden" name="req" value="<?= e($ur) ?>"><input type="hidden" name="back" value="<?= e($_SERVER['REQUEST_URI'] ?? '') ?>"><button class="b b--sm"><?= icon('undo') ?> تراجع</button></form><?php endif; ?></div><?php endif; ?>
 <?php
 }
 

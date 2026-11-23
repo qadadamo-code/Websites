@@ -30,7 +30,7 @@ if (posted()) {
     $st = isset(ORDER_ST[p('status')]) ? p('status') : 'new';
     $pay = array_key_exists(p('pay'), PAY_METHODS) ? p('pay') : '';
     $row = array_merge($o ?: ['id' => bc_id('o'), 'no' => 'M' . random_int(1000, 9999), 'at' => now_iso(), 'channel' => 'manual', 'coupon' => ''], [
-        'name' => $name, 'phone' => clean(digits_en(p('phone')), 30), 'type' => in_array(p('type'), ORDER_TYPES, true) ? p('type') : ORDER_TYPES[0],
+        'name' => $name, 'phone' => clean(digits_en(p('phone')), 30), 'type' => in_array(p('type'), ORDER_TYPES, true) ? p('type') : ORDER_TYPES[0], 'table' => clean(p('table'), 20),
         'address' => clean(p('address'), 300), 'notes' => clean(p('notes'), 300), 'staffNote' => clean(p('staffNote'), 300),
         'items' => $lines, 'subtotal' => $sub, 'discount' => $disc, 'coupon' => strtoupper(clean(p('coupon'), 30)), 'total' => $sub - $disc,
         'status' => $st, 'pay' => $pay, 'paid' => $pay !== '', 'updated' => now_iso(), 'updatedBy' => me()['name'] ?? '',
@@ -44,7 +44,7 @@ if (posted()) {
     go('orders.php?open=' . rawurlencode($row['id']) . '#detail');
 }
 
-$o = $o ?: ['name' => '', 'phone' => '', 'type' => 'في الكافيه', 'address' => '', 'notes' => '', 'staffNote' => '', 'items' => [], 'discount' => 0, 'coupon' => '', 'status' => 'new', 'pay' => '', 'no' => ''];
+$o = $o ?: ['name' => '', 'phone' => '', 'type' => 'داخل الكافيه', 'table' => '', 'address' => '', 'notes' => '', 'staffNote' => '', 'items' => [], 'discount' => 0, 'coupon' => '', 'status' => 'new', 'pay' => '', 'no' => ''];
 $opts = '<option value="">صنف خارج المنيو…</option>';
 $curCat = '';
 foreach ($menu as $it) {
@@ -83,7 +83,8 @@ admin_head($isNew ? 'طلب جديد' : 'تعديل طلب #' . $o['no'], 'order
     <div class="fg">
       <label class="f"><span>الاسم *</span><input name="name" value="<?= e($o['name']) ?>" required maxlength="80"></label>
       <label class="f"><span>الموبايل</span><input name="phone" value="<?= e($o['phone']) ?>" class="latin" dir="ltr" inputmode="tel"></label>
-      <label class="f"><span>نوع الطلب</span><select name="type"><?php foreach (ORDER_TYPES as $t): ?><option <?= sel($o['type'], $t) ?>><?= $t ?></option><?php endforeach; ?></select></label>
+      <label class="f"><span>نوع الطلب</span><select name="type"><?php foreach (ORDER_TYPES as $t): ?><option <?= sel(['استلام' => 'استلام من الفرع', 'في الكافيه' => 'داخل الكافيه'][$o['type']] ?? $o['type'], $t) ?>><?= $t ?></option><?php endforeach; ?></select></label>
+      <label class="f"><span>رقم الترابيزة</span><input name="table" value="<?= e($o['table'] ?? '') ?>" maxlength="20" placeholder="للطلبات داخل الكافيه"></label>
       <label class="f"><span>العنوان</span><input name="address" value="<?= e($o['address'] ?? '') ?>" maxlength="300"></label>
       <label class="f f--full"><span>ملاحظات العميل</span><textarea name="notes" rows="2" maxlength="300"><?= e($o['notes'] ?? '') ?></textarea></label>
     </div>
