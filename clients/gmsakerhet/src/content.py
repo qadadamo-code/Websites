@@ -7,6 +7,7 @@ CO = {
     "orgnr": "559405-3984",
     "phone": "010-147 50 70",
     "phone_e164": "+46101475070",
+    "whatsapp": "46101475070",  # WhatsApp number for form requests (digits only)
     "email": "info@gmsumea.se",
     "street": "Nygatan 22",
     "zip": "903 27",

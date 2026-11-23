@@ -266,6 +266,15 @@
       e.preventDefault();
       var msg = f.querySelector(".fmsg"), btn = f.querySelector("button[type=submit]");
       btn.disabled = true; msg.className = "fmsg"; msg.textContent = "…";
+      // also send the request to WhatsApp (opened in the click, so popups are allowed)
+      if (f.dataset.wa) {
+        var d = new FormData(f), L = [["Namn", "name"], ["Företag", "company"], ["E-post", "email"], ["Telefon", "phone"], ["Tjänst", "service"]];
+        var t = "Ny förfrågan via gmsakerhet.com\n";
+        L.forEach(function (x) { var v = (d.get(x[1]) || "").toString().trim(); if (v) t += "\n" + x[0] + ": " + v; });
+        if (d.get("callback")) t += "\nRing upp: Ja";
+        t += "\n\n" + (d.get("message") || "").toString().trim();
+        window.open("https://wa.me/" + f.dataset.wa + "?text=" + encodeURIComponent(t), "_blank", "noopener");
+      }
       fetch(f.action, { method: "POST", body: new FormData(f), headers: { Accept: "application/json" } })
         .then(function (r) { return r.json(); })
         .then(function (j) { if (!j.ok) throw 0; msg.className = "fmsg ok"; msg.textContent = f.dataset.ok; f.reset(); })
