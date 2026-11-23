@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/inc.php';
-require_admin();
+require_perm('items.edit');
 $cats = sort_by_order(bc_load('categories'));
 $catById = []; foreach ($cats as $c) $catById[$c['id']] = $c;
 
@@ -8,6 +8,10 @@ if (posted()) {
     $act = p('act');
     $ids = array_map('strval', (array)($_POST['ids'] ?? []));
     if ($act === 'toggle') { $ids = [p('id')]; }
+    if ($act === 'delete') need('items.delete');
+    $names = []; foreach (bc_load('items') as $x) if (in_array($x['id'], $ids, true)) $names[] = $x['name'];
+    $actLabel = ['delete' => 'حذف أصناف', 'show' => 'إظهار أصناف', 'hide' => 'إخفاء أصناف', 'in' => 'إتاحة أصناف', 'out' => 'تعليم أصناف نافدة', 'price' => 'تعديل أسعار', 'sale' => 'خصم جماعي', 'move' => 'نقل أصناف لقسم', 'toggle' => 'تبديل حالة صنف'][$act] ?? $act;
+    if ($ids) log_act($actLabel, implode('، ', array_slice($names, 0, 12)) . (count($names) > 12 ? '…' : ''));
     bc_tx('items', function (&$items) use ($act, $ids) {
         $set = array_flip($ids);
         if ($act === 'delete') { $items = array_values(array_filter($items, fn($i) => !isset($set[$i['id']]))); return; }

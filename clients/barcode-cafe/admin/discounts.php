@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/inc.php';
-require_admin();
+require_perm('disc.edit');
 $coupons = bc_load('coupons');
 $editId = (string)($_GET['edit'] ?? '');
 $cur = null; foreach ($coupons as $c) if ($c['id'] === $editId) $cur = $c;
@@ -18,7 +18,8 @@ if (posted()) {
         foreach ($coupons as $c) if (strtoupper($c['code']) === $code && $c['id'] !== $id) $errs[] = 'الكود ده مستخدم قبل كده';
         if ($errs) { flash(implode(' · ', $errs), 'bad'); go('discounts.php' . ($id ? '?edit=' . rawurlencode($id) : '') . '#new'); }
         $row = ['code' => $code, 'type' => $type, 'value' => $val, 'min' => (float)digits_en(p('min')) ?: 0, 'limit' => (int)digits_en(p('limit')) ?: 0,
-            'from' => pdate('from'), 'to' => pdate('to'), 'note' => clean(p('note'), 80), 'active' => !empty($_POST['active'])];
+            'from' => pdate('from'), 'to' => pdate('to'), 'note' => clean(p('note'), 80), 'active' => !empty($_POST['active']), 'public' => !empty($_POST['public'])];
+        log_act($id ? 'تعديل كود خصم' : 'إنشاء كود خصم', $code . ' · ' . $val . ($type === 'fixed' ? ' ج' : '%'));
         bc_tx('coupons', function (&$d) use ($row, $id) {
             foreach ($d as &$c) if ($c['id'] === $id) { $c = array_merge($c, $row); return; }
             array_unshift($d, $row + ['id' => bc_id('p'), 'uses' => 0, 'created' => now_iso()]);
@@ -27,6 +28,8 @@ if (posted()) {
         go('discounts.php');
     }
     $id = p('id');
+    $lbl = ''; foreach ($coupons as $c) if ($c['id'] === $id) $lbl = $c['code'];
+    log_act(['toggle' => 'تفعيل/إيقاف كود', 'reset' => 'تصفير استخدام كود', 'delete' => 'حذف كود خصم', 'endsale' => 'إيقاف خصم صنف', 'endcat' => 'إيقاف خصم قسم', 'catdisc' => 'خصم على قسم'][$act] ?? $act, trim($lbl . ' ' . p('item') . ' ' . p('cat') . ' ' . p('pct')));
     if ($act === 'toggle') bc_tx('coupons', function (&$d) use ($id) { foreach ($d as &$c) if ($c['id'] === $id) $c['active'] = empty($c['active']); });
     if ($act === 'reset') bc_tx('coupons', function (&$d) use ($id) { foreach ($d as &$c) if ($c['id'] === $id) $c['uses'] = 0; });
     if ($act === 'delete') bc_tx('coupons', function (&$d) use ($id) { $d = array_values(array_filter($d, fn($c) => $c['id'] !== $id)); });
@@ -43,7 +46,7 @@ if (posted()) {
 $cats = sort_by_order(bc_load('categories')); $catById = []; foreach ($cats as $c) $catById[$c['id']] = $c;
 $sales = array_filter(bc_load('items'), fn($i) => !empty($i['sale']));
 $catDisc = array_filter($cats, fn($c) => !empty($c['discount']));
-$f = $cur ?: ['id' => '', 'code' => '', 'type' => 'percent', 'value' => '', 'min' => '', 'limit' => '', 'from' => '', 'to' => '', 'note' => '', 'active' => true];
+$f = $cur ?: ['id' => '', 'code' => '', 'type' => 'percent', 'value' => '', 'min' => '', 'limit' => '', 'from' => '', 'to' => '', 'note' => '', 'active' => true, 'public' => false];
 function coupon_state(array $c): array {
     if (empty($c['active'])) return ['off', 'موقوف'];
     if (!empty($c['to']) && today() > $c['to']) return ['off', 'منتهي'];
@@ -51,8 +54,17 @@ function coupon_state(array $c): array {
     if (!empty($c['limit']) && (int)($c['uses'] ?? 0) >= (int)$c['limit']) return ['off', 'استُنفد'];
     return ['on', 'فعّال'];
 }
-admin_head('الخصومات', 'discounts', '<a class="b b--primary" href="#new">' . icon('plus') . ' كود خصم جديد</a>');
+admin_head('الخصومات', 'discounts', '<a class="b" href="../#offers" target="_blank">' . icon('ext') . ' شوف العروض في الموقع</a><a class="b b--primary" href="#new">' . icon('plus') . ' كود خصم جديد</a>');
 ?>
+<section class="card where">
+  <div class="card__head"><h3>الخصومات بتظهر فين في الموقع؟</h3></div>
+  <div class="where__grid">
+    <div><b>خصم على صنف</b><p>شريط نحاسي «خصم ٪» على صورة الصنف، والسعر القديم مشطوب جنبه السعر الجديد.</p></div>
+    <div><b>خصم على قسم كامل</b><p>علامة الخصم على تبويب القسم وعنوانه، وكل أصنافه بتاخد الشريط والسعر الجديد تلقائيًا.</p></div>
+    <div><b>قسم «عروض باركود»</b><p>بيظهر تلقائيًا تحت الهيرو لما يكون فيه أي خصم شغّال، ويجمع الأصناف المخفّضة والأكواد المعروضة.</p></div>
+    <div><b>أكواد الخصم</b><p>العميل يكتبها في الفاتورة. لو فعّلت «اعرضه للعملاء» الكود بيظهر في قسم العروض والشريط المتحرك.</p></div>
+  </div>
+</section>
 <div class="cols">
   <section class="card card--wide">
     <div class="card__head"><h3>أكواد الخصم</h3><span class="muted">العميل يكتب الكود في الفاتورة قبل الإرسال</span></div>
@@ -63,7 +75,7 @@ admin_head('الخصومات', 'discounts', '<a class="b b--primary" href="#new"
       <tbody>
       <?php foreach ($coupons as $c): [$sc, $sl] = coupon_state($c); ?>
         <tr>
-          <td><span class="code"><?= e($c['code']) ?></span><?php if (!empty($c['note'])): ?><small><?= e($c['note']) ?></small><?php endif; ?></td>
+          <td><span class="code"><?= e($c['code']) ?></span><?php if (!empty($c['public'])): ?> <span class="st st--sale" title="ظاهر للعملاء في الموقع">معروض</span><?php endif; ?><?php if (!empty($c['note'])): ?><small><?= e($c['note']) ?></small><?php endif; ?></td>
           <td class="nowrap"><b class="latin"><?= $c['type'] === 'fixed' ? egp($c['value']) : (0 + $c['value']) . '%' ?></b></td>
           <td><small><?= !empty($c['min']) ? 'حد أدنى ' . egp($c['min']) : 'بدون حد أدنى' ?></small><small class="latin"><?= $c['from'] || $c['to'] ? e(($c['from'] ? date('d/m', strtotime($c['from'])) : '…') . ' ← ' . ($c['to'] ? date('d/m', strtotime($c['to'])) : '…')) : '' ?></small></td>
           <td class="latin nowrap"><?= (int)($c['uses'] ?? 0) ?><?= !empty($c['limit']) ? ' / ' . (int)$c['limit'] : '' ?></td>
@@ -99,6 +111,8 @@ admin_head('الخصومات', 'discounts', '<a class="b b--primary" href="#new"
       <label class="f"><span>أقصى عدد استخدام</span><input name="limit" value="<?= e((string)($f['limit'] ?: '')) ?>" inputmode="numeric" class="latin" placeholder="بلا حد"></label>
       <label class="f"><span>ملاحظة داخلية</span><input name="note" value="<?= e($f['note'] ?? '') ?>" maxlength="80" placeholder="مثال: لمتابعي إنستجرام"></label>
       <label class="switch f--full"><input type="checkbox" name="active" <?= checked($f['active']) ?>><i></i><span>مفعّل</span></label>
+      <label class="switch f--full"><input type="checkbox" name="public" <?= checked($f['public'] ?? false) ?>><i></i><span>اعرضه للعملاء في قسم «عروض باركود» والشريط المتحرك</span></label>
+      <small class="f--full muted">لو مش معروض، الكود يفضل سري ويشتغل بس مع اللي تبعتهوله (مثلًا متابعين إنستجرام).</small>
     </div>
     <div class="form-actions"><button class="b b--primary b--block"><?= $cur ? 'حفظ التعديل' : 'إنشاء الكود' ?></button></div>
   </form>
