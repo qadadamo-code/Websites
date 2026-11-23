@@ -3,7 +3,7 @@
  * HostUp auto-deploy (one script, many sites).
  * Pulls the deploy branch from GitHub and copies each site's dist/<folder>/ into that site's web root.
  * Run ONLY from cron, e.g. every 5 minutes:
- *   php /home/<user>/planet-deploy/deploy.php
+ *   cron downloads this file from GitHub to ~/planet-deploy/ and runs it with php (self-updating)
  * It does nothing unless a new commit exists.
  *
  * To add a site: add one line to $SITES ('dist folder' => 'absolute web root on the server').
@@ -15,7 +15,7 @@ $BRANCH = 'claude/project-thread-plh9mw';
 $HOME   = getenv('HOME') ?: dirname(__DIR__);
 $SITES  = [
     // dist folder => web root
-    'tablia' => $HOME . '/domains/tabliacatering.rest/public_html',
+    'tablia' => $HOME . '/tabliacatering.rest',
 ];
 // Overrides from sites.php next to this file (so the server list can be changed without a code change).
 if (is_file(__DIR__ . '/sites.php')) { $SITES = require __DIR__ . '/sites.php'; }
