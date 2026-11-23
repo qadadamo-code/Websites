@@ -76,7 +76,7 @@ admin_head('الأصناف', 'items', '<a class="b b--primary" href="item.php' .
     <?php $lastCat = null; foreach ($list as $it): $c = $catById[$it['cat']] ?? null; [$fp, $was, $bdg] = item_price($it, $c); ?>
       <tr class="<?= empty($it['visible']) ? 'is-hidden' : '' ?>">
         <td class="w-chk"><input type="checkbox" name="ids[]" value="<?= e($it['id']) ?>" data-row></td>
-        <td><div class="cell-item"><?php if (!empty($it['image'])): ?><img src="<?= e(src($it['image'])) ?>" alt=""><?php else: ?><span class="ph"><?= e(mb_substr($it['name'], 0, 1)) ?></span><?php endif; ?>
+        <td><div class="cell-item"><?php if (($im = item_image($it)) !== ''): ?><img src="<?= e(src($im)) ?>" alt=""><?php else: ?><span class="ph"><?= e(mb_substr($it['name'], 0, 1)) ?></span><?php endif; ?>
           <div><a href="item.php?id=<?= e($it['id']) ?>"><b><?= e($it['name']) ?></b></a><small><?= e(implode(' · ', array_filter([$it['group'] ?? '', $it['tag'] ?? '']))) ?></small></div></div></td>
         <td><span class="chip"><?= e($c['title'] ?? '—') ?></span></td>
         <td class="nowrap"><input class="price-in latin" name="price[<?= e($it['id']) ?>]" value="<?= e((string)(0 + $it['price'])) ?>" inputmode="decimal" data-price>

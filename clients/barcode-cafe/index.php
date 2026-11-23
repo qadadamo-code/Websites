@@ -295,8 +295,8 @@ header('Cache-Control: no-cache');
 <!-- ============ CART / RECEIPT DRAWER ============ -->
 <div class="drawer" id="drawer" aria-hidden="true">
   <div class="drawer__backdrop" data-close></div>
-  <aside class="receipt" role="dialog" aria-label="فاتورة الطلب">
-    <button class="receipt__close" data-close aria-label="إغلاق">×</button>
+  <aside class="receipt" data-lenis-prevent role="dialog" aria-label="فاتورة الطلب">
+    <div class="receipt__bar"><b>فاتورتك</b><button class="receipt__close" data-close aria-label="إغلاق">×</button></div>
     <div class="receipt__paper">
       <div class="receipt__head">
         <img src="assets/brand/word-dark.png" alt="باركود كافيه">

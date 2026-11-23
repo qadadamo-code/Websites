@@ -78,9 +78,9 @@ admin_head($isNew ? 'صنف جديد' : 'تعديل: ' . $it['name'], 'items', '
   <section class="card">
     <div class="card__head"><h3>الصورة (اختياري)</h3></div>
     <div class="upload">
-      <div class="upload__preview" id="imgPrev"><?php if (!empty($it['image'])): ?><img src="<?= e(src($it['image'])) ?>" alt=""><?php else: ?><span>بدون صورة</span><?php endif; ?></div>
+      <div class="upload__preview" id="imgPrev"><?php if (($im = item_image($it)) !== ''): ?><img src="<?= e(src($im)) ?>" alt=""><?php else: ?><span>بدون صورة</span><?php endif; ?></div>
       <label class="b"><input type="file" name="image" accept="image/jpeg,image/png,image/webp" hidden data-preview="#imgPrev">اختر صورة</label>
-      <?php if (!empty($it['image'])): ?><label class="check"><input type="checkbox" name="remove_image" value="1"> إزالة الصورة</label><?php endif; ?>
+      <?php if (!empty($it['image'])): ?><label class="check"><input type="checkbox" name="remove_image" value="1"> إزالة صورتك والرجوع للصورة الافتراضية</label><?php elseif ($im !== ''): ?><small class="muted">صورة افتراضية. ارفع صورة حقيقية من المنتج لتحل محلها.</small><?php endif; ?>
     </div>
   </section>
 
