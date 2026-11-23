@@ -435,5 +435,104 @@
                 "facebook": "https://www.facebook.com/profile.php?id=61594316102332"
             }
         }
+    },
+    {
+        "id": "shisha-prices-2026-11-23d",
+        "items": [
+            {
+                "id": "sh21",
+                "cat": "shisha",
+                "group": "قص وسلوم",
+                "name": "شيشة قص وسلوم",
+                "desc": "معسل قص أو سلوم",
+                "price": 50,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 1
+            }
+        ],
+        "itemPatch": {
+            "sh1": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh2": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh3": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh4": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh5": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh6": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh7": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh8": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh9": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh10": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh11": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh12": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh13": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh14": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh15": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh16": {
+                "price": 150,
+                "group": "فواكه"
+            },
+            "sh17": {
+                "visible": false
+            },
+            "sh18": {
+                "visible": false
+            },
+            "sh19": {
+                "visible": false
+            },
+            "sh20": {
+                "visible": false
+            }
+        }
     }
 ]
