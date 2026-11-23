@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-const BC_VERSION = '3.1.0';
+const BC_VERSION = '3.2.0';
 define('BC_ROOT', dirname(__DIR__));
 define('BC_STORAGE', BC_ROOT . '/storage');
 define('BC_UPLOADS', BC_ROOT . '/uploads');
@@ -139,7 +139,7 @@ function public_data(): array {
     $s = settings();
     $cats = array_values(array_filter(sort_by_order(bc_load('categories')), fn($c) => !empty($c['visible'])));
     $items = sort_by_order(bc_load('items'));
-    $menu = [];
+    $menu = []; $offerItems = [];
     foreach ($cats as $c) {
         $list = [];
         foreach ($items as $it) {
@@ -151,11 +151,22 @@ function public_data(): array {
             if (!empty($it['tag'])) $row['tag'] = $it['tag'];
             if (($img = item_image($it)) !== '') $row['image'] = $img;
             if (empty($it['available'])) $row['soldout'] = true;
+            if ($was && empty($row['soldout'])) $offerItems[] = ['id' => $it['id'], 'save' => $was - $price];
             $list[] = $row;
         }
         if (!$list) continue;
         $menu[] = ['id' => $c['id'], 'code' => $c['code'], 'title' => $c['title'], 'titleEn' => $c['titleEn'] ?? '',
-            'seq' => $c['seq'] ?? '', 'image' => $c['image'] ?? '', 'line' => $c['line'] ?? '', 'items' => $list];
+            'seq' => $c['seq'] ?? '', 'image' => $c['image'] ?? '', 'line' => $c['line'] ?? '', 'items' => $list]
+            + (!empty($c['discount']) && (float)$c['discount'] > 0 && in_window($c['discountFrom'] ?? null, $c['discountTo'] ?? null)
+                ? ['off' => rtrim(rtrim(number_format(min(90, (float)$c['discount']), 1), '0'), '.'), 'offTo' => $c['discountTo'] ?? ''] : []);
+    }
+    usort($offerItems, fn($a, $b) => $b['save'] <=> $a['save']);
+    $coupons = [];
+    foreach (bc_load('coupons') as $cp) {
+        if (empty($cp['public']) || empty($cp['active']) || !in_window($cp['from'] ?: null, $cp['to'] ?: null)) continue;
+        if (!empty($cp['limit']) && (int)($cp['uses'] ?? 0) >= (int)$cp['limit']) continue;
+        $coupons[] = ['code' => $cp['code'], 'value' => ($cp['type'] ?? '') === 'fixed' ? number_format((float)$cp['value']) : rtrim(rtrim(number_format((float)$cp['value'], 1), '0'), '.'),
+            'type' => ($cp['type'] ?? '') === 'fixed' ? 'fixed' : 'percent', 'min' => (float)($cp['min'] ?? 0), 'to' => $cp['to'] ?? '', 'note' => $cp['publicNote'] ?? ''];
     }
     $events = array_values(array_filter(bc_load('events'), fn($ev) => !empty($ev['visible']) && ($ev['date'] ?? '') >= today()));
     usort($events, fn($a, $b) => strcmp($a['date'] . ($a['time'] ?? ''), $b['date'] . ($b['time'] ?? '')));
@@ -173,6 +184,7 @@ function public_data(): array {
         'menu' => $menu,
         'moods' => bc_load('moods'),
         'events' => $events,
+        'offers' => ($s['offersSection'] ?? true) ? ['items' => array_slice(array_column($offerItems, 'id'), 0, 12), 'coupons' => $coupons] : ['items' => [], 'coupons' => []],
     ];
 }
 

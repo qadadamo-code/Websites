@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/inc.php';
-require_admin();
+require_perm('events.edit', 'events.guests');
 $events = bc_load('events');
 $id = (string)($_GET['id'] ?? '');
 $ev = null; foreach ($events as $x) if ($x['id'] === $id) $ev = $x;
@@ -8,16 +8,36 @@ if ($id !== '' && !$ev) { flash('الفعالية غير موجودة', 'bad'); 
 $isNew = !$ev;
 $rsvps = $ev ? array_values(array_filter(bc_load('rsvps'), fn($r) => $r['event'] === $ev['id'])) : [];
 
-if ($ev && ($_GET['export'] ?? '') === 'csv') {
+if ($ev && ($_GET['export'] ?? '') === 'csv' && can('export', 'events.guests')) {
     csv_download('rsvp-' . $ev['slug'], ['الكود', 'الاسم', 'الموبايل', 'عدد الأفراد', 'ملاحظة', 'الحالة', 'وقت التسجيل'],
         array_map(fn($r) => [$r['code'], $r['name'], $r['phone'], $r['guests'], $r['note'] ?? '', $r['status'] === 'cancelled' ? 'ملغي' : 'مؤكد', fdate($r['at'])], $rsvps));
 }
 
 if (posted()) {
     $act = p('act');
+    if (in_array($act, ['rsvp', 'addguest', 'editguest', 'delguest', 'checkin'], true)) need('events.guests');
+    if (in_array($act, ['save', 'delete'], true)) need('events.edit');
+    if ($act === 'editguest' && $ev) {
+        $rid = p('rid');
+        bc_tx('rsvps', function (&$d) use ($rid) { foreach ($d as &$r) if ($r['id'] === $rid) { $r['name'] = clean(p('name'), 80) ?: $r['name']; $r['phone'] = clean(digits_en(p('phone')), 30); $r['guests'] = max(1, min(50, (int)digits_en(p('guests', '1')))); $r['note'] = clean(p('note'), 200); } });
+        log_act('تعديل ضيف فعالية', $ev['title'] . ' · ' . p('name'));
+        flash('تم حفظ بيانات الضيف'); go('event.php?id=' . rawurlencode($id) . '#guests');
+    }
+    if ($act === 'delguest' && $ev) {
+        $rid = p('rid');
+        bc_tx('rsvps', function (&$d) use ($rid) { $d = array_values(array_filter($d, fn($r) => $r['id'] !== $rid)); });
+        log_act('حذف ضيف فعالية', $ev['title']);
+        flash('تم حذف الضيف'); go('event.php?id=' . rawurlencode($id) . '#guests');
+    }
+    if ($act === 'checkin' && $ev) {
+        $rid = p('rid');
+        bc_tx('rsvps', function (&$d) use ($rid) { foreach ($d as &$r) if ($r['id'] === $rid) $r['checkedIn'] = empty($r['checkedIn']) ? now_iso() : ''; });
+        go('event.php?id=' . rawurlencode($id) . '#guests');
+    }
     if ($act === 'rsvp' && $ev) {
         $rid = p('rid'); $st = p('status') === 'cancelled' ? 'cancelled' : 'confirmed';
         bc_tx('rsvps', function (&$d) use ($rid, $st) { foreach ($d as &$r) if ($r['id'] === $rid) $r['status'] = $st; });
+        log_act($st === 'cancelled' ? 'إلغاء دعوة' : 'تأكيد دعوة', $ev['title']);
         flash($st === 'cancelled' ? 'تم إلغاء الدعوة' : 'تمت إعادة تأكيد الدعوة'); go('event.php?id=' . rawurlencode($id) . '#guests');
     }
     if ($act === 'addguest' && $ev) {
@@ -27,6 +47,7 @@ if (posted()) {
                 array_unshift($d, ['id' => bc_id('v'), 'event' => $ev['id'], 'code' => 'INV-' . strtoupper(substr(bin2hex(random_bytes(3)), 0, 5)), 'at' => now_iso(),
                     'name' => $name, 'phone' => $phone, 'guests' => max(1, (int)p('guests', '1')), 'note' => 'أضيف من اللوحة', 'status' => 'confirmed']);
             });
+            log_act('إضافة ضيف فعالية', $ev['title'] . ' · ' . $name);
             flash('تمت إضافة الضيف');
         }
         go('event.php?id=' . rawurlencode($id) . '#guests');
@@ -34,6 +55,7 @@ if (posted()) {
     if ($act === 'delete' && $ev) {
         bc_tx('events', function (&$d) use ($id) { $d = array_values(array_filter($d, fn($x) => $x['id'] !== $id)); });
         bc_tx('rsvps', function (&$d) use ($id) { $d = array_values(array_filter($d, fn($x) => $x['event'] !== $id)); });
+        log_act('حذف فعالية', $ev['title']);
         flash('تم حذف الفعالية'); go('events.php');
     }
     if ($act === 'save') {
@@ -59,6 +81,7 @@ if (posted()) {
                 if ($isNew) { $d[] = $row; return; }
                 foreach ($d as &$x) if ($x['id'] === $row['id']) $x = $row;
             });
+            log_act($isNew ? 'إنشاء فعالية' : 'تعديل فعالية', $row['title'] . ' · ' . $row['date']);
             flash($isNew ? 'تم إنشاء الدعوة. انسخ الرابط وابعته للضيوف' : 'تم حفظ الفعالية');
             go('event.php?id=' . rawurlencode($row['id']));
         }
@@ -130,7 +153,8 @@ admin_head($isNew ? 'فعالية جديدة' : $e['title'], 'events', '<a class
 <?php if ($ev): ?>
 <section class="card" id="guests" style="margin-top:18px">
   <div class="card__head"><h3>قائمة الضيوف (<?= count($active) ?> تسجيل · <?= $guestN ?> فرد)</h3>
-    <div class="dl"><a class="b b--sm" href="?id=<?= e($ev['id']) ?>&export=csv"><?= icon('down') ?> تنزيل Excel</a></div></div>
+    <div class="dl"><span class="muted"><?= count(array_filter($rsvps, fn($r) => !empty($r['checkedIn']))) ?> حضروا فعلًا</span><a class="b b--sm" href="?id=<?= e($ev['id']) ?>&export=csv"><?= icon('down') ?> تنزيل Excel</a></div></div>
+  <?php if (can('events.guests')): ?>
   <form method="post" class="filters">
     <?= csrf_field() ?><input type="hidden" name="act" value="addguest">
     <input class="inp" name="name" placeholder="اسم الضيف" required style="max-width:220px">
@@ -138,10 +162,11 @@ admin_head($isNew ? 'فعالية جديدة' : $e['title'], 'events', '<a class
     <input class="inp latin" name="guests" value="1" inputmode="numeric" style="max-width:70px" title="عدد الأفراد">
     <button class="b b--sm"><?= icon('plus') ?> إضافة ضيف يدويًا</button>
   </form>
+  <?php endif; ?>
   <?php if (!$rsvps): ?><p class="empty">لا يوجد تسجيلات بعد. شارك رابط الدعوة وأول تأكيد سيظهر هنا.</p><?php else: ?>
   <div class="table-wrap" style="border:0;background:none">
   <table class="tbl">
-    <thead><tr><th>الكود</th><th>الضيف</th><th>الأفراد</th><th>ملاحظة</th><th>سجّل</th><th>الحالة</th><th></th></tr></thead>
+    <thead><tr><th>الكود</th><th>الضيف</th><th>الأفراد</th><th>ملاحظة</th><th>سجّل</th><th>الحالة</th><th>الحضور</th><th></th></tr></thead>
     <tbody>
     <?php foreach ($rsvps as $r): $ph = preg_replace('/\D/', '', $r['phone']); if (strpos($ph, '0') === 0) $ph = '2' . $ph; ?>
       <tr class="<?= $r['status'] === 'cancelled' ? 'is-hidden' : '' ?>">
@@ -151,14 +176,30 @@ admin_head($isNew ? 'فعالية جديدة' : $e['title'], 'events', '<a class
         <td><small><?= e($r['note'] ?? '') ?></small></td>
         <td><small><?= ago($r['at']) ?></small></td>
         <td><?= badge($r['status'], ['confirmed' => 'مؤكد', 'cancelled' => 'ملغي']) ?></td>
+        <td><?php if (can('events.guests') && $r['status'] !== 'cancelled'): ?><form method="post" class="inline-form"><?= csrf_field() ?><input type="hidden" name="act" value="checkin"><input type="hidden" name="rid" value="<?= e($r['id']) ?>"><button class="b b--sm <?= !empty($r['checkedIn']) ? 'b--on' : '' ?>"><?= !empty($r['checkedIn']) ? '✓ حضر ' . e(date('H:i', strtotime($r['checkedIn']))) : 'تسجيل حضور' ?></button></form><?php endif; ?></td>
         <td class="end nowrap">
           <?php if ($ph): ?><a class="icon-b" target="_blank" href="https://wa.me/<?= e($ph) ?>?text=<?= rawurlencode('أهلًا ' . $r['name'] . '، دعوتك لـ«' . $ev['title'] . '» مؤكدة. كود الدعوة: ' . $r['code']) ?>" title="واتساب"><?= icon('wa') ?></a><?php endif; ?>
+          <?php if (can('events.guests')): ?>
+          <button type="button" class="icon-b" title="تعديل" data-toggle-row="g-<?= e($r['id']) ?>"><?= icon('edit') ?></button>
           <form method="post" class="inline-form"><?= csrf_field() ?><input type="hidden" name="act" value="rsvp"><input type="hidden" name="rid" value="<?= e($r['id']) ?>">
             <?php if ($r['status'] === 'cancelled'): ?><button class="b b--sm" name="status" value="confirmed">إعادة تأكيد</button>
-            <?php else: ?><button class="b b--sm b--danger" name="status" value="cancelled" data-confirm="إلغاء دعوة <?= e($r['name']) ?>؟">إلغاء</button><?php endif; ?>
+            <?php else: ?><button class="b b--sm" name="status" value="cancelled" data-confirm="إلغاء دعوة <?= e($r['name']) ?>؟">إلغاء</button><?php endif; ?>
           </form>
+          <form method="post" class="inline-form"><?= csrf_field() ?><input type="hidden" name="act" value="delguest"><input type="hidden" name="rid" value="<?= e($r['id']) ?>"><button class="icon-b" data-confirm="حذف <?= e($r['name']) ?> من القائمة نهائيًا؟" title="حذف"><?= icon('trash') ?></button></form>
+          <?php endif; ?>
         </td>
       </tr>
+      <?php if (can('events.guests')): ?>
+      <tr class="edit-row" id="g-<?= e($r['id']) ?>" hidden><td colspan="8">
+        <form method="post" class="filters" style="margin:0"><?= csrf_field() ?><input type="hidden" name="act" value="editguest"><input type="hidden" name="rid" value="<?= e($r['id']) ?>">
+          <input class="inp" name="name" value="<?= e($r['name']) ?>" required style="max-width:220px">
+          <input class="inp latin" name="phone" value="<?= e($r['phone']) ?>" style="max-width:170px" dir="ltr">
+          <input class="inp latin" name="guests" value="<?= (int)$r['guests'] ?>" type="number" min="1" max="50" style="max-width:80px">
+          <input class="inp" name="note" value="<?= e($r['note'] ?? '') ?>" placeholder="ملاحظة" style="max-width:260px">
+          <button class="b b--sm b--primary">حفظ</button>
+        </form>
+      </td></tr>
+      <?php endif; ?>
     <?php endforeach; ?>
     </tbody>
   </table>

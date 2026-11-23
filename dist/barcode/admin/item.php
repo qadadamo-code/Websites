@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/inc.php';
-require_admin();
+require_perm('items.edit');
 $cats = sort_by_order(bc_load('categories'));
 $items = bc_load('items');
 $id = (string)($_GET['id'] ?? '');
@@ -10,7 +10,15 @@ $isNew = !$it;
 $it = $it ?: ['id' => '', 'cat' => (string)($_GET['cat'] ?? ($cats[0]['id'] ?? '')), 'group' => '', 'name' => '', 'desc' => '', 'price' => '', 'sale' => null, 'saleFrom' => '', 'saleTo' => '', 'tag' => '', 'image' => '', 'available' => true, 'visible' => true, 'order' => 0];
 
 if (posted()) {
+    if (p('act') === 'duplicate' && !$isNew) {
+        $copy = array_merge($it, ['id' => bc_id('x'), 'name' => $it['name'] . ' (نسخة)', 'order' => (int)($it['order'] ?? 0) + 1, 'visible' => false]);
+        if (!empty($copy['image']) || item_image($it) !== '') $copy['image'] = item_image($it);
+        bc_tx('items', function (&$d) use ($copy) { $d[] = $copy; });
+        log_act('نسخ صنف', $it['name']);
+        flash('تم عمل نسخة مخفية من الصنف، عدّلها وأظهرها'); go('item.php?id=' . rawurlencode($copy['id']));
+    }
     if (p('act') === 'delete' && !$isNew) {
+        need('items.delete'); log_act('حذف صنف', $it['name']);
         bc_tx('items', function (&$d) use ($id) { $d = array_values(array_filter($d, fn($x) => $x['id'] !== $id)); });
         flash('تم حذف الصنف'); go('items.php');
     }
@@ -36,6 +44,7 @@ if (posted()) {
             $max = 0; foreach ($items as $x) if ($x['cat'] === $cat) $max = max($max, (int)($x['order'] ?? 0));
             $row['order'] = $max + 10;
         } elseif (p('order') !== '') $row['order'] = (int)p('order');
+        log_act($isNew ? 'إضافة صنف' : 'تعديل صنف', $row['name'] . ' · ' . $row['price'] . ' ج');
         bc_tx('items', function (&$d) use ($row, $isNew) {
             if ($isNew) { $d[] = $row; return; }
             foreach ($d as &$x) if ($x['id'] === $row['id']) $x = $row;

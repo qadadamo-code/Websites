@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/inc.php';
-require_admin();
+require_perm('items.edit');
 $cats = sort_by_order(bc_load('categories'));
 $items = bc_load('items');
 $count = []; foreach ($items as $it) $count[$it['cat']] = ($count[$it['cat']] ?? 0) + 1;
@@ -14,14 +14,17 @@ if (posted()) {
     if ($act === 'order') {
         $ord = (array)($_POST['order'] ?? []);
         bc_tx('categories', function (&$d) use ($ord) { foreach ($d as &$c) if (isset($ord[$c['id']])) $c['order'] = (int)$ord[$c['id']]; });
+        log_act('ترتيب الأقسام');
         flash('تم حفظ ترتيب الأقسام'); go('categories.php');
     }
     if ($act === 'toggle') {
         $id = p('id');
         bc_tx('categories', function (&$d) use ($id) { foreach ($d as &$c) if ($c['id'] === $id) $c['visible'] = empty($c['visible']); });
+        log_act('إظهار/إخفاء قسم', $id);
         flash('تم التحديث'); go('categories.php');
     }
     if ($act === 'delete' && $cur) {
+        need('items.delete'); log_act('حذف قسم', $cur['title']);
         $n = $count[$cur['id']] ?? 0; $to = p('move_to');
         if ($n && $to === '__delete') bc_tx('items', function (&$d) use ($cur) { $d = array_values(array_filter($d, fn($x) => $x['cat'] !== $cur['id'])); });
         elseif ($n && $to !== '' && $to !== $cur['id']) bc_tx('items', function (&$d) use ($cur, $to) { foreach ($d as &$x) if ($x['cat'] === $cur['id']) $x['cat'] = $to; });
@@ -47,6 +50,7 @@ if (posted()) {
             if (!$cur) { $d[] = $row; return; }
             foreach ($d as &$c) if ($c['id'] === $row['id']) $c = $row;
         });
+        log_act($cur ? 'تعديل قسم' : 'إضافة قسم', $row['title'] . ($disc ? ' · خصم ' . $disc . '%' : ''));
         flash($cur ? 'تم حفظ القسم' : 'تمت إضافة القسم. أضف له أصنافًا ليظهر في الموقع');
         go('categories.php');
     }

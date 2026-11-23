@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/inc.php';
-require_admin();
+require_perm('events.edit', 'events.guests');
 $events = bc_load('events');
 usort($events, fn($a, $b) => strcmp($b['date'] . ($b['time'] ?? ''), $a['date'] . ($a['time'] ?? '')));
 $t = today();

@@ -4,6 +4,8 @@ $D = public_data();
 $C = $D['config'];
 $itemCount = array_sum(array_map(fn($c) => count($c['items']), $D['menu']));
 $ribbon = $C['ribbon'] ?: ['لكلّ مزاجٍ كود'];
+$O = $D['offers']; $hasOffers = $O['items'] || $O['coupons'];
+foreach (array_reverse($O['coupons']) as $cp) array_unshift($ribbon, 'كود ' . $cp['code'] . ' · خصم ' . $cp['value'] . ($cp['type'] === 'fixed' ? ' ج.م' : '%') . ' على فاتورتك');
 header('Cache-Control: no-cache');
 ?><!doctype html>
 <html lang="ar" dir="rtl">
@@ -58,6 +60,7 @@ header('Cache-Control: no-cache');
     <a href="#menu" data-magnetic>المنيو</a>
     <a href="#mood" data-magnetic>ماسح المزاج</a>
     <a href="#story" data-magnetic>الحكاية</a>
+    <?php if ($hasOffers): ?><a href="#offers" data-magnetic>العروض</a><?php endif; ?>
     <?php if ($D['events']): ?><a href="#events" data-magnetic>الفعاليات</a><?php endif; ?>
     <?php if ($C['reservations']): ?><a href="#reserve" data-magnetic>احجز طاولة</a><?php endif; ?>
     <a href="#contact" data-magnetic>تواصل</a>
@@ -76,7 +79,7 @@ header('Cache-Control: no-cache');
 </header>
 
 <div class="mnav" id="mnav">
-  <a href="#menu">المنيو</a><a href="#mood">ماسح المزاج</a><a href="#story">الحكاية</a><?php if ($D['events']): ?><a href="#events">الفعاليات</a><?php endif; ?><?php if ($C['reservations']): ?><a href="#reserve">احجز طاولة</a><?php endif; ?><a href="#contact">تواصل</a>
+  <a href="#menu">المنيو</a><a href="#mood">ماسح المزاج</a><a href="#story">الحكاية</a><?php if ($hasOffers): ?><a href="#offers">العروض</a><?php endif; ?><?php if ($D['events']): ?><a href="#events">الفعاليات</a><?php endif; ?><?php if ($C['reservations']): ?><a href="#reserve">احجز طاولة</a><?php endif; ?><a href="#contact">تواصل</a>
 </div>
 
 <main id="top">
@@ -122,6 +125,35 @@ header('Cache-Control: no-cache');
     <span>SCAN</span><b class="bc-sep"></b><span>SIP</span><b class="bc-sep"></b><span>SHAKE</span><b class="bc-sep"></b><span>CHILL</span><b class="bc-sep"></b><span>REPEAT</span><b class="bc-sep"></b><span>SCAN</span><b class="bc-sep"></b><span>SIP</span><b class="bc-sep"></b>
   </div>
 </section>
+
+<?php if ($hasOffers): ?>
+<!-- ============ OFFERS (auto: shows only while a discount is live) ============ -->
+<section class="offers" id="offers">
+  <div class="wrap">
+    <div class="offers__head">
+      <div>
+        <span class="eyebrow latin">LIVE OFFERS · <?= count($O['items']) + count($O['coupons']) ?></span>
+        <h2 class="offers__title">عروض <span class="copper">باركود</span></h2>
+      </div>
+      <p>خصومات شغّالة دلوقتي. السعر الجديد بيتحسب في الفاتورة تلقائيًا، والأكواد تكتبها قبل ما تبعت الطلب.</p>
+    </div>
+    <?php if ($O['coupons']): ?>
+    <div class="coupons">
+      <?php foreach ($O['coupons'] as $cp): ?>
+      <div class="coupon">
+        <div class="coupon__val"><b class="latin"><?= e($cp['value']) ?><small><?= $cp['type'] === 'fixed' ? 'EGP' : '%' ?></small></b><span>خصم على فاتورتك</span></div>
+        <div class="coupon__body">
+          <button class="coupon__code latin" type="button" data-coupon="<?= e($cp['code']) ?>" aria-label="انسخ الكود <?= e($cp['code']) ?>"><?= e($cp['code']) ?><i>انسخ</i></button>
+          <small><?= $cp['min'] ? 'لطلبات من <span class="latin">' . number_format($cp['min']) . '</span> ج.م' : 'على أي طلب' ?><?= $cp['to'] ? ' · لحد <span class="latin">' . e(date('d/m', strtotime($cp['to']))) . '</span>' : '' ?></small>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+    <?php if ($O['items']): ?><div class="offers__rail" id="offersRail"></div><?php endif; ?>
+  </div>
+</section>
+<?php endif; ?>
 
 <!-- ============ INTRO / MANIFESTO ============ -->
 <section class="manifesto" id="story">

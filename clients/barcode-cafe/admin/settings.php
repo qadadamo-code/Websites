@@ -1,46 +1,37 @@
 <?php
 require __DIR__ . '/inc.php';
-require_admin();
+require_perm('settings.site', 'settings.marketing');
 $s = settings();
+$canSite = can('settings.site'); $canMkt = can('settings.marketing');
 
-if (posted()) {
-    $act = p('act');
-    if ($act === 'password') {
-        $a = admin_data();
-        $new = (string)($_POST['new'] ?? '');
-        if (!password_verify((string)($_POST['old'] ?? ''), $a['hash'] ?? '')) flash('كلمة المرور الحالية غير صحيحة', 'bad');
-        elseif (strlen($new) < 8) flash('كلمة المرور الجديدة لازم تكون 8 حروف على الأقل', 'bad');
-        elseif ($new !== (string)($_POST['new2'] ?? '')) flash('تأكيد كلمة المرور غير مطابق', 'bad');
-        else {
-            $user = preg_replace('/[^A-Za-z0-9_.-]/', '', p('user')) ?: ($a['user'] ?? 'admin');
-            bc_save('admin', ['user' => $user, 'hash' => password_hash($new, PASSWORD_DEFAULT), 'changed' => now_iso()]);
-            session_regenerate_id(true);
-            flash('تم تغيير بيانات الدخول بنجاح');
-        }
-        go('settings.php#security');
-    }
-    if ($act === 'save') {
+if (posted() && p('act') === 'save') {
+    $row = $s;
+    if ($canSite) {
         $wa = preg_replace('/\D/', '', digits_en(p('whatsapp')));
         if (strpos($wa, '0') === 0) $wa = '2' . $wa; // Egyptian local → international
-        $ribbon = array_values(array_filter(array_map(fn($l) => clean($l, 60), preg_split('/\r?\n/', p('ribbon')))));
-        $row = array_merge($s, [
+        $row = array_merge($row, [
             'brand' => clean(p('brand'), 60) ?: 'باركود كافيه', 'whatsapp' => $wa, 'whatsappDisplay' => clean(digits_en(p('whatsappDisplay')), 30),
             'email' => filter_var(p('email'), FILTER_VALIDATE_EMAIL) ?: '', 'address' => clean(p('address'), 200),
             'mapUrl' => preg_match('~^https?://~', p('mapUrl')) ? clean(p('mapUrl'), 400) : '', 'hours' => clean(p('hours'), 120),
-            'social' => array_map(fn($k) => preg_match('~^https?://~', p($k)) ? clean(p($k), 300) : '', ['instagram' => 'instagram', 'facebook' => 'facebook', 'tiktok' => 'tiktok']),
-            'ribbon' => array_slice($ribbon, 0, 8),
             'ordersEnabled' => !empty($_POST['ordersEnabled']), 'deliveryEnabled' => !empty($_POST['deliveryEnabled']), 'reservationsEnabled' => !empty($_POST['reservationsEnabled']),
         ]);
-        bc_save('settings', $row);
-        flash('تم حفظ الإعدادات وظهرت في الموقع');
-        go('settings.php');
     }
+    if ($canMkt) {
+        $ribbon = array_values(array_filter(array_map(fn($l) => clean($l, 60), preg_split('/\r?\n/', p('ribbon')))));
+        $row['social'] = array_map(fn($k) => preg_match('~^https?://~', p($k)) ? clean(p($k), 300) : '', ['instagram' => 'instagram', 'facebook' => 'facebook', 'tiktok' => 'tiktok']);
+        $row['ribbon'] = array_slice($ribbon, 0, 8);
+        $row['offersSection'] = !empty($_POST['offersSection']);
+    }
+    bc_save('settings', $row);
+    log_act('تعديل الإعدادات', implode('، ', array_filter([$canSite ? 'التواصل والخدمات' : '', $canMkt ? 'الشريط والسوشيال' : ''])));
+    flash('تم حفظ الإعدادات وظهرت في الموقع');
+    go('settings.php');
 }
-$a = admin_data();
-admin_head('الإعدادات', 'settings');
+admin_head('الإعدادات', 'settings', '<a class="b" href="account.php">حسابي وكلمة المرور</a>');
 ?>
 <form method="post" class="form-grid">
   <?= csrf_field() ?><input type="hidden" name="act" value="save">
+  <?php if ($canSite): ?>
   <section class="card">
     <div class="card__head"><h3>بيانات التواصل</h3></div>
     <div class="fg">
@@ -53,8 +44,10 @@ admin_head('الإعدادات', 'settings');
       <label class="f f--full"><span>رابط الخريطة (Google Maps)</span><input name="mapUrl" value="<?= e($s['mapUrl'] ?? '') ?>" class="latin" dir="ltr" placeholder="https://maps.app.goo.gl/…"></label>
     </div>
   </section>
+  <?php endif; ?>
 
   <div class="stack">
+    <?php if ($canMkt): ?>
     <section class="card">
       <div class="card__head"><h3>السوشيال ميديا</h3><span class="muted">اللي يتساب فاضي مش هيظهر</span></div>
       <div class="fg">
@@ -64,30 +57,27 @@ admin_head('الإعدادات', 'settings');
       </div>
     </section>
     <section class="card">
+      <div class="card__head"><h3>قسم العروض في الموقع</h3></div>
+      <label class="switch"><input type="checkbox" name="offersSection" <?= checked($s['offersSection'] ?? true) ?>><i></i><span>إظهار قسم «عروض باركود» تلقائيًا لما يكون فيه خصم شغّال</span></label>
+    </section>
+    <?php endif; if ($canSite): ?>
+    <section class="card">
       <div class="card__head"><h3>خدمات الموقع</h3></div>
       <label class="switch"><input type="checkbox" name="ordersEnabled" <?= checked($s['ordersEnabled'] ?? true) ?>><i></i><span>استقبال الطلبات أونلاين (زر «أضف للفاتورة»)</span></label>
       <label class="switch"><input type="checkbox" name="deliveryEnabled" <?= checked($s['deliveryEnabled'] ?? true) ?>><i></i><span>خيار التوصيل للمنازل</span></label>
       <label class="switch"><input type="checkbox" name="reservationsEnabled" <?= checked($s['reservationsEnabled'] ?? true) ?>><i></i><span>حجز الطاولات من الموقع</span></label>
     </section>
+    <?php endif; ?>
   </div>
 
+  <?php if ($canMkt): ?>
   <section class="card card--full">
     <div class="card__head"><h3>الشريط المتحرك أعلى الموقع</h3><span class="muted">كل سطر = رسالة</span></div>
     <label class="f"><textarea name="ribbon" rows="4" maxlength="600"><?= e(implode("\n", $s['ribbon'] ?? [])) ?></textarea></label>
   </section>
+  <?php endif; ?>
 
   <div class="form-actions"><button class="b b--primary">حفظ الإعدادات</button></div>
 </form>
 
-<form method="post" class="card" id="security" style="margin-top:18px;max-width:640px">
-  <?= csrf_field() ?><input type="hidden" name="act" value="password">
-  <div class="card__head"><h3>بيانات الدخول للوحة</h3><?php if (!empty($a['seeded'])): ?><span class="st st--new">غيّر كلمة المرور المؤقتة</span><?php endif; ?></div>
-  <div class="fg">
-    <label class="f f--full"><span>اسم المستخدم</span><input name="user" value="<?= e($a['user'] ?? 'admin') ?>" class="latin" dir="ltr" autocomplete="username"></label>
-    <label class="f f--full"><span>كلمة المرور الحالية</span><input name="old" type="password" class="latin" autocomplete="current-password" required></label>
-    <label class="f"><span>كلمة المرور الجديدة</span><input name="new" type="password" class="latin" autocomplete="new-password" minlength="8" required></label>
-    <label class="f"><span>تأكيد كلمة المرور</span><input name="new2" type="password" class="latin" autocomplete="new-password" minlength="8" required></label>
-  </div>
-  <div class="form-actions"><button class="b b--primary">تغيير بيانات الدخول</button></div>
-</form>
 <?php admin_foot();

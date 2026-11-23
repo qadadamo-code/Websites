@@ -10,9 +10,83 @@ header('X-Robots-Tag: noindex, nofollow');
 header('X-Frame-Options: SAMEORIGIN');
 header('Cache-Control: no-store');
 
-function admin_data(): array { return bc_load('admin'); }
-function is_admin(): bool { return !empty($_SESSION['bc_admin']); }
+/* ---------- users, roles, permissions ---------- */
+const ROLES = [
+    'owner' => ['مدير عام', 'كل الصلاحيات، بما فيها المستخدمين والأمان'],
+    'manager' => ['مدير تشغيل', 'كل شيء ما عدا إدارة المستخدمين'],
+    'accountant' => ['محاسب', 'الطلبات والتقارير والتصدير، والحجوزات للعرض'],
+    'editor' => ['محرر محتوى', 'الأصناف والأقسام والصور ونصوص الفعاليات'],
+    'marketer' => ['مُعلن / تسويق', 'الخصومات والكوبونات والفعاليات والدعوات والشريط والسوشيال والتقارير'],
+    'cashier' => ['كاشير / استقبال', 'الطلبات والحجوزات وتسجيل ضيوف الفعاليات'],
+    'custom' => ['صلاحيات مخصصة', 'تختار الصلاحيات واحدة واحدة'],
+];
+const PERMS = [
+    'orders.view' => 'عرض الطلبات', 'orders.edit' => 'إضافة الطلبات وتعديلها وتغيير حالتها', 'orders.delete' => 'حذف الطلبات',
+    'res.view' => 'عرض الحجوزات', 'res.edit' => 'إضافة الحجوزات وتعديلها', 'res.delete' => 'حذف الحجوزات',
+    'items.edit' => 'إضافة وتعديل الأصناف والأقسام', 'items.delete' => 'حذف الأصناف والأقسام',
+    'disc.edit' => 'الخصومات والكوبونات', 'events.edit' => 'إنشاء وتعديل الفعاليات', 'events.guests' => 'إدارة ضيوف الفعاليات والدعوات',
+    'reports.view' => 'التقارير', 'export' => 'تنزيل ملفات Excel',
+    'settings.site' => 'بيانات التواصل وخدمات الموقع', 'settings.marketing' => 'الشريط المتحرك والسوشيال ميديا',
+    'log.view' => 'سجل النشاط', 'users.manage' => 'إدارة المستخدمين والصلاحيات',
+];
+const ROLE_PERMS = [
+    'manager' => ['orders.view', 'orders.edit', 'orders.delete', 'res.view', 'res.edit', 'res.delete', 'items.edit', 'items.delete', 'disc.edit', 'events.edit', 'events.guests', 'reports.view', 'export', 'settings.site', 'settings.marketing', 'log.view'],
+    'accountant' => ['orders.view', 'orders.edit', 'orders.delete', 'res.view', 'reports.view', 'export', 'log.view'],
+    'editor' => ['items.edit', 'items.delete', 'events.edit'],
+    'marketer' => ['disc.edit', 'events.edit', 'events.guests', 'reports.view', 'export', 'settings.marketing'],
+    'cashier' => ['orders.view', 'orders.edit', 'res.view', 'res.edit', 'events.guests'],
+];
+/** users.json; created once from the original single admin account. */
+function users_all(): array {
+    $u = bc_load('users');
+    if (!$u) {
+        $a = bc_load('admin');
+        if (!empty($a['hash'])) {
+            $u = [['id' => 'u1', 'user' => $a['user'] ?? 'admin', 'name' => 'المدير', 'role' => 'owner', 'perms' => [], 'hash' => $a['hash'],
+                'active' => true, 'seeded' => !empty($a['seeded']) || empty($a['changed']), 'created' => now_iso(), 'last' => '']];
+            bc_save('users', $u);
+        }
+    }
+    return $u;
+}
+function me(): ?array {
+    static $me = false;
+    if ($me !== false) return $me;
+    $me = null;
+    $uid = $_SESSION['uid'] ?? '';
+    if ($uid !== '') foreach (users_all() as $u) if ($u['id'] === $uid && !empty($u['active'])) $me = $u;
+    return $me;
+}
+function user_perms(array $u): array {
+    if (($u['role'] ?? '') === 'owner') return array_keys(PERMS);
+    if (($u['role'] ?? '') === 'custom') return array_values(array_intersect((array)($u['perms'] ?? []), array_keys(PERMS)));
+    return ROLE_PERMS[$u['role'] ?? ''] ?? [];
+}
+function can(string ...$perms): bool {
+    $u = me(); if (!$u) return false;
+    $mine = user_perms($u);
+    foreach ($perms as $p) if (in_array($p, $mine, true)) return true;
+    return false;
+}
+function is_admin(): bool { return me() !== null; }
 function require_admin(): void { if (!is_admin()) { header('Location: login.php'); exit; } }
+function require_perm(string ...$perms): void {
+    require_admin();
+    if (can(...$perms)) return;
+    admin_head('غير مسموح', '');
+    echo '<section class="card denied"><h3>الصفحة دي مش ضمن صلاحياتك</h3><p class="muted">لو محتاج تدخلها، اطلب من المدير العام يعدّل صلاحيات حسابك من صفحة المستخدمين.</p><a class="b" href="index.php">رجوع للرئيسية</a></section>';
+    admin_foot(); exit;
+}
+/** Deny a single action inside a page the user can open. */
+function need(string ...$perms): void { if (!can(...$perms)) { flash('العملية دي مش ضمن صلاحياتك', 'bad'); go($_SERVER['REQUEST_URI'] ?? 'index.php'); } }
+function role_label(array $u): string { return ROLES[$u['role'] ?? ''][0] ?? ($u['role'] ?? ''); }
+
+/* ---------- activity log ---------- */
+function log_act(string $action, string $detail = ''): void {
+    $u = me();
+    $row = ['at' => now_iso(), 'uid' => $u['id'] ?? '', 'name' => $u['name'] ?? ($u['user'] ?? 'النظام'), 'action' => $action, 'detail' => mb_substr($detail, 0, 300)];
+    bc_tx('log', function (&$d) use ($row) { array_unshift($d, $row); if (count($d) > 4000) $d = array_slice($d, 0, 4000); });
+}
 function csrf(): string { if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(16)); return $_SESSION['csrf']; }
 function csrf_field(): string { return '<input type="hidden" name="_t" value="' . csrf() . '">'; }
 function posted(): bool {
@@ -51,8 +125,11 @@ function seq_options(): array {
     return $out;
 }
 const SEQ_LABELS = ['espresso' => 'إسبريسو', 'latte' => 'لاتيه', 'iced' => 'آيس كوفي', 'shake' => 'ميلك شيك', 'juice' => 'عصير', 'mojito' => 'موهيتو', 'pizza' => 'بيتزا', 'pasta' => 'باستا', 'dessert' => 'حلويات'];
-const ORDER_ST = ['new' => 'جديد', 'preparing' => 'قيد التحضير', 'done' => 'تم التسليم', 'cancelled' => 'ملغي'];
-const RES_ST = ['new' => 'جديد', 'confirmed' => 'مؤكد', 'seated' => 'حضر', 'cancelled' => 'ملغي'];
+const ORDER_ST = ['new' => 'جديد', 'preparing' => 'قيد التحضير', 'ready' => 'جاهز', 'done' => 'تم التسليم', 'cancelled' => 'ملغي'];
+const ORDER_TYPES = ['توصيل', 'استلام', 'في الكافيه'];
+const PAY_METHODS = ['' => 'لم يُدفع بعد', 'cash' => 'كاش', 'card' => 'فيزا', 'instapay' => 'إنستاباي', 'wallet' => 'محفظة إلكترونية'];
+const RES_ST = ['new' => 'جديد', 'confirmed' => 'مؤكد', 'seated' => 'حضر', 'noshow' => 'لم يحضر', 'cancelled' => 'ملغي'];
+function wa_phone(string $p): string { $d = preg_replace('/\D/', '', digits_en($p)); return strpos($d, '0') === 0 ? '2' . $d : $d; }
 function badge(string $st, array $labels): string { return '<span class="st st--' . e($st) . '">' . e($labels[$st] ?? $st) . '</span>'; }
 
 /** Save an uploaded image into uploads/<dir>, resized (max 1600px) and converted to webp when GD allows. */
@@ -101,18 +178,23 @@ function icon(string $name): string {
         'wa' => 'M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z', 'search' => 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4',
         'trash' => 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13', 'edit' => 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4', 'copy' => 'M8 8h12v12H8zM4 16V4h12',
         'down' => 'M12 4v12M6 11l6 6 6-6M4 20h16',
+        'chart' => 'M4 20V10M10 20V4M16 20v-7M22 20H2', 'users' => 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 12 0v1M16 3.5a4 4 0 0 1 0 7M18 14a6 6 0 0 1 4 6v1',
+        'log' => 'M12 7v5l3 2M12 3a9 9 0 1 0 9 9', 'user' => 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21v-1a8 8 0 0 1 16 0v1', 'print' => 'M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z',
     ][$name] ?? '';
     return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="' . $d . '"/></svg>';
 }
 
 function admin_head(string $title, string $active = '', string $actions = ''): void {
-    $newOrders = count(array_filter(bc_load('orders'), fn($o) => ($o['status'] ?? '') === 'new'));
-    $newRes = count(array_filter(bc_load('reservations'), fn($r) => ($r['status'] ?? '') === 'new'));
-    $nav = [
-        'index' => ['الرئيسية', 'home', 0], 'orders' => ['الطلبات', 'orders', $newOrders], 'reservations' => ['الحجوزات', 'res', $newRes],
-        'items' => ['الأصناف', 'items', 0], 'categories' => ['الأقسام', 'cats', 0], 'discounts' => ['الخصومات', 'disc', 0],
-        'events' => ['الفعاليات والدعوات', 'events', 0], 'settings' => ['الإعدادات', 'settings', 0],
+    $newOrders = can('orders.view') ? count(array_filter(bc_load('orders'), fn($o) => ($o['status'] ?? '') === 'new')) : 0;
+    $newRes = can('res.view') ? count(array_filter(bc_load('reservations'), fn($r) => ($r['status'] ?? '') === 'new')) : 0;
+    $groups = [
+        '' => ['index' => ['الرئيسية', 'home', 0, []]],
+        'التشغيل' => ['orders' => ['الطلبات', 'orders', $newOrders, ['orders.view']], 'reservations' => ['الحجوزات', 'res', $newRes, ['res.view']]],
+        'المنيو' => ['items' => ['الأصناف', 'items', 0, ['items.edit']], 'categories' => ['الأقسام', 'cats', 0, ['items.edit']], 'discounts' => ['الخصومات والعروض', 'disc', 0, ['disc.edit']]],
+        'التسويق' => ['events' => ['الفعاليات والدعوات', 'events', 0, ['events.edit', 'events.guests']]],
+        'الإدارة' => ['reports' => ['التقارير', 'chart', 0, ['reports.view']], 'log' => ['سجل النشاط', 'log', 0, ['log.view']], 'users' => ['المستخدمين والصلاحيات', 'users', 0, ['users.manage']], 'settings' => ['الإعدادات', 'settings', 0, ['settings.site', 'settings.marketing']]],
     ];
+    $me = me();
     ?><!doctype html>
 <html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#140A04">
@@ -124,11 +206,15 @@ function admin_head(string $title, string $active = '', string $actions = ''): v
 <aside class="side" id="side">
   <a class="side__brand" href="index.php"><img src="../assets/brand/roundel-cream.png" alt=""><span>لوحة التحكم<small class="latin">BARCODE · CAFE</small></span></a>
   <nav class="side__nav">
-    <?php foreach ($nav as $k => [$label, $ic, $n]): ?>
-      <a href="<?= $k ?>.php" class="<?= $active === $k ? 'is-on' : '' ?>"><?= icon($ic) ?><span><?= $label ?></span><?php if ($n): ?><b class="pill"><?= $n ?></b><?php endif; ?></a>
+    <?php foreach ($groups as $g => $links): $links = array_filter($links, fn($l) => !$l[3] || can(...$l[3])); if (!$links) continue; ?>
+      <?php if ($g !== ''): ?><div class="side__group"><?= $g ?></div><?php endif; ?>
+      <?php foreach ($links as $k => [$label, $ic, $n]): ?>
+        <a href="<?= $k ?>.php" class="<?= $active === $k ? 'is-on' : '' ?>"><?= icon($ic) ?><span><?= $label ?></span><?php if ($n): ?><b class="pill"><?= $n ?></b><?php endif; ?></a>
+      <?php endforeach; ?>
     <?php endforeach; ?>
   </nav>
   <div class="side__foot">
+    <?php if ($me): ?><a class="side__me <?= $active === 'account' ? 'is-on' : '' ?>" href="account.php"><i><?= e(mb_substr($me['name'] ?: $me['user'], 0, 1)) ?></i><span><?= e($me['name'] ?: $me['user']) ?><small><?= e(role_label($me)) ?></small></span></a><?php endif; ?>
     <a href="../" target="_blank"><?= icon('ext') ?> فتح الموقع</a>
     <a href="logout.php"><?= icon('out') ?> تسجيل الخروج</a>
   </div>

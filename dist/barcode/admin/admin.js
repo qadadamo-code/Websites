@@ -86,4 +86,74 @@
   const t = $('#evTitleEn'), sl = $('#evSlug');
   if (t && sl && !sl.value) t.addEventListener('input', () => { if (!sl.dataset.touched) sl.value = t.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40); });
   sl && sl.addEventListener('input', () => (sl.dataset.touched = 1));
+  // ---- order editor: lines, live totals ----
+  const lines = $('#lines');
+  if (lines) {
+    const fmt = (n) => (Math.round(n * 100) / 100).toLocaleString('en-US');
+    const calc = () => {
+      let sub = 0;
+      $$('.oline', lines).forEach((r) => {
+        const q = parseFloat($('[data-line-qty]', r).value) || 0, p = parseFloat($('[data-line-price]', r).value) || 0;
+        sub += q * p; $('[data-line-sum]', r).textContent = q && p ? fmt(q * p) : '';
+      });
+      const d = Math.min(sub, parseFloat(($('#discInp') || {}).value) || 0);
+      $('#subOut').textContent = fmt(sub); $('#totOut').textContent = fmt(sub - d);
+    };
+    lines.addEventListener('input', calc);
+    $('#discInp') && $('#discInp').addEventListener('input', calc);
+    lines.addEventListener('change', (e) => {
+      const s = e.target.closest('[data-line-item]'); if (!s) return;
+      const o = s.selectedOptions[0], r = s.closest('.oline');
+      if (o && o.value) { $('[name="line_name[]"]', r).value = o.dataset.name || ''; $('[data-line-price]', r).value = o.dataset.unit || ''; }
+      calc();
+    });
+    lines.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-line-del]'); if (!b) return;
+      const row = b.closest('.oline');
+      if ($$('.oline', lines).length > 1) lines.removeChild(row);
+      else $$('input', row).forEach((i) => (i.value = i.matches('[data-line-qty]') ? 1 : ''));
+      calc();
+    });
+    $('#addLine') && $('#addLine').addEventListener('click', () => {
+      lines.appendChild($('#lineTpl').content.cloneNode(true));
+      const last = $$('.oline', lines).pop(); $('select', last).focus(); calc();
+    });
+    calc();
+  }
+
+  // ---- users: role presets for permission checkboxes ----
+  const roleIn = $$('[data-role]');
+  if (roleIn.length && window.ROLE_PERMS) {
+    const box = $('#permsBox');
+    const apply = () => {
+      const r = roleIn.find((x) => x.checked); if (!r) return;
+      const custom = r.value === 'custom';
+      box.classList.toggle('is-locked', !custom);
+      $$('[data-perm]').forEach((c) => {
+        if (!custom) c.checked = (window.ROLE_PERMS[r.value] || []).includes(c.dataset.perm);
+        c.disabled = !custom;
+      });
+    };
+    roleIn.forEach((r) => r.addEventListener('change', apply));
+    box.closest('form').addEventListener('submit', () => $$('[data-perm]').forEach((c) => (c.disabled = false)));
+    apply();
+  }
+
+  // ---- password generator ----
+  $$('[data-gen-pass]').forEach((inp) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'b b--sm'; b.textContent = 'توليد كلمة مرور';
+    b.style.marginTop = '6px';
+    b.addEventListener('click', () => {
+      const a = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'; const r = new Uint32Array(12); crypto.getRandomValues(r);
+      inp.value = [...r].map((x) => a[x % a.length]).join(''); inp.focus(); inp.select();
+    });
+    inp.insertAdjacentElement('afterend', b);
+  });
+
+  // ---- inline edit rows (event guests) ----
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-toggle-row]'); if (!b) return;
+    e.preventDefault();
+    const r = document.getElementById(b.dataset.toggleRow); if (r) { r.hidden = !r.hidden; if (!r.hidden) { const i = $('input', r); i && i.focus(); } }
+  });
 })();

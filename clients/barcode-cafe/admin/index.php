@@ -26,28 +26,36 @@ $soldOut = count(array_filter($items, fn($i) => empty($i['available'])));
 $onSale = count(array_filter($items, fn($i) => !empty($i['sale']) && in_window($i['saleFrom'] ?? null, $i['saleTo'] ?? null))) + count(array_filter($cats, fn($c) => !empty($c['discount'])));
 $activeCoupons = count(array_filter($coupons, fn($c) => !empty($c['active'])));
 $months = ['', 'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+$money = can('orders.view', 'reports.view'); $seeRes = can('res.view'); $seeItems = can('items.edit'); $seeEv = can('events.edit', 'events.guests');
 $hour = (int)date('G'); $greet = $hour < 12 ? 'صباح الخير' : 'مساء الخير';
-admin_head('الرئيسية', 'index', '<a class="b b--primary" href="item.php">' . icon('plus') . ' صنف جديد</a>');
+$heads = ''; if (can('orders.edit')) $heads .= '<a class="b" href="order.php">' . icon('plus') . ' طلب يدوي</a>'; if ($seeItems) $heads .= '<a class="b b--primary" href="item.php">' . icon('plus') . ' صنف جديد</a>';
+admin_head('الرئيسية', 'index', $heads);
 ?>
 <section class="hello">
   <div><h2><?= $greet ?> ☕</h2><p>هذه نظرة سريعة على باركود اليوم، <?= (int)date('j') . ' ' . $months[(int)date('n')] ?>.</p></div>
   <div class="hello__quick">
-    <a class="b" href="event.php"><?= icon('events') ?> فعالية جديدة</a>
-    <a class="b" href="discounts.php#new"><?= icon('disc') ?> كود خصم</a>
+    <?php if (can('events.edit')): ?><a class="b" href="event.php"><?= icon('events') ?> فعالية جديدة</a><?php endif; ?>
+    <?php if (can('disc.edit')): ?><a class="b" href="discounts.php#new"><?= icon('disc') ?> كود خصم</a><?php endif; ?>
+    <?php if (can('reports.view')): ?><a class="b" href="reports.php"><?= icon('chart') ?> التقارير</a><?php endif; ?>
+    <?php if (can('res.edit')): ?><a class="b" href="reservation.php"><?= icon('res') ?> حجز جديد</a><?php endif; ?>
     <a class="b" href="../" target="_blank"><?= icon('ext') ?> الموقع</a>
   </div>
 </section>
 
 <section class="kpis">
+  <?php if ($money): ?>
   <div class="kpi"><span>طلبات اليوم</span><b class="latin"><?= count($todayO) ?></b><small><?= egp(array_sum(array_column($todayO, 'total'))) ?></small></div>
   <div class="kpi"><span>مبيعات آخر 7 أيام</span><b class="latin"><?= number_format($weekRev) ?></b><small><?= count($weekO) ?> طلب · متوسط <?= egp($avg) ?></small></div>
+  <?php endif; if ($seeRes): ?>
   <div class="kpi"><span>حجوزات قادمة</span><b class="latin"><?= count($upRes) ?></b><small><?= count(array_filter($res, fn($r) => ($r['status'] ?? '') === 'new')) ?> بانتظار التأكيد</small></div>
+  <?php endif; ?>
   <div class="kpi"><span>المنيو</span><b class="latin"><?= $visibleItems ?></b><small><?= $soldOut ?> نافد · <?= $onSale ?> خصم فعّال</small></div>
 </section>
 
+<?php if ($money): ?>
 <div class="cols">
   <section class="card card--wide">
-    <div class="card__head"><h3>المبيعات · آخر 14 يوم</h3><span class="muted">بالجنيه</span></div>
+    <div class="card__head"><h3>المبيعات · آخر 14 يوم</h3><?php if (can('reports.view')): ?><a href="reports.php">التقارير الكاملة ←</a><?php endif; ?></div>
     <div class="chart">
       <?php foreach ($days as $d => $v): $h = $v['rev'] / $maxRev * 100; ?>
         <div class="chart__col" title="<?= e(date('d/m', strtotime($d)) . ' · ' . $v['n'] . ' طلب · ' . egp($v['rev'])) ?>">
@@ -63,8 +71,10 @@ admin_head('الرئيسية', 'index', '<a class="b b--primary" href="item.php"
     <ul class="bars"><?php foreach ($top as $n => $q): ?><li><span><?= e($n) ?></span><i style="width:<?= round($q / $topMax * 100) ?>%"></i><b class="latin"><?= $q ?></b></li><?php endforeach; ?></ul>
   </section>
 </div>
+<?php endif; ?>
 
 <div class="cols">
+  <?php if (can('orders.view')): ?>
   <section class="card card--wide">
     <div class="card__head"><h3>أحدث الطلبات</h3><a href="orders.php">عرض الكل ←</a></div>
     <?php if (!$orders): ?><p class="empty">لم تصل طلبات بعد. كل طلب يرسله العميل من الموقع على واتساب يُسجَّل هنا تلقائيًا.</p><?php endif; ?>
@@ -77,6 +87,7 @@ admin_head('الرئيسية', 'index', '<a class="b b--primary" href="item.php"
       <?php endforeach; ?>
     </div>
   </section>
+  <?php endif; if ($seeEv || can('disc.edit')): ?>
 
   <section class="card">
     <div class="card__head"><h3>الفعاليات القادمة</h3><a href="events.php">إدارة ←</a></div>
@@ -91,5 +102,6 @@ admin_head('الرئيسية', 'index', '<a class="b b--primary" href="item.php"
     </div>
     <div class="mini-stats"><span><?= $activeCoupons ?> كود خصم فعّال</span><span><?= count($rsvps) ?> دعوة مسجّلة</span></div>
   </section>
+  <?php endif; ?>
 </div>
 <?php admin_foot();

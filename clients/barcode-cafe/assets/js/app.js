@@ -128,11 +128,40 @@
     }
   }
 
+  /* ---------------- offers ---------------- */
+  function saleRibbon(badge) {
+    const n = String(badge).replace(/[^0-9.]/g, "");
+    return `<span class="sale-tag" aria-label="خصم ${esc(n)}%"><b class="latin">${esc(n)}<small>%</small></b><span>خصم</span></span>`;
+  }
+  const rail = $("#offersRail");
+  if (rail && DATA.offers) {
+    rail.innerHTML = DATA.offers.items.filter(id => ITEMS[id]).map(id => {
+      const it = ITEMS[id];
+      return `<article class="offer">
+        <div class="offer__img">${it.image ? `<img src="${esc(it.image)}" alt="" loading="lazy">` : `<div class="offer__ph latin">${esc(it.cat.code)}</div>`}${saleRibbon(it.badge)}</div>
+        <div class="offer__body">
+          <small>${esc(it.cat.title)}</small>
+          <h4>${esc(it.name)}</h4>
+          <div class="offer__price latin"><s>${fmt(it.was)}</s><b>${fmt(it.price)}</b><span>EGP</span></div>
+          <div class="offer__foot"><em>وفّر <b class="latin">${fmt(it.was - it.price)}</b> ج.م</em><button class="item__add" data-add="${id}"><span>+</span> أضف</button></div>
+        </div>
+      </article>`;
+    }).join("");
+  }
+  document.addEventListener("click", async e => {
+    const b = e.target.closest("[data-coupon]"); if (!b) return;
+    const code = b.dataset.coupon;
+    try { await navigator.clipboard.writeText(code); } catch (_) { /* clipboard blocked: still fill the receipt field */ }
+    const inp = $("#couponInput"); if (inp) inp.value = code;
+    b.classList.add("is-copied"); setTimeout(() => b.classList.remove("is-copied"), 1600);
+    if (typeof toast === "function") toast(`تم نسخ الكود ${code}، وهيتحط في الفاتورة تلقائيًا`);
+  });
+
   /* ---------------- build menu chapters ---------------- */
   const chapters = $("#chapters");
   const tabs = $("#menuTabs");
   MENU.forEach((c, ci) => {
-    tabs.insertAdjacentHTML("beforeend", `<a href="#cat-${c.id}" data-cat="${c.id}">${esc(c.title)}<small>${String(ci + 1).padStart(2, "0")}</small></a>`);
+    tabs.insertAdjacentHTML("beforeend", `<a href="#cat-${c.id}" data-cat="${c.id}"${c.off ? ' class="has-off"' : ""}>${esc(c.title)}${c.off ? `<em class="latin" dir="ltr">-${esc(c.off)}%</em>` : `<small>${String(ci + 1).padStart(2, "0")}</small>`}</a>`);
     // Arabic letters must stay connected: animate whole words instead of letters
     const titleWords = esc(c.title).split(" ").map(w => `<span class="ch">${w}</span>`).join(" ");
     chapters.insertAdjacentHTML("beforeend", `
@@ -147,6 +176,7 @@
               <div class="chapter__eyebrow latin" dir="ltr">${String(ci + 1).padStart(2, "0")} / ${String(MENU.length).padStart(2, "0")}${c.titleEn ? " · " + esc(c.titleEn.toUpperCase()) : ""}</div>
               <h3 class="chapter__title">${titleWords}</h3>
               <p class="chapter__line">${esc(c.line)}</p>
+              ${c.off ? `<div class="chapter__stamp"><b class="latin">${esc(c.off)}%</b><span>خصم على القسم كله${c.offTo ? ` · لحد <span class="latin">${c.offTo.slice(8, 10)}/${c.offTo.slice(5, 7)}</span>` : ""}</span></div>` : ""}
               <a href="#items-${c.id}" class="btn btn--ghost btn--sm chapter__skip" data-skip>اعرض الأصناف ↓</a>
             </div>
             <div class="chapter__hud latin" aria-hidden="true">
@@ -160,22 +190,22 @@
           <div class="wrap">
             <div class="items__head">
               <h3>${esc(c.title)}<span class="copper">.</span></h3>
-              <p>${c.items.length} أصناف · اضغط «أضف» وسنجهّز لك الفاتورة.</p>
+              <p>${c.items.length} أصناف · اضغط «أضف» وسنجهّز لك الفاتورة.${c.off ? ` <span class="items__off">خصم <b class="latin">${esc(c.off)}%</b> على كل الأصناف</span>` : ""}</p>
             </div>
             <div class="grid">
               ${c.items.map((it, i) => {
                 const head = it.group && (i === 0 || c.items[i - 1].group !== it.group)
                   ? `<div class="group"><h4>${esc(it.group)}</h4><i></i><span>${c.items.filter(x => x.group === it.group).length} أصناف</span></div>` : "";
                 return `${head}
-                <article class="item${it.soldout ? " is-out" : ""}${it.image ? " has-img" : ""}" data-id="${it.id}">
+                <article class="item${it.soldout ? " is-out" : ""}${it.image ? " has-img" : ""}${it.was ? " is-sale" : ""}" data-id="${it.id}">
                   <span class="item__qty latin" data-qty="${it.id}"></span>
-                  ${it.image ? `<div class="item__img"><img src="${esc(it.image)}" alt="" loading="lazy"></div>` : ""}
-                  <div class="item__top"><span class="item__code latin">${ITEMS[it.id].code}</span>${it.badge ? `<span class="item__tag item__tag--sale latin">${esc(it.badge)}</span>` : ""}${it.tag ? `<span class="item__tag">${esc(it.tag)}</span>` : ""}</div>
+                  ${it.image ? `<div class="item__img"><img src="${esc(it.image)}" alt="" loading="lazy">${it.badge ? saleRibbon(it.badge) : ""}</div>` : ""}
+                  <div class="item__top"><span class="item__code latin">${ITEMS[it.id].code}</span>${it.badge && !it.image ? `<span class="item__tag item__tag--sale latin">${esc(it.badge)}</span>` : ""}${it.tag ? `<span class="item__tag">${esc(it.tag)}</span>` : ""}</div>
                   <h4>${esc(it.name)}</h4>
                   ${it.desc ? `<p class="item__desc">${esc(it.desc)}</p>` : ""}
                   <div class="item__bottom">
                     <div class="item__barcode">${barcodeSVG(it.id + it.name)}</div>
-                    <div class="item__price latin">${it.was ? `<s>${fmt(it.was)}</s>` : ""}${fmt(it.price)}<small>EGP</small></div>
+                    <div class="item__price latin">${it.was ? `<s>${fmt(it.was)}</s>` : ""}${fmt(it.price)}<small>EGP</small>${it.was ? `<em class="item__save">وفّر ${fmt(it.was - it.price)}</em>` : ""}</div>
                   </div>
                   ${it.soldout ? `<button class="item__add" disabled>نفد مؤقتًا</button>` : `<button class="item__add" data-add="${it.id}"><span>+</span> أضف</button>`}
                 </article>`;
