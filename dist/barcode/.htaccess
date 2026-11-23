@@ -1,0 +1,13 @@
+# Barcode Cafe: serve the PHP site first (an old static index.html may still exist on the server)
+DirectoryIndex index.php index.html
+Options -Indexes
+<IfModule mod_headers.c>
+  <FilesMatch "\.(php|html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+# private folders: data seeds, shared code and live storage are never served
+RedirectMatch 404 ^.*/(data|inc|storage)/.*$
+<FilesMatch "\.(json|lock|md)$">
+  Require all denied
+</FilesMatch>
