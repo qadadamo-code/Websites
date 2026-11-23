@@ -2,9 +2,12 @@
    BARCODE CAFE — interactions
    ========================================================= */
 (() => {
-  const CFG = window.BARCODE_CONFIG;
-  const MENU = window.BARCODE_MENU;
-  const MOODS = window.BARCODE_MOODS;
+  // Live data comes from the dashboard (index.php inlines it); menu.js is only a static fallback.
+  const DATA = window.BARCODE_DATA || { config: window.BARCODE_CONFIG, menu: window.BARCODE_MENU, moods: window.BARCODE_MOODS };
+  const CFG = DATA.config;
+  const MENU = DATA.menu || [];
+  const API = !!CFG.api;
+  const post = (url, body) => { if (!API) return Promise.resolve(null); return fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), keepalive: true }).then(r => r.json()).catch(() => null); };
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -13,6 +16,9 @@
   const money = n => `${fmt(n)} ${CFG.currency}`;
   const ITEMS = {};
   MENU.forEach(c => c.items.forEach((it, i) => (ITEMS[it.id] = { ...it, cat: c, code: `${c.code}-${String(i + 1).padStart(2, "0")}` })));
+  // moods only keep items that are still on the menu and orderable
+  const MOODS = (DATA.moods || []).map(m => ({ ...m, items: m.items.filter(id => ITEMS[id] && !ITEMS[id].soldout) })).filter(m => m.items.length);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -23,12 +29,12 @@
     nav: "مرحبًا باركود كافيه! أريد أن أطلب أونلاين ☕🥤",
     fab: "مرحبًا باركود كافيه! عندي سؤال بسيط…",
     footer: "مرحبًا باركود كافيه!",
-    opening: "مرحبًا باركود كافيه! أريد دعوة يوم الافتتاح، وأرجو إبلاغي بالموعد أول بأول ✨"
   };
   $$("[data-wa]").forEach(a => (a.href = waLink(waTexts[a.dataset.wa] || waTexts.footer)));
   $$("[data-mail]").forEach(a => (a.href = `mailto:${CFG.email}`));
-  $$("[data-cfg]").forEach(el => (el.textContent = CFG[el.dataset.cfg] || ""));
-  $$("[data-social]").forEach(a => (a.href = CFG.social[a.dataset.social] || "#"));
+  $$("[data-cfg]").forEach(el => { el.textContent = CFG[el.dataset.cfg] || ""; if (!el.textContent && !el.closest("a")) el.hidden = true; });
+  $$("[data-social]").forEach(a => { const u = (CFG.social || {})[a.dataset.social]; if (u && u !== "#") a.href = u; else a.hidden = true; });
+  if (CFG.orders === false) document.documentElement.classList.add("no-orders");
   $("#year").textContent = new Date().getFullYear();
 
   /* ---------------- barcode generator ---------------- */
@@ -60,7 +66,10 @@
       this.canvas = canvas;
       this.ctx = canvas.getContext("2d");
       this.name = canvas.dataset.seq;
-      this.count = +canvas.dataset.frames || 48;
+      this.img = canvas.dataset.img || "";
+      this.single = !this.name && !!this.img;   // a category with a cover photo instead of a video
+      this.count = this.single ? 1 : (+canvas.dataset.frames || 48);
+      this.zoom = 1;
       this.frames = new Array(this.count);
       this.current = 0;
       this.loaded = 0;
@@ -68,7 +77,7 @@
       this.resize();
       addEventListener("resize", () => this.resize());
     }
-    src(i) { return `assets/seq/${this.name}/${String(i + 1).padStart(3, "0")}.jpg`; }
+    src(i) { return this.single ? this.img : `assets/seq/${this.name}/${String(i + 1).padStart(3, "0")}.jpg`; }
     load(onProgress) {
       if (this.started) return this.promise;
       this.started = true;
@@ -113,7 +122,7 @@
       if (!img) return;
       this._drawn = i;
       const { width: cw, height: ch } = this.canvas;
-      const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight) * this.zoom;
       const w = img.naturalWidth * s, h = img.naturalHeight * s;
       this.ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
     }
@@ -123,26 +132,26 @@
   const chapters = $("#chapters");
   const tabs = $("#menuTabs");
   MENU.forEach((c, ci) => {
-    tabs.insertAdjacentHTML("beforeend", `<a href="#cat-${c.id}" data-cat="${c.id}">${c.title}<small>${String(ci + 1).padStart(2, "0")}</small></a>`);
+    tabs.insertAdjacentHTML("beforeend", `<a href="#cat-${c.id}" data-cat="${c.id}">${esc(c.title)}<small>${String(ci + 1).padStart(2, "0")}</small></a>`);
     // Arabic letters must stay connected: animate whole words instead of letters
-    const titleWords = c.title.split(" ").map(w => `<span class="ch">${w}</span>`).join(" ");
+    const titleWords = esc(c.title).split(" ").map(w => `<span class="ch">${w}</span>`).join(" ");
     chapters.insertAdjacentHTML("beforeend", `
       <div class="cat" id="cat-${c.id}" data-cat="${c.id}">
         <section class="chapter" data-chapter="${c.id}">
           <div class="chapter__pin">
-            <canvas class="seq-canvas" data-seq="${c.seq}" data-frames="48"></canvas>
+            <canvas class="seq-canvas" data-seq="${c.seq || (c.image ? "" : "espresso")}" data-img="${esc(c.image || "")}" data-frames="48"></canvas>
             <div class="chapter__shade"></div>
             <div class="scanline" aria-hidden="true"></div>
-            <div class="chapter__code" aria-hidden="true">${c.code}</div>
+            <div class="chapter__code" aria-hidden="true">${esc(c.code)}</div>
             <div class="chapter__text">
-              <div class="chapter__eyebrow latin" dir="ltr">${String(ci + 1).padStart(2, "0")} / ${String(MENU.length).padStart(2, "0")} · ${c.titleEn.toUpperCase()}</div>
+              <div class="chapter__eyebrow latin" dir="ltr">${String(ci + 1).padStart(2, "0")} / ${String(MENU.length).padStart(2, "0")}${c.titleEn ? " · " + esc(c.titleEn.toUpperCase()) : ""}</div>
               <h3 class="chapter__title">${titleWords}</h3>
-              <p class="chapter__line">${c.line}</p>
+              <p class="chapter__line">${esc(c.line)}</p>
               <a href="#items-${c.id}" class="btn btn--ghost btn--sm chapter__skip" data-skip>اعرض الأصناف ↓</a>
             </div>
             <div class="chapter__hud latin" aria-hidden="true">
               <div class="row"><span>SCANNING</span><span class="hud-frame">001/048</span></div>
-              <div class="row" style="margin-top:6px"><span>${c.code}</span><span>${c.items.length} ITEMS</span></div>
+              <div class="row" style="margin-top:6px"><span>${esc(c.code)}</span><span>${c.items.length} ITEMS</span></div>
               <div class="bar"><i></i></div>
             </div>
           </div>
@@ -150,23 +159,25 @@
         <div class="items" id="items-${c.id}">
           <div class="wrap">
             <div class="items__head">
-              <h3>${c.title}<span class="copper">.</span></h3>
+              <h3>${esc(c.title)}<span class="copper">.</span></h3>
               <p>${c.items.length} أصناف · اضغط «أضف» وسنجهّز لك الفاتورة.</p>
             </div>
             <div class="grid">
               ${c.items.map((it, i) => {
                 const head = it.group && (i === 0 || c.items[i - 1].group !== it.group)
-                  ? `<div class="group"><h4>${it.group}</h4><i></i><span>${c.items.filter(x => x.group === it.group).length} أصناف</span></div>` : "";
+                  ? `<div class="group"><h4>${esc(it.group)}</h4><i></i><span>${c.items.filter(x => x.group === it.group).length} أصناف</span></div>` : "";
                 return `${head}
-                <article class="item" data-id="${it.id}">
+                <article class="item${it.soldout ? " is-out" : ""}${it.image ? " has-img" : ""}" data-id="${it.id}">
                   <span class="item__qty latin" data-qty="${it.id}"></span>
-                  <div class="item__top"><span class="item__code latin">${ITEMS[it.id].code}</span>${it.tag ? `<span class="item__tag">${it.tag}</span>` : ""}</div>
-                  <h4>${it.name}</h4>
+                  ${it.image ? `<div class="item__img"><img src="${esc(it.image)}" alt="" loading="lazy"></div>` : ""}
+                  <div class="item__top"><span class="item__code latin">${ITEMS[it.id].code}</span>${it.badge ? `<span class="item__tag item__tag--sale latin">${esc(it.badge)}</span>` : ""}${it.tag ? `<span class="item__tag">${esc(it.tag)}</span>` : ""}</div>
+                  <h4>${esc(it.name)}</h4>
+                  ${it.desc ? `<p class="item__desc">${esc(it.desc)}</p>` : ""}
                   <div class="item__bottom">
                     <div class="item__barcode">${barcodeSVG(it.id + it.name)}</div>
-                    <div class="item__price latin">${fmt(it.price)}<small>EGP</small></div>
+                    <div class="item__price latin">${it.was ? `<s>${fmt(it.was)}</s>` : ""}${fmt(it.price)}<small>EGP</small></div>
                   </div>
-                  <button class="item__add" data-add="${it.id}"><span>+</span> أضف</button>
+                  ${it.soldout ? `<button class="item__add" disabled>نفد مؤقتًا</button>` : `<button class="item__add" data-add="${it.id}"><span>+</span> أضف</button>`}
                 </article>`;
               }).join("")}
             </div>
@@ -270,8 +281,8 @@
       onUpdate: self => {
         const p = Math.min(1, self.progress / .92);
         const f = p * (seq.count - 1);
-        seq.draw(f);
-        if (hud) hud.textContent = `${String(Math.round(f) + 1).padStart(3, "0")}/048`;
+        if (seq.single) { seq.zoom = 1 + .14 * p; seq.draw(0, true); } else seq.draw(f);
+        if (hud) hud.textContent = `${String(Math.round(p * 47) + 1).padStart(3, "0")}/048`;
         if (bar) bar.style.transform = `scaleX(${self.progress})`;
       }
     });
@@ -388,13 +399,17 @@
   $("#receiptNo").textContent = `ORDER #${orderNo}`;
   $("#receiptBarcode").innerHTML = barcodeSVG("order" + orderNo, "var(--brown)", 60);
 
-  const total = () => Object.entries(cart).reduce((s, [id, q]) => s + ITEMS[id].price * q, 0);
+  const subtotal = () => Object.entries(cart).reduce((s, [id, q]) => s + ITEMS[id].price * q, 0);
+  let coupon = null; // {code, discount, label}
+  const discount = () => (coupon ? Math.min(coupon.discount, subtotal()) : 0);
+  const total = () => subtotal() - discount();
   const count = () => Object.values(cart).reduce((s, q) => s + q, 0);
 
   function add(id, q = 1, silent) {
     cart[id] = (cart[id] || 0) + q;
     if (cart[id] <= 0) delete cart[id];
     store.set(cart); render();
+    if (coupon) checkCoupon(true);
     if (!silent && q > 0) {
       toast(`أُضيف ${ITEMS[id].name} إلى الفاتورة`);
       const btn = $("#cartBtn"); btn.classList.remove("bump"); void btn.offsetWidth; btn.classList.add("bump");
@@ -411,19 +426,38 @@
     const list = $("#receiptItems");
     list.innerHTML = Object.entries(cart).map(([id, q]) => {
       const it = ITEMS[id];
-      return `<li><span class="nm">${it.name}</span><span class="pr">${fmt(it.price * q)}</span>
+      return `<li><span class="nm">${esc(it.name)}</span><span class="pr">${fmt(it.price * q)}</span>
         <div class="qty"><button data-dec="${id}" aria-label="أقل">−</button><b>${q}</b><button data-inc="${id}" aria-label="أكثر">+</button><span class="latin">× ${fmt(it.price)}</span></div></li>`;
     }).join("");
     $("#receiptEmpty").style.display = c ? "none" : "block";
     $("#orderForm").style.display = c ? "flex" : "none";
     $("#receiptTotal").textContent = money(total());
+    const d = discount();
+    $("#receiptSubRow").hidden = !d; $("#receiptDiscRow").hidden = !d;
+    if (d) { $("#receiptSub").textContent = money(subtotal()); $("#receiptDisc").textContent = "− " + money(d); $("#receiptDiscLabel").textContent = `خصم ${coupon.code}`; }
+    $("#couponBox").style.display = c && API ? "flex" : "none";
+    $("#couponMsg").style.display = c && API ? "block" : "none";
   }
+  function setCouponMsg(msg, ok) { const m = $("#couponMsg"); m.textContent = msg || ""; m.classList.toggle("ok", !!ok); m.classList.toggle("bad", ok === false); }
+  async function checkCoupon(silent) {
+    const code = $("#couponInput").value.trim();
+    if (!code) { coupon = null; setCouponMsg(""); render(); return; }
+    try {
+      const r = await fetch(`api/coupon.php?code=${encodeURIComponent(code)}&total=${subtotal()}`).then(x => x.json());
+      if (r.ok) { coupon = { code: r.code, discount: r.discount, label: r.label }; setCouponMsg(r.msg, true); }
+      else { coupon = null; if (!silent) setCouponMsg(r.msg, false); }
+    } catch { coupon = null; if (!silent) setCouponMsg("تعذّر التحقق من الكود الآن", false); }
+    render();
+  }
+  $("#couponApply").addEventListener("click", () => checkCoupon());
+  $("#couponInput").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); checkCoupon(); } });
   document.addEventListener("click", e => {
     const a = e.target.closest("[data-add]");
     if (a) {
+      if (a.disabled) return;
       add(a.dataset.add);
       a.classList.add("added"); a.innerHTML = "✓ أُضيف";
-      setTimeout(() => { a.classList.remove("added"); a.innerHTML = "<span>+</span> أضف إلى الفاتورة"; }, 1300);
+      setTimeout(() => { a.classList.remove("added"); a.innerHTML = "<span>+</span> أضف"; }, 1300);
       return;
     }
     const inc = e.target.closest("[data-inc]"); if (inc) return add(inc.dataset.inc, 1, true);
@@ -451,6 +485,7 @@
       "",
       ...lines,
       "",
+      ...(discount() ? [`المجموع: ${money(subtotal())}`, `كود الخصم ${coupon.code}: − ${money(discount())}`] : []),
       `الإجمالي: ${money(total())}`,
       `نوع الطلب: ${f.type.value}`,
       `الاسم: ${f.name.value.trim()}`,
@@ -468,21 +503,30 @@
     return ok;
   }
   const of = $("#orderForm");
+  const logOrder = channel => post("api/order.php", {
+    no: orderNo, channel, coupon: coupon ? coupon.code : "", website: of.website ? of.website.value : "",
+    items: Object.entries(cart).map(([id, qty]) => ({ id, qty })),
+    type: of.type.value, name: of.name.value, phone: of.phone.value, address: of.address.value, notes: of.notes.value
+  });
   of.addEventListener("submit", e => {
     e.preventDefault();
     if (!count() || !validOrder(of)) return;
+    logOrder("whatsapp");
     window.open(waLink(orderText(of)), "_blank", "noopener");
   });
   $("#orderMail").addEventListener("click", () => {
     if (!count() || !validOrder(of)) return;
+    logOrder("email");
     location.href = mailLink(`طلب أونلاين #${orderNo} — ${CFG.brand}`, orderText(of));
   });
+  if (!CFG.delivery) { const del = of.querySelector('input[value="توصيل"]'); if (del) { del.closest("label").remove(); of.querySelector('input[name="type"]').checked = true; of.querySelector(".seg").style.gridTemplateColumns = "1fr 1fr"; } }
   render();
 
   /* ---------------- mood scanner ---------------- */
   const chips = $("#moodChips"), scanner = $("#scanner"), ticket = $("#moodTicket");
+  if (!MOODS.length) $("#mood").hidden = true;
   barDivs($("#scannerBars"), "mood", 52);
-  MOODS.forEach(m => chips.insertAdjacentHTML("beforeend", `<button class="chip" data-mood="${m.id}">${m.label}</button>`));
+  MOODS.forEach(m => chips.insertAdjacentHTML("beforeend", `<button class="chip" data-mood="${esc(m.id)}">${esc(m.label)}</button>`));
   let currentMood = null, scanTimer;
   chips.addEventListener("click", e => {
     const b = e.target.closest("[data-mood]"); if (!b) return;
@@ -497,7 +541,7 @@
       $("#moodCode").textContent = `${m.code}`;
       $("#moodNote").textContent = m.note;
       const grouped = {}; m.items.forEach(id => (grouped[id] = (grouped[id] || 0) + 1));
-      $("#moodList").innerHTML = Object.entries(grouped).map(([id, q]) => `<li><span>${q > 1 ? q + " × " : ""}${ITEMS[id].name}</span><b>${fmt(ITEMS[id].price * q)}</b></li>`).join("");
+      $("#moodList").innerHTML = Object.entries(grouped).map(([id, q]) => `<li><span>${q > 1 ? q + " × " : ""}${esc(ITEMS[id].name)}</span><b>${fmt(ITEMS[id].price * q)}</b></li>`).join("");
       $("#moodTotal").textContent = money(m.items.reduce((s, id) => s + ITEMS[id].price, 0));
       ticket.hidden = false;
       gsap.fromTo(ticket, { scaleY: 0, opacity: 1 }, { scaleY: 1, duration: .9, ease: "expo.out" });
@@ -513,6 +557,7 @@
 
   /* ---------------- reservation pass ---------------- */
   const rf = $("#reserveForm");
+  if (rf) {
   let guests = 2;
   const today = new Date(); rf.date.min = today.toISOString().slice(0, 10);
   function updatePass() {
@@ -544,26 +589,14 @@
     if (!ok) toast("ينقصنا بعض البيانات لنحجز لك");
     return ok;
   }
-  rf.addEventListener("submit", e => { e.preventDefault(); if (validReserve()) window.open(waLink(reserveText()), "_blank", "noopener"); });
-  $("#reserveMail").addEventListener("click", () => { if (validReserve()) location.href = mailLink(`حجز طاولة — ${rf.name.value.trim()}`, reserveText()); });
+  const logReserve = () => post("api/reserve.php", { code: $("#passCode").textContent, name: rf.name.value, phone: rf.phone.value, date: rf.date.value, time: rf.time.value, guests, occasion: rf.occasion.value, notes: rf.notes.value });
+  rf.addEventListener("submit", e => { e.preventDefault(); if (validReserve()) { logReserve(); window.open(waLink(reserveText()), "_blank", "noopener"); } });
+  $("#reserveMail").addEventListener("click", () => { if (validReserve()) { logReserve(); location.href = mailLink(`حجز طاولة — ${rf.name.value.trim()}`, reserveText()); } });
   gsap.from(".pass", { y: 80, rotate: -2, opacity: 0, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: ".pass", start: "top 85%" } });
-
-  /* ---------------- opening countdown (optional) ---------------- */
-  if (CFG.openingDate) {
-    const target = new Date(CFG.openingDate).getTime();
-    if (!isNaN(target) && target > Date.now()) {
-      $("#countdown").hidden = false;
-      $("#openingLine").textContent = "العدّ التنازلي بدأ. احجز مقعدك في يوم الافتتاح قبل أن تمتلئ الطاولات.";
-      const tick = () => {
-        let s = Math.max(0, Math.floor((target - Date.now()) / 1000));
-        const d = Math.floor(s / 86400); s -= d * 86400; const h = Math.floor(s / 3600); s -= h * 3600; const m = Math.floor(s / 60); s -= m * 60;
-        $("#cdD").textContent = String(d).padStart(2, "0"); $("#cdH").textContent = String(h).padStart(2, "0");
-        $("#cdM").textContent = String(m).padStart(2, "0"); $("#cdS").textContent = String(s).padStart(2, "0");
-      };
-      tick(); setInterval(tick, 1000);
-    }
   }
-  gsap.from(".opening__title", { y: 60, opacity: 0, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: ".opening", start: "top 70%" } });
+
+  /* ---------------- events ---------------- */
+  if ($(".ev-card")) gsap.from(".ev-card", { y: 70, opacity: 0, duration: 1.1, ease: "expo.out", stagger: .12, scrollTrigger: { trigger: ".ev-grid", start: "top 85%" } });
   gsap.fromTo(".footer__mega img", { yPercent: 40 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: ".footer__mega", start: "top bottom", end: "bottom bottom", scrub: true } });
 
   addEventListener("load", () => ScrollTrigger.refresh());
