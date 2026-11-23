@@ -51,19 +51,41 @@ function bc_boot(): void {
 function bc_migrate(): void {
     $f = BC_ROOT . '/data/migrations.json';
     if (!is_file($f)) return;
-    $m = json_decode((string)file_get_contents($f), true);
-    if (!is_array($m) || empty($m['id'])) return;
+    $all = json_decode((string)file_get_contents($f), true);
+    if (!is_array($all)) return;
+    if (isset($all['id'])) $all = [$all]; // old single-migration format
     $done = bc_load('migrations');
-    if (in_array($m['id'], $done, true)) return;
-    foreach (['categories', 'items'] as $k) {
-        if (empty($m[$k])) continue;
-        $cur = bc_load($k);
-        $ids = array_column($cur, 'id');
-        foreach ($m[$k] as $row) if (!in_array($row['id'], $ids, true)) $cur[] = $row;
-        bc_save($k, $cur);
+    foreach ($all as $m) {
+        if (!is_array($m) || empty($m['id']) || in_array($m['id'], $done, true)) continue;
+        // add rows that don't exist yet
+        foreach (['categories', 'items'] as $k) {
+            if (empty($m[$k])) continue;
+            $cur = bc_load($k); $ids = array_column($cur, 'id');
+            foreach ($m[$k] as $row) if (!in_array($row['id'], $ids, true)) $cur[] = $row;
+            bc_write($k, $cur);
+        }
+        // change fields on existing items: {"itemPatch": {"id": {"price": 50}}}
+        if (!empty($m['itemPatch'])) {
+            $cur = bc_load('items');
+            foreach ($cur as &$it) if (isset($m['itemPatch'][$it['id']])) $it = array_merge($it, $m['itemPatch'][$it['id']]);
+            unset($it); bc_write('items', $cur);
+        }
+        // merge settings (one level deep for arrays like social)
+        if (!empty($m['settings'])) {
+            $st = bc_load('settings');
+            foreach ($m['settings'] as $k => $v) $st[$k] = is_array($v) && isset($st[$k]) && is_array($st[$k]) && array_keys($v) !== range(0, count($v) - 1) ? array_merge($st[$k], $v) : $v;
+            bc_write('settings', $st);
+        }
+        // make sure at least N tables exist (numbered after the highest number)
+        if (!empty($m['tablesMin'])) {
+            $t = tables_all(); $max = 0; $last = 0;
+            foreach ($t as $x) { if (ctype_digit((string)$x['name'])) $max = max($max, (int)$x['name']); $last = max($last, (int)($x['order'] ?? 0)); }
+            for ($n = count($t); $n < (int)$m['tablesMin']; $n++) { $max++; $last += 10; $t[] = ['id' => bc_id('t'), 'name' => (string)$max, 'zone' => '', 'seats' => 4, 'active' => true, 'code' => table_code(), 'order' => $last]; }
+            bc_write('tables', $t);
+        }
+        $done[] = $m['id'];
+        bc_write('migrations', $done);
     }
-    $done[] = $m['id'];
-    bc_save('migrations', $done);
 }
 
 function bc_load(string $name): array {
