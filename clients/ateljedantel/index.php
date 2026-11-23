@@ -77,7 +77,7 @@ site_head('', ['page' => 'home', 'intro' => true, 'overlay' => false, 'body' => 
     <?php foreach (categories() as $i => $cat): $n = count(array_filter($cards, fn($x) => $x['cat'] === $cat['id'])); ?>
     <a class="cat cat--<?= e($cat['id']) ?>" role="listitem" href="butik.php?kat=<?= e($cat['slug']) ?>" data-rise>
       <img class="cat__img" src="<?= e($catImg[$cat['id']]) ?>" alt="" loading="lazy">
-      <span class="cat__ic"><img src="<?= e(str_replace('.webp', '.png', $cat['icon'])) ?>" alt="" loading="lazy"></span>
+      <span class="cat__ic"><img src="<?= e(cat_icon($cat)) ?>" alt="" loading="lazy"></span>
       <span class="cat__txt"><small>0<?= $i + 1 ?> · <?= $n ?> <?= t('ui.results') ?></small><b><?= e(tr($cat['name'])) ?></b><em><?= e(tr($cat['tag'])) ?></em></span>
       <span class="cat__go"><?= ic('arrow') ?></span>
     </a>

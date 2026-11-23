@@ -206,6 +206,8 @@ function categories(bool $activeOnly = true): array {
     $c = sort_by_order(ad_load('categories'));
     return $activeOnly ? array_values(array_filter($c, fn($x) => !empty($x['active']))) : $c;
 }
+/** Category icon: catalogue icons are transparent PNGs, uploaded ones are used as is. */
+function cat_icon(array $c): string { $i = (string)($c['icon'] ?? ''); return str_starts_with($i, 'assets/img/ic-') ? str_replace('.webp', '.png', $i) : $i; }
 function category(string $id): ?array { foreach (ad_load('categories') as $c) if ($c['id'] === $id || ($c['slug'] ?? '') === $id) return $c; return null; }
 function products(bool $activeOnly = true): array {
     $p = ad_load('products');

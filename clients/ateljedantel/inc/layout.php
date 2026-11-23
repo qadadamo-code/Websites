@@ -70,7 +70,7 @@ function site_head(string $title, array $o = []): void {
       <div class="mega-wrap">
         <a href="butik.php" class="<?= $page === 'shop' ? 'on' : '' ?>"><?= t('nav.shop') ?></a>
         <div class="mega"><div class="mega__in">
-          <?php foreach ($cats as $c): ?><a class="mega__cat" href="butik.php?kat=<?= e($c['slug']) ?>"><img src="<?= e(str_replace('.webp', '.png', $c['icon'])) ?>" alt="" loading="lazy"><b><?= e(tr($c['name'])) ?></b><small><?= e(tr($c['tag'])) ?></small></a><?php endforeach; ?>
+          <?php foreach ($cats as $c): ?><a class="mega__cat" href="butik.php?kat=<?= e($c['slug']) ?>"><img src="<?= e(cat_icon($c)) ?>" alt="" loading="lazy"><b><?= e(tr($c['name'])) ?></b><small><?= e(tr($c['tag'])) ?></small></a><?php endforeach; ?>
           <a class="mega__feat" href="butik.php?kat=brudklanningar"><img src="assets/img/bride-tiara.webp" alt="" loading="lazy"><span><?= t('nav.bridal') ?> <?= ic('arrow') ?></span></a>
         </div></div>
       </div>
@@ -91,7 +91,7 @@ function site_head(string $title, array $o = []): void {
 </header>
 
 <div class="menu" id="menu" data-panel="menu" aria-hidden="true">
-  <div class="menu__top"><span class="eyebrow"><?= t('nav.menu') ?></span><button class="tool" data-close aria-label="<?= t('ui.close') ?>"><?= ic('close') ?></button></div>
+  <div class="menu__top"><span class="eyebrow"><?= t('nav.menu') ?></span><div class="lang lang--menu" role="group" aria-label="Language"><a href="<?= e(url_lang('sv')) ?>" class="<?= $L === 'sv' ? 'on' : '' ?>" hreflang="sv">Svenska</a><a href="<?= e(url_lang('en')) ?>" class="<?= $L === 'en' ? 'on' : '' ?>" hreflang="en">English</a></div><button class="tool" data-close aria-label="<?= t('ui.close') ?>"><?= ic('close') ?></button></div>
   <nav class="menu__nav">
     <a href="butik.php"><?= t('nav.all') ?></a>
     <?php foreach ($cats as $c): ?><a href="butik.php?kat=<?= e($c['slug']) ?>"><?= e(tr($c['name'])) ?></a><?php endforeach; ?>
