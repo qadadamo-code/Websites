@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/inc.php';
 require_perm('content.edit');
-$tab = in_array($_GET['tab'] ?? '', ['home', 'faq', 'services', 'tailor'], true) ? $_GET['tab'] : 'home';
+$tab = in_array($_GET['tab'] ?? '', ['home', 'faq', 'services', 'tailor', 'press'], true) ? $_GET['tab'] : 'home';
 $pair = fn($k, $max = 2000) => ['sv' => clean(p($k . '_sv'), $max), 'en' => clean(p($k . '_en'), $max)];
 if (posted()) {
     $sec = p('sec');
@@ -40,6 +40,15 @@ if (posted()) {
         }
         ad_tx('content', function (&$c) use ($groups) { $c['tailor'] = $groups; });
     }
+    if ($sec === 'press') {
+        $list = [];
+        foreach (preg_split('/\R/', (string)p('press')) as $line) {
+            $x = array_map('trim', explode('|', $line));
+            if (count($x) < 4 || !preg_match('~^https?://~', $x[3])) continue;
+            $list[] = ['date' => preg_match('/^\d{4}-\d{2}-\d{2}$/', $x[0]) ? $x[0] : '', 'source' => clean($x[1], 80), 'title' => clean($x[2], 200), 'url' => clean($x[3], 400), 'sv' => clean($x[4] ?? '', 600), 'en' => clean($x[5] ?? '', 600)];
+        }
+        ad_tx('content', function (&$c) use ($list) { $c['press'] = $list; });
+    }
     log_act(L('Ändrade texter', 'Changed texts'), $sec); flash(L('Texterna är sparade och syns direkt på webbplatsen', 'The texts are saved and live on the website'));
     go('content.php?tab=' . $tab);
 }
@@ -55,9 +64,14 @@ function bi(string $name, string $label, array $v, int $rows = 0, int $max = 0):
 }
 admin_head(L('Texter & FAQ', 'Texts & FAQ'), 'content', '<a class="b b--ghost" href="../" target="_blank">' . icon('eye') . ' ' . L('Visa webbplatsen', 'View website') . '</a>');
 ?>
-<div class="tabs"><?php foreach (['home' => L('Startsida & om oss', 'Home & about'), 'faq' => 'FAQ', 'services' => L('Tjänster', 'Services'), 'tailor' => L('Skrädderi – prislista', 'Tailoring – price list')] as $k => $lbl): ?><a href="?tab=<?= $k ?>" class="<?= $tab === $k ? 'on' : '' ?>"><?= e($lbl) ?></a><?php endforeach; ?></div>
+<div class="tabs"><?php foreach (['home' => L('Startsida & om oss', 'Home & about'), 'faq' => 'FAQ', 'services' => L('Tjänster', 'Services'), 'tailor' => L('Skrädderi – prislista', 'Tailoring – price list'), 'press' => L('Press', 'Press')] as $k => $lbl): ?><a href="?tab=<?= $k ?>" class="<?= $tab === $k ? 'on' : '' ?>"><?= e($lbl) ?></a><?php endforeach; ?></div>
 <form method="post" enctype="multipart/form-data" data-dirty><?= csrf_field() ?><input type="hidden" name="sec" value="<?= $tab ?>">
-<?php if ($tab === 'home'): ?>
+<?php if ($tab === 'press'): ?>
+  <div class="card"><h3><?= L('Artiklar om Ateljé Dantel', 'Articles about Ateljé Dantel') ?></h3>
+    <p class="hint"><?= L('En artikel per rad: Datum (ÅÅÅÅ-MM-DD) | Tidning | Rubrik | Länk | Sammanfattning SV | Summary EN. Visas på sidan Press, nyast först.', 'One article per line: Date (YYYY-MM-DD) | Newspaper | Headline | Link | Summary SV | Summary EN. Shown on the Press page, newest first.') ?> <a href="../press.php" target="_blank"><?= L('Visa sidan', 'View page') ?></a></p>
+    <textarea name="press" rows="10" style="font-family:ui-monospace,monospace;font-size:13px"><?= e(implode("\n", array_map(fn($a) => implode(' | ', [$a['date'] ?? '', $a['source'] ?? '', $a['title'] ?? '', $a['url'] ?? '', $a['sv'] ?? '', $a['en'] ?? '']), press_items()))) ?></textarea>
+  </div>
+<?php elseif ($tab === 'home'): ?>
   <div class="card"><h3><?= L('Meddelande högst upp (rullande list)', 'Announcement bar (scrolling)') ?></h3><?= bi('announce', L('Text', 'Text'), $s['announce'] ?? [], 0, 200) ?></div>
   <div class="card"><h3><?= L('Startsidans hero', 'Home hero') ?></h3>
     <?= bi('h_kicker', L('Liten rubrik', 'Kicker'), $c['hero']['kicker'] ?? []) ?>

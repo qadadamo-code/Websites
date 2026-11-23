@@ -95,7 +95,7 @@ function site_head(string $title, array $o = []): void {
   <nav class="menu__nav">
     <a href="butik.php"><?= t('nav.all') ?></a>
     <?php foreach ($cats as $c): ?><a href="butik.php?kat=<?= e($c['slug']) ?>"><?= e(tr($c['name'])) ?></a><?php endforeach; ?>
-    <a href="skradderi.php"><?= t('nav.tailor') ?></a><a href="om-oss.php"><?= t('nav.about') ?></a><a href="storleksguide.php"><?= t('nav.size') ?></a><a href="kontakt.php"><?= t('nav.contact') ?></a>
+    <a href="skradderi.php"><?= t('nav.tailor') ?></a><a href="om-oss.php"><?= t('nav.about') ?></a><a href="press.php"><?= t('nav.press') ?></a><a href="storleksguide.php"><?= t('nav.size') ?></a><a href="kontakt.php"><?= t('nav.contact') ?></a>
   </nav>
   <div class="menu__foot"><a class="btn" href="boka.php"><?= ic('cal') ?> <?= t('nav.book') ?></a><a href="tel:<?= e($s['phoneIntl']) ?>"><?= e($s['phone']) ?></a><a href="mailto:<?= e($s['email']) ?>"><?= e($s['email']) ?></a></div>
 </div>
@@ -145,7 +145,7 @@ function site_foot(array $o = []): void {
       </div>
     </div>
     <div class="ft__col"><h3><?= t('ft.shop') ?></h3><?php foreach (categories() as $c): ?><a href="butik.php?kat=<?= e($c['slug']) ?>"><?= e(tr($c['name'])) ?></a><?php endforeach; ?></div>
-    <div class="ft__col"><h3><?= t('ft.help') ?></h3><a href="boka.php"><?= t('nav.book') ?></a><a href="skradderi.php"><?= t('nav.tailor') ?></a><a href="storleksguide.php"><?= t('nav.size') ?></a><a href="villkor.php"><?= t('nav.terms') ?></a><a href="kontakt.php"><?= t('nav.contact') ?></a><a href="om-oss.php"><?= t('nav.about') ?></a></div>
+    <div class="ft__col"><h3><?= t('ft.help') ?></h3><a href="boka.php"><?= t('nav.book') ?></a><a href="skradderi.php"><?= t('nav.tailor') ?></a><a href="storleksguide.php"><?= t('nav.size') ?></a><a href="villkor.php"><?= t('nav.terms') ?></a><a href="kontakt.php"><?= t('nav.contact') ?></a><a href="om-oss.php"><?= t('nav.about') ?></a><a href="press.php"><?= t('nav.press') ?></a></div>
     <div class="ft__col"><h3><?= t('ui.visit') ?></h3>
       <a href="<?= e($s['mapUrl']) ?>" target="_blank" rel="noopener"><?= e($s['address']) ?><br><?= e($s['city']) ?></a>
       <a href="tel:<?= e($s['phoneIntl']) ?>"><?= e($s['phone']) ?></a><a href="mailto:<?= e($s['email']) ?>"><?= e($s['email']) ?></a>
