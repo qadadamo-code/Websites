@@ -71,7 +71,7 @@ document.addEventListener('click', e => {
 });
 
 /* ---------- wishlist ---------- */
-const getWish = () => store.get('ad_wish', []);
+const getWish = () => store.get('ad_wish', []).filter(x => typeof x === 'string' && x.length > 1);
 function toggleWish(id, btn) {
   let w = getWish(); const on = !w.includes(id);
   w = on ? [id, ...w] : w.filter(x => x !== id); store.set('ad_wish', w);
@@ -79,7 +79,7 @@ function toggleWish(id, btn) {
   renderWish(); counts(true);
   if (on) toast(T('ui.wishadd'));
 }
-function markWish() { const w = getWish(); $$('[data-wish]').forEach(b => b.classList.toggle('on', w.includes(b.dataset.wish))); }
+function markWish() { const w = getWish(); $$('button[data-wish], a[data-wish]').forEach(b => b.classList.toggle('on', w.includes(b.dataset.wish))); }
 function renderWish() {
   markWish();
   const list = $('#wishList'); if (!list) return;
@@ -89,7 +89,7 @@ function renderWish() {
   list.innerHTML = w.map(id => { const p = PROD[id]; return '<div class="li"><a href="produkt.php?p=' + esc(p.slug) + '"><img src="' + esc(p.img) + '" alt=""></a><div><h4>' + esc(p.title) + '</h4><small>' + esc(p.brand) + '</small><span class="price">' + (p.max > p.price ? T('ui.from') + ' ' : '') + kr(p.price) + '</span></div><div style="text-align:right"><a class="btn btn--sm" href="produkt.php?p=' + esc(p.slug) + '">' + T('ui.view') + '</a><br><br><button class="li__x" data-wish-rm="' + esc(id) + '">' + T('ui.remove') + '</button></div></div>'; }).join('');
 }
 document.addEventListener('click', e => {
-  const b = e.target.closest('[data-wish]'); if (b) { e.preventDefault(); toggleWish(b.dataset.wish, b); return; }
+  const b = e.target.closest('button[data-wish], a[data-wish]'); if (b) { e.preventDefault(); toggleWish(b.dataset.wish, b); return; }
   const r = e.target.closest('[data-wish-rm]'); if (r) toggleWish(r.dataset.wishRm);
 });
 function counts(bump) {

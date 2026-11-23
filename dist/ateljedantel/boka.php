@@ -10,7 +10,7 @@ site_head(t('bk.title'), ['page' => 'booking', 'desc' => t('bk.lead')]);
 <?php if (empty($b['enabled'])): ?>
 <div class="wrap" style="padding-bottom:100px"><div class="box"><p><?= lang() === 'en' ? 'Online booking is paused right now. Call or email us and we will find a time.' : 'Onlinebokningen är pausad just nu. Ring eller mejla oss så hittar vi en tid.' ?></p><a class="btn" href="tel:<?= e($s['phoneIntl']) ?>"><?= ic('phone') ?> <?= e($s['phone']) ?></a></div></div>
 <?php else: ?>
-<form class="bk wrap" id="bk" novalidate data-pre="<?= e($pre) ?>" data-wish="<?= !empty($_GET['wish']) ? 1 : 0 ?>">
+<form class="bk wrap" id="bk" novalidate data-pre="<?= e($pre) ?>" data-fromwish="<?= !empty($_GET['wish']) ? 1 : 0 ?>">
   <div>
     <div class="box"><h2><span class="n">1</span><?= t('bk.type') ?></h2>
       <div class="types">
