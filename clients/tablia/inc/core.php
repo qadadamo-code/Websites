@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-const BC_VERSION = '1.0.0';
+const BC_VERSION = '1.0.1';
 define('BC_ROOT', dirname(__DIR__));
 define('BC_STORAGE', BC_ROOT . '/storage');
 define('BC_UPLOADS', BC_ROOT . '/uploads');

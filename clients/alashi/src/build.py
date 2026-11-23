@@ -16,7 +16,7 @@ REPO = os.path.abspath(os.path.join(ROOT, "..", ".."))
 BASE = "/" if PROD else "/alashi/"
 OUT = os.path.join(REPO, "dist", "alashi-se" if PROD else "alashi")
 DOMAIN = BIZ["domain"]
-V = "4"
+V = "5"
 TODAY = datetime.date.today().isoformat()
 esc = html.escape
 
@@ -468,9 +468,10 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
 RewriteEngine On
 # HTTPS + no www
+# (also catches the copy that lands on web.theplanetco.com/alashi-se/)
 RewriteCond %{{HTTPS}} off [OR]
-RewriteCond %{{HTTP_HOST}} ^www\\. [NC]
-RewriteRule ^ https://alashi.se%{{REQUEST_URI}} [R=301,L]
+RewriteCond %{{HTTP_HOST}} !^alashi\\.se$ [NC]
+RewriteRule ^(.*)$ https://alashi.se/$1 [R=301,L]
 
 # Old WordPress URLs -> new pages (keeps link value)
 {chr(10).join(redirects)}

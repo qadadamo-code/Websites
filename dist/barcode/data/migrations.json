@@ -1,431 +1,439 @@
 [
- {
-  "id": "shisha-2026-11-23",
-  "categories": [
-   {
-    "id": "shisha",
-    "code": "BC-06",
-    "title": "الشيشة",
-    "titleEn": "Shisha",
-    "seq": "",
-    "image": "assets/img/shisha-cover.webp",
-    "line": "نَفَسٌ هادئ، ودخانٌ يرسم الحكاية… خُد وقتك، الليلة لسه طويلة.",
-    "visible": true,
-    "order": 6,
-    "discount": 0,
-    "discountFrom": "",
-    "discountTo": ""
-   }
-  ],
-  "items": [
-   {
-    "id": "sh1",
-    "cat": "shisha",
-    "group": "معسل كلاسيك",
-    "name": "شيشة تفاحتين",
-    "desc": "",
-    "price": 80,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 10
-   },
-   {
-    "id": "sh2",
-    "cat": "shisha",
-    "group": "معسل كلاسيك",
-    "name": "شيشة عنب",
-    "desc": "",
-    "price": 80,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 20
-   },
-   {
-    "id": "sh3",
-    "cat": "shisha",
-    "group": "معسل كلاسيك",
-    "name": "شيشة نعناع",
-    "desc": "",
-    "price": 80,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 30
-   },
-   {
-    "id": "sh4",
-    "cat": "shisha",
-    "group": "معسل كلاسيك",
-    "name": "شيشة عنب نعناع",
-    "desc": "",
-    "price": 85,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 40
-   },
-   {
-    "id": "sh5",
-    "cat": "shisha",
-    "group": "نكهات فواكه",
-    "name": "شيشة بطيخ نعناع",
-    "desc": "",
-    "price": 95,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 50
-   },
-   {
-    "id": "sh6",
-    "cat": "shisha",
-    "group": "نكهات فواكه",
-    "name": "شيشة ليمون نعناع",
-    "desc": "",
-    "price": 95,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 60
-   },
-   {
-    "id": "sh7",
-    "cat": "shisha",
-    "group": "نكهات فواكه",
-    "name": "شيشة خوخ",
-    "desc": "",
-    "price": 95,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 70
-   },
-   {
-    "id": "sh8",
-    "cat": "shisha",
-    "group": "نكهات فواكه",
-    "name": "شيشة مانجو",
-    "desc": "",
-    "price": 95,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 80
-   },
-   {
-    "id": "sh9",
-    "cat": "shisha",
-    "group": "نكهات فواكه",
-    "name": "شيشة توت أزرق",
-    "desc": "",
-    "price": 95,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 90
-   },
-   {
-    "id": "sh10",
-    "cat": "shisha",
-    "group": "نكهات فواكه",
-    "name": "شيشة كيوي",
-    "desc": "",
-    "price": 95,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 100
-   },
-   {
-    "id": "sh11",
-    "cat": "shisha",
-    "group": "نكهات فواكه",
-    "name": "شيشة فراولة",
-    "desc": "",
-    "price": 95,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 110
-   },
-   {
-    "id": "sh12",
-    "cat": "shisha",
-    "group": "نكهات فواكه",
-    "name": "شيشة علكة نعناع",
-    "desc": "منعش وبارد",
-    "price": 95,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 120
-   },
-   {
-    "id": "sh13",
-    "cat": "shisha",
-    "group": "بريميوم ومكس",
-    "name": "شيشة لاف 66",
-    "desc": "بطيخ، باشون فروت، شمام ونعناع",
-    "price": 120,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 130
-   },
-   {
-    "id": "sh14",
-    "cat": "shisha",
-    "group": "بريميوم ومكس",
-    "name": "شيشة ليدي كيلر",
-    "desc": "مانجو، توت ونعناع بارد",
-    "price": 120,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 140
-   },
-   {
-    "id": "sh15",
-    "cat": "shisha",
-    "group": "بريميوم ومكس",
-    "name": "شيشة بلو ميست",
-    "desc": "توت أزرق مع لمسة نعناع",
-    "price": 120,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 150
-   },
-   {
-    "id": "sh16",
-    "cat": "shisha",
-    "group": "بريميوم ومكس",
-    "name": "شيشة مكس باركود",
-    "desc": "خلطة البيت السرية… اسأل الباريستا",
-    "price": 140,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "توقيع باركود",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 160
-   },
-   {
-    "id": "sh17",
-    "cat": "shisha",
-    "group": "رأس فواكه",
-    "name": "رأس أناناس",
-    "desc": "راس أناناس طبيعي بنكهة من اختيارك",
-    "price": 180,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 170
-   },
-   {
-    "id": "sh18",
-    "cat": "shisha",
-    "group": "رأس فواكه",
-    "name": "رأس برتقال",
-    "desc": "راس برتقال طبيعي بنكهة من اختيارك",
-    "price": 170,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 180
-   },
-   {
-    "id": "sh19",
-    "cat": "shisha",
-    "group": "رأس فواكه",
-    "name": "رأس جريب فروت",
-    "desc": "راس جريب فروت طبيعي بنكهة من اختيارك",
-    "price": 170,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 190
-   },
-   {
-    "id": "sh20",
-    "cat": "shisha",
-    "group": "رأس فواكه",
-    "name": "رأس شمام",
-    "desc": "راس شمام طبيعي بنكهة من اختيارك",
-    "price": 180,
-    "sale": null,
-    "saleFrom": "",
-    "saleTo": "",
-    "tag": "",
-    "image": "",
-    "available": true,
-    "visible": true,
-    "order": 200
-   }
-  ]
- },
- {
-  "id": "client-data-2026-11-23b",
-  "itemPatch": {
-   "sh1": {
-    "price": 50
-   },
-   "sh2": {
-    "price": 50
-   },
-   "sh3": {
-    "price": 50
-   },
-   "sh4": {
-    "price": 50
-   },
-   "sh5": {
-    "price": 50
-   },
-   "sh6": {
-    "price": 50
-   },
-   "sh7": {
-    "price": 50
-   },
-   "sh8": {
-    "price": 50
-   },
-   "sh9": {
-    "price": 50
-   },
-   "sh10": {
-    "price": 50
-   },
-   "sh11": {
-    "price": 50
-   },
-   "sh12": {
-    "price": 50
-   },
-   "sh13": {
-    "price": 50
-   },
-   "sh14": {
-    "price": 50
-   },
-   "sh15": {
-    "price": 50
-   },
-   "sh16": {
-    "price": 50
-   },
-   "sh17": {
-    "price": 150
-   },
-   "sh18": {
-    "price": 150
-   },
-   "sh19": {
-    "price": 150
-   },
-   "sh20": {
-    "price": 150
-   }
-  },
-  "settings": {
-   "whatsapp": "201557535252",
-   "whatsappDisplay": "0155 753 5252",
-   "email": "barcodecafe2026@gmail.com",
-   "address": "بورتو المنيا، الممشى السياحي",
-   "social": {
-    "tiktok": "https://www.tiktok.com/@barcode.cafe2026"
-   },
-   "charges": {
-    "service": 12.5,
-    "serviceTypes": [
-     "داخل الكافيه"
-    ],
-    "vat": 0,
-    "deliveryFee": 0,
-    "zones": [],
-    "freeOver": 0,
-    "minOrder": 0,
-    "by": "بيانات العميل",
-    "at": "2026-11-23T11:45:00+02:00"
-   }
-  },
-  "tablesMin": 40
- }
+    {
+        "id": "shisha-2026-11-23",
+        "categories": [
+            {
+                "id": "shisha",
+                "code": "BC-06",
+                "title": "الشيشة",
+                "titleEn": "Shisha",
+                "seq": "",
+                "image": "assets/img/shisha-cover.webp",
+                "line": "نَفَسٌ هادئ، ودخانٌ يرسم الحكاية… خُد وقتك، الليلة لسه طويلة.",
+                "visible": true,
+                "order": 6,
+                "discount": 0,
+                "discountFrom": "",
+                "discountTo": ""
+            }
+        ],
+        "items": [
+            {
+                "id": "sh1",
+                "cat": "shisha",
+                "group": "معسل كلاسيك",
+                "name": "شيشة تفاحتين",
+                "desc": "",
+                "price": 80,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 10
+            },
+            {
+                "id": "sh2",
+                "cat": "shisha",
+                "group": "معسل كلاسيك",
+                "name": "شيشة عنب",
+                "desc": "",
+                "price": 80,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 20
+            },
+            {
+                "id": "sh3",
+                "cat": "shisha",
+                "group": "معسل كلاسيك",
+                "name": "شيشة نعناع",
+                "desc": "",
+                "price": 80,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 30
+            },
+            {
+                "id": "sh4",
+                "cat": "shisha",
+                "group": "معسل كلاسيك",
+                "name": "شيشة عنب نعناع",
+                "desc": "",
+                "price": 85,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 40
+            },
+            {
+                "id": "sh5",
+                "cat": "shisha",
+                "group": "نكهات فواكه",
+                "name": "شيشة بطيخ نعناع",
+                "desc": "",
+                "price": 95,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 50
+            },
+            {
+                "id": "sh6",
+                "cat": "shisha",
+                "group": "نكهات فواكه",
+                "name": "شيشة ليمون نعناع",
+                "desc": "",
+                "price": 95,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 60
+            },
+            {
+                "id": "sh7",
+                "cat": "shisha",
+                "group": "نكهات فواكه",
+                "name": "شيشة خوخ",
+                "desc": "",
+                "price": 95,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 70
+            },
+            {
+                "id": "sh8",
+                "cat": "shisha",
+                "group": "نكهات فواكه",
+                "name": "شيشة مانجو",
+                "desc": "",
+                "price": 95,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 80
+            },
+            {
+                "id": "sh9",
+                "cat": "shisha",
+                "group": "نكهات فواكه",
+                "name": "شيشة توت أزرق",
+                "desc": "",
+                "price": 95,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 90
+            },
+            {
+                "id": "sh10",
+                "cat": "shisha",
+                "group": "نكهات فواكه",
+                "name": "شيشة كيوي",
+                "desc": "",
+                "price": 95,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 100
+            },
+            {
+                "id": "sh11",
+                "cat": "shisha",
+                "group": "نكهات فواكه",
+                "name": "شيشة فراولة",
+                "desc": "",
+                "price": 95,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 110
+            },
+            {
+                "id": "sh12",
+                "cat": "shisha",
+                "group": "نكهات فواكه",
+                "name": "شيشة علكة نعناع",
+                "desc": "منعش وبارد",
+                "price": 95,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 120
+            },
+            {
+                "id": "sh13",
+                "cat": "shisha",
+                "group": "بريميوم ومكس",
+                "name": "شيشة لاف 66",
+                "desc": "بطيخ، باشون فروت، شمام ونعناع",
+                "price": 120,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 130
+            },
+            {
+                "id": "sh14",
+                "cat": "shisha",
+                "group": "بريميوم ومكس",
+                "name": "شيشة ليدي كيلر",
+                "desc": "مانجو، توت ونعناع بارد",
+                "price": 120,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 140
+            },
+            {
+                "id": "sh15",
+                "cat": "shisha",
+                "group": "بريميوم ومكس",
+                "name": "شيشة بلو ميست",
+                "desc": "توت أزرق مع لمسة نعناع",
+                "price": 120,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 150
+            },
+            {
+                "id": "sh16",
+                "cat": "shisha",
+                "group": "بريميوم ومكس",
+                "name": "شيشة مكس باركود",
+                "desc": "خلطة البيت السرية… اسأل الباريستا",
+                "price": 140,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "توقيع باركود",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 160
+            },
+            {
+                "id": "sh17",
+                "cat": "shisha",
+                "group": "رأس فواكه",
+                "name": "رأس أناناس",
+                "desc": "راس أناناس طبيعي بنكهة من اختيارك",
+                "price": 180,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 170
+            },
+            {
+                "id": "sh18",
+                "cat": "shisha",
+                "group": "رأس فواكه",
+                "name": "رأس برتقال",
+                "desc": "راس برتقال طبيعي بنكهة من اختيارك",
+                "price": 170,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 180
+            },
+            {
+                "id": "sh19",
+                "cat": "shisha",
+                "group": "رأس فواكه",
+                "name": "رأس جريب فروت",
+                "desc": "راس جريب فروت طبيعي بنكهة من اختيارك",
+                "price": 170,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 190
+            },
+            {
+                "id": "sh20",
+                "cat": "shisha",
+                "group": "رأس فواكه",
+                "name": "رأس شمام",
+                "desc": "راس شمام طبيعي بنكهة من اختيارك",
+                "price": 180,
+                "sale": null,
+                "saleFrom": "",
+                "saleTo": "",
+                "tag": "",
+                "image": "",
+                "available": true,
+                "visible": true,
+                "order": 200
+            }
+        ]
+    },
+    {
+        "id": "client-data-2026-11-23b",
+        "itemPatch": {
+            "sh1": {
+                "price": 50
+            },
+            "sh2": {
+                "price": 50
+            },
+            "sh3": {
+                "price": 50
+            },
+            "sh4": {
+                "price": 50
+            },
+            "sh5": {
+                "price": 50
+            },
+            "sh6": {
+                "price": 50
+            },
+            "sh7": {
+                "price": 50
+            },
+            "sh8": {
+                "price": 50
+            },
+            "sh9": {
+                "price": 50
+            },
+            "sh10": {
+                "price": 50
+            },
+            "sh11": {
+                "price": 50
+            },
+            "sh12": {
+                "price": 50
+            },
+            "sh13": {
+                "price": 50
+            },
+            "sh14": {
+                "price": 50
+            },
+            "sh15": {
+                "price": 50
+            },
+            "sh16": {
+                "price": 50
+            },
+            "sh17": {
+                "price": 150
+            },
+            "sh18": {
+                "price": 150
+            },
+            "sh19": {
+                "price": 150
+            },
+            "sh20": {
+                "price": 150
+            }
+        },
+        "settings": {
+            "whatsapp": "201557535252",
+            "whatsappDisplay": "0155 753 5252",
+            "email": "barcodecafe2026@gmail.com",
+            "address": "بورتو المنيا، الممشى السياحي",
+            "social": {
+                "tiktok": "https://www.tiktok.com/@barcode.cafe2026"
+            },
+            "charges": {
+                "service": 12.5,
+                "serviceTypes": [
+                    "داخل الكافيه"
+                ],
+                "vat": 0,
+                "deliveryFee": 0,
+                "zones": [],
+                "freeOver": 0,
+                "minOrder": 0,
+                "by": "بيانات العميل",
+                "at": "2026-11-23T11:45:00+02:00"
+            }
+        },
+        "tablesMin": 40
+    },
+    {
+        "id": "facebook-2026-11-23c",
+        "settings": {
+            "social": {
+                "facebook": "https://www.facebook.com/profile.php?id=61594316102332"
+            }
+        }
+    }
 ]
