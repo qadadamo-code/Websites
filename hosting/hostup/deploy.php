@@ -16,6 +16,7 @@ $HOME   = getenv('HOME') ?: dirname(__DIR__);
 $SITES  = [
     // dist folder => web root
     'tablia' => $HOME . '/tabliacatering.rest',
+    'alashi-se' => $HOME . '/alashi.se',
 ];
 // Overrides from sites.php next to this file (so the server list can be changed without a code change).
 if (is_file(__DIR__ . '/sites.php')) { $SITES = require __DIR__ . '/sites.php'; }
