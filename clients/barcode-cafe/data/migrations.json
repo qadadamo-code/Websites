@@ -534,5 +534,37 @@
                 "visible": false
             }
         }
+    },
+    {
+        "id": "frappe-trim-2026-11-23e",
+        "itemPatch": {
+            "s23": {
+                "visible": false
+            },
+            "s24": {
+                "visible": false
+            },
+            "s25": {
+                "visible": false
+            },
+            "s26": {
+                "visible": false
+            },
+            "s27": {
+                "visible": false
+            },
+            "s28": {
+                "visible": false
+            },
+            "s29": {
+                "visible": false
+            },
+            "s30": {
+                "visible": false
+            },
+            "s31": {
+                "visible": false
+            }
+        }
     }
 ]
