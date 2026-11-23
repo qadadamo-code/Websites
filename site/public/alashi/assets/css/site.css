@@ -198,8 +198,9 @@ section{position:relative}
 .about-strip .link{color:#fff}
 .ab-in{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
 .stats{display:grid;gap:18px}
-.stat{display:grid;grid-template-columns:3.2ch 1fr;align-items:baseline;gap:24px;padding:22px 0;border-bottom:2px dashed rgba(255,255,255,.3)}
-.stat b{font:800 clamp(52px,6vw,84px)/.9 var(--hd);letter-spacing:-.04em}
+.stat{display:flex;align-items:center;gap:24px;padding:22px 0;border-bottom:2px dashed rgba(255,255,255,.3)}
+.stat b{font:800 clamp(52px,6vw,84px)/.9 var(--hd);letter-spacing:-.04em;flex:0 0 auto;min-width:2.7em;font-size:clamp(48px,5vw,76px)}
+.stat span{flex:1;line-height:1.3}
 .stat span{font:600 17px var(--hd)}
 .stats-col .stat{border-color:var(--line)}
 .stats-col .stat b{color:var(--red)}

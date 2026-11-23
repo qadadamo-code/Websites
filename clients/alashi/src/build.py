@@ -16,7 +16,7 @@ REPO = os.path.abspath(os.path.join(ROOT, "..", ".."))
 BASE = "/" if PROD else "/alashi/"
 OUT = os.path.join(REPO, "dist", "alashi-se" if PROD else "alashi")
 DOMAIN = BIZ["domain"]
-V = "4"
+V = "5"
 TODAY = datetime.date.today().isoformat()
 esc = html.escape
 
