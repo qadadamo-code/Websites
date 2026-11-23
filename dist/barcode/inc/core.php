@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-const BC_VERSION = '3.0.0';
+const BC_VERSION = '3.1.0';
 define('BC_ROOT', dirname(__DIR__));
 define('BC_STORAGE', BC_ROOT . '/storage');
 define('BC_UPLOADS', BC_ROOT . '/uploads');
@@ -28,9 +28,30 @@ function bc_boot(): void {
         foreach (['settings', 'categories', 'items', 'moods', 'coupons', 'events'] as $k) bc_save($k, $seed[$k] ?? []);
         foreach (['orders', 'reservations', 'rsvps'] as $k) bc_save($k, []);
     }
+    bc_migrate();
     if (!is_file(BC_STORAGE . '/admin.json') && is_file(BC_ROOT . '/data/admin.seed.json')) {
         @copy(BC_ROOT . '/data/admin.seed.json', BC_STORAGE . '/admin.json');
     }
+}
+
+/* One-time additions to live data (deploys never touch storage/*.json). Each migration runs once,
+   only adds categories/items whose id is missing, so client edits and deletions made later are kept. */
+function bc_migrate(): void {
+    $f = BC_ROOT . '/data/migrations.json';
+    if (!is_file($f)) return;
+    $m = json_decode((string)file_get_contents($f), true);
+    if (!is_array($m) || empty($m['id'])) return;
+    $done = bc_load('migrations');
+    if (in_array($m['id'], $done, true)) return;
+    foreach (['categories', 'items'] as $k) {
+        if (empty($m[$k])) continue;
+        $cur = bc_load($k);
+        $ids = array_column($cur, 'id');
+        foreach ($m[$k] as $row) if (!in_array($row['id'], $ids, true)) $cur[] = $row;
+        bc_save($k, $cur);
+    }
+    $done[] = $m['id'];
+    bc_save('migrations', $done);
 }
 
 function bc_load(string $name): array {

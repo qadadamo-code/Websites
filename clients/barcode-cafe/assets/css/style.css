@@ -2,11 +2,13 @@
    BARCODE CAFE — styles
    Palette pulled from the logo: espresso brown + copper + cream
    ========================================================= */
-/* Brand fonts. To self-host, drop GE-SS-Two-Bold.woff2 / CenturyGothic.woff2 / CenturyGothic-Bold.woff2 in assets/fonts and add url(...) after local(). */
-@font-face{font-family:"GE SS Two";font-weight:700 900;font-display:swap;src:local("GE SS Two Bold"),local("GESSTwoBold-Bold"),local("GE SS Two")}
-@font-face{font-family:"GE SS Two";font-weight:100 600;font-display:swap;src:local("GE SS Two Light"),local("GESSTwoLight-Light"),local("GE SS Two Medium"),local("GESSTwoMedium-Medium")}
-@font-face{font-family:"Century Gothic";font-weight:100 600;font-display:swap;src:local("Century Gothic"),local("CenturyGothic")}
-@font-face{font-family:"Century Gothic";font-weight:700 900;font-display:swap;src:local("Century Gothic Bold"),local("CenturyGothic-Bold")}
+/* Brand fonts (client files). GE SS Two maps 0-9 to Arabic-Indic glyphs, so its unicode-range skips ASCII digits and Latin: those fall to the Gothic face. */
+@font-face{font-family:"GE SS Two";font-weight:700 900;font-display:swap;src:url(../fonts/GE-SS-Two-Bold.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F,U+0020-002F,U+003A-0040,U+00AB,U+00BB,U+2010-2027}
+@font-face{font-family:"GE SS Two";font-weight:500 600;font-display:swap;src:url(../fonts/GE-SS-Two-Medium.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F,U+0020-002F,U+003A-0040,U+00AB,U+00BB,U+2010-2027}
+@font-face{font-family:"GE SS Two";font-weight:100 400;font-display:swap;src:url(../fonts/GE-SS-Two-Light.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F,U+0020-002F,U+003A-0040,U+00AB,U+00BB,U+2010-2027}
+@font-face{font-family:"Century Gothic";font-weight:100 500;font-display:swap;src:local("Century Gothic"),local("CenturyGothic"),url(../fonts/Gothic-Book.woff2) format("woff2")}
+@font-face{font-family:"Century Gothic";font-weight:600;font-display:swap;src:local("Century Gothic Bold"),local("CenturyGothic-Bold"),url(../fonts/Gothic-Demi.woff2) format("woff2")}
+@font-face{font-family:"Century Gothic";font-weight:700 900;font-display:swap;src:local("Century Gothic Bold"),local("CenturyGothic-Bold"),url(../fonts/Gothic-Bold.woff2) format("woff2")}
 :root{
   --esp:#140A04;        /* deepest background */
   --esp-2:#1E1007;
@@ -25,8 +27,8 @@
   --line-d:rgba(42,20,6,.14);
   /* Brand fonts: GE SS Two (Arabic) + Century Gothic (English).
      Loaded from the visitor's device or assets/fonts when present; Almarai / Didact Gothic are close fallbacks. */
-  --f-ar:"GE SS Two","Almarai",system-ui,sans-serif;
-  --f-display:"GE SS Two","Almarai",sans-serif;
+  --f-ar:"GE SS Two","Century Gothic","Almarai",system-ui,sans-serif;
+  --f-display:"GE SS Two","Century Gothic","Almarai",sans-serif;
   --f-latin:"Century Gothic","CenturyGothic","Didact Gothic","GE SS Two","Almarai",sans-serif;
   --ease:cubic-bezier(.22,1,.36,1);
   --r:18px;
