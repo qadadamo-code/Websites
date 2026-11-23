@@ -126,7 +126,7 @@ def org_ld(c):
         "vatID": "SE559405398401",
         "taxID": CO["orgnr"],
         "priceRange": "$$",
-        "address": {"@type": "PostalAddress", "streetAddress": CO["street"], "postalCode": CO["zip"].replace(" ", ""),
+        "address": {"@type": "PostalAddress", "streetAddress": CO["street"], **({"postalCode": CO["zip"].replace(" ", "")} if CO["zip"] else {}),
                     "addressLocality": CO["city"], "addressRegion": CO["region"], "addressCountry": "SE"},
         "geo": {"@type": "GeoCoordinates", "latitude": CO["lat"], "longitude": CO["lng"]},
         "areaServed": [{"@type": "City", "name": n} for n in ["Umeå", "Holmsund", "Sävar", "Vännäs", "Hörnefors", "Robertsfors", "Nordmaling", "Vindeln"]] + [{"@type": "AdministrativeArea", "name": "Västerbottens län"}],
@@ -183,7 +183,7 @@ def footer(c):
     <div><h3>{u["nav"][1][1]}</h3><ul>{svc}</ul></div>
     <div><h3>GMS</h3><ul>{nav}</ul></div>
     <div><h3>{u["nav"][4][1]}</h3>
-      <address>{CO['street']}<br>{CO['zip']} {CO['city']}</address>
+      <address>{CO['street']}<br>{(CO['zip'] + ' ') if CO['zip'] else ''}{CO['city']}</address>
       <p><a href="tel:{CO['phone_e164']}">{CO['phone']}</a><br><a href="mailto:{CO['email']}">{CO['email']}</a></p>
       <p class="muted">{u["hours"]}: {u["hours_v"]}</p></div>
   </div>
@@ -219,11 +219,11 @@ def contact_form(c, compact=False):
 
 def contact_cards(c):
     u = c.u
-    maps = "https://www.google.com/maps/search/?api=1&query=" + "Nygatan+22,+903+27+Ume%C3%A5"
+    maps = "https://www.google.com/maps/search/?api=1&query=" + "V%C3%A4stra+Norrlandsgatan+18B,+Ume%C3%A5"
     return f'''<ul class="ccards">
   <li><a href="tel:{CO['phone_e164']}">{icon('phone')}<small>{u['phone']}</small><b>{CO['phone']}</b></a></li>
   <li><a href="mailto:{CO['email']}">{icon('mail')}<small>{u['email']}</small><b>{CO['email']}</b></a></li>
-  <li><a href="{maps}" target="_blank" rel="noopener">{icon('pin')}<small>{u['address']}</small><b>{CO['street']}, {CO['zip']} {CO['city']}</b></a></li>
+  <li><a href="{maps}" target="_blank" rel="noopener">{icon('pin')}<small>{u['address']}</small><b>{CO['street']}, {(CO['zip'] + ' ') if CO['zip'] else ''}{CO['city']}</b></a></li>
   <li><div>{icon('clock')}<small>{u['hours']}</small><b>{u['hours_v']}</b></div></li>
 </ul>'''
 
