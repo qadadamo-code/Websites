@@ -72,7 +72,7 @@ admin_head('الطلبات', 'orders', (can('export') ? '<a class="b" href="' . 
     <div class="detail">
       <dl class="kv">
         <dt>الموبايل</dt><dd class="latin" dir="ltr" style="text-align:end"><?= e($cur['phone']) ?></dd>
-        <dt>نوع الطلب</dt><dd><?= e($cur['type']) ?></dd>
+        <dt>نوع الطلب</dt><dd><?= e($cur['type']) ?><?php if (!empty($cur['table'])): ?> · <b class="table-tag">ترابيزة <span class="latin"><?= e($cur['table']) ?></span></b><?php endif; ?></dd>
         <?php if (!empty($cur['address'])): ?><dt>العنوان</dt><dd><?= e($cur['address']) ?></dd><?php endif; ?>
         <?php if (!empty($cur['notes'])): ?><dt>ملاحظات</dt><dd><?= e($cur['notes']) ?></dd><?php endif; ?>
         <dt>وصل</dt><dd><?= fdate($cur['at']) ?> · عبر <?= ['email' => 'الإيميل', 'manual' => 'تسجيل يدوي'][$cur['channel'] ?? ''] ?? 'واتساب' ?></dd>
@@ -108,7 +108,7 @@ admin_head('الطلبات', 'orders', (can('export') ? '<a class="b" href="' . 
   <?php foreach (array_slice($list, 0, 300) as $o): ?>
     <tr class="<?= $o['id'] === $open ? 'is-open' : '' ?>">
       <td class="nowrap"><b class="latin"><?= $o['no'] ? '#' . e($o['no']) : '—' ?></b><small><?= ago($o['at']) ?></small></td>
-      <td><a href="<?= e($qs(['open' => $o['id']])) ?>#detail" style="color:var(--cream)"><b><?= e($o['name']) ?></b></a><small><?= e($o['type']) ?> · <span class="latin" dir="ltr"><?= e($o['phone']) ?></span></small></td>
+      <td><a href="<?= e($qs(['open' => $o['id']])) ?>#detail" style="color:var(--cream)"><b><?= e($o['name']) ?></b></a><small><?= e($o['type']) ?><?= !empty($o['table']) ? ' · ترابيزة ' . e($o['table']) : '' ?> · <span class="latin" dir="ltr"><?= e($o['phone']) ?></span></small></td>
       <td><small style="color:var(--taupe);max-width:280px"><?= e(implode('، ', array_map(fn($l) => $l['qty'] . '× ' . $l['name'], array_slice($o['items'], 0, 4)))) ?><?= count($o['items']) > 4 ? '…' : '' ?></small></td>
       <td class="nowrap"><b class="latin"><?= egp($o['total']) ?></b><?php if (!empty($o['discount'])): ?><small class="sale">خصم <?= egp($o['discount']) ?></small><?php endif; ?></td>
       <td><?php if (can('orders.edit')): ?><form method="post" class="inline-form"><?= csrf_field() ?><input type="hidden" name="id" value="<?= e($o['id']) ?>">

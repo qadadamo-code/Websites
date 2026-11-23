@@ -14,7 +14,7 @@ if (posted()) {
     if ($act === 'password') {
         $new = (string)($_POST['new'] ?? '');
         if (!password_verify((string)($_POST['old'] ?? ''), $me['hash'])) flash('كلمة المرور الحالية غير صحيحة', 'bad');
-        elseif (strlen($new) < 8) flash('كلمة المرور الجديدة لازم تكون 8 حروف على الأقل', 'bad');
+        elseif ($w = weak_pass($new)) flash($w, 'bad');
         elseif ($new !== (string)($_POST['new2'] ?? '')) flash('تأكيد كلمة المرور غير مطابق', 'bad');
         else {
             bc_tx('users', function (&$d) use ($me, $new) { foreach ($d as &$u) if ($u['id'] === $me['id']) { $u['hash'] = password_hash($new, PASSWORD_DEFAULT); $u['seeded'] = false; $u['changed'] = now_iso(); } });
@@ -44,8 +44,8 @@ admin_head('حسابي', 'account');
     <div class="card__head"><h3>كلمة المرور</h3><?php if (!empty($me['seeded'])): ?><span class="st st--new">غيّر كلمة المرور المؤقتة</span><?php endif; ?></div>
     <div class="fg">
       <label class="f f--full"><span>كلمة المرور الحالية</span><input name="old" type="password" class="latin" autocomplete="current-password" required></label>
-      <label class="f"><span>الجديدة</span><input name="new" type="password" class="latin" autocomplete="new-password" minlength="8" required></label>
-      <label class="f"><span>تأكيدها</span><input name="new2" type="password" class="latin" autocomplete="new-password" minlength="8" required></label>
+      <label class="f"><span>الجديدة</span><input name="new" type="password" class="latin" autocomplete="new-password" minlength="10" required></label>
+      <label class="f"><span>تأكيدها</span><input name="new2" type="password" class="latin" autocomplete="new-password" minlength="10" required></label>
     </div>
     <div class="form-actions"><button class="b b--primary">تغيير كلمة المرور</button></div>
   </form>

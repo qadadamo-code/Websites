@@ -18,8 +18,8 @@ if (posted()) {
         $errs = [];
         if (strlen($login) < 3) $errs[] = 'اسم المستخدم لازم 3 حروف إنجليزي على الأقل';
         foreach ($users as $u) if ($u['user'] === $login && $u['id'] !== $tid) $errs[] = 'اسم المستخدم مستخدم قبل كده';
-        if (!$target && strlen($pass) < 8) $errs[] = 'كلمة المرور لازم 8 حروف على الأقل';
-        if ($target && $pass !== '' && strlen($pass) < 8) $errs[] = 'كلمة المرور الجديدة لازم 8 حروف على الأقل';
+        if (!$target && ($w = weak_pass($pass))) $errs[] = $w;
+        if ($target && $pass !== '' && ($w = weak_pass($pass))) $errs[] = $w;
         $active = !empty($_POST['active']);
         if ($target && $target['role'] === 'owner' && ($role !== 'owner' || !$active) && $owners($users) <= 1) $errs[] = 'لازم يفضل مدير عام واحد على الأقل';
         if ($target && $target['id'] === $me['id'] && !$active) $errs[] = 'مينفعش توقف حسابك انت';
@@ -53,7 +53,7 @@ if ($id !== ''):
   <div class="fg">
     <label class="f"><span>الاسم</span><input name="name" value="<?= e($u['name']) ?>" maxlength="60" required placeholder="مثلًا: أحمد - كاشير"></label>
     <label class="f"><span>اسم المستخدم (إنجليزي)</span><input name="user" value="<?= e($u['user']) ?>" class="latin" dir="ltr" required pattern="[A-Za-z0-9_.\-]{3,}" autocomplete="off"></label>
-    <label class="f"><span><?= $cur ? 'كلمة مرور جديدة (اتركها فاضية لو مش هتغيّرها)' : 'كلمة المرور' ?></span><input name="pass" type="text" class="latin" dir="ltr" minlength="8" <?= $cur ? '' : 'required' ?> autocomplete="new-password" data-gen-pass></label>
+    <label class="f"><span><?= $cur ? 'كلمة مرور جديدة (اتركها فاضية لو مش هتغيّرها)' : 'كلمة المرور' ?></span><input name="pass" type="text" class="latin" dir="ltr" minlength="10" <?= $cur ? '' : 'required' ?> autocomplete="new-password" data-gen-pass></label>
     <label class="f"><span>الموبايل (اختياري)</span><input name="phone" value="<?= e($u['phone'] ?? '') ?>" class="latin" dir="ltr" inputmode="tel"></label>
   </div>
   <h4 class="sub">الدور</h4>

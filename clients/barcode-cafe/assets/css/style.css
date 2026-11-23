@@ -513,3 +513,6 @@ html[dir=rtl] .receipt{transform:translateX(-105%)}
   .sale-tag{top:10px;inset-inline-start:10px;font-size:11px}
   .chapter__stamp{font-size:12.5px}.chapter__stamp b{width:44px;height:44px;font-size:14px}
 }
+
+.table-pill{grid-column:1/-1;padding:10px 14px;border-radius:12px;background:rgba(242,166,94,.12);border:1px solid rgba(242,166,94,.4);color:var(--cream);font-size:14px;text-align:center}
+.table-pill b{color:var(--glow)}

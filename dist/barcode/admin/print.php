@@ -22,7 +22,7 @@ body{background:#fff;color:#111;font-family:var(--f);margin:0;padding:16px}
   <h1>BARCODE</h1><div class="c m latin">C A F E</div>
   <div class="c m"><?= e($s['address'] ?? '') ?></div><div class="c m latin"><?= e($s['whatsappDisplay'] ?? '') ?></div>
   <hr>
-  <div>طلب <b class="latin">#<?= e($o['no']) ?></b> · <?= e($o['type']) ?></div>
+  <div>طلب <b class="latin">#<?= e($o['no']) ?></b> · <?= e($o['type']) ?><?= !empty($o['table']) ? ' · ترابيزة <b class="latin">' . e($o['table']) . '</b>' : '' ?></div>
   <div class="m latin"><?= e(fdate($o['at'])) ?></div>
   <div><?= e($o['name']) ?> <span class="latin"><?= e($o['phone']) ?></span></div>
   <?php if (!empty($o['address'])): ?><div class="m"><?= e($o['address']) ?></div><?php endif; ?>

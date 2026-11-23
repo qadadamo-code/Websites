@@ -8,6 +8,14 @@ Options -Indexes
 </IfModule>
 # private folders: data seeds, shared code and live storage are never served
 RedirectMatch 404 ^.*/(data|inc|storage)/.*$
-<FilesMatch "\.(json|lock|md)$">
+<FilesMatch "\.(json|lock|md|gz|tmp|log|bak|sql|ini|sh)$">
   Require all denied
 </FilesMatch>
+
+# security: hide dotfiles, no MIME sniffing
+RedirectMatch 404 /\.(?!well-known)
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header unset X-Powered-By
+</IfModule>
