@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 22;
+const DATA_VERSION = 23;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -458,6 +458,19 @@ function migrate(array &$t): void {
             $mm['note'] = trim($n);
         }
         unset($mm);
+    }
+    if ($v < 23) {
+        // 2026-11-23: هاني بن سعيد after سعدو, with his sons
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        if (find_index($M, 'm15') >= 0) {
+            if (!$cid('m15', 'هاني')) $add(['id' => 's15h', 'parent' => 'm15', 'name' => 'هاني'], $cid('m15', 'سعدو'));
+            if ($hani = $cid('m15', 'هاني'))
+                foreach (['سعيد', 'محمد', 'كريم'] as $k => $n) if (!$cid($hani, $n)) $add(['id' => 's15h' . ($k + 1), 'parent' => $hani, 'name' => $n]);
+        }
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
