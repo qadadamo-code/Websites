@@ -24,7 +24,14 @@ foreach ((array)($in['items'] ?? []) as $row) {
 }
 if (!$lines) json_out(['ok' => false, 'msg' => 'الفاتورة فارغة'], 422);
 $name = clean((string)($in['name'] ?? ''), 80); $phone = clean(digits_en((string)($in['phone'] ?? '')), 30);
-$table = !empty($in['tableCode']) ? table_by_code((string)$in['tableCode']) : null;
+$dineIn = !empty(settings()['dineIn']);
+$table = $dineIn && !empty($in['tableCode']) ? table_by_code((string)$in['tableCode']) : null;
+if ($isTable && !$dineIn) json_out(['ok' => false, 'msg' => 'الطلب من داخل الكافيه مش متاح دلوقتي، اطلب من الكاشير'], 422);
+if (!$table && ($in['type'] ?? '') === 'داخل الكافيه') {
+    if (!$dineIn) json_out(['ok' => false, 'msg' => 'الطلب من داخل الكافيه مش متاح دلوقتي'], 422);
+    foreach (tables_all() as $t) if (!empty($t['active']) && $t['id'] === (string)($in['tablePick'] ?? '')) $table = $t;
+    if (!$table) json_out(['ok' => false, 'msg' => 'اختار رقم الترابيزة'], 422);
+}
 if (($in['channel'] ?? '') === 'table' && !$table) json_out(['ok' => false, 'msg' => 'كود الترابيزة مش صحيح، صوّر الـ QR اللي على الترابيزة تاني'], 422);
 if ($table && $name === '') $name = 'ترابيزة ' . $table['name'];
 if (!$table && ($name === '' || $phone === '')) json_out(['ok' => false, 'msg' => 'الاسم والموبايل مطلوبين'], 422);

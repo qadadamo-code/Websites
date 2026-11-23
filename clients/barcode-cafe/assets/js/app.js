@@ -481,6 +481,8 @@
     $("#orderForm").style.display = c ? "flex" : "none";
     $("#receiptTotal").textContent = money(total());
     const zs = document.getElementById("zoneSel"); if (zs) zs.hidden = !(CH.zones.length && curType() === "توصيل");
+    const ts = document.getElementById("tableSel"); if (ts) ts.hidden = !(CFG.dineIn && !table && curType() === "داخل الكافيه" && ts.options.length);
+    { const fm = document.getElementById("orderForm"), opt = !!table || curType() === "داخل الكافيه"; if (fm) { fm.name.required = !opt; fm.phone.required = !opt; fm.name.placeholder = opt ? "اسمك (اختياري)" : "الاسم"; fm.phone.placeholder = opt ? "رقم الموبايل (اختياري)" : "رقم الموبايل"; fm.address.hidden = curType() !== "توصيل"; } }
     const d = discount(), x = extras();
     const rows = [];
     if (x.service) rows.push(["خدمة", `${CH.service}%`, x.service]);
@@ -548,7 +550,7 @@
       ...(() => { const x = extras(); return [x.service ? `خدمة ${CH.service}%: ${money(x.service)}` : "", x.vat ? `ضريبة ${CH.vat}%: ${money(x.vat)}` : "", f.type.value === "توصيل" && (CH.deliveryFee || CH.zones.length) ? `التوصيل${curZone() ? " (" + curZone() + ")" : ""}: ${x.delivery ? money(x.delivery) : "مجاني"}` : ""].filter(Boolean); })(),
       `الإجمالي: ${money(total())}`,
       `نوع الطلب: ${f.type.value}`,
-      table ? `🪑 ترابيزة رقم: ${table.name}` : "",
+      table ? `🪑 ترابيزة رقم: ${table.name}` : (f.type.value === "داخل الكافيه" && f.tablePick.value ? `🪑 ${f.tablePick.selectedOptions[0].textContent}` : ""),
       f.name.value.trim() ? `الاسم: ${f.name.value.trim()}` : "",
       f.phone.value.trim() ? `الموبايل: ${f.phone.value.trim()}` : "",
       f.address.value.trim() ? `العنوان: ${f.address.value.trim()}` : "",
@@ -558,7 +560,8 @@
   function validOrder(f) {
     if (table) return true;
     let ok = true;
-    [f.name, f.phone].forEach(i => { const bad = !i.value.trim(); i.classList.toggle("invalid", bad); if (bad) ok = false; });
+    [f.name, f.phone].forEach(i => { const bad = f.type.value !== "داخل الكافيه" && !i.value.trim(); i.classList.toggle("invalid", bad); if (bad) ok = false; });
+    if (f.type.value === "داخل الكافيه" && !f.tablePick.hidden && !f.tablePick.value) { f.tablePick.classList.add("invalid"); toast("اختار رقم الترابيزة"); return false; } else f.tablePick.classList.remove("invalid");
     if (f.type.value === "توصيل" && CH.zones.length && !f.zone.value) { f.zone.classList.add("invalid"); ok = false; } else f.zone.classList.remove("invalid");
     if (f.type.value === "توصيل" && CH.minOrder > 0 && extras().net < CH.minOrder) { toast(`أقل طلب للتوصيل ${money(CH.minOrder)}`); return false; }
     const needAddr = f.type.value === "توصيل" && !f.address.value.trim();
@@ -569,8 +572,10 @@
   const of = $("#orderForm");
   const zoneSel = $("#zoneSel");
   if (CH.zones.length) zoneSel.innerHTML = `<option value="">اختار منطقة التوصيل</option>` + CH.zones.map(z => `<option value="${esc(z.name)}">${esc(z.name)} · ${z.fee ? money(z.fee) : "مجاني"}</option>`).join("");
+  const tableSel = $("#tableSel");
+  if (CFG.dineIn && (CFG.tables || []).length) tableSel.innerHTML = `<option value="">ترابيزة رقم كام؟</option>` + CFG.tables.map(t => `<option value="${esc(t.id)}">ترابيزة ${esc(t.name)}${t.zone ? " · " + esc(t.zone) : ""}</option>`).join("");
   const syncType = () => { zoneSel.hidden = !(CH.zones.length && curType() === "توصيل"); render(); };
-  of.addEventListener("change", e => { if (e.target.name === "type" || e.target.name === "zone") syncType(); });
+  of.addEventListener("change", e => { if (["type", "zone", "tablePick"].includes(e.target.name)) syncType(); });
   zoneSel.hidden = !(CH.zones.length && curType() === "توصيل");
   /* table QR: ?t=<secret code> (checked by the server) turns the receipt into a direct order to the café */
   let table = null;
@@ -604,7 +609,7 @@
   const logOrder = channel => post("api/order.php", {
     no: orderNo, channel, coupon: coupon ? coupon.code : "", website: of.website ? of.website.value : "",
     items: Object.entries(cart).map(([id, qty]) => ({ id, qty })),
-    type: of.type.value, zone: curZone(), tableCode: table ? table.code : "", name: of.name.value, phone: of.phone.value, address: of.address.value, notes: of.notes.value
+    type: of.type.value, zone: curZone(), tablePick: of.tablePick.hidden ? "" : of.tablePick.value, tableCode: table ? table.code : "", name: of.name.value, phone: of.phone.value, address: of.address.value, notes: of.notes.value
   });
   let tracker = null;
   async function sendTableOrder() {
@@ -636,7 +641,9 @@
     logOrder("email");
     location.href = mailLink(`طلب أونلاين #${orderNo} — ${CFG.brand}`, orderText(of));
   });
-  if (!CFG.delivery) { const del = of.querySelector('input[value="توصيل"]'); if (del) { del.closest("label").remove(); of.querySelector('input[name="type"]').checked = true; of.querySelector(".seg").style.gridTemplateColumns = "1fr 1fr"; } }
+  if (!CFG.dineIn) { const dn = of.querySelector('input[value="داخل الكافيه"]'); if (dn) { const wasOn = dn.checked; dn.closest("label").remove(); if (wasOn) of.querySelector('input[name="type"]').checked = true; } }
+  if (!CFG.delivery) { const del = of.querySelector('input[value="توصيل"]'); if (del) { del.closest("label").remove(); of.querySelector('input[name="type"]').checked = true; } }
+  { const n = of.querySelectorAll(".seg label").length; of.querySelector(".seg").style.gridTemplateColumns = `repeat(${n}, 1fr)`; of.querySelector(".seg").hidden = n < 2; }
   render();
 
   /* ---------------- mood scanner ---------------- */

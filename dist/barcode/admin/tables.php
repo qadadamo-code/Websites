@@ -48,6 +48,12 @@ if (posted()) {
         log_act('تعديل تصميم كروت QR', $per . ' في الصفحة · ' . QR_THEMES[$card['theme']]);
         flash('اتحفظ تصميم الكروت'); go('tables.php#design');
     }
+    if ($act === 'dinein') {
+        $on = !empty($_POST['dineIn']);
+        bc_save('settings', array_merge(settings(), ['dineIn' => $on]));
+        log_act($on ? 'تفعيل الطلب من داخل الكافيه' : 'إيقاف الطلب من داخل الكافيه');
+        flash($on ? 'اتفعل الطلب من داخل الكافيه: الزبون يقدر يطلب بالـ QR أو يختار رقم ترابيزته' : 'اتقفل الطلب من داخل الكافيه، والموقع بقى توصيل واستلام بس'); go('tables.php#manage');
+    }
     if ($act === 'mode') {
         $m = in_array(p('mode'), ['both', 'site', 'whatsapp'], true) ? p('mode') : 'both';
         bc_save('settings', array_merge(settings(), ['tableOrder' => $m]));
@@ -93,6 +99,7 @@ if (posted()) {
 
 $live = table_live();
 $mode = settings()['tableOrder'] ?? 'both';
+$dine = !empty(settings()['dineIn']);
 $base = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http') . '://' . preg_replace('/[^A-Za-z0-9.:-]/', '', $_SERVER['HTTP_HOST'] ?? '') . rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'] ?? '/admin/x')), '/') . '/';
 $stLabel = ['new' => 'طلب جديد', 'preparing' => 'بيتحضّر', 'ready' => 'جاهز للتقديم'];
 $ago = function (string $iso): string { $m = max(0, (int)floor((time() - strtotime($iso)) / 60)); return $m < 1 ? 'دلوقتي' : ($m < 60 ? 'من ' . $m . ' د' : 'من ' . floor($m / 60) . ' س'); };
@@ -154,8 +161,13 @@ admin_head('الترابيزات و QR', 'tables', $manage ? '<button class="b b
     </div>
   </section>
   <section class="card">
-    <div class="card__head"><h3>الزبون يطلب إزاي؟</h3></div>
-    <form method="post" class="tmode">
+    <div class="card__head"><h3>الطلب من داخل الكافيه</h3></div>
+    <form method="post" class="dinein <?= $dine ? 'is-on' : '' ?>">
+      <?= csrf_field() ?><input type="hidden" name="act" value="dinein">
+      <label class="switch"><input type="checkbox" name="dineIn" value="1" <?= $dine ? 'checked' : '' ?> onchange="this.form.submit()"><i></i><span><b><?= $dine ? 'مفعّل' : 'مقفول' ?></b><small><?= $dine ? 'الزبون يقدر يطلب من الترابيزة بالـ QR، أو يختار "في الكافيه" ويحدد رقم ترابيزته' : 'الموقع توصيل واستلام بس، والـ QR بيفتح المنيو للتصفح من غير طلب' ?></small></span></label>
+    </form>
+    <div class="card__head" style="margin-top:18px"><h3>الزبون يطلب إزاي؟</h3></div>
+    <form method="post" class="tmode" <?= $dine ? '' : 'style="opacity:.5;pointer-events:none"' ?>>
       <?= csrf_field() ?><input type="hidden" name="act" value="mode">
       <?php foreach (['both' => ['الاتنين، والزبون يختار', 'زرار "ابعت للكافيه" من الموقع، وتحته "أو ابعته على واتساب"'], 'site' => ['من الموقع بس', 'الطلب يوصل لوحة التحكم على طول مع تنبيه بصوت'], 'whatsapp' => ['واتساب بس', 'الطلب يتبعت على واتساب الكافيه ومكتوب فيه رقم الترابيزة']] as $k => [$lb, $ds]): ?>
         <label class="opt"><input type="radio" name="mode" value="<?= $k ?>" <?= $mode === $k ? 'checked' : '' ?> onchange="this.form.submit()"><span><b><?= $lb ?></b><small><?= $ds ?></small></span></label>
