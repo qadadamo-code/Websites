@@ -470,7 +470,7 @@
     lenis && lenis.stop();
     const d = new Date();
     $("#receiptDate").textContent = `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()} · ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
-    gsap.fromTo(".receipt__paper", { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 1.1, ease: "expo.out", delay: .15 });
+    gsap.fromTo(".receipt__paper", { clipPath: "inset(-14px 0 100% 0)" }, { clipPath: "inset(-14px 0 -14px 0)", duration: 1.1, ease: "expo.out", delay: .15, clearProps: "clipPath" });
   }
   function closeDrawer() { drawer.classList.remove("is-open"); drawer.setAttribute("aria-hidden", "true"); document.body.classList.remove("drawer-open"); lenis && lenis.start(); }
   $("#cartBtn").addEventListener("click", openDrawer);

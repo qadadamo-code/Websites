@@ -106,6 +106,13 @@ function item_price(array $it, ?array $cat): array {
     return [$p, null, null];
 }
 
+/** Uploaded photo, else the built-in stock photo shipped in assets/menu/<id>.webp. */
+function item_image(array $it): string {
+    if (!empty($it['image'])) return $it['image'];
+    $f = 'assets/menu/' . preg_replace('/[^A-Za-z0-9_-]/', '', (string)$it['id']) . '.webp';
+    return is_file(BC_ROOT . '/' . $f) ? $f : '';
+}
+
 /** Everything the public site needs, already filtered and priced. */
 function public_data(): array {
     $s = settings();
@@ -121,7 +128,7 @@ function public_data(): array {
             if ($was) { $row['was'] = $was; $row['badge'] = $badge; }
             if (!empty($it['desc'])) $row['desc'] = $it['desc'];
             if (!empty($it['tag'])) $row['tag'] = $it['tag'];
-            if (!empty($it['image'])) $row['image'] = $it['image'];
+            if (($img = item_image($it)) !== '') $row['image'] = $img;
             if (empty($it['available'])) $row['soldout'] = true;
             $list[] = $row;
         }
