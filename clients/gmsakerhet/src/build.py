@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 """Static site generator for GMS Säkerhet. Run: python3 src/build.py
 Swedish at the root, English under /en/. Same slugs in both languages."""
-import os, html, json, math, datetime
+import os, re, html, json, math, datetime
 from content import CO, SERVICES, UI, PLACES, FIELD
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 V = "2"
-BASE = CO["base"]
+BASE = "https://gmsakerhet.com/"  # canonical = production domain
+OUT = os.environ.get("GMS_OUT", ROOT)          # output dir
+PREFIX = os.environ.get("GMS_PREFIX", "/gmsakerhet/")  # URL path of site root (404 assets)
+PREVIEW = OUT == ROOT  # preview copy on web.theplanetco.com: keep out of Google
 TODAY = datetime.date.today().isoformat()
 
 
@@ -81,7 +84,7 @@ def head(c, title, desc, slug, extra_ld=None, noindex=False):
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
-{'<meta name="robots" content="noindex">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large">'}
+{'<meta name="robots" content="noindex">' if (noindex or PREVIEW) else '<meta name="robots" content="index,follow,max-image-preview:large">'}
 <link rel="canonical" href="{c.abs(slug)}">
 <link rel="alternate" hreflang="sv" href="{c.abs(slug, 'sv')}">
 <link rel="alternate" hreflang="en" href="{c.abs(slug, 'en')}">
@@ -128,7 +131,7 @@ def org_ld(c):
         "geo": {"@type": "GeoCoordinates", "latitude": CO["lat"], "longitude": CO["lng"]},
         "areaServed": [{"@type": "City", "name": n} for n in ["Umeå", "Holmsund", "Sävar", "Vännäs", "Hörnefors", "Robertsfors", "Nordmaling", "Vindeln"]] + [{"@type": "AdministrativeArea", "name": "Västerbottens län"}],
         "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "00:00", "closes": "23:59"},
-        "sameAs": [CO["instagram"], CO["facebook"], "https://gmsakerhet.com/"],
+        "sameAs": [CO["instagram"], CO["facebook"]],
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": UI[c.lang]["svc_kicker"], "itemListElement": [
             {"@type": "Offer", "itemOffered": {"@type": "Service", "name": s[c.lang]["name"], "url": c.abs("tjanster/" + s["slug"])}} for s in SERVICES]},
     }
@@ -457,7 +460,7 @@ def page_404(c):
 
 # ---------------------------------------------------------------- write
 def write(lang, slug, htmlstr):
-    p = os.path.join(ROOT, *(["en"] if lang == "en" else []), *([] if slug == "index" else slug.split("/")), "index.html")
+    p = os.path.join(OUT, *(["en"] if lang == "en" else []), *([] if slug == "index" else slug.split("/")), "index.html")
     os.makedirs(os.path.dirname(p), exist_ok=True)
     open(p, "w", encoding="utf-8").write(htmlstr)
     return p
@@ -477,7 +480,7 @@ def main():
     # 404 (sv), placed at root as 404.html with absolute-ish depth 0
     c = Ctx("sv", "404")
     c.depth = 0
-    open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8").write(page_404(c).replace('href="assets/', f'href="/gmsakerhet/assets/').replace('src="assets/', 'src="/gmsakerhet/assets/'))
+    open(os.path.join(OUT, "404.html"), "w", encoding="utf-8").write(re.sub(r'(href|src|action)="(?!https?:|/|#|mailto:|tel:|data:)(\./)?', lambda m: f'{m.group(1)}="{PREFIX}', re.sub(r'<link rel="(canonical|alternate)"[^>]*>\n?', '', page_404(c))).replace('en/404/"', 'en/"'))
     # sitemap
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
     for cx, slug in urls:
@@ -485,8 +488,8 @@ def main():
         sm.append(f'<url><loc>{cx.abs(slug)}</loc><lastmod>{TODAY}</lastmod><priority>{pr}</priority>'
                   f'<xhtml:link rel="alternate" hreflang="sv" href="{cx.abs(slug, "sv")}"/><xhtml:link rel="alternate" hreflang="en" href="{cx.abs(slug, "en")}"/></url>')
     sm.append("</urlset>")
-    open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(sm))
-    open(os.path.join(ROOT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE}sitemap.xml\n")
+    open(os.path.join(OUT, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(sm))
+    open(os.path.join(OUT, "robots.txt"), "w").write("User-agent: *\nDisallow: /\n" if PREVIEW else f"User-agent: *\nAllow: /\nSitemap: {BASE}sitemap.xml\n")
     print("built", len(urls), "pages")
 
 

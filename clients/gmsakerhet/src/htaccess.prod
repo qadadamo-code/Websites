@@ -1,0 +1,48 @@
+# GMS Säkerhet — production (gmsakerhet.com)
+Options -Indexes
+DirectoryIndex index.html index.php
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+# https + no www
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+RewriteRule ^ https://gmsakerhet.com%{REQUEST_URI} [L,R=301,NE]
+
+# old WordPress URLs -> new pages
+RewriteCond %{QUERY_STRING} (^|&)page_id=20(&|$)
+RewriteRule ^$ /om-oss/? [L,R=301]
+RewriteCond %{QUERY_STRING} (^|&)page_id=22(&|$)
+RewriteRule ^$ /kontakt/? [L,R=301]
+RewriteCond %{QUERY_STRING} (^|&)page_id=18(&|$)
+RewriteRule ^$ /? [L,R=301]
+RewriteCond %{QUERY_STRING} (^|&)p=366(&|$)
+RewriteRule ^$ /jobba-hos-oss/? [L,R=301]
+RewriteCond %{QUERY_STRING} (^|&)p=(336|358|360|362|364)(&|$)
+RewriteRule ^$ /om-oss/? [L,R=301]
+RewriteCond %{QUERY_STRING} (^|&)(page_id|p|cat|s)=
+RewriteRule ^$ /? [L,R=301]
+RewriteRule ^(wp-admin|wp-login\.php|wp-content|wp-includes|feed|xmlrpc\.php)(/.*)?$ /? [L,R=301,NC]
+RewriteRule ^(om-oss|kontakt|tjanster|jobba-hos-oss)$ /$1/ [L,R=301]
+</IfModule>
+
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml text/plain
+</IfModule>
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType text/css "access plus 1 year"
+ExpiresByType application/javascript "access plus 1 year"
+ExpiresByType image/webp "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 year"
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType image/svg+xml "access plus 1 year"
+ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
