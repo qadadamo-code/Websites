@@ -2,6 +2,7 @@
 require __DIR__ . '/inc/layout.php';
 $en = lang() === 'en';
 $items = press_items();
+if (!$items) { require __DIR__ . '/404.php'; exit; } // hidden until articles are added in Admin -> Texter -> Press
 $months = $en ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] : ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
 $fmt = function (string $d) use ($months, $en) {
     if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $d, $m)) return e($d);
