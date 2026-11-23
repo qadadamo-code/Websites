@@ -693,3 +693,4 @@ body.has-panel{overflow:hidden}
 .menu .lang--menu{display:flex!important;margin-left:auto;margin-right:10px}
 /* mobile shop bar: filter + sort on one row, category chips scroll on their own row */
 @media (max-width:640px){.shopbar__in{flex-wrap:wrap;gap:8px 10px;padding-top:10px;padding-bottom:10px}.shopbar__in .chips{order:3;flex:1 1 100%}.shopbar__in #sort{margin-left:auto}}
+.btn--wa{--bg:#1FA855;--fg:#fff;gap:8px}

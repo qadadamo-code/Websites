@@ -10,7 +10,7 @@ if (posted()) {
     if (!valid_email($email)) { flash(L('Ogiltig e-postadress', 'Invalid email address'), 'bad'); go('settings.php'); }
     ad_tx('settings', function (&$s) use ($pair, $url, $hours, $email, $oemail) {
         $s['address'] = clean(p('address'), 120); $s['city'] = clean(p('city'), 60); $s['phone'] = clean(p('phone'), 30);
-        $s['phoneIntl'] = '+' . ltrim(preg_replace('/[^\d]/', '', p('phoneIntl')), '0'); $s['email'] = $email; $s['orderEmail'] = valid_email($oemail) ? $oemail : $email;
+        $s['phoneIntl'] = '+' . ltrim(preg_replace('/[^\d]/', '', p('phoneIntl')), '0'); $s['whatsapp'] = preg_replace('/\D/', '', p('whatsapp')); $s['email'] = $email; $s['orderEmail'] = valid_email($oemail) ? $oemail : $email;
         $s['mapUrl'] = $url('mapUrl'); $s['bookingExternal'] = $url('bookingExternal');
         $s['social'] = ['instagram' => $url('instagram'), 'facebook' => $url('facebook'), 'tiktok' => $url('tiktok')];
         $s['tagline'] = $pair('tagline', 80);
@@ -63,6 +63,7 @@ admin_head(L('Inställningar', 'Settings'), 'settings');
   <div class="card"><h3><?= L('Kontakt', 'Contact') ?></h3>
     <?= $in('address', L('Adress', 'Address'), $s['address']) ?><?= $in('city', L('Postnummer & ort', 'Postcode & city'), $s['city']) ?>
     <div class="grid2"><?= $in('phone', L('Telefon (visas)', 'Phone (shown)'), $s['phone']) ?><?= $in('phoneIntl', L('Telefon internationellt', 'Phone international'), $s['phoneIntl'], 'tel') ?></div>
+    <?= $in('whatsapp', L('WhatsApp för bokningar (internationellt, t.ex. 46762757055). Tomt = telefonnumret ovan', 'WhatsApp for bookings (international, e.g. 46762757055). Empty = phone above'), $s['whatsapp'] ?? '', 'tel') ?>
     <?= $in('email', L('E-post (visas)', 'Email (shown)'), $s['email'], 'email', ' required') ?><?= $in('orderEmail', L('E-post för nya ordrar & bokningar', 'Email for new orders & bookings'), $s['orderEmail'] ?? '', 'email') ?>
     <?= $in('mapUrl', L('Kartlänk', 'Map link'), $s['mapUrl'] ?? '', 'url') ?>
     <?= $in('bookingExternal', L('Extern bokningslänk (BokaMera, valfritt)', 'External booking link (BokaMera, optional)'), $s['bookingExternal'] ?? '', 'url') ?>

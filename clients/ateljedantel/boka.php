@@ -10,7 +10,7 @@ site_head(t('bk.title'), ['page' => 'booking', 'desc' => t('bk.lead')]);
 <?php if (empty($b['enabled'])): ?>
 <div class="wrap" style="padding-bottom:100px"><div class="box"><p><?= lang() === 'en' ? 'Online booking is paused right now. Call or email us and we will find a time.' : 'Onlinebokningen är pausad just nu. Ring eller mejla oss så hittar vi en tid.' ?></p><a class="btn" href="tel:<?= e($s['phoneIntl']) ?>"><?= ic('phone') ?> <?= e($s['phone']) ?></a></div></div>
 <?php else: ?>
-<form class="bk wrap" id="bk" novalidate data-pre="<?= e($pre) ?>" data-fromwish="<?= !empty($_GET['wish']) ? 1 : 0 ?>">
+<form class="bk wrap" id="bk" novalidate data-wa="<?= e(wa_number()) ?>" data-pre="<?= e($pre) ?>" data-fromwish="<?= !empty($_GET['wish']) ? 1 : 0 ?>">
   <div>
     <div class="box"><h2><span class="n">1</span><?= t('bk.type') ?></h2>
       <div class="types">
@@ -53,7 +53,7 @@ site_head(t('bk.title'), ['page' => 'booking', 'desc' => t('bk.lead')]);
   <h2 class="h1" style="font-size:clamp(40px,6vw,80px)"><?= t('bk.ok') ?></h2>
   <p class="lead" id="bkOkWhen" style="margin-top:14px"></p>
   <p class="muted"><?= t('bk.okD') ?></p>
-  <div class="row-btns" style="justify-content:center;margin-top:24px"><a class="btn" href="butik.php"><?= t('nav.shop') ?></a></div>
+  <div class="row-btns" style="justify-content:center;margin-top:24px"><a class="btn btn--wa" id="bkWa" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z"/></svg> <?= t('bk.wa') ?></a><a class="btn btn--line" href="butik.php"><?= t('nav.shop') ?></a></div>
 </section>
 <?php endif; ?>
 <?php site_foot(['scripts' => ['assets/js/booking.js']]); ?>
