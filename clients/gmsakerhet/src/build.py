@@ -2,10 +2,10 @@
 """Static site generator for GMS Säkerhet. Run: python3 src/build.py
 Swedish at the root, English under /en/. Same slugs in both languages."""
 import os, html, json, math, datetime
-from content import CO, SERVICES, UI, PLACES
+from content import CO, SERVICES, UI, PLACES, FIELD
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = "1"
+V = "2"
 BASE = CO["base"]
 TODAY = datetime.date.today().isoformat()
 
@@ -52,6 +52,10 @@ ICONS = {
 }
 
 
+def photo(c, name, pos="50% 50%", alt="", lazy=True, cls=""):
+    return f'<img{" class=\"" + cls + "\"" if cls else ""} src="{c.rel("assets/photos/" + name + ".webp")}" alt="{esc(alt)}" style="object-position:{pos}"{" loading=\"lazy\"" if lazy else ""} decoding="async">'
+
+
 def icon(name, cls="ic"):
     return f'<svg class="{cls}" viewBox="0 0 48 48" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">{ICONS[name]}</g></svg>'
 
@@ -60,7 +64,7 @@ LOGO_SVG = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "logo.s
 
 
 def logo(c, cls="logo"):
-    return f'<svg class="{cls}" viewBox="0 0 220 60" role="img" aria-label="GMS Säkerhet"><use href="#gms-logo"/></svg>'
+    return f'<svg class="{cls}" viewBox="0 0 230 60" role="img" aria-label="GMS Säkerhet"><use href="#gms-logo"/></svg>'
 
 
 # ---------------------------------------------------------------- layout
@@ -82,7 +86,7 @@ def head(c, title, desc, slug, extra_ld=None, noindex=False):
 <link rel="alternate" hreflang="sv" href="{c.abs(slug, 'sv')}">
 <link rel="alternate" hreflang="en" href="{c.abs(slug, 'en')}">
 <link rel="alternate" hreflang="x-default" href="{c.abs(slug, 'sv')}">
-<meta name="theme-color" content="#0a0d0c">
+<meta name="theme-color" content="#0b0b0c">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GMS Säkerhet">
 <meta property="og:locale" content="{'sv_SE' if c.lang == 'sv' else 'en_GB'}">
@@ -252,7 +256,7 @@ def radar(c):
 def page_home(c):
     u = c.u
     svc_cards = "".join(f'''<a class="svc" href="{c.link('tjanster/' + s['slug'])}" data-i="{i + 1:02d}">
-  <span class="svc-n">{i + 1:02d}</span>{icon(s['icon'], 'ic svc-ic')}
+  <span class="svc-n">{i + 1:02d}</span><div class="svc-img">{photo(c, s['photo'], s['pos'], s[c.lang]['name'] + ' – GMS Umeå')}</div>{icon(s['icon'], 'ic svc-ic')}
   <h3>{esc(s[c.lang]['name'])}</h3><p class="svc-k">{esc(s[c.lang]['kicker'])}</p><p>{esc(s[c.lang]['short'])}</p>
   <span class="svc-more">{u['read_more']}{icon('arrow')}</span></a>''' for i, s in enumerate(SERVICES))
     shift = "".join(f'<li class="sh" data-t="{t}"><time>{t}</time><h3>{esc(h)}</h3><p>{esc(p)}</p></li>' for t, h, p in u["shift"])
@@ -266,11 +270,19 @@ def page_home(c):
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in u["faq"]]}
     site_ld = {"@context": "https://schema.org", "@type": "WebSite", "name": "GMS Säkerhet", "url": BASE, "inLanguage": ["sv", "en"]}
-    words = u["hero_l1"]
+    li = 0 if c.lang == "sv" else 1
+    field = "".join(f'<figure class="fcard">{photo(c, n, pos, cap[li] + " – GMS Säkerhet Umeå")}<figcaption><small>{esc(cat[li])}</small>{esc(cap[li])}</figcaption></figure>' for n, pos, cat, cap in FIELD)
     return head(c, u["home_title"], u["home_desc"], "index", [faq_ld, site_ld]) + header(c) + f'''
 <div class="intro" id="intro" aria-hidden="true">
   <svg class="intro-ring" viewBox="0 0 400 400"><circle class="ir1" cx="200" cy="200" r="180"/><circle class="ir2" cx="200" cy="200" r="150"/><g class="ir-ticks">{ticks}</g></svg>
-  <svg class="intro-logo" viewBox="0 0 220 60"><use href="#gms-logo"/></svg>
+  <svg class="intro-logo" viewBox="0 0 240 270">
+    <defs><mask id="io-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="112"><rect width="100" height="112" fill="#fff"/><path class="io-band" d="M58 8 8 58" stroke="#000" stroke-width="6.5"/><path class="io-band" d="M76 10 10 76" stroke="#000" stroke-width="6.5"/></mask></defs>
+    <g transform="translate(70 6)"><path class="io-outer" pathLength="1" d="M50 5C40 10 26 13 12 14v32c0 26 16 46 38 58 22-12 38-32 38-58V14C74 13 60 10 50 5Z" fill="none" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/>
+    <path class="io-inner" d="M50 19c-8 4-18 6.5-27 7.5V47c0 19 11 35 27 44 16-9 27-25 27-44V26.5C68 25.5 58 23 50 19Z" fill="currentColor" mask="url(#io-cut)"/>
+    <rect class="io-base" x="32" y="120" width="36" height="5" rx="2.5" fill="currentColor"/></g>
+    <text class="io-gms" x="124" y="200" text-anchor="middle" font-family="Inter Tight,Arial,sans-serif" font-weight="700" font-size="54" letter-spacing="16"><tspan>G</tspan><tspan>M</tspan><tspan>S</tspan></text>
+    <text class="io-sub" x="122" y="236" text-anchor="middle" font-family="Inter Tight,Arial,sans-serif" font-weight="600" font-size="14" letter-spacing="9">SÄKERHET · UMEÅ</text>
+  </svg>
   <span class="intro-scan"></span>
 </div>
 <main id="main">
@@ -299,6 +311,12 @@ def page_home(c):
     <div class="svc-grid">{svc_cards}</div>
   </div>
 </section>
+
+<section class="field" aria-label="{esc(u['field_kicker'])}">
+  <div class="wrap"><div class="sec-h"><p class="kicker">{u['field_kicker']}</p><h2 class="h2 split">{esc(u['field_title'])}</h2><p class="lead">{esc(u['field_sub'])}</p></div></div>
+  <div class="field-track">{field}</div>
+</section>
+<div class="tape" aria-hidden="true"></div>
 
 <section class="shift" id="natt">
   <div class="shift-pin">
@@ -383,7 +401,7 @@ def page_service(c, s):
     others = "".join(f'<a class="svc svc-sm" href="{c.link("tjanster/" + o["slug"])}">{icon(o["icon"], "ic svc-ic")}<h3>{esc(o[c.lang]["name"])}</h3><span class="svc-more">{u["read_more"]}{icon("arrow")}</span></a>' for o in SERVICES if o is not s)
     return head(c, d["title"], d["desc"], "tjanster/" + s["slug"], [crumbs_ld(c, crumbs), svc_ld]) + header(c) + '<main id="main">' + page_hero(c, d["kicker"], d["name"], d["lead"], crumbs) + f'''
 <section class="sec"><div class="wrap sv-g">
-  <div><p class="kicker">{u['svc_page_what']}</p><ul class="pts">{pts}</ul></div>
+  <div><div class="sv-photo">{photo(c, s['photo'], s['pos'], d['name'] + ' i Umeå – GMS', lazy=False)}</div><p class="kicker">{u['svc_page_what']}</p><ul class="pts">{pts}</ul></div>
   <aside class="sv-side"><div class="sv-icon">{icon(s['icon'], 'ic')}</div><h2 class="h3">{u['svc_page_for']}</h2><ul class="tags">{fors}</ul>
   <a class="btn" href="{c.link('kontakt')}">{u['cta']}{icon('arrow')}</a><a class="sv-call" href="tel:{CO['phone_e164']}">{icon('phone')}{CO['phone']}</a></aside>
 </div></section>
@@ -400,7 +418,7 @@ def page_about(c):
     facts = "".join(f'<li><b>{esc(a)}</b><span>{esc(b)}</span></li>' for a, b in u["facts"])
     return head(c, u["about_title"], u["about_desc"], "om-oss", [crumbs_ld(c, crumbs)]) + header(c) + '<main id="main">' + page_hero(c, u["nav"][2][1], u["about_h"], u["about_lead"], crumbs) + f'''
 <section class="facts-s"><ul class="facts wrap">{facts}</ul></section>
-<section class="sec"><div class="wrap ab-g">{blocks}</div></section>
+<section class="sec"><div class="wrap"><div class="ph-hero">{photo(c, 'team-street', '50% 40%', 'GMS team – Umeå', lazy=False)}</div><div class="duo"><div class="ab-g" style="grid-template-columns:1fr">{blocks}</div><div class="ph-hero">{photo(c, 'mall-duo', '50% 40%', 'GMS väktare')}</div></div></div></section>
 <section class="sec values"><div class="wrap"><div class="sec-h"><p class="kicker">{u['values_kicker']}</p><h2 class="h2 split">{esc(u['values_title'])}</h2></div><ol class="val-list">{values}</ol></div></section>
 <section class="sec team"><div class="wrap team-g"><div><p class="kicker">GMS</p><h2 class="h2 split">{u['team_h']}</h2><p class="lead">{esc(u['team_p'])}</p></div>
 <ul class="team-v">{''.join(f'<li>{esc(v)}</li>' for v in u['team_vals'])}</ul></div></section>
@@ -414,7 +432,7 @@ def page_jobs(c):
     off = "".join(f'<li>{icon("check")}{esc(x)}</li>' for x in u["jobs_offer"])
     subj = "Ansökan%20%E2%80%93%20v%C3%A4ktare" if c.lang == "sv" else "Application%20%E2%80%93%20security%20guard"
     return head(c, u["jobs_title_page"], u["jobs_desc_page"], "jobba-hos-oss", [crumbs_ld(c, crumbs)]) + header(c) + '<main id="main">' + page_hero(c, u["jobs_kicker"], u["jobs_h"], u["jobs_lead"], crumbs) + f'''
-<section class="sec"><div class="wrap jb-g">
+<section class="sec"><div class="wrap"><div class="ph-hero" style="margin-bottom:18px">{photo(c, 'team-event', '50% 55%', 'GMS team', lazy=False)}</div></div><div class="wrap jb-g">
   <div class="jb-c"><h2 class="h3">{u['jobs_req_h']}</h2><ul class="ticks">{req}</ul></div>
   <div class="jb-c"><h2 class="h3">{u['jobs_offer_h']}</h2><ul class="ticks">{off}</ul></div>
 </div></section>

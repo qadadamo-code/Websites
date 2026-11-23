@@ -62,7 +62,7 @@
       W = cv.clientWidth; H = cv.clientHeight;
       cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       bld = []; snow = []; stars = [];
-      var layers = [{ y: .58, hmin: .12, hmax: .3, c: "#0e1513", win: .25 }, { y: .7, hmin: .1, hmax: .34, c: "#0b100f", win: .4 }, { y: .84, hmin: .08, hmax: .28, c: "#070a09", win: .55 }];
+      var layers = [{ y: .58, hmin: .12, hmax: .3, c: "#141518", win: .25 }, { y: .7, hmin: .1, hmax: .34, c: "#0f1013", win: .4 }, { y: .84, hmin: .08, hmax: .28, c: "#09090b", win: .55 }];
       layers.forEach(function (L, li) {
         var x = -20;
         while (x < W + 20) {
@@ -82,13 +82,13 @@
       tx += (mx - tx) * .12; ty += (my - ty) * .12;
       ctx.clearRect(0, 0, W, H);
       var g = ctx.createLinearGradient(0, 0, 0, H);
-      g.addColorStop(0, "#050807"); g.addColorStop(.55, "#0b1311"); g.addColorStop(1, "#0a0d0c");
+      g.addColorStop(0, "#05070b"); g.addColorStop(.55, "#0d1118"); g.addColorStop(1, "#0b0b0c");
       ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
       // aurora
       ctx.save(); ctx.globalCompositeOperation = "screen";
       for (var a = 0; a < 3; a++) {
         var ag = ctx.createLinearGradient(0, H * .05, 0, H * .5);
-        ag.addColorStop(0, "rgba(47,191,113,0)"); ag.addColorStop(.5, "rgba(47,191,113," + (.07 - a * .015) + ")"); ag.addColorStop(1, "rgba(47,191,113,0)");
+        ag.addColorStop(0, "rgba(110,140,190,0)"); ag.addColorStop(.5, "rgba(110,140,190," + (.06 - a * .012) + ")"); ag.addColorStop(1, "rgba(110,140,190,0)");
         ctx.fillStyle = ag; ctx.beginPath(); ctx.moveTo(0, H * .5);
         for (var x = 0; x <= W; x += 30) ctx.lineTo(x, H * (.18 + a * .06) + Math.sin(x / 220 + t * .25 + a * 2) * 40 + Math.sin(x / 90 + t * .4) * 12);
         ctx.lineTo(W, H * .5); ctx.closePath(); ctx.fill();
@@ -97,14 +97,14 @@
       stars.forEach(function (s) { ctx.fillStyle = "rgba(230,240,235," + (.25 + .35 * Math.sin(t * 1.5 + s.f)) + ")"; ctx.fillRect(s.x, s.y, s.r, s.r); });
       // buildings
       bld.forEach(function (b) {
-        ctx.fillStyle = b.c; ctx.fillRect(b.x, b.top, b.w, H - b.top); ctx.fillStyle = "rgba(47,191,113," + (.05 + b.li * .02) + ")"; ctx.fillRect(b.x, b.top, b.w, 1);
+        ctx.fillStyle = b.c; ctx.fillRect(b.x, b.top, b.w, H - b.top); ctx.fillStyle = "rgba(255,204,0," + (.05 + b.li * .03) + ")"; ctx.fillRect(b.x, b.top, b.w, 1);
         if (b.ant) { ctx.fillStyle = b.c; ctx.fillRect(b.x + b.w / 2 - 1, b.top - 26, 2, 26); ctx.fillStyle = "rgba(255,80,60," + (Math.sin(t * 3 + b.x) > .3 ? .9 : .15) + ")"; ctx.beginPath(); ctx.arc(b.x + b.w / 2, b.top - 27, 2, 0, 7); ctx.fill(); }
         b.wins.forEach(function (wi) {
           var dx = wi.x - tx, dy = wi.y - ty, dist = Math.sqrt(dx * dx + dy * dy), lit = dist < 230 ? 1 - dist / 230 : 0;
           var base = wi.on ? .35 + .25 * Math.sin(t * .3 + wi.f * 9) : .04;
           var o = Math.min(1, base + lit * .9);
           if (o < .05) return;
-          ctx.fillStyle = lit > .1 ? "rgba(255,226,168," + o + ")" : (wi.f > .82 ? "rgba(140,220,180," + o * .8 + ")" : "rgba(255,214,150," + o * .75 + ")");
+          ctx.fillStyle = lit > .1 ? "rgba(255,226,168," + o + ")" : (wi.f > .82 ? "rgba(170,200,255," + o * .7 + ")" : "rgba(255,214,150," + o * .75 + ")");
           ctx.fillRect(wi.x, wi.y, 6, 8);
         });
       });
@@ -166,16 +166,24 @@
     d.body.style.overflow = "hidden";
     var L = intro.querySelector(".intro-logo");
     var tl = gsap.timeline({ onComplete: function () { intro.remove(); d.body.style.overflow = ""; } });
-    gsap.set(L, { opacity: 0, scale: .92, filter: "blur(12px)" });
-    tl.to(".ir1", { strokeDashoffset: 0, duration: 1.3, ease: "power2.inOut" })
+    gsap.set(".io-outer", { strokeDasharray: 1, strokeDashoffset: 1 });
+    gsap.set(".io-inner", { opacity: 0, scale: .6, transformOrigin: "50% 50%" });
+    gsap.set(".io-band", { strokeDasharray: 80, strokeDashoffset: 80 });
+    gsap.set(".io-gms tspan", { opacity: 0 });
+    tl.to(".ir1", { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut" })
       .from(".intro-ring .tk", { opacity: 0, stagger: .02, duration: .2 }, 0)
-      .to(".intro-ring", { rotate: 90, duration: 2.2, ease: "power2.inOut" }, 0)
-      .to(L, { opacity: 1, scale: 1, filter: "blur(0px)", duration: .9, ease: "power3.out" }, .5)
-      .fromTo(".intro-scan", { y: 0 }, { y: "160vh", duration: 1.1, ease: "power2.inOut" }, .9)
-      .to(".intro-ring", { scale: 1.6, opacity: 0, duration: .8, ease: "power3.in" }, 2.1)
-      .to(L, { scale: .5, opacity: 0, duration: .6, ease: "power3.in" }, 2.2)
-      .to(intro, { clipPath: "inset(0 0 100% 0)", duration: .9, ease: "power4.inOut" }, 2.5)
-      .add(heroIn, 2.7);
+      .to(".intro-ring", { rotate: 90, duration: 2.6, ease: "power2.inOut" }, 0)
+      .to(".io-outer", { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" }, .2)
+      .to(".io-inner", { opacity: 1, scale: 1, duration: .7, ease: "back.out(1.6)" }, 1.0)
+      .to(".io-band", { strokeDashoffset: 0, duration: .5, stagger: .12, ease: "power2.out" }, 1.35)
+      .from(".io-base", { scaleX: 0, transformOrigin: "50% 50%", duration: .5, ease: "power3.out" }, 1.4)
+      .to(".io-gms tspan", { opacity: 1, duration: .05, stagger: .14 }, 1.5)
+      .from(".io-sub", { opacity: 0, letterSpacing: 2, duration: .8, ease: "power3.out" }, 1.85)
+      .fromTo(".intro-scan", { y: 0 }, { y: "160vh", duration: 1.1, ease: "power2.inOut" }, 1.2)
+      .to(".intro-ring", { scale: 1.6, opacity: 0, duration: .8, ease: "power3.in" }, 2.7)
+      .to(L, { scale: .6, opacity: 0, y: -30, duration: .6, ease: "power3.in" }, 2.8)
+      .to(intro, { clipPath: "inset(0 0 100% 0)", duration: .9, ease: "power4.inOut" }, 3.05)
+      .add(heroIn, 3.25);
   } else {
     if (intro) intro.remove();
     heroIn();
@@ -198,6 +206,11 @@
     gsap.to(".hero-in", { yPercent: -18, opacity: .2, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
     gsap.to(".hero-side", { rotate: 40, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
   }
+
+  /* field gallery drifts sideways with scroll */
+  var ft = d.querySelector(".field-track");
+  if (ft) gsap.fromTo(ft, { x: function () { return 0; } }, { x: function () { return -(ft.scrollWidth - w.innerWidth); }, ease: "none",
+    scrollTrigger: { trigger: ".field", start: "top bottom", end: "bottom top", scrub: .6, invalidateOnRefresh: true } });
 
   /* ---------- night shift pinned timeline ---------- */
   var shift = d.querySelector(".shift");
