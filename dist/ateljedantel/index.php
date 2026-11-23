@@ -58,7 +58,7 @@ site_head('', ['page' => 'home', 'intro' => true, 'overlay' => false, 'body' => 
       </video>
       <span class="arch__shine" aria-hidden="true"></span>
     </figure>
-    <figure class="arch arch--mini" data-float><img src="assets/img/mofida-draping.webp" alt="Mofida Alashi i ateljén" loading="eager"></figure>
+    <figure class="arch arch--mini" data-float><img src="assets/img/mofida-sewing.webp" alt="Mofida Alashi vid symaskinen" loading="eager"></figure>
     <a class="hero__stamp" href="boka.php" aria-label="<?= t('nav.book') ?>">
       <svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="circ" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><text><textPath href="#circ"><?= lang() === 'en' ? 'BOOK A FITTING ✦ BOOK A FITTING ✦ ' : 'BOKA PROVNING ✦ BOKA PROVNING ✦ ' ?></textPath></text></svg>
       <i><?= ic('needle') ?></i>
