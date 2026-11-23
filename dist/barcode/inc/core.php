@@ -265,6 +265,7 @@ function public_data(): array {
             'hours' => $s['hours'] ?? '', 'mapUrl' => $s['mapUrl'] ?? '', 'social' => $s['social'] ?? new stdClass(), 'currency' => 'EGP',
             'ribbon' => $s['ribbon'] ?? [], 'orders' => !empty($s['ordersEnabled']), 'delivery' => !empty($s['deliveryEnabled']),
             'reservations' => !empty($s['reservationsEnabled']), 'api' => true, 'charges' => charges(),
+            'dineIn' => !empty($s['dineIn']), 'tables' => !empty($s['dineIn']) ? array_values(array_map(fn($t) => ['id' => $t['id'], 'name' => $t['name'], 'zone' => $t['zone']], array_filter(tables_all(), fn($t) => !empty($t['active'])))) : [],
         ],
         'menu' => $menu,
         'moods' => bc_load('moods'),

@@ -344,7 +344,7 @@ html[dir=rtl] .receipt{transform:translateX(-105%)}
 .receipt__total b{font-size:24px;letter-spacing:0;direction:ltr}
 .receipt__form{display:flex;flex-direction:column;gap:10px;margin-top:20px}
 .receipt__form select{height:48px;border-radius:12px;border:1px solid var(--line-d);background:var(--field);padding:0 14px;outline:none;color:var(--ink);font:inherit}
-.receipt__form select[hidden]{display:none}
+.receipt__form select[hidden],.receipt__form input[hidden]{display:none}
 .receipt__form input{height:48px;border-radius:12px;border:1px solid var(--line-d);background:var(--field);padding:0 14px;outline:none;color:var(--ink)}
 .receipt__form input:focus{border-color:var(--copper)}
 .receipt__form input.invalid,.receipt__form select.invalid{border-color:#B4462B}
@@ -426,10 +426,10 @@ html[dir=rtl] .receipt{transform:translateX(-105%)}
 .no-orders .cart-btn,.no-orders .item__add,.no-orders #moodAdd{display:none}
 
 /* ---------- coupon in receipt ---------- */
-.coupon{display:flex;gap:8px;margin:2px 0 6px}
-.coupon input{flex:1;min-width:0;height:44px;border-radius:12px;border:1px dashed rgba(42,20,6,.35);background:var(--field);padding:0 14px;color:var(--ink);outline:none;text-transform:uppercase;letter-spacing:.08em}
-.coupon input:focus{border-color:var(--copper)}
-.coupon button{height:44px;padding:0 16px;border-radius:12px;background:var(--brown);color:var(--cream);font-weight:700;font-size:14px}
+.rcoupon{display:flex;gap:8px;margin:2px 0 6px}
+.rcoupon input{flex:1;min-width:0;height:44px;border-radius:12px;border:1px dashed rgba(42,20,6,.35);background:var(--field);padding:0 14px;color:var(--ink);outline:none;text-transform:uppercase;letter-spacing:.08em}
+.rcoupon input:focus{border-color:var(--copper)}
+.rcoupon button{height:44px;padding:0 16px;border-radius:12px;background:var(--brown);color:var(--cream);font-weight:700;font-size:14px}
 .coupon__msg{font-size:13px;min-height:18px;margin-bottom:8px;color:var(--muted)}
 .coupon__msg.ok{color:#2E7D4F}.coupon__msg.bad{color:#B4462B}
 .receipt__sub{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-bottom:6px}
@@ -523,7 +523,7 @@ html[dir=rtl] .receipt{transform:translateX(-105%)}
 .receipt__form.is-table .seg,.receipt__form.is-table [name=address],.receipt__form.is-table #orderMail{display:none}
 .sent{margin-top:20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
 .sent[hidden]{display:none}
-.receipt__paper.is-sent .receipt__empty,.receipt__paper.is-sent .receipt__total,.receipt__paper.is-sent .coupon,.receipt__paper.is-sent .coupon__msg,.receipt__paper.is-sent .receipt__sub,.receipt__paper.is-sent #receiptCharges{display:none!important}
+.receipt__paper.is-sent .receipt__empty,.receipt__paper.is-sent .receipt__total,.receipt__paper.is-sent .rcoupon,.receipt__paper.is-sent .coupon__msg,.receipt__paper.is-sent .receipt__sub,.receipt__paper.is-sent #receiptCharges{display:none!important}
 .sent__tick{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:var(--brown);color:var(--glow);font-size:30px;font-weight:700;animation:sentPop .6s var(--ease) both}
 .sent b{font-family:var(--f-display);font-size:20px;color:var(--brown)}
 .sent p{color:var(--muted);font-size:14px}

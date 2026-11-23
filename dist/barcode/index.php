@@ -357,7 +357,7 @@ $same = array_values(array_filter((array)$C['social'])); if ($same) $ld['sameAs'
         <a href="#menu" class="btn btn--dark btn--sm" data-close>اذهب إلى المنيو</a>
       </div>
       <div class="receipt__dash"></div>
-      <div class="coupon" id="couponBox">
+      <div class="rcoupon" id="couponBox">
         <input id="couponInput" placeholder="عندك كود خصم؟" class="latin" autocomplete="off">
         <button type="button" id="couponApply">تطبيق</button>
       </div>
@@ -372,6 +372,7 @@ $same = array_values(array_filter((array)$C['social'])); if ($same) $ld['sameAs'
           <label><input type="radio" name="type" value="استلام من الفرع"><span>استلام</span></label>
           <label><input type="radio" name="type" value="داخل الكافيه"><span>في الكافيه</span></label>
         </div>
+        <select name="tablePick" id="tableSel" aria-label="رقم الترابيزة" hidden></select>
         <input name="name" placeholder="الاسم" autocomplete="name" required>
         <input name="phone" placeholder="رقم الموبايل" inputmode="tel" class="latin" autocomplete="tel" required>
         <select name="zone" id="zoneSel" aria-label="منطقة التوصيل" hidden></select>
@@ -401,7 +402,7 @@ $same = array_values(array_filter((array)$C['social'])); if ($same) $ld['sameAs'
 <script src="assets/vendor/gsap.min.js"></script>
 <script src="assets/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/vendor/lenis.min.js"></script>
-<?php $T = isset($_GET['t']) ? table_by_code((string)$_GET['t']) : null; ?>
+<?php $T = isset($_GET['t']) && !empty(settings()['dineIn']) ? table_by_code((string)$_GET['t']) : null; ?>
 <script>window.BARCODE_TABLE = <?= $T ? json_encode(['code' => $T['code'], 'name' => $T['name'], 'mode' => in_array(settings()['tableOrder'] ?? 'both', ['both', 'site', 'whatsapp'], true) ? (settings()['tableOrder'] ?? 'both') : 'both'], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) : 'null' ?>;</script>
 <script>window.BARCODE_DATA = <?= json_encode($D, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) ?>;</script>
 <script src="assets/js/app.js?v=<?= BC_VERSION ?>"></script>
