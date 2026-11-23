@@ -9,6 +9,11 @@ require_perm('orders.view', 'tables.manage');
 $tables = tables_all();
 $byId = []; foreach ($tables as $t) $byId[$t['id']] = $t;
 $manage = can('tables.manage');
+/* QR card design (dashboard-editable). Layout = cards per A4 page; card size follows from it. */
+const QR_LAYOUTS = [1 => [1, 1], 2 => [1, 2], 4 => [2, 2], 6 => [3, 2], 8 => [2, 4], 9 => [3, 3], 12 => [3, 4]];
+const QR_THEMES = ['espresso' => 'إسبريسو (بني غامق)', 'cream' => 'كريمي فاتح', 'copper' => 'نحاسي', 'noir' => 'أسود ودهبي'];
+$qd = array_merge(['per' => 6, 'theme' => 'espresso', 'dir' => 'auto', 'qr' => 62, 'title' => 'امسح واطلب', 'sub' => 'المنيو كامل والطلب يوصل على ترابيزتك',
+    'label' => 'TABLE', 'foot' => '', 'logo' => true, 'table' => true, 'round' => true, 'zone' => false], (array)(settings()['qrCard'] ?? []));
 
 if (posted()) {
     need('tables.manage');
@@ -33,6 +38,15 @@ if (posted()) {
         log_act('إضافة ترابيزات', implode('، ', array_column($new, 'name')));
         flash(count($new) === 1 ? 'اتضافت ترابيزة ' . $new[0]['name'] . '، الـ QR بتاعها جاهز تحت' : 'اتضاف ' . count($new) . ' ترابيزة، الكروت جاهزة للطباعة تحت');
         go('tables.php#manage');
+    }
+    if ($act === 'card') {
+        $per = (int)p('per'); if (!isset(QR_LAYOUTS[$per])) $per = 6;
+        $card = ['per' => $per, 'theme' => isset(QR_THEMES[p('theme')]) ? p('theme') : 'espresso', 'dir' => in_array(p('dir'), ['auto', 'v', 'h'], true) ? p('dir') : 'auto',
+            'qr' => max(35, min(90, (int)p('qr'))), 'title' => clean(p('title'), 40), 'sub' => clean(p('sub'), 90), 'label' => clean(p('label'), 16),
+            'foot' => clean(p('foot'), 80), 'logo' => !empty($_POST['logo']), 'table' => !empty($_POST['table']), 'round' => !empty($_POST['round']), 'zone' => !empty($_POST['zone'])];
+        bc_save('settings', array_merge(settings(), ['qrCard' => $card]));
+        log_act('تعديل تصميم كروت QR', $per . ' في الصفحة · ' . QR_THEMES[$card['theme']]);
+        flash('اتحفظ تصميم الكروت'); go('tables.php#design');
     }
     if ($act === 'mode') {
         $m = in_array(p('mode'), ['both', 'site', 'whatsapp'], true) ? p('mode') : 'both';
@@ -151,14 +165,54 @@ admin_head('الترابيزات و QR', 'tables', $manage ? '<button class="b b
   </section>
 </div>
 
-<div class="qr-sheet" id="qrSheet">
+<section class="card np qd" id="design">
+  <div class="card__head"><h3>تصميم كروت الـ QR</h3><span class="muted">أي تغيير بيظهر على الكروت تحت على طول، ودوس حفظ عشان يتثبت للطباعة</span></div>
+  <form method="post" id="qdForm" class="qd__form">
+    <?= csrf_field() ?><input type="hidden" name="act" value="card">
+    <div class="qd__group"><h4>المقاس وطريقة العرض</h4>
+      <div class="f"><span>عدد الكروت في صفحة A4</span>
+        <div class="seg-pick"><?php foreach (QR_LAYOUTS as $n => [$c, $r]): ?><label><input type="radio" name="per" value="<?= $n ?>" <?= (int)$qd['per'] === $n ? 'checked' : '' ?>><span class="latin"><?= $n ?></span></label><?php endforeach; ?></div>
+        <small id="qdSize"></small>
+      </div>
+      <div class="f"><span>شكل الكارت</span>
+        <div class="seg-pick seg-pick--txt"><?php foreach (['auto' => 'تلقائي', 'v' => 'طولي', 'h' => 'عرضي'] as $k => $l): ?><label><input type="radio" name="dir" value="<?= $k ?>" <?= $qd['dir'] === $k ? 'checked' : '' ?>><span><?= $l ?></span></label><?php endforeach; ?></div>
+      </div>
+      <label class="f"><span>حجم الكود <b class="latin" id="qrVal"><?= (int)$qd['qr'] ?>%</b></span><input type="range" name="qr" min="35" max="90" value="<?= (int)$qd['qr'] ?>" class="range"></label>
+    </div>
+    <div class="qd__group"><h4>التصميم</h4>
+      <div class="qd__themes"><?php foreach (QR_THEMES as $k => $l): ?><label class="qd__theme qrt-<?= $k ?>"><input type="radio" name="theme" value="<?= $k ?>" <?= $qd['theme'] === $k ? 'checked' : '' ?>><i></i><span><?= $l ?></span></label><?php endforeach; ?></div>
+      <div class="chips-row" style="margin-top:12px">
+        <label class="chk"><input type="checkbox" name="logo" value="1" <?= $qd['logo'] ? 'checked' : '' ?>> اللوجو</label>
+        <label class="chk"><input type="checkbox" name="table" value="1" <?= $qd['table'] ? 'checked' : '' ?>> رقم الترابيزة</label>
+        <label class="chk"><input type="checkbox" name="zone" value="1" <?= $qd['zone'] ? 'checked' : '' ?>> المكان (تراس…)</label>
+        <label class="chk"><input type="checkbox" name="round" value="1" <?= $qd['round'] ? 'checked' : '' ?>> حواف دايرية</label>
+      </div>
+    </div>
+    <div class="qd__group"><h4>الكلام</h4>
+      <label class="f"><span>العنوان</span><input name="title" value="<?= e($qd['title']) ?>" maxlength="40"></label>
+      <label class="f"><span>السطر اللي تحته</span><input name="sub" value="<?= e($qd['sub']) ?>" maxlength="90"></label>
+      <label class="f"><span>كلمة قبل الرقم</span><input name="label" value="<?= e($qd['label']) ?>" maxlength="16" placeholder="TABLE أو ترابيزة"></label>
+      <label class="f"><span>سطر في الآخر (اختياري)</span><input name="foot" value="<?= e($qd['foot']) ?>" maxlength="80" placeholder="مثلاً: Wi-Fi: Barcode · باسورد 12345678"></label>
+    </div>
+    <div class="qd__acts"><button class="b b--primary"><?= icon('edit') ?> حفظ التصميم</button><button type="button" class="b" data-print-all><?= icon('print') ?> اطبع كل الكروت</button></div>
+  </form>
+</section>
+
+<?php [$qc, $qr] = QR_LAYOUTS[(int)$qd['per']]; $qw = (190 - 6 * ($qc - 1)) / $qc; $qh = (277 - 6 * ($qr - 1)) / $qr; $qlay = $qd['dir'] === 'auto' ? ($qw / $qh > 1.25 ? 'h' : 'v') : $qd['dir']; ?>
+<div class="qr-sheet qrt-<?= e($qd['theme']) ?> <?= $qd['round'] ? 'is-round' : '' ?>" id="qrSheet" data-layout="<?= $qlay ?>" style="--cols:<?= $qc ?>;--rows:<?= $qr ?>;--qr:<?= (int)$qd['qr'] ?>;--ar:<?= round($qw, 2) ?> / <?= round($qh, 2) ?>">
   <?php foreach ($tables as $t): if (empty($t['active'])) continue; ?>
   <div class="qr-card" data-card="<?= e($t['id']) ?>">
-    <img src="../assets/brand/roundel-cream.png" alt="" class="qr-card__logo">
-    <div class="qr-card__code" data-qr="<?= e($base . '?t=' . rawurlencode($t['code']) . '#menu') ?>"></div>
-    <b>امسح واطلب</b>
-    <span>المنيو كامل والطلب يوصل على ترابيزتك</span>
-    <div class="qr-card__table"><small>TABLE</small><i class="latin"><?= e($t['name']) ?></i></div>
+    <div class="qr-card__in">
+      <img src="../assets/brand/roundel-cream.png" alt="" class="qr-card__logo qr-card__logo--c" <?= $qd['logo'] ? '' : 'hidden' ?>><img src="../assets/brand/roundel-dark.png" alt="" class="qr-card__logo qr-card__logo--d" <?= $qd['logo'] ? '' : 'hidden' ?>>
+      <div class="qr-card__code" data-qr="<?= e($base . '?t=' . rawurlencode($t['code']) . '#menu') ?>"></div>
+      <div class="qr-card__txt">
+        <b class="qr-card__title" <?= $qd['title'] === '' ? 'hidden' : '' ?>><?= e($qd['title']) ?></b>
+        <span class="qr-card__sub" <?= $qd['sub'] === '' ? 'hidden' : '' ?>><?= e($qd['sub']) ?></span>
+        <div class="qr-card__table" <?= $qd['table'] ? '' : 'hidden' ?>><small class="qr-card__label"><?= e($qd['label']) ?></small><i class="latin"><?= e($t['name']) ?></i></div>
+        <em class="qr-card__zone" <?= $qd['zone'] && $t['zone'] !== '' ? '' : 'hidden' ?> data-has="<?= $t['zone'] !== '' ? 1 : 0 ?>"><?= e($t['zone']) ?></em>
+        <span class="qr-card__foot" <?= $qd['foot'] === '' ? 'hidden' : '' ?>><?= e($qd['foot']) ?></span>
+      </div>
+    </div>
   </div>
   <?php endforeach; ?>
 </div>
@@ -169,6 +223,29 @@ document.querySelectorAll('[data-qr]').forEach((el) => {
   el.innerHTML = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
   el.title = el.dataset.qr;
 });
+(() => {
+  const f = document.getElementById('qdForm'), sh = document.getElementById('qrSheet'); if (!f || !sh) return;
+  const L = <?= json_encode(QR_LAYOUTS) ?>;
+  const W = 190, H = 277, G = 6; // A4 printable area and gap, mm
+  const apply = () => {
+    const per = f.per.value, [c, r] = L[per], w = (W - G * (c - 1)) / c, h = (H - G * (r - 1)) / r;
+    sh.style.setProperty('--cols', c); sh.style.setProperty('--rows', r); sh.style.setProperty('--qr', f.qr.value);
+    sh.style.setProperty('--ar', `${w} / ${h}`);
+    const dir = f.dir.value === 'auto' ? (w / h > 1.25 ? 'h' : 'v') : f.dir.value;
+    sh.dataset.layout = dir;
+    sh.className = sh.className.replace(/qrt-\w+/, 'qrt-' + f.theme.value);
+    sh.classList.toggle('is-round', f.round.checked);
+    document.getElementById('qrVal').textContent = f.qr.value + '%';
+    document.getElementById('qdSize').textContent = `مقاس الكارت تقريبًا ${Math.round(w)} × ${Math.round(h)} مم`;
+    const set = (sel, val) => sh.querySelectorAll(sel).forEach((el) => { el.textContent = val; el.hidden = !val; });
+    set('.qr-card__title', f.title.value.trim()); set('.qr-card__sub', f.sub.value.trim()); set('.qr-card__foot', f.foot.value.trim());
+    sh.querySelectorAll('.qr-card__label').forEach((el) => { el.textContent = f.label.value.trim(); });
+    sh.querySelectorAll('.qr-card__logo').forEach((el) => { el.hidden = !f.logo.checked; });
+    sh.querySelectorAll('.qr-card__table').forEach((el) => { el.hidden = !f.table.checked; });
+    sh.querySelectorAll('.qr-card__zone').forEach((el) => { el.hidden = !(f.zone.checked && el.dataset.has === '1'); });
+  };
+  f.addEventListener('input', apply); f.addEventListener('change', apply); apply();
+})();
 document.querySelectorAll('[data-print-all]').forEach((b) => b.addEventListener('click', () => { document.body.classList.remove('print-one'); print(); }));
 document.querySelectorAll('[data-print-one]').forEach((b) => b.addEventListener('click', () => {
   document.querySelectorAll('.qr-card').forEach((c) => c.classList.toggle('is-print', c.dataset.card === b.dataset.printOne));
