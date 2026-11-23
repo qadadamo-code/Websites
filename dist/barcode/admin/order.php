@@ -27,12 +27,15 @@ if (posted()) {
     $name = clean(p('name'), 80);
     if (!$lines || $name === '') { flash(!$lines ? 'ضيف صنف واحد على الأقل' : 'اكتب اسم العميل', 'bad'); go('order.php' . ($isNew ? '' : '?id=' . rawurlencode($id))); }
     $disc = min($sub, max(0, (float)digits_en(p('discount'))));
+    $type = in_array(p('type'), ORDER_TYPES, true) ? p('type') : ORDER_TYPES[0];
+    $tot = !empty($_POST['charges']) ? order_totals($sub, $disc, $type, p('zone')) : ['service' => 0, 'vat' => 0, 'delivery' => 0, 'zone' => '', 'total' => $sub - $disc];
     $st = isset(ORDER_ST[p('status')]) ? p('status') : 'new';
     $pay = array_key_exists(p('pay'), PAY_METHODS) ? p('pay') : '';
     $row = array_merge($o ?: ['id' => bc_id('o'), 'no' => 'M' . random_int(1000, 9999), 'at' => now_iso(), 'channel' => 'manual', 'coupon' => ''], [
-        'name' => $name, 'phone' => clean(digits_en(p('phone')), 30), 'type' => in_array(p('type'), ORDER_TYPES, true) ? p('type') : ORDER_TYPES[0], 'table' => clean(p('table'), 20),
+        'name' => $name, 'phone' => clean(digits_en(p('phone')), 30), 'type' => $type, 'table' => clean(p('table'), 20),
         'address' => clean(p('address'), 300), 'notes' => clean(p('notes'), 300), 'staffNote' => clean(p('staffNote'), 300),
-        'items' => $lines, 'subtotal' => $sub, 'discount' => $disc, 'coupon' => strtoupper(clean(p('coupon'), 30)), 'total' => $sub - $disc,
+        'items' => $lines, 'subtotal' => $sub, 'discount' => $disc, 'coupon' => strtoupper(clean(p('coupon'), 30)),
+        'service' => $tot['service'], 'vat' => $tot['vat'], 'delivery' => $tot['delivery'], 'zone' => $tot['zone'], 'total' => $tot['total'], 'charges' => !empty($_POST['charges']),
         'status' => $st, 'pay' => $pay, 'paid' => $pay !== '', 'updated' => now_iso(), 'updatedBy' => me()['name'] ?? '',
     ]);
     bc_tx('orders', function (&$d) use ($row, $isNew) {
@@ -63,7 +66,8 @@ $lineRow = function (array $l) use ($opts) {
 };
 admin_head($isNew ? 'طلب جديد' : 'تعديل طلب #' . $o['no'], 'orders', '<a class="b" href="orders.php">رجوع للطلبات</a>');
 ?>
-<form method="post" class="form-grid" id="orderForm">
+<?php $chg = charges(); $hasChg = $chg['service'] || $chg['vat'] || $chg['deliveryFee'] || $chg['zones']; $chOn = $isNew ? true : (!empty($o['charges']) || !empty($o['service']) || !empty($o['vat']) || !empty($o['delivery'])); ?>
+<form method="post" class="form-grid" id="orderForm" data-charges="<?= e(json_encode($chg, JSON_UNESCAPED_UNICODE)) ?>">
   <?= csrf_field() ?>
   <section class="card card--full">
     <div class="card__head"><h3>الأصناف</h3><span class="muted">السعر بيتملي من المنيو تلقائيًا وتقدر تعدّله</span></div>
@@ -74,7 +78,8 @@ admin_head($isNew ? 'طلب جديد' : 'تعديل طلب #' . $o['no'], 'order
     <div class="ototal">
       <label class="f"><span>كود خصم (للتسجيل)</span><input name="coupon" value="<?= e($o['coupon']) ?>" class="latin" dir="ltr"></label>
       <label class="f"><span>قيمة الخصم (جنيه)</span><input name="discount" type="number" min="0" step="0.5" value="<?= e((string)$o['discount']) ?>" class="latin" id="discInp"></label>
-      <div class="ototal__sum"><span>المجموع <b class="latin" id="subOut">0</b></span><span>الإجمالي <b class="latin" id="totOut">0</b></span></div>
+      <div class="ototal__sum"><span>المجموع <b class="latin" id="subOut">0</b></span><span id="chgOut" class="ototal__chg"></span><span>الإجمالي <b class="latin" id="totOut">0</b></span></div>
+      <?php if ($hasChg): ?><label class="switch" style="grid-column:1/-1"><input type="checkbox" name="charges" value="1" id="chgOn" <?= $chOn ? 'checked' : '' ?>><i></i><span>طبّق الخدمة والضريبة والتوصيل من <a href="charges.php">صفحة الرسوم</a></span></label><?php endif; ?>
     </div>
   </section>
 
@@ -85,6 +90,7 @@ admin_head($isNew ? 'طلب جديد' : 'تعديل طلب #' . $o['no'], 'order
       <label class="f"><span>الموبايل</span><input name="phone" value="<?= e($o['phone']) ?>" class="latin" dir="ltr" inputmode="tel"></label>
       <label class="f"><span>نوع الطلب</span><select name="type"><?php foreach (ORDER_TYPES as $t): ?><option <?= sel(['استلام' => 'استلام من الفرع', 'في الكافيه' => 'داخل الكافيه'][$o['type']] ?? $o['type'], $t) ?>><?= $t ?></option><?php endforeach; ?></select></label>
       <label class="f"><span>رقم الترابيزة</span><input name="table" value="<?= e($o['table'] ?? '') ?>" maxlength="20" placeholder="للطلبات داخل الكافيه"></label>
+      <?php if ($chg['zones']): ?><label class="f"><span>منطقة التوصيل</span><select name="zone"><option value="">—</option><?php foreach ($chg['zones'] as $z): ?><option value="<?= e($z['name']) ?>" <?= sel($o['zone'] ?? '', $z['name']) ?>><?= e($z['name']) ?> · <?= egp($z['fee']) ?></option><?php endforeach; ?></select></label><?php endif; ?>
       <label class="f"><span>العنوان</span><input name="address" value="<?= e($o['address'] ?? '') ?>" maxlength="300"></label>
       <label class="f f--full"><span>ملاحظات العميل</span><textarea name="notes" rows="2" maxlength="300"><?= e($o['notes'] ?? '') ?></textarea></label>
     </div>

@@ -68,7 +68,7 @@ $group = function (array $list, callable $key): array {
 $byType = $group($valid, fn($o) => $o['type'] ?: 'غير محدد');
 $byPay = $group($valid, fn($o) => PAY_METHODS[$o['pay'] ?? ''] ?? 'غير محدد');
 $byPay = array_combine(array_map(fn($k) => $k === '' || $k === '—' ? 'لم يُسجَّل' : $k, array_keys($byPay)), array_values($byPay));
-$byCh = $group($valid, fn($o) => ($o['channel'] ?? '') === 'manual' ? 'يدوي (تليفون/كاشير)' : 'من الموقع');
+$byCh = $group($valid, fn($o) => ['manual' => 'يدوي (تليفون/كاشير)', 'table' => 'من الترابيزة (QR)'][$o['channel'] ?? ''] ?? 'من الموقع');
 $bySt = []; foreach ($all as $o) { $s = ORDER_ST[$o['status'] ?? 'new'] ?? $o['status']; $bySt[$s] = ($bySt[$s] ?? 0) + 1; } arsort($bySt);
 
 /* items + categories */

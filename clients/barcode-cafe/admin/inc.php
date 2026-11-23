@@ -39,11 +39,11 @@ const PERMS = [
     'items.edit' => 'إضافة وتعديل الأصناف والأقسام', 'items.delete' => 'حذف الأصناف والأقسام',
     'disc.edit' => 'الخصومات والكوبونات', 'events.edit' => 'إنشاء وتعديل الفعاليات', 'events.guests' => 'إدارة ضيوف الفعاليات والدعوات',
     'reports.view' => 'التقارير', 'export' => 'تنزيل ملفات Excel',
-    'settings.site' => 'بيانات التواصل وخدمات الموقع', 'settings.marketing' => 'الشريط المتحرك والسوشيال ميديا',
+    'tables.manage' => 'إضافة وتعديل وحذف الترابيزات وطباعة الـ QR', 'settings.site' => 'بيانات التواصل وخدمات الموقع', 'settings.marketing' => 'الشريط المتحرك والسوشيال ميديا',
     'log.view' => 'سجل النشاط', 'undo.all' => 'التراجع عن عمليات الموظفين الآخرين', 'backup.manage' => 'النسخ الاحتياطي والاسترجاع', 'users.manage' => 'إدارة المستخدمين والصلاحيات',
 ];
 const ROLE_PERMS = [
-    'manager' => ['orders.view', 'orders.edit', 'orders.delete', 'res.view', 'res.edit', 'res.delete', 'items.edit', 'items.delete', 'disc.edit', 'events.edit', 'events.guests', 'reports.view', 'export', 'settings.site', 'settings.marketing', 'log.view', 'undo.all'],
+    'manager' => ['orders.view', 'orders.edit', 'orders.delete', 'res.view', 'res.edit', 'res.delete', 'items.edit', 'items.delete', 'disc.edit', 'events.edit', 'events.guests', 'reports.view', 'export', 'tables.manage', 'settings.site', 'settings.marketing', 'log.view', 'undo.all'],
     'accountant' => ['orders.view', 'orders.edit', 'orders.delete', 'res.view', 'reports.view', 'export', 'log.view'],
     'editor' => ['items.edit', 'items.delete', 'events.edit'],
     'marketer' => ['disc.edit', 'events.edit', 'events.guests', 'reports.view', 'export', 'settings.marketing'],
@@ -259,19 +259,37 @@ function icon(string $name): string {
         'trash' => 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13', 'edit' => 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4', 'copy' => 'M8 8h12v12H8zM4 16V4h12',
         'down' => 'M12 4v12M6 11l6 6 6-6M4 20h16',
         'send' => 'M22 2 11 13M22 2l-7 20-4-9-9-4z', 'qr' => 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2zM16 16h2v2h-2z', 'undo' => 'M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11', 'shield' => 'M12 3 4 6v6c0 5 3.4 8.4 8 9 4.6-.6 8-4 8-9V6zM9 12l2 2 4-4', 'chart' => 'M4 20V10M10 20V4M16 20v-7M22 20H2', 'users' => 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 12 0v1M16 3.5a4 4 0 0 1 0 7M18 14a6 6 0 0 1 4 6v1',
-        'log' => 'M12 7v5l3 2M12 3a9 9 0 1 0 9 9', 'user' => 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21v-1a8 8 0 0 1 16 0v1', 'print' => 'M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z',
+        'log' => 'M12 7v5l3 2M12 3a9 9 0 1 0 9 9', 'user' => 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21v-1a8 8 0 0 1 16 0v1', 'print' => 'M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z', 'receipt' => 'M6 2h12v20l-3-2-3 2-3-2-3 2zM9 7h6M9 11h6M9 15h4',
     ][$name] ?? '';
     return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="' . $d . '"/></svg>';
+}
+
+/** Open orders per table (new / preparing / ready, last 12 hours): [tableId => [orders, total, st, at]]. */
+function table_live(): array {
+    static $live = null;
+    if ($live !== null) return $live;
+    $live = []; $since = time() - 12 * 3600; $rank = ['new' => 3, 'ready' => 2, 'preparing' => 1];
+    foreach (bc_load('orders') as $o) {
+        $tid = $o['tableId'] ?? ''; $st = $o['status'] ?? '';
+        if ($tid === '' || !isset($rank[$st]) || strtotime($o['at'] ?? '') < $since) continue;
+        $l = $live[$tid] ?? ['orders' => [], 'total' => 0, 'st' => '', 'at' => ''];
+        $l['orders'][] = $o; $l['total'] += (int)($o['total'] ?? 0);
+        if (!$l['st'] || $rank[$st] > $rank[$l['st']]) $l['st'] = $st;
+        if ($o['at'] > $l['at']) $l['at'] = $o['at'];
+        $live[$tid] = $l;
+    }
+    return $live;
 }
 
 function admin_head(string $title, string $active = '', string $actions = ''): void {
     $newOrders = can('orders.view') ? count(array_filter(bc_load('orders'), fn($o) => ($o['status'] ?? '') === 'new')) : 0;
     $newRes = can('res.view') ? count(array_filter(bc_load('reservations'), fn($r) => ($r['status'] ?? '') === 'new')) : 0;
+    $busy = can('orders.view') ? count(table_live()) : 0;
     $groups = [
         '' => ['index' => ['الرئيسية', 'home', 0, []]],
-        'التشغيل' => ['orders' => ['الطلبات', 'orders', $newOrders, ['orders.view']], 'reservations' => ['الحجوزات', 'res', $newRes, ['res.view']]],
-        'المنيو' => ['items' => ['الأصناف', 'items', 0, ['items.edit']], 'categories' => ['الأقسام', 'cats', 0, ['items.edit']], 'discounts' => ['الخصومات والعروض', 'disc', 0, ['disc.edit']]],
-        'التسويق' => ['events' => ['الفعاليات والدعوات', 'events', 0, ['events.edit', 'events.guests']], 'invite' => ['إرسال على واتساب', 'send', 0, ['events.guests', 'disc.edit']], 'tables' => ['QR الترابيزات', 'qr', 0, ['settings.site']]],
+        'التشغيل' => ['orders' => ['الطلبات', 'orders', $newOrders, ['orders.view']], 'reservations' => ['الحجوزات', 'res', $newRes, ['res.view']], 'tables' => ['الترابيزات و QR', 'qr', $busy, ['orders.view', 'tables.manage']]],
+        'المنيو' => ['items' => ['الأصناف', 'items', 0, ['items.edit']], 'categories' => ['الأقسام', 'cats', 0, ['items.edit']], 'discounts' => ['الخصومات والعروض', 'disc', 0, ['disc.edit']], 'charges' => ['الخدمة والضريبة والتوصيل', 'receipt', 0, ['settings.site']]],
+        'التسويق' => ['events' => ['الفعاليات والدعوات', 'events', 0, ['events.edit', 'events.guests']], 'invite' => ['إرسال على واتساب', 'send', 0, ['events.guests', 'disc.edit']]],
         'الإدارة' => ['reports' => ['التقارير', 'chart', 0, ['reports.view']], 'log' => ['سجل النشاط والتراجع', 'log', 0, ['log.view']], 'backups' => ['النسخ الاحتياطي', 'shield', 0, ['backup.manage']], 'users' => ['المستخدمين والصلاحيات', 'users', 0, ['users.manage']], 'settings' => ['الإعدادات', 'settings', 0, ['settings.site', 'settings.marketing']]],
     ];
     $me = me();
@@ -282,17 +300,18 @@ function admin_head(string $title, string $active = '', string $actions = ''): v
 <link rel="icon" type="image/png" href="../assets/brand/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Didact+Gothic&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="admin.css?v=<?= BC_VERSION ?>">
-</head><body>
+</head><body<?= can('orders.view', 'res.view') ? ' data-notify="1"' : '' ?>>
 <aside class="side" id="side">
   <a class="side__brand" href="index.php"><img src="../assets/brand/roundel-cream.png" alt=""><span>لوحة التحكم<small class="latin">BARCODE · CAFE</small></span></a>
   <nav class="side__nav">
     <?php foreach ($groups as $g => $links): $links = array_filter($links, fn($l) => !$l[3] || can(...$l[3])); if (!$links) continue; ?>
       <?php if ($g !== ''): ?><div class="side__group"><?= $g ?></div><?php endif; ?>
       <?php foreach ($links as $k => [$label, $ic, $n]): ?>
-        <a href="<?= $k ?>.php" class="<?= $active === $k ? 'is-on' : '' ?>"><?= icon($ic) ?><span><?= $label ?></span><?php if ($n): ?><b class="pill"><?= $n ?></b><?php endif; ?></a>
+        <a href="<?= $k ?>.php" class="<?= $active === $k ? 'is-on' : '' ?>" data-nav="<?= $k ?>"><?= icon($ic) ?><span><?= $label ?></span><b class="pill"<?= $n ? '' : ' hidden' ?>><?= $n ?></b></a>
       <?php endforeach; ?>
     <?php endforeach; ?>
   </nav>
+  <button type="button" class="nbell" id="nbell" hidden><?= icon('send') ?> شغّل تنبيهات الطلبات بالصوت</button>
   <div class="side__foot">
     <?php if ($me): ?><a class="side__me <?= $active === 'account' ? 'is-on' : '' ?>" href="account.php"><i><?= e(mb_substr($me['name'] ?: $me['user'], 0, 1)) ?></i><span><?= e($me['name'] ?: $me['user']) ?><small><?= e(role_label($me)) ?></small></span></a><?php endif; ?>
     <a href="../" target="_blank"><?= icon('ext') ?> فتح الموقع</a>

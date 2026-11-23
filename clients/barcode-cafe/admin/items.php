@@ -51,7 +51,7 @@ $list = array_filter($items, function ($it) use ($fc, $q, $fs) {
     if ($fs === 'sale' && empty($it['sale'])) return false;
     return true;
 });
-admin_head('الأصناف', 'items', '<a class="b b--primary" href="item.php' . ($fc ? '?cat=' . e($fc) : '') . '">' . icon('plus') . ' صنف جديد</a>');
+admin_head('الأصناف', 'items', '<a class="b" href="photos.php" title="كل صور المنيو في ملف مضغوط، فولدر لكل قسم">' . icon('down') . ' تحميل كل الصور</a><a class="b b--primary" href="item.php' . ($fc ? '?cat=' . e($fc) : '') . '">' . icon('plus') . ' صنف جديد</a>');
 ?>
 <form class="filters" method="get">
   <div class="search"><?= icon('search') ?><input name="q" value="<?= e($q) ?>" placeholder="ابحث باسم الصنف…"></div>
