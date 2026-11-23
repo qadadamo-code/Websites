@@ -1,481 +1,409 @@
+/* Tablia «طبلية» — public site. Menu, cart → WhatsApp, occasion booking, motion. */
 (() => {
   'use strict';
-  const D = window.TB;
+  const D = window.TB || { menu: [], packages: [], config: {}, offers: {} };
+  const C = D.config || {};
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const fmt = n => Math.round(+n || 0).toLocaleString('en-US');
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
-  const fmt = n => Number(n).toLocaleString('en-US');
+  const hasG = !!window.gsap && !reduce;
+  if (!hasG) document.documentElement.classList.add('no-motion');
 
-  /* ================= i18n ================= */
-  const T = {
-    ar: {},
-    en: {
-      'ld': 'Setting the tablia…', 'brand': 'Tablia', 'brand.tag': 'Catering · Home food',
-      'nav.meals': 'Daily meals', 'nav.khair': 'Charity meals', 'nav.events': 'Events', 'nav.gallery': 'Our work', 'nav.contact': 'Contact',
-      'cta.wa': 'Chat on WhatsApp', 'cta.call': 'Call us',
-      'hero.eye': 'Daily meals · Cairo & Giza', 'hero.h1': 'Home cooking,', 'hero.h2': 'served on your tablia', 'hero.h3': 'every day.',
-      'hero.p': 'Mahshi, molokhia, Dawood Basha kofta, tagines… a complete meal with rice, bread, pickles and dessert, from our kitchen to your home or office.',
-      'hero.cta1': "Pick today's meal", 'st.1': 'daily meals', 'st.2': 'starting from', 'st.3': 'followers trust us',
-      'egp': 'EGP', 'egp.long': 'EGP', 'stamp.from': 'from',
-      'story.k': 'Why Tablia?', 'story.h': 'Just like the family table…<br>without the effort or the dishes.',
-      'story.p': 'The tablia is the low round table every Egyptian family gathers around. That is why every meal we make is complete: the main dish, rice, bread, pickles and even dessert. Order for yourself, your family, or your whole team.',
-      's1.h': 'Pick your meal', 's1.p': '12 daily meals at clear fixed prices, plus add-ons.',
-      's2.h': 'Set your tablia', 's2.p': 'Every meal you add lands on your tablia, then send the whole order in one message.',
-      's3.h': 'Delivered hot', 's3.p': 'Confirm the evening before or early morning so it arrives right on time.',
-      'meals.k': 'Daily meals menu', 'meals.h': "What's on the tablia today?", 'meals.p': 'Every meal is complete with bread, pickles and dessert. Tap a plate to see what is in it, and add what you like to your tablia.',
-      'f.all': 'All', 'f.eco': 'Value 75 – 90', 'f.mid': 'Chicken & kofta', 'f.big': 'Tagines & mahshi',
-      'ad.h': 'Add-ons', 'ad.p': 'Add them to any order on your tablia',
-      'note': 'Please confirm your order the evening before or on the morning of the order day, so we can prepare it on time.',
-      'of.k': 'For companies & offices', 'of.h': "Your whole team's lunch… in one order.", 'of.p': 'Send us the headcount, meals and time, and we prepare daily or weekly team lunches with the same home taste.', 'of.cta': 'Order office lunch',
-      'kh.k': 'Charity meals', 'kh.h': 'You bring the good intention…<br><em>we handle the cooking and delivery.</em>', 'kh.p': 'Meals from 50 EGP, so the good reaches those who need it. Choose the meals and quantity, we prepare and deliver.',
-      'kh.meals': 'meals', 'kh.cta': 'Order charity meals', 'total': 'Total',
-      'ev.k': 'For your events too', 'ev.h': 'Host without the hassle.', 'ev.p': 'High tea, set menus, open buffets and finger food… prices per person, we prepare and set up while you enjoy.',
-      't.hightea': 'High Tea', 't.set': 'Set Menu', 't.buffet': 'Open Buffet', 't.finger': 'Finger Food',
-      'q.h': 'Request a quote for your event', 'q.p': 'Fill in the details and we reply on WhatsApp with everything.', 'q.pkg': 'Package', 'q.n': 'Guests', 'q.d': 'Event date', 'q.a': 'Area', 'q.a.ph': 'e.g. Nasr City', 'q.est': 'Initial estimate', 'q.cta': 'Send request on WhatsApp',
-      'g.k': 'Real work, real events', 'g.h': 'Details make the difference.', 'g.p': 'Photos from events and buffets we served. As one guest put it: “Their food is fancy and the details make the difference!”',
-      'c.k': 'Ready for your order', 'c.h': 'Every dish, made with love.', 'c.area': 'Delivering across Cairo & Giza', 'c.hours': 'Taking orders all day',
-      'f.brand': 'Tablia Catering', 'fab': 'My tablia', 'fab.m': 'meals',
-      'dr.h': 'Your tablia', 'dr.empty': 'Your tablia is empty… pick a meal.', 'dr.del': 'Delivery details', 'dr.name': 'Name', 'dr.addr': 'Address / area', 'dr.today': 'Today', 'dr.tom': 'Tomorrow', 'dr.time': 'Delivery window', 'dr.notes': 'Notes', 'dr.fee': '+ delivery depends on area', 'dr.send': 'Send order on WhatsApp',
-      'swipe': 'Swipe to see more packages', 'tm.1': '12 – 3 pm', 'tm.2': '3 – 6 pm', 'tm.3': '6 – 9 pm',
-      // dynamic
-      'add': 'Add', 'per': 'per person', 'min': 'from {n} guests', 'ask': 'Request this package', 'fa': 'First selection', 'fb': 'Second selection', 'fx': 'Service', 'fpc': 'per piece',
-      'added': 'Added to your tablia ✓', 'empty': 'Add a meal first', 'khempty': 'Choose at least one meal', 'inc': 'What is in it', 'tag.fav': 'Favorite', 'tag.chef': "Chef's pick",
-      'mq': ['Mixed mahshi', 'Molokhia', 'Dawood Basha', 'Mombar', 'Meat tagine', 'Stuffed chicken', 'Alexandrian liver', 'Chicken pané', 'Shawarma', 'Om Ali']
-    }
+  /* ---------- index ---------- */
+  const ITEMS = {}, CATS = {};
+  D.menu.forEach(c => { CATS[c.id] = c; c.items.forEach((it, i) => { it.cat = c.id; it.no = i + 1; ITEMS[it.id] = it; }); });
+  const sizesOf = it => it.sizes && it.sizes.length ? it.sizes : [{ l: '', p: it.price, w: it.was }];
+  const img = it => it.image || 'assets/brand/badge.webp';
+  const selSize = {};               // item id -> chosen size index
+
+  /* ---------- toast ---------- */
+  let tt;
+  const toast = msg => { const t = $('#toast'); t.textContent = msg; t.classList.add('is-on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('is-on'), 2600); };
+
+  /* ---------- cart ---------- */
+  const KEY = 'tb-cart-v2';
+  let cart = [];
+  try { cart = JSON.parse(localStorage.getItem(KEY) || '[]').filter(l => ITEMS[l.id] && l.q > 0); } catch (e) { cart = []; }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch (e) {} };
+  const line = (id, s) => cart.find(l => l.id === id && l.s === s);
+  const qtyOf = (id, s) => (line(id, s) || {}).q || 0;
+  const setQty = (id, s, q) => {
+    q = Math.max(0, Math.min(200, q));
+    const l = line(id, s);
+    if (l) { if (q) l.q = q; else cart = cart.filter(x => x !== l); } else if (q) cart.push({ id, s, q });
+    save(); refresh(id);
   };
-  // Arabic defaults come from the HTML; collect them once
-  $$('[data-i18n]').forEach(el => { const k = el.dataset.i18n; if (!(k in T.ar)) T.ar[k] = el.innerHTML; });
-  $$('[data-ph]').forEach(el => { T.ar[el.dataset.ph] = el.getAttribute('placeholder'); });
-  Object.assign(T.ar, {
-    'add': 'أضف', 'per': 'للفرد', 'min': 'يبدأ من {n} فرد', 'ask': 'اطلب الباكدج ده', 'fa': 'الأصناف الأولى', 'fb': 'الأصناف الثانية', 'fx': 'الخدمة', 'fpc': 'للقطعة',
-    'added': 'اتضافت لطبليتك ✓', 'empty': 'ضيف وجبة الأول', 'khempty': 'اختار وجبة واحدة على الأقل', 'inc': 'مكونات الوجبة', 'tag.fav': 'الأكثر طلبًا', 'tag.chef': 'ترشيح الشيف',
-    'mq': ['محشي مشكل', 'ملوخية', 'كفتة داود باشا', 'ممبار', 'طاجن لحمة', 'فراخ محشية', 'كبدة اسكندراني', 'فراخ بانيه', 'شاورما', 'أم علي']
+  const count = () => cart.reduce((a, l) => a + l.q, 0);
+  const priceOf = l => (sizesOf(ITEMS[l.id])[l.s] || sizesOf(ITEMS[l.id])[0]).p;
+  const subtotal = () => cart.reduce((a, l) => a + priceOf(l) * l.q, 0);
+
+  /* ---------- controls ---------- */
+  const control = (it) => {
+    if (it.soldout) return '<span class="soldout">خلص النهارده</span>';
+    const s = selSize[it.id] || 0, q = qtyOf(it.id, s);
+    return q
+      ? `<div class="qty" data-id="${it.id}"><button data-act="dec" aria-label="أقل">−</button><b>${q}</b><button data-act="inc" aria-label="زيادة">+</button></div>`
+      : `<button class="add" data-act="add" data-id="${it.id}"><i>+</i> على الطبلية</button>`;
+  };
+  const priceHtml = (it) => {
+    const z = sizesOf(it)[selSize[it.id] || 0];
+    return `${z.w ? `<s>${fmt(z.w)}</s>` : ''}${fmt(z.p)} <small>جنيه</small>`;
+  };
+  function refresh(id) {
+    $$(`[data-item="${id}"]`).forEach(el => {
+      const it = ITEMS[id];
+      const c = $('.ctl', el); if (c) c.innerHTML = control(it);
+      const p = $('.price', el); if (p) p.innerHTML = priceHtml(it);
+    });
+    badge();
+    if ($('#cartLayer').classList.contains('is-open')) renderDrawer();
+  }
+
+  /* ---------- today (meal cards) ---------- */
+  const mealCard = (it) => {
+    const feat = /الأكثر/.test(it.tag || '');
+    const inc = (it.desc || '').split('•').map(s => s.trim()).filter(Boolean);
+    const sizeTag = it.tag && !feat ? `<span class="meal__tag meal__tag--size">${esc(it.tag)}</span>` : '';
+    return `<article class="meal${feat ? ' is-feat' : ''}${it.soldout ? ' is-out' : ''}" data-item="${it.id}">
+      <div class="meal__img" data-open="${it.id}"><img src="${esc(img(it))}" alt="${esc(it.name)}" loading="lazy" width="600" height="450">
+        <span class="meal__no">${it.no}</span>${feat ? `<span class="meal__tag">${esc(it.tag)}</span>` : sizeTag}${it.badge ? `<span class="meal__tag">${esc(it.badge)}</span>` : ''}</div>
+      <div class="meal__body"><h3 class="meal__name">${esc(it.name)}</h3>
+        ${inc.length ? `<ul class="inc">${inc.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+        <div class="meal__foot"><span class="price">${priceHtml(it)}</span><span class="ctl">${control(it)}</span></div></div></article>`;
+  };
+  const mealGrid = $('#mealGrid');
+  function renderMeals(cat) {
+    if (!mealGrid || !CATS[cat]) return;
+    mealGrid.innerHTML = CATS[cat].items.map(mealCard).join('');
+    if (hasG && document.body.classList.contains('ready')) gsap.from($$('.meal', mealGrid), { y: 40, opacity: 0, duration: .7, stagger: .06, ease: 'power3.out', clearProps: 'all' });
+  }
+  const mealTabs = $$('#mealTabs button');
+  mealTabs.forEach(b => b.addEventListener('click', () => { mealTabs.forEach(x => x.classList.toggle('is-on', x === b)); renderMeals(b.dataset.cat); }));
+  if (mealTabs[0]) renderMeals(mealTabs[0].dataset.cat);
+
+  /* ---------- kitchen menu ---------- */
+  const miRow = (it) => {
+    const sz = sizesOf(it), multi = sz.length > 1;
+    return `<article class="mi" data-item="${it.id}" data-name="${esc(it.name)}">
+      <div class="mi__img" data-open="${it.id}"><img src="${esc(img(it))}" alt="${esc(it.name)}" loading="lazy" width="300" height="300"></div>
+      <div class="mi__main"><div class="mi__top"><div><h4 class="mi__name">${esc(it.name)}</h4>
+        <div class="mi__unit">${esc(it.unit || (sz.length === 1 && sz[0].l ? sz[0].l : ''))}${it.badge ? ` · <b style="color:var(--red)">${esc(it.badge)}</b>` : ''}</div></div></div>
+        ${multi ? `<div class="sizes" role="group" aria-label="الكمية">${sz.map((z, i) => `<button data-size="${i}" class="${(selSize[it.id] || 0) === i ? 'is-on' : ''}">${esc(z.l)}</button>`).join('')}</div>` : ''}
+        <div class="mi__row"><span class="price">${priceHtml(it)}</span><span class="ctl">${control(it)}</span></div></div></article>`;
+  };
+  $$('[data-list]').forEach(el => { const c = CATS[el.dataset.list]; if (c) el.innerHTML = c.items.map(miRow).join(''); });
+
+  // search
+  const sIn = $('#menuSearch');
+  const norm = s => String(s).replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/[ًٌٍَُِّْ]/g, '').trim();
+  sIn && sIn.addEventListener('input', () => {
+    const q = norm(sIn.value); let any = false;
+    $$('.mcat').forEach(cat => {
+      let n = 0;
+      $$('.mi', cat).forEach(m => { const ok = !q || norm(m.dataset.name).includes(q); m.hidden = !ok; if (ok) n++; });
+      cat.hidden = !n; if (n) any = true;
+    });
+    $('#menuEmpty').hidden = any;
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
   });
 
-  let lang = store.get('tb-lang', 'ar') === 'en' ? 'en' : 'ar';
-  const t = k => (T[lang][k] !== undefined ? T[lang][k] : T.ar[k]);
-  const L = o => (o && typeof o === 'object' ? (o[lang] || o.ar) : o);
-
-  function applyLang() {
-    const html = document.documentElement;
-    html.lang = lang; html.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    $$('[data-i18n]').forEach(el => { const v = t(el.dataset.i18n); if (v !== undefined) el.innerHTML = v; });
-    $$('[data-ph]').forEach(el => el.setAttribute('placeholder', t(el.dataset.ph)));
-    $('#langBtn').textContent = lang === 'ar' ? 'EN' : 'ع';
-    document.title = lang === 'ar' ? 'طبلية كاترينج | أكل بيتي يومي يوصلك لحد بابك' : 'Tablia Catering | Daily Egyptian home food, delivered';
-    renderAll();
-  }
-
-  /* ================= plates helpers ================= */
-  const plateImg = id => `assets/img/meals/m${id}.webp`;
-  function ringLayout(n, opt = {}) {
-    // returns positions for n plates on a tablia (percent offsets)
-    const out = [];
-    if (n <= 0) return out;
-    if (n === 1) return [{ x: 0, y: 0, s: opt.single || 46 }];
-    const center = n >= 5;
-    const around = center ? n - 1 : n;
-    const R = opt.R || (around <= 3 ? 22 : 30);
-    const s = opt.s || (around <= 3 ? 40 : around <= 5 ? 33 : 29);
-    for (let i = 0; i < around; i++) {
-      const a = (i / around) * Math.PI * 2 - Math.PI / 2;
-      out.push({ x: Math.cos(a) * R, y: Math.sin(a) * R, s });
-    }
-    if (center) out.push({ x: 0, y: 0, s: opt.cs || s + 3 });
-    return out;
-  }
-  function plateEl(id, p, rot) {
-    const d = document.createElement('div');
-    d.className = 'plate';
-    d.style.cssText = `--x:${p.x}%;--y:${p.y}%;--s:${p.s}%;--rot:${rot || 0}deg`;
-    d.innerHTML = `<img src="${plateImg(id)}" alt="" draggable="false">`;
-    return d;
-  }
-
-  /* ================= hero tablia ================= */
-  const heroIds = [8, 1, 11, 4, 12, 6, 10];
-  function buildHero() {
-    const ring = $('#heroRing'); ring.innerHTML = '';
-    const pos = ringLayout(7, { R: 30.5, s: 31, cs: 35 });
-    heroIds.forEach((id, i) => ring.appendChild(plateEl(id, pos[i], i * 37)));
-  }
-
-  /* ================= marquee ================= */
-  function buildMarq() {
-    const words = t('mq');
-    const html = words.map(w => `<span>${w}</span>`).join('');
-    $('#marq').innerHTML = html + html;
-  }
-
-  /* ================= cart ================= */
-  const cart = store.get('tb-cart', { m: {}, a: {} });
-  if (!cart.m) cart.m = {}; if (!cart.a) cart.a = {};
-  const saveCart = () => store.set('tb-cart', cart);
-  const mealById = id => D.meals.find(m => m.id === +id);
-  const cartCount = () => Object.values(cart.m).reduce((a, b) => a + b, 0);
-  const cartTotal = () => Object.entries(cart.m).reduce((s, [id, q]) => s + mealById(id).price * q, 0) + Object.entries(cart.a).reduce((s, [id, q]) => s + D.addons.find(a => a.id === id).price * q, 0);
-
-  function stepperHTML(q, kind, id) {
-    return `<span class="stepper" data-kind="${kind}" data-id="${id}"><button type="button" data-d="-1" aria-label="-">−</button><b>${q}</b><button type="button" data-d="1" aria-label="+">+</button></span>`;
-  }
-  function addBtnHTML(id) {
-    const q = cart.m[id] || 0;
-    return q ? stepperHTML(q, 'm', id) : `<button type="button" class="add" data-add="${id}"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>${t('add')}</button>`;
-  }
-
-  function setMeal(id, q, fromEl) {
-    const prev = cart.m[id] || 0;
-    q = Math.max(0, Math.min(99, q));
-    if (q) cart.m[id] = q; else delete cart.m[id];
-    saveCart();
-    if (q > prev && fromEl) flyToFab(id, fromEl);
-    if (q > prev) toast(t('added'));
-    refreshCartUI();
-  }
-  function setAddon(id, q) {
-    q = Math.max(0, Math.min(99, q));
-    if (q) cart.a[id] = q; else delete cart.a[id];
-    saveCart(); refreshCartUI();
-  }
-
-  function refreshCartUI() {
-    const n = cartCount(), tot = cartTotal();
-    $$('[data-count]').forEach(el => el.textContent = n);
-    $('#fabTotal').textContent = fmt(tot);
-    $('#drTotal').textContent = fmt(tot);
-    $('#fab').classList.toggle('show', n > 0 || Object.keys(cart.a).length > 0);
-    // card buttons
-    $$('.meal').forEach(card => { const f = $('.meal-foot .act', card); if (f) f.innerHTML = addBtnHTML(card.dataset.id); });
-    const sh = $('#sheetCard .act'); if (sh) sh.innerHTML = addBtnHTML(sh.dataset.id);
-    // fab ring (unique meals, up to 5)
-    const ids = Object.keys(cart.m).slice(0, 5);
-    const fr = $('#fabRing'); fr.innerHTML = '';
-    ringLayout(ids.length, { R: 24, s: 44, single: 70, cs: 44 }).forEach((p, i) => fr.appendChild(plateEl(ids[i], p, i * 50)));
-    renderDrawer();
-  }
-
-  function renderDrawer() {
-    // tablia with each unit as a plate (up to 8)
-    const units = [];
-    Object.entries(cart.m).forEach(([id, q]) => { for (let i = 0; i < q; i++) units.push(id); });
-    const shown = units.slice(0, 8);
-    const ring = $('#drRing'); ring.innerHTML = '';
-    ringLayout(shown.length).forEach((p, i) => ring.appendChild(plateEl(shown[i], p, i * 41)));
-    $('#drEmpty').style.display = units.length ? 'none' : '';
-    $('#drList').innerHTML = Object.entries(cart.m).map(([id, q]) => {
-      const m = mealById(id);
-      return `<li><img src="${plateImg(m.img)}" alt=""><div><h5>${L(m)}</h5><small>${m.price} ${t('egp')} × ${q} = <b>${fmt(m.price * q)}</b></small></div>${stepperHTML(q, 'm', id)}</li>`;
-    }).join('');
-    $('#drAddons').innerHTML = D.addons.map(a => `<li>${L(a)} <b>${a.price}</b>${stepperHTML(cart.a[a.id] || 0, 'a', a.id)}</li>`).join('');
-  }
-
-  function flyToFab(id, fromEl) {
-    if (reduce || !window.gsap) return;
-    const src = fromEl.getBoundingClientRect();
-    const fab = $('#fab'); const wasHidden = !fab.classList.contains('show');
-    fab.classList.add('show');
-    const dst = $('.fab-t').getBoundingClientRect();
-    const f = document.createElement('img');
-    f.src = plateImg(mealById(id).img); f.className = 'flyer';
-    const size = Math.min(src.width, 220);
-    Object.assign(f.style, { width: size + 'px', height: size + 'px', left: (src.left + src.width / 2 - size / 2) + 'px', top: (src.top + src.height / 2 - size / 2) + 'px' });
-    document.body.appendChild(f);
-    const dx = dst.left + dst.width / 2 - (src.left + src.width / 2);
-    const dy = dst.top + dst.height / 2 - (src.top + src.height / 2);
-    gsap.timeline({ onComplete() { f.remove(); fab.classList.remove('bump'); void fab.offsetWidth; fab.classList.add('bump'); } })
-      .to(f, { duration: wasHidden ? .9 : .75, x: dx, y: dy, rotation: 300, scale: dst.width / size, ease: 'power2.inOut' })
-      .to(f, { duration: .15, opacity: 0 });
-  }
-
-  /* ================= meals grid ================= */
-  const group = m => m.price <= 90 && m.id !== 1 ? 'eco' : (m.id === 1 || m.price >= 200 ? 'big' : 'mid');
-  let curFilter = 'all';
-  function renderMeals() {
-    $('#mealGrid').innerHTML = D.meals.map(m => `
-      <article class="meal" data-id="${m.id}" data-g="${group(m)}${m.price <= 90 ? ' eco' : ''}">
-        <div class="meal-plate" data-open="${m.id}" role="button" tabindex="0" aria-label="${L(m)}"><img src="${plateImg(m.img)}" alt="${L(m)}" loading="lazy" width="560" height="560"></div>
-        <span class="meal-no">${String(m.id).padStart(2, '0')}</span>
-        ${m.tag ? `<span class="meal-tag ${m.tag}">${t('tag.' + m.tag)}</span>` : ''}
-        <h3>${L(m)}</h3>
-        <div class="chips">${L(m.inc).map(x => `<span>${x}</span>`).join('')}</div>
-        <div class="meal-foot"><span class="price">${m.price}<small>${t('egp')}</small></span><span class="act" data-id="${m.id}">${addBtnHTML(m.id)}</span></div>
-      </article>`).join('');
-    applyFilter(curFilter, true);
-  }
-  function applyFilter(f, silent) {
-    curFilter = f;
-    $$('.meal-filter button').forEach(b => b.classList.toggle('on', b.dataset.f === f));
-    $$('.meal').forEach(c => c.classList.toggle('hide', !(f === 'all' || c.dataset.g.split(' ').includes(f))));
-    if (!silent && window.ScrollTrigger) ScrollTrigger.refresh();
-  }
-
-  function renderAddonsList() {
-    $('#addonList').innerHTML = D.addons.map(a => `<li>${L(a)} <b>${a.price} ${t('egp')}</b><button type="button" data-addon="${a.id}" aria-label="+">+</button></li>`).join('');
-  }
-
-  /* ================= sheet ================= */
-  function openSheet(id) {
-    const m = mealById(id);
-    $('#sheetCard').innerHTML = `
-      <button class="x" data-close aria-label="close">×</button>
-      <div class="sh-img"><img src="${plateImg(m.img)}" alt="${L(m)}"></div>
-      <div class="sh-body">
-        <span class="meal-no" style="position:static">${String(m.id).padStart(2, '0')}</span>
-        <h3>${L(m)}</h3>
-        <p class="kicker" style="margin:10px 0 0">${t('inc')}</p>
-        <ul>${L(m.inc).map(x => `<li>${x}</li>`).join('')}</ul>
-        <div class="meal-foot"><span class="price">${m.price}<small>${t('egp')}</small></span><span class="act" data-id="${m.id}">${addBtnHTML(m.id)}</span></div>
-      </div>`;
-    openLayer('#sheet');
-  }
-
-  /* ================= khair ================= */
-  const kh = store.get('tb-kh', {});
-  function renderKhair() {
-    $('#khairGrid').innerHTML = D.khair.map(k => `
-      <div class="kh ${kh[k.id] ? 'has' : ''}" data-id="${k.id}">
-        <span class="kp">${k.price}<small>${t('egp')}</small></span>
-        <h4>${L(k)}</h4><p>${L(k.inc)}</p>
-        ${stepperHTML(kh[k.id] || 0, 'k', k.id)}
-      </div>`).join('');
-    updKhair();
-  }
-  function updKhair() {
-    const n = Object.values(kh).reduce((a, b) => a + b, 0);
-    const tot = D.khair.reduce((s, k) => s + (kh[k.id] || 0) * k.price, 0);
-    $('#khCount').textContent = n; $('#khTotal').textContent = fmt(tot);
-    const goal = n <= 10 ? 10 : n <= 50 ? 50 : n <= 100 ? 100 : Math.ceil(n / 100) * 100;
-    $('#kmArc').style.strokeDashoffset = 327 - 327 * Math.min(1, n / goal);
-  }
-  function setKhair(id, q) {
-    q = Math.max(0, Math.min(999, q));
-    if (q) kh[id] = q; else delete kh[id];
-    store.set('tb-kh', kh);
-    const card = $(`.kh[data-id="${id}"]`);
-    if (card) { card.classList.toggle('has', !!q); $('.stepper b', card).textContent = q; }
-    updKhair();
-  }
-
-  /* ================= events ================= */
-  let curTab = 'hightea';
-  function pkgCard(p, key) {
-    return `<article class="pkg">
-      <div class="pkg-h"><div><h3>${L(p.name)}</h3>${p.min ? `<span class="min">${t('min').replace('{n}', p.min)}</span>` : ''}</div>
-      <div class="pp"><b>${p.price}</b><small>${t('egp')} / ${t('per')}</small></div></div>
-      ${p.groups.map(g => `<h5>${L(g.t)}</h5><ul>${L(g.i).map(x => `<li>${x}</li>`).join('')}</ul>`).join('')}
-      ${p.note ? `<p class="pnote">${L(p.note)}</p>` : ''}
-      <div class="pkg-gap"></div>
-      <button type="button" class="btn btn-maroon" data-pkg="${key}">${t('ask')}</button>
-    </article>`;
-  }
-  function renderEvents() {
-    $$('#evTabs button').forEach(b => b.classList.toggle('on', b.dataset.t === curTab));
-    const P = $('#evPanel');
-    P.classList.toggle('is-finger', curTab === 'finger'); $('#evSwipe').classList.toggle('off', curTab === 'finger');
-    if (curTab === 'finger') {
-      const row = r => `<div class="frow"><span>${lang === 'ar' ? r[0] : r[1]}</span><b>${r[2]}</b></div>`;
-      P.innerHTML = `<div class="finger">
-        <div class="fcol"><h4>${t('fa')}</h4>${D.finger.a.map(row).join('')}</div>
-        <div class="fcol"><h4>${t('fb')}</h4>${D.finger.b.map(row).join('')}</div>
-        <div class="fcol dark"><h4>${t('fx')}</h4>${D.finger.extra.map(row).join('')}<p style="font-size:13px;opacity:.7;margin-top:12px">${lang === 'ar' ? 'الأسعار بالجنيه للقطعة · النقل على حسب المكان' : 'Prices in EGP per piece · transport depends on location'}</p>
-        <button type="button" class="btn btn-gold" style="margin-top:18px;width:100%" data-pkg="finger">${t('ask')}</button></div>
-      </div>`;
-    } else {
-      P.innerHTML = D.events[curTab].map((p, i) => pkgCard(p, curTab + ':' + i)).join('');
-    }
-    if (window.gsap && !reduce) gsap.from(P.children, { y: 30, opacity: 0, duration: .6, stagger: .07, ease: 'power3.out', clearProps: 'all' });
-  }
-  function renderQuoteSelect() {
-    const sel = $('#qPkg'); const cur = sel.value;
-    let html = '';
-    ['hightea', 'set', 'buffet'].forEach(k => D.events[k].forEach((p, i) => { html += `<option value="${k}:${i}">${L(p.name)} · ${p.price} ${t('egp')}</option>`; }));
-    html += `<option value="finger">${lang === 'ar' ? 'فنجر فود (حسب الاختيار)' : 'Finger food (custom)'}</option>`;
-    sel.innerHTML = html; if (cur) sel.value = cur;
-    calcQuote();
-  }
-  function pkgByKey(k) { if (k === 'finger') return null; const [g, i] = k.split(':'); return D.events[g][+i]; }
-  function calcQuote() {
-    const p = pkgByKey($('#qPkg').value); const n = Math.max(0, +$('#qN').value || 0);
-    $('#qEst').textContent = p ? fmt(p.price * n) : '—';
-  }
-
-  /* ================= gallery ================= */
-  function buildGallery() {
-    const fig = i => `<figure><img src="assets/img/real/r${i}.webp" alt="" loading="lazy" width="272" height="272"></figure>`;
-    const a = [1, 2, 3, 4, 5, 6], b = [7, 8, 9, 10, 11, 12];
-    $('#gRow1').innerHTML = [...a, ...a].map(fig).join('');
-    $('#gRow2').innerHTML = [...b, ...b].map(fig).join('');
-  }
-
-  /* ================= whatsapp ================= */
-  const wa = msg => `https://wa.me/${D.wa}?text=${encodeURIComponent(msg)}`;
-  const openWA = msg => window.open(wa(msg), '_blank', 'noopener');
-  function waGeneral(kind) {
-    if (kind === 'office') return lang === 'ar' ? 'أهلاً طبلية 👋\nعايز أطلب غدا يومي لفريق شغل.\nعدد الأفراد: \nالمكان: \nالمواعيد: ' : 'Hello Tablia 👋\nI would like daily lunch for my team.\nHeadcount: \nLocation: \nSchedule: ';
-    return lang === 'ar' ? 'أهلاً طبلية 👋 عايز أستفسر عن الوجبات اليومية.' : 'Hello Tablia 👋 I would like to ask about your daily meals.';
-  }
-  function sendOrder() {
-    if (!cartCount()) { toast(t('empty')); return; }
-    const ar = lang === 'ar';
-    const lines = Object.entries(cart.m).map(([id, q]) => { const m = mealById(id); return `• ${q} × ${L(m)} (${m.price}) = ${fmt(m.price * q)}`; });
-    const ad = Object.entries(cart.a).map(([id, q]) => { const a = D.addons.find(x => x.id === id); return `• ${q} × ${L(a)} (${a.price}) = ${fmt(a.price * q)}`; });
-    const day = $('#fDay .on').dataset.v;
-    const time = $('#fTime').selectedOptions[0].textContent;
-    const msg = [
-      ar ? '🍽️ طلب جديد من موقع طبلية' : '🍽️ New order from Tablia website',
-      '',
-      ar ? 'الوجبات:' : 'Meals:', ...lines,
-      ...(ad.length ? ['', ar ? 'الإضافات:' : 'Add-ons:', ...ad] : []),
-      '',
-      `${ar ? 'الإجمالي' : 'Total'}: ${fmt(cartTotal())} ${ar ? 'جنيه' : 'EGP'} ${ar ? '(+ التوصيل)' : '(+ delivery)'}`,
-      `${ar ? 'اليوم' : 'Day'}: ${day === 'today' ? (ar ? 'النهارده' : 'Today') : (ar ? 'بكرة' : 'Tomorrow')} · ${time}`,
-      `${ar ? 'الاسم' : 'Name'}: ${$('#fName').value.trim() || '-'}`,
-      `${ar ? 'العنوان' : 'Address'}: ${$('#fAddr').value.trim() || '-'}`,
-      ...($('#fNotes').value.trim() ? [`${ar ? 'ملاحظات' : 'Notes'}: ${$('#fNotes').value.trim()}`] : [])
-    ].join('\n');
-    openWA(msg);
-  }
-  function sendKhair() {
-    const n = Object.values(kh).reduce((a, b) => a + b, 0);
-    if (!n) { toast(t('khempty')); return; }
-    const ar = lang === 'ar';
-    const lines = D.khair.filter(k => kh[k.id]).map(k => `• ${kh[k.id]} × ${L(k)} (${k.price}) = ${fmt(kh[k.id] * k.price)}`);
-    const tot = D.khair.reduce((s, k) => s + (kh[k.id] || 0) * k.price, 0);
-    openWA([ar ? '🤲 طلب وجبات الخير من موقع طبلية' : '🤲 Charity meals order from Tablia website', '', ...lines, '', `${ar ? 'عدد الوجبات' : 'Meals'}: ${n}`, `${ar ? 'الإجمالي' : 'Total'}: ${fmt(tot)} ${ar ? 'جنيه' : 'EGP'}`, ar ? 'مكان التوزيع/التوصيل: ' : 'Delivery/distribution place: '].join('\n'));
-  }
-  function sendQuote(e) {
-    e.preventDefault();
-    const ar = lang === 'ar'; const k = $('#qPkg').value; const p = pkgByKey(k);
-    const n = +$('#qN').value || 0;
-    openWA([
-      ar ? '🎉 طلب عرض سعر لمناسبة' : '🎉 Event quote request',
-      `${ar ? 'الباكدج' : 'Package'}: ${$('#qPkg').selectedOptions[0].textContent}`,
-      `${ar ? 'عدد الأفراد' : 'Guests'}: ${n}`,
-      `${ar ? 'التاريخ' : 'Date'}: ${$('#qD').value || '-'}`,
-      `${ar ? 'المنطقة' : 'Area'}: ${$('#qA').value.trim() || '-'}`,
-      ...(p ? [`${ar ? 'تقدير مبدئي' : 'Estimate'}: ${fmt(p.price * n)} ${ar ? 'جنيه' : 'EGP'}`] : [])
-    ].join('\n'));
-  }
-
-  /* ================= layers ================= */
   let lenis = null;
-  function openLayer(sel) { const el = $(sel); el.classList.add('open'); el.setAttribute('aria-hidden', 'false'); lenis && lenis.stop(); document.body.style.overflow = 'hidden'; }
-  function closeLayers() { $$('.drawer,.sheet').forEach(el => { el.classList.remove('open'); el.setAttribute('aria-hidden', 'true'); }); lenis && lenis.start(); document.body.style.overflow = ''; }
-  let tt; function toast(msg) { const el = $('#toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 1800); }
-  function scrollToEl(el) { if (lenis) lenis.scrollTo(el, { offset: -70, duration: 1.3 }); else el.scrollIntoView({ behavior: 'smooth' }); }
+  const go = (t, off = -80) => { if (typeof t === 'string') t = $(t); if (!t) return; lenis ? lenis.scrollTo(t, { offset: off }) : window.scrollTo({ top: t.getBoundingClientRect().top + scrollY + off, behavior: 'smooth' }); };
+  $$('#menuChips button').forEach(b => b.addEventListener('click', () => {
+    if (sIn && sIn.value) { sIn.value = ''; sIn.dispatchEvent(new Event('input')); }
+    go('#cat-' + b.dataset.cat, -(innerWidth < 640 ? 200 : 160));
+  }));
 
-  function renderAll() {
-    buildMarq(); renderMeals(); renderAddonsList(); renderKhair(); renderEvents(); renderQuoteSelect(); refreshCartUI();
-  }
-
-  /* ================= events wiring ================= */
+  /* ---------- one click handler for all item controls ---------- */
   document.addEventListener('click', e => {
-    const tg = e.target;
-    const add = tg.closest('[data-add]');
-    if (add) { const id = add.dataset.add; const card = add.closest('.meal') || add.closest('.sheet-card'); setMeal(id, (cart.m[id] || 0) + 1, card ? ($('.meal-plate', card) || $('.sh-img img', card)) : add); return; }
-    const st = tg.closest('.stepper button');
-    if (st) {
-      const s = st.closest('.stepper'); const d = +st.dataset.d; const id = s.dataset.id;
-      if (s.dataset.kind === 'm') { const card = s.closest('.meal'); setMeal(id, (cart.m[id] || 0) + d, d > 0 && card ? $('.meal-plate', card) : null); }
-      else if (s.dataset.kind === 'a') setAddon(id, (cart.a[id] || 0) + d);
-      else if (s.dataset.kind === 'k') setKhair(id, (kh[id] || 0) + d);
+    const sz = e.target.closest('[data-size]');
+    if (sz) { const el = sz.closest('[data-item]'), id = el.dataset.item; selSize[id] = +sz.dataset.size; $$(`[data-item="${id}"] [data-size]`).forEach(b => b.classList.toggle('is-on', +b.dataset.size === selSize[id])); refresh(id); return; }
+    const a = e.target.closest('[data-act]');
+    if (a) {
+      const holder = a.closest('[data-id]') || a, id = holder.dataset.id || a.dataset.id; if (!ITEMS[id]) return;
+      const s = selSize[id] || 0, q = qtyOf(id, s);
+      if (a.dataset.act === 'add' || a.dataset.act === 'inc') { setQty(id, s, q + 1); if (a.dataset.act === 'add') { fly(a, ITEMS[id]); toast('«' + ITEMS[id].name + '» نزلت على طبليتك'); } }
+      if (a.dataset.act === 'dec') setQty(id, s, q - 1);
       return;
     }
-    const ad = tg.closest('[data-addon]');
-    if (ad) { setAddon(ad.dataset.addon, (cart.a[ad.dataset.addon] || 0) + 1); toast(t('added')); return; }
-    const op = tg.closest('[data-open]'); if (op) { openSheet(op.dataset.open); return; }
-    if (tg.closest('[data-close]')) { closeLayers(); return; }
-    const w = tg.closest('[data-wa]'); if (w) { e.preventDefault(); openWA(waGeneral(w.dataset.wa)); return; }
-    const pk = tg.closest('[data-pkg]');
-    if (pk) { $('#qPkg').value = pk.dataset.pkg; calcQuote(); scrollToEl($('#quote')); return; }
-    const f = tg.closest('.meal-filter button'); if (f) { applyFilter(f.dataset.f); return; }
-    const tb = tg.closest('#evTabs button'); if (tb) { curTab = tb.dataset.t; renderEvents(); return; }
-    const sg = tg.closest('#fDay button'); if (sg) { $$('#fDay button').forEach(b => b.classList.toggle('on', b === sg)); return; }
-    const a = tg.closest('a[href^="#"]');
-    if (a && a.getAttribute('href').length > 1) { const el = $(a.getAttribute('href')); if (el) { e.preventDefault(); closeMnav(); scrollToEl(el); } }
+    const o = e.target.closest('[data-open]'); if (o) { openSheet(o.dataset.open); }
   });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLayers(); closeMnav(); } if (e.key === 'Enter' && e.target.matches('[data-open]')) openSheet(e.target.dataset.open); });
-  $('#fab').addEventListener('click', () => openLayer('#drawer'));
-  $('#hdrCart').addEventListener('click', () => openLayer('#drawer'));
-  $('#sendOrder').addEventListener('click', sendOrder);
-  $('#khSend').addEventListener('click', e => { e.preventDefault(); sendKhair(); });
-  $('#quote').addEventListener('submit', sendQuote);
-  ['#qPkg', '#qN'].forEach(s => $(s).addEventListener('input', calcQuote));
-  $('#langBtn').addEventListener('click', () => { lang = lang === 'ar' ? 'en' : 'ar'; store.set('tb-lang', lang); applyLang(); if (window.ScrollTrigger) ScrollTrigger.refresh(); });
-  const burger = $('#burger'), mnav = $('#mnav');
-  function closeMnav() { burger.classList.remove('on'); mnav.classList.remove('open'); mnav.setAttribute('aria-hidden', 'true'); }
-  burger.addEventListener('click', () => { const o = !mnav.classList.contains('open'); burger.classList.toggle('on', o); mnav.classList.toggle('open', o); mnav.setAttribute('aria-hidden', String(!o)); });
-  $('#yr').textContent = new Date().getFullYear();
-  // default date for quote: +7 days
-  try { const d = new Date(Date.now() + 7 * 864e5); $('#qD').value = d.toISOString().slice(0, 10); $('#qD').min = new Date().toISOString().slice(0, 10); } catch (e) {}
 
-  /* ================= header ================= */
+  function fly(from, it) {
+    const fab = $('#fab').classList.contains('is-on') ? $('#fab .fab__t') : $('#cartBtn');
+    if (!hasG || !fab) return bump();
+    const card = from.closest('[data-item]'); const src = card && $('img', card);
+    const r1 = (src || from).getBoundingClientRect(), r2 = fab.getBoundingClientRect();
+    const f = document.createElement('img'); f.className = 'fly'; f.src = img(it); document.body.appendChild(f);
+    gsap.set(f, { left: r1.left + r1.width / 2 - 35, top: r1.top + r1.height / 2 - 35 });
+    gsap.timeline({ onComplete: () => { f.remove(); bump(); } })
+      .to(f, { left: r2.left + r2.width / 2 - 35, duration: .75, ease: 'power1.inOut' }, 0)
+      .to(f, { top: r2.top + r2.height / 2 - 35, duration: .75, ease: 'back.in(1.4)' }, 0)
+      .to(f, { scale: .3, rotate: 200, duration: .75, ease: 'power2.in' }, 0);
+  }
+  function bump() { ['#cartBtn', '#fab'].forEach(s => { const el = $(s); el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }); }
+  function badge() {
+    const n = count();
+    $('#cartCount').textContent = n; $('#fabCount').textContent = n;
+    $('#fab').classList.toggle('is-on', n > 0);
+    const ids = [...new Set(cart.map(l => l.id))].slice(0, 5);
+    $('#fabPlates').innerHTML = ids.map((id, i) => { const a = (i / Math.max(ids.length, 1)) * Math.PI * 2 - Math.PI / 2, r = ids.length > 1 ? 11 : 0; return `<img src="${esc(img(ITEMS[id]))}" alt="" style="left:${13 + Math.cos(a) * r}px;top:${13 + Math.sin(a) * r}px">`; }).join('');
+  }
+
+  /* ---------- item sheet ---------- */
+  function openSheet(id) {
+    const it = ITEMS[id]; if (!it) return;
+    const inc = (it.desc || '').split('•').map(s => s.trim()).filter(Boolean), sz = sizesOf(it);
+    $('#sheetBody').innerHTML = `<div data-item="${it.id}"><div class="sheet__img"><img src="${esc(img(it))}" alt="${esc(it.name)}"></div>
+      <div class="sheet__body"><p class="kicker" style="margin:0"><span class="dot"></span> ${esc(CATS[it.cat].title)}</p><h3>${esc(it.name)}</h3>
+      ${inc.length ? `<ul class="inc">${inc.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}${it.unit ? `<p class="mi__unit" style="margin:0">${esc(it.unit)}</p>` : ''}
+      ${sz.length > 1 ? `<div class="sizes">${sz.map((z, i) => `<button data-size="${i}" class="${(selSize[it.id] || 0) === i ? 'is-on' : ''}">${esc(z.l)}</button>`).join('')}</div>` : ''}
+      <div class="sheet__row"><span class="price">${priceHtml(it)}</span><span class="ctl">${control(it)}</span></div></div></div>`;
+    openLayer('#sheetLayer');
+  }
+
+  /* ---------- layers ---------- */
+  function openLayer(sel) { $(sel).classList.add('is-open'); $(sel).setAttribute('aria-hidden', 'false'); lenis && lenis.stop(); document.body.style.overflow = 'hidden'; }
+  function closeLayers() { $$('.layer.is-open').forEach(l => { l.classList.remove('is-open'); l.setAttribute('aria-hidden', 'true'); }); lenis && lenis.start(); document.body.style.overflow = ''; }
+  document.addEventListener('click', e => { if (e.target.closest('[data-close]')) closeLayers(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLayers(); document.body.classList.remove('nav-open'); } });
+  ['#cartBtn', '#fab'].forEach(s => $(s).addEventListener('click', () => { renderDrawer(); openLayer('#cartLayer'); }));
+
+  /* ---------- drawer ---------- */
+  const CH = C.charges || {};
+  let oType = 'توصيل', coupon = null;
+  const daySel = $('#daySel');
+  (() => {
+    const names = ['الأحد', 'الاتنين', 'التلات', 'الأربع', 'الخميس', 'الجمعة', 'السبت'];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(); d.setDate(d.getDate() + i);
+      const iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      const lab = i === 0 ? 'النهارده' : i === 1 ? 'بكرة' : names[d.getDay()];
+      daySel.insertAdjacentHTML('beforeend', `<option value="${iso}"${i === 1 ? ' selected' : ''}>${lab} ${d.getDate()}/${d.getMonth() + 1}</option>`);
+    }
+  })();
+  const zones = CH.zones || [];
+  if (zones.length) { $('#zoneFld').hidden = false; $('#zoneSel').innerHTML = zones.map(z => `<option value="${esc(z.name)}">${esc(z.name)}${z.fee ? ' · ' + fmt(z.fee) + ' جنيه' : ' · مجانًا'}</option>`).join(''); }
+  $$('#typeSeg button').forEach(b => b.addEventListener('click', () => {
+    oType = b.dataset.v; $$('#typeSeg button').forEach(x => x.classList.toggle('is-on', x === b));
+    $('#addrFld').hidden = oType !== 'توصيل'; $('#zoneFld').hidden = oType !== 'توصيل' || !zones.length; renderTotals();
+  }));
+  $('#zoneSel').addEventListener('change', renderTotals);
+  function calc() {
+    const sub = subtotal();
+    let disc = 0;
+    if (coupon) disc = coupon.type === 'fixed' ? Math.min(sub, coupon.value) : Math.round(sub * coupon.value / 100);
+    const net = Math.max(0, sub - disc);
+    const service = (CH.serviceTypes || []).includes(oType) ? Math.round(net * (CH.service || 0) / 100) : 0;
+    const vat = Math.round((net + service) * (CH.vat || 0) / 100);
+    let delivery = 0;
+    if (oType === 'توصيل') {
+      delivery = CH.deliveryFee || 0;
+      const z = zones.find(z => z.name === $('#zoneSel').value); if (z) delivery = z.fee;
+      if (CH.freeOver && net >= CH.freeOver) delivery = 0;
+    }
+    return { sub, disc, service, vat, delivery, total: net + service + vat + delivery };
+  }
+  function renderTotals() {
+    const t = calc(), row = (a, b, cls = '') => `<div class="${cls}"><span>${a}</span><span>${b}</span></div>`;
+    $('#totals').innerHTML = (cart.length ? row('المجموع', fmt(t.sub) + ' جنيه') : '') + (t.disc ? row('خصم ' + esc(coupon.code), '− ' + fmt(t.disc) + ' جنيه') : '')
+      + (t.service ? row('خدمة', fmt(t.service) + ' جنيه') : '') + (t.vat ? row('ضريبة', fmt(t.vat) + ' جنيه') : '')
+      + (oType === 'توصيل' && cart.length ? row('التوصيل', t.delivery ? fmt(t.delivery) + ' جنيه' : (CH.deliveryFee || zones.length ? 'مجانًا' : 'حسب المنطقة')) : '')
+      + row('الإجمالي', fmt(t.total) + ' جنيه', 'grand');
+    $('#sendOrder').disabled = !cart.length;
+  }
+  function renderDrawer() {
+    $('#cartEmpty').hidden = !!cart.length; $('#orderForm').hidden = !cart.length;
+    $('#cartList').innerHTML = cart.map(l => {
+      const it = ITEMS[l.id], z = sizesOf(it)[l.s] || sizesOf(it)[0];
+      return `<div class="cl"><img src="${esc(img(it))}" alt=""><div><div class="cl__n">${esc(it.name)}</div><div class="cl__s">${z.l ? esc(z.l) + ' · ' : ''}${fmt(z.p)} جنيه</div></div>
+        <div class="qty" data-line="${l.id}|${l.s}"><button data-l="dec">−</button><b>${l.q}</b><button data-l="inc">+</button></div></div>`;
+    }).join('');
+    const ids = [...new Set(cart.map(l => l.id))].slice(0, 7);
+    $('#drawerTablia').innerHTML = ids.map((id, i) => { const a = (i / Math.max(ids.length, 1)) * Math.PI * 2 - Math.PI / 2, r = ids.length > 1 ? 50 : 0; return `<img src="${esc(img(ITEMS[id]))}" alt="" style="left:${58 + Math.cos(a) * r}px;top:${58 + Math.sin(a) * r}px">`; }).join('');
+    renderTotals();
+  }
+  $('#cartList').addEventListener('click', e => {
+    const b = e.target.closest('[data-l]'); if (!b) return;
+    const [id, s] = b.parentNode.dataset.line.split('|'); const q = qtyOf(id, +s);
+    setQty(id, +s, q + (b.dataset.l === 'inc' ? 1 : -1)); renderDrawer();
+  });
+  $('#couponBtn').addEventListener('click', async () => {
+    const code = $('#couponIn').value.trim(), msg = $('#couponMsg');
+    if (!code) return;
+    try {
+      const r = await fetch('api/coupon.php?code=' + encodeURIComponent(code) + '&total=' + subtotal()).then(r => r.json());
+      if (r.ok) { coupon = { code: r.code, type: /جنيه/.test(r.label) ? 'fixed' : 'percent', value: parseFloat(r.label) || 0 }; msg.className = 'coupon__msg ok'; }
+      else { coupon = null; msg.className = 'coupon__msg bad'; }
+      msg.textContent = r.msg; renderTotals();
+    } catch (e) { msg.className = 'coupon__msg bad'; msg.textContent = 'تعذّر التحقق من الكود دلوقتي'; }
+  });
+  const wa = (num, text) => 'https://wa.me/' + num + '?text=' + encodeURIComponent(text);
+  $('#sendOrder').addEventListener('click', async () => {
+    const f = $('#orderForm'); if (!cart.length) return;
+    const fd = Object.fromEntries(new FormData(f));
+    if (!fd.name.trim() || !fd.phone.trim()) { toast('اكتب اسمك ورقم موبايلك'); (fd.name.trim() ? f.phone : f.name).focus(); return; }
+    if (oType === 'توصيل' && !fd.address.trim()) { toast('اكتب عنوان التوصيل'); f.address.focus(); return; }
+    const t = calc();
+    if (oType === 'توصيل' && CH.minOrder && t.sub - t.disc < CH.minOrder) { toast('أقل طلب للتوصيل ' + fmt(CH.minOrder) + ' جنيه'); return; }
+    const btn = $('#sendOrder'); btn.disabled = true;
+    const win = window.open('', '_blank');
+    let res = null;
+    try {
+      res = await fetch('api/order.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...fd, type: oType, coupon: coupon ? coupon.code : '', items: cart.map(l => ({ id: l.id, size: l.s, qty: l.q })) }) }).then(r => r.json());
+    } catch (e) { res = null; }
+    if (res && res.ok === false) { btn.disabled = false; if (win) win.close(); toast(res.msg || 'حصلت مشكلة، جرّب تاني'); return; }
+    const ok = res && res.ok;
+    const sub = ok ? res.subtotal : t.sub, disc = ok ? res.discount : t.disc, del = ok ? res.delivery : t.delivery, total = ok ? res.total : t.total;
+    const dayTxt = daySel.options[daySel.selectedIndex].text;
+    const lines = cart.map(l => { const it = ITEMS[l.id], z = sizesOf(it)[l.s] || sizesOf(it)[0]; return `• ${l.q} × ${it.name}${z.l ? ' (' + z.l + ')' : ''} = ${fmt(z.p * l.q)} جنيه`; });
+    const msg = [`طلب جديد من موقع طبلية${ok && res.no ? ' #' + res.no : ''}`, '', ...lines, '',
+      `المجموع: ${fmt(sub)} جنيه`, disc ? `الخصم (${coupon ? coupon.code : ''}): ${fmt(disc)} جنيه` : null,
+      del ? `التوصيل: ${fmt(del)} جنيه` : null, `الإجمالي: ${fmt(total)} جنيه`, '',
+      `الاسم: ${fd.name}`, `الموبايل: ${fd.phone}`, `النوع: ${oType}`, `اليوم: ${dayTxt} · ${fd.slot}`,
+      oType === 'توصيل' ? `العنوان: ${fd.zone ? fd.zone + ' - ' : ''}${fd.address}` : null, fd.notes ? `ملاحظات: ${fd.notes}` : null].filter(x => x !== null).join('\n');
+    const url = wa(C.whatsapp, msg);
+    if (win) win.location.href = url; else location.href = url;
+    const had = cart.map(l => l.id);
+    cart = []; save(); coupon = null; $('#couponMsg').textContent = ''; $('#couponIn').value = '';
+    had.forEach(refresh); badge(); renderDrawer();
+    btn.disabled = false; closeLayers(); toast('طلبك اتبعت.. بالهنا والشفا مقدمًا');
+  });
+
+  /* ---------- packages + booking ---------- */
+  const P = D.packages || [];
+  const packGrid = $('#packGrid'), bkPack = $('#bkPack');
+  const typeName = t => t === 'buffet' ? 'أوبن بوفيه' : 'سِت منيو';
+  function packCard(p) {
+    const list = (t, arr, ol) => arr && arr.length ? `<h4>${t}</h4>${ol ? `<ol>${arr.map(x => `<li>${esc(x)}</li>`).join('')}</ol>` : `<div class="pills">${arr.map(x => `<span>${esc(x)}</span>`).join('')}</div>`}` : '';
+    return `<article class="pack${p.tag ? ' is-feat' : ''}"><div class="pack__top"><div class="pack__name"><b>${esc(p.name)}</b>${p.tag && p.tag !== p.name ? `<i>${esc(p.tag)}</i>` : ''}</div>
+      <div class="pack__price"><b>${fmt(p.price)}</b><small>جنيه للفرد</small></div></div>
+      ${p.min ? `<p class="pack__min">يبدأ من ${p.min} فرد</p>` : ''}
+      ${list('الأطباق الرئيسية', p.mains, true)}${list('المقبلات', p.apps, true)}${list(p.type === 'buffet' ? 'مختارات من السلطات' : 'السلطات', p.salads)}${list('الحلو', p.sweets)}
+      ${p.sweetsAlt ? `<p class="pack__alt">${esc(p.sweetsAlt)}</p>` : ''}
+      <button class="btn btn--red" data-book="${p.id}">احجز الباقة دي</button></article>`;
+  }
+  function renderPacks(type) {
+    packGrid.innerHTML = P.filter(p => p.type === type).map(packCard).join('');
+    if (hasG && document.body.classList.contains('ready')) gsap.from($$('.pack', packGrid), { y: 40, opacity: 0, duration: .7, stagger: .08, ease: 'power3.out', clearProps: 'all' });
+  }
+  if (packGrid) {
+    $$('#packTabs button').forEach(b => b.addEventListener('click', () => { $$('#packTabs button').forEach(x => x.classList.toggle('is-on', x === b)); renderPacks(b.dataset.type); }));
+    if (!P.some(p => p.type === 'buffet')) $('#packTabs').hidden = true;
+    renderPacks(P.some(p => p.type === 'set') ? 'set' : 'buffet');
+    bkPack.innerHTML = P.map(p => `<option value="${p.id}">${typeName(p.type)} · ${esc(p.name)} (${fmt(p.price)} جنيه/فرد)</option>`).join('') + '<option value="">عزومة حسب الطلب (من المنيو)</option>';
+    const g = $('#bkGuests');
+    const upd = () => {
+      const p = P.find(x => x.id === bkPack.value), n = +g.value; $('#bkGuestsOut').textContent = n;
+      $('#bkTotal').textContent = p ? fmt(p.price * n) : '—';
+      $('#bkHint').textContent = p && p.min && n < p.min ? `الباقة دي بتبدأ من ${p.min} فرد، ولأعداد أقل كلّمنا نظبطلك عرض.` : 'السعر النهائي بيتأكد مع فريق طبلية حسب العدد والمكان والتاريخ.';
+    };
+    g.addEventListener('input', upd); bkPack.addEventListener('change', upd); upd();
+    const dt = $('#bkDate'); const d0 = new Date(); d0.setDate(d0.getDate() + 2); dt.min = d0.toISOString().slice(0, 10);
+    packGrid.addEventListener('click', e => {
+      const b = e.target.closest('[data-book]'); if (!b) return;
+      bkPack.value = b.dataset.book; const p = P.find(x => x.id === b.dataset.book); if (p && p.min && +g.value < p.min) g.value = p.min; upd();
+      go('#book', -100);
+    });
+    $('#bookForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const fd = Object.fromEntries(new FormData(e.target)); const p = P.find(x => x.id === bkPack.value), n = +g.value;
+      const win = window.open('', '_blank'); let res = null;
+      try { res = await fetch('api/reserve.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...fd, package: bkPack.value, guests: n }) }).then(r => r.json()); } catch (err) {}
+      if (res && res.ok === false) { if (win) win.close(); toast(res.msg || 'حصلت مشكلة'); return; }
+      const msg = ['حجز مناسبة من موقع طبلية' + (res && res.code ? ' (' + res.code + ')' : ''), '',
+        `الباقة: ${p ? typeName(p.type) + ' · ' + p.name + ' · ' + fmt(p.price) + ' جنيه للفرد' : 'عزومة حسب الطلب'}`, `عدد الضيوف: ${n} فرد`, p ? `الإجمالي التقريبي: ${fmt(p.price * n)} جنيه` : null,
+        `المناسبة: ${fd.occasion}`, `التاريخ: ${fd.date}${fd.time ? ' · ' + fd.time : ''}`, fd.address ? `المنطقة: ${fd.address}` : null, '',
+        `الاسم: ${fd.name}`, `الموبايل: ${fd.phone}`, fd.notes ? `ملاحظات: ${fd.notes}` : null].filter(x => x !== null).join('\n');
+      const url = wa(C.whatsapp, msg); if (win) win.location.href = url; else location.href = url;
+      e.target.reset(); toast('حجزك وصلنا، هنكلّمك نأكّد التفاصيل');
+    });
+  }
+
+  /* ---------- theme ---------- */
+  $('#themeBtn').addEventListener('click', () => {
+    const r = document.documentElement, dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    r.dataset.theme = dark ? 'light' : 'dark'; try { localStorage.setItem('tb-theme', r.dataset.theme); } catch (e) {}
+  });
+
+  /* ---------- nav ---------- */
+  $('#burger').addEventListener('click', () => document.body.classList.toggle('nav-open'));
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'); if (!a || a.getAttribute('href').length < 2) return;
+    const t = $(a.getAttribute('href')); if (!t) return; e.preventDefault(); closeLayers(); document.body.classList.remove('nav-open');
+    go(t, -80);
+  });
   let lastY = 0;
+  const hdr = $('#hdr');
   function onScroll(y) {
-    const h = $('#hdr');
-    h.classList.toggle('solid', y > window.innerHeight * .75);
-    h.classList.toggle('hide', y > 300 && y > lastY + 4 && !mnav.classList.contains('open'));
-    if (y < lastY - 4) h.classList.remove('hide');
-    lastY = y;
+    const down = y > lastY && y > 300; hdr.classList.toggle('is-hidden', down); document.body.classList.toggle('hdr-hidden', down); lastY = y;
   }
 
-  /* ================= boot ================= */
-  buildHero(); buildGallery(); applyLang();
+  badge();
 
+  /* ---------- motion ---------- */
+  let started = false;
   function startMotion() {
-    if (!window.gsap || reduce) { $$('.hero-h .ln>span').forEach(s => s.style.transform = 'none'); return; }
+    if (started) return; started = true; document.body.classList.add('ready');
+    if (!hasG) { addEventListener('scroll', () => onScroll(scrollY), { passive: true }); return; }
     gsap.registerPlugin(ScrollTrigger);
-    if (window.Lenis && matchMedia('(pointer:fine)').matches) {
-      lenis = new Lenis({ lerp: .1, smoothWheel: true });
+    if (window.Lenis && !matchMedia('(pointer: coarse)').matches) {
+      lenis = new Lenis({ duration: 1.1, smoothWheel: true });
       lenis.on('scroll', e => { ScrollTrigger.update(); onScroll(e.scroll); });
-      gsap.ticker.add(time => lenis.raf(time * 1000)); gsap.ticker.lagSmoothing(0);
-    } else {
-      addEventListener('scroll', () => onScroll(scrollY), { passive: true });
+      gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
+    } else addEventListener('scroll', () => onScroll(scrollY), { passive: true });
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.from('.hero__title .ln', { yPercent: 60, opacity: 0, duration: 1, stagger: .12 })
+      .from('.hero .kicker, .hero__sub, .hero__cta, .hero__facts', { y: 24, opacity: 0, duration: .8, stagger: .08 }, '-=.6')
+      .from('.tablia__top', { scale: .4, rotate: -90, opacity: 0, duration: 1.1, ease: 'back.out(1.3)' }, 0)
+      .from('.plate', { scale: 0, opacity: 0, duration: .6, stagger: .06, ease: 'back.out(2)' }, .35)
+      .from('.tablia__mama', { y: 60, opacity: 0, scale: .8, duration: 1, ease: 'back.out(1.4)' }, .5)
+      .from('.stamp', { scale: 0, rotate: -120, duration: .9, ease: 'back.out(1.6)' }, .9);
+    const ring = $('#heroRing');
+    if (ring) {
+      const spin = gsap.to(ring, { rotate: 360, duration: 90, ease: 'none', repeat: -1 });
+      const counter = gsap.to('.plate img', { rotate: -360, duration: 90, ease: 'none', repeat: -1 });
+      ScrollTrigger.create({ trigger: '#hero', start: 'top top', end: 'bottom top', onUpdate: s => { const k = 1 + Math.min(8, Math.abs(s.getVelocity()) / 250); spin.timeScale(k); counter.timeScale(k); gsap.to([spin, counter], { timeScale: 1, duration: 1.2, overwrite: false }); } });
     }
+    gsap.to('.tablia__mama', { y: -8, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5 });
+    gsap.to('#heroArt', { yPercent: 10, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
 
-    // hero intro
-    const plates = $$('#heroRing .plate');
-    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-    tl.from('#heroTablia', { scale: .6, rotation: -120, opacity: 0, duration: 1.5 })
-      .from(plates, { opacity: 0, scale: 1.9, y: -60, duration: .9, stagger: .11, ease: 'back.out(1.4)', clearProps: 'opacity' }, '-=.9')
-      .from('.hero-h .ln>span', { yPercent: 110, duration: 1.1, stagger: .12 }, .2)
-      .from(['.eyebrow', '.hero-p', '.hero-cta', '.hero-stats'], { y: 24, opacity: 0, duration: .9, stagger: .1 }, .6)
-      .from('.price-stamp', { scale: 0, rotation: -90, duration: 1, ease: 'back.out(2)' }, 1.4);
-    // idle spin + scroll spin
-    const spin = gsap.to('#heroRing', { rotation: 360, duration: 120, repeat: -1, ease: 'none' });
-    gsap.to('#heroWrap', { rotation: -50, scale: 1.08, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-    gsap.to('.hero-txt', { yPercent: -18, opacity: .2, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-    // hover parallax (desktop)
-    if (matchMedia('(pointer:fine)').matches) {
-      const st = $('.hero-stage');
-      $('.hero').addEventListener('mousemove', e => {
-        const r = st.getBoundingClientRect(); const x = (e.clientX - r.left - r.width / 2) / r.width; const y = (e.clientY - r.top - r.height / 2) / r.height;
-        gsap.to('#heroTablia', { x: x * 22, y: y * 22, duration: 1.2, ease: 'power3.out', overwrite: 'auto' });
-        spin.timeScale(1 + Math.abs(x) * 6);
-      });
-    }
+    $$('.sec__head, .mama__copy > *, .vow, .mcat__head, .steps li, .book__calc, .book__form, .contact__card, .note, .seg').forEach(el => {
+      gsap.from(el, { y: 36, opacity: 0, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
+    });
+    ScrollTrigger.batch('.meal, .pack', { start: 'top 92%', once: true, onEnter: b => gsap.from(b, { y: 40, opacity: 0, duration: .7, stagger: .07, ease: 'power3.out', clearProps: 'transform,opacity' }) });
+    gsap.from('.mama__portrait', { scale: .8, rotate: -6, opacity: 0, duration: 1.2, ease: 'back.out(1.4)', scrollTrigger: { trigger: '.mama', start: 'top 70%', once: true } });
+    ScrollTrigger.batch('.mi', { start: 'top 94%', once: true, onEnter: b => gsap.from(b, { y: 30, opacity: 0, duration: .6, stagger: .05, ease: 'power2.out', clearProps: 'transform,opacity' }) });
+    const oh = $('.occ__hero img'); if (oh) gsap.fromTo(oh, { yPercent: -12 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.occ__hero', start: 'top bottom', end: 'bottom top', scrub: true } });
 
-    // story image parallax
-    gsap.to('.story-img img', { yPercent: 12, ease: 'none', scrollTrigger: { trigger: '.story-img', start: 'top bottom', end: 'bottom top', scrub: true } });
-    gsap.from('.story-img', { clipPath: 'inset(12% 12% 12% 12% round 40px)', ease: 'none', scrollTrigger: { trigger: '.story-img', start: 'top 95%', end: 'top 35%', scrub: true } });
-
-    // reveals
-    const rv = (sel, opts = {}) => $$(sel).forEach(el => gsap.from(el, Object.assign({ y: 50, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } }, opts)));
-    rv('.sec-head, .story-head, .khair-head > div:first-child, .office-in > div, .c-txt');
-    rv('.steps li', { x: lang === 'ar' ? -40 : 40, y: 0 });
-    rv('.addons, .quote, .khair-meter, .c-logo, .note');
-    ScrollTrigger.batch('.meal', { start: 'top 92%', once: true, onEnter: b => gsap.from(b, { y: 60, opacity: 0, duration: .9, stagger: .08, ease: 'power3.out' }) });
-    ScrollTrigger.batch('.meal-plate img', { start: 'top 95%', once: true, onEnter: b => gsap.from(b, { rotation: -140, scale: .7, duration: 1.4, stagger: .08, ease: 'power3.out', clearProps: 'transform' }) });
-    ScrollTrigger.batch('.kh', { start: 'top 92%', once: true, onEnter: b => gsap.from(b, { y: 40, opacity: 0, duration: .8, stagger: .06, ease: 'power3.out' }) });
-    // count up
-    $$('[data-count-to]').forEach(el => { const n = +el.dataset.countTo; const o = { v: 0 }; gsap.to(o, { v: n, duration: 1.8, delay: 1, ease: 'power2.out', onUpdate: () => el.textContent = Math.round(o.v) }); });
+    const navLinks = $$('.hdr__nav a');
+    navLinks.forEach(a => { const t = $(a.getAttribute('href')); if (t) ScrollTrigger.create({ trigger: t, start: 'top 45%', end: 'bottom 45%', onToggle: s => s.isActive && navLinks.forEach(x => x.classList.toggle('is-on', x === a)) }); });
+    const chips = $$('#menuChips button');
+    chips.forEach(b => { const t = $('#cat-' + b.dataset.cat); if (t) ScrollTrigger.create({ trigger: t, start: 'top 45%', end: 'bottom 45%', onToggle: s => { if (s.isActive) { chips.forEach(x => x.classList.toggle('is-on', x === b)); const p = b.parentNode; p.scrollTo({ left: b.offsetLeft - p.clientWidth / 2 + b.clientWidth / 2, behavior: 'smooth' }); } } }); });
   }
 
-  // loader
-  const imgs = [$('.ld-logo'), ...$$('#heroRing img')];
-  let loaded = 0; const bar = $('#ldBar');
-  const done = () => { if (document.body.classList.contains('is-loading')) { document.body.classList.remove('is-loading'); $('#loader').classList.add('done'); startMotion(); } };
-  imgs.forEach(im => { const f = () => { loaded++; bar.style.width = (loaded / imgs.length * 100) + '%'; if (loaded >= imgs.length) setTimeout(done, 250); }; if (im.complete) f(); else { im.addEventListener('load', f, { once: true }); im.addEventListener('error', f, { once: true }); } });
-  setTimeout(done, 3500);
+  /* ---------- logo intro: the tablia is set, Mama Rehab arrives calmly, the name is written ---------- */
+  function finishIntro() { const el = $('#intro'); if (el) el.remove(); document.body.classList.remove('is-loading'); startMotion(); }
+  function intro() {
+    const el = $('#intro'); if (!el) return startMotion();
+    let seen = false; try { seen = sessionStorage.getItem('tb-intro') === '1'; sessionStorage.setItem('tb-intro', '1'); } catch (e) {}
+    if (!hasG) return finishIntro();
+    gsap.set('.lg-en', { clipPath: 'inset(0 100% 0 0)' }); gsap.set('.lg-ar', { clipPath: 'inset(0 0 0 100%)' }); gsap.set('.intro__line', { y: 10 }); gsap.set(el, { clipPath: 'circle(150% at 50% 45%)' });
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.to('.intro__ring', { scale: 1, duration: 1, ease: 'expo.out' })
+      .from('.lg-badge img', { y: 40, scale: .7, opacity: 0, duration: 1, ease: 'back.out(1.3)' }, .15)
+      .to('.lg-ar', { clipPath: 'inset(0 0 0 0%)', duration: .8, ease: 'power2.inOut' }, .6)
+      .to('.lg-en', { clipPath: 'inset(0 0% 0 0)', duration: .7, ease: 'power2.inOut' }, .8)
+      .to('.lg-steam', { opacity: .85, duration: .4 }, .9)
+      .fromTo('.lg-steam path', { strokeDasharray: 90, strokeDashoffset: 90 }, { strokeDashoffset: -90, duration: 1.8, stagger: .18, ease: 'sine.inOut' }, .9)
+      .to('.lg-badge img', { rotate: 2.5, duration: .4, yoyo: true, repeat: 1, ease: 'sine.inOut' }, 1.25)
+      .to('.intro__line', { opacity: 1, y: 0, duration: .6 }, 1.3)
+      .to(el, { clipPath: 'circle(0% at 50% 45%)', duration: .9, ease: 'expo.inOut', onComplete: finishIntro }, 2.7);
+    if (seen) tl.timeScale(1.8);
+  }
+  if (document.readyState === 'complete') intro(); else addEventListener('load', intro);
+  setTimeout(() => { if ($('#intro')) finishIntro(); }, 8000);
 })();
