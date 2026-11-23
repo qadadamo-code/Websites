@@ -2,7 +2,7 @@
 /** Interface strings: [Swedish, English]. Content (products, texts) is edited in the dashboard. */
 return [
     'nav.shop' => ['Butik', 'Shop'], 'nav.bridal' => ['Brud', 'Bridal'], 'nav.evening' => ['Fest', 'Evening'], 'nav.acc' => ['Accessoarer', 'Accessories'],
-    'nav.tailor' => ['Skrädderi', 'Tailoring'], 'nav.about' => ['Om oss', 'About'], 'nav.book' => ['Boka provning', 'Book a fitting'], 'nav.contact' => ['Kontakt', 'Contact'],
+    'nav.tailor' => ['Skrädderi', 'Tailoring'], 'nav.about' => ['Om oss', 'About'], 'nav.press' => ['Press', 'Press'], 'nav.book' => ['Boka provning', 'Book a fitting'], 'nav.contact' => ['Kontakt', 'Contact'],
     'nav.size' => ['Storleksguide', 'Size guide'], 'nav.terms' => ['Köpvillkor', 'Terms'], 'nav.all' => ['Alla produkter', 'All products'], 'nav.menu' => ['Meny', 'Menu'],
     'nav.home' => ['Hem', 'Home'],
     'ui.search' => ['Sök', 'Search'], 'ui.searchph' => ['Sök klänning, färg, märke…', 'Search dress, colour, brand…'], 'ui.wish' => ['Önskelista', 'Wishlist'], 'ui.cart' => ['Varukorg', 'Bag'],

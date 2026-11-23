@@ -415,3 +415,12 @@ function wa_number(): string {
     if ($n === '') $n = preg_replace('/\D/', '', (string)($s['phoneIntl'] ?? ''));
     return $n;
 }
+
+/** Press articles: edited in Admin -> Texter -> Press; until then the list in data/press.json. */
+function press_items(): array {
+    $c = content();
+    $list = isset($c['press']) && is_array($c['press']) ? $c['press'] : (json_decode((string)@file_get_contents(AD_ROOT . '/data/press.json'), true) ?: []);
+    $list = array_values(array_filter($list, fn($a) => !empty($a['title']) && preg_match('~^https?://~', (string)($a['url'] ?? ''))));
+    usort($list, fn($a, $b) => strcmp((string)($b['date'] ?? ''), (string)($a['date'] ?? '')));
+    return $list;
+}
