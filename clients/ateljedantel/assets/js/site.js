@@ -250,12 +250,23 @@ function initMotion() {
     heroLines.forEach(l => l._tl.play());
     G.to(heroRise, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: .1, delay: .25 });
     G.from('.arch--hero', { clipPath: 'inset(100% 0 0 0 round 999px 999px 18px 18px)', duration: 1.5, ease: 'expo.inOut' });
-    G.from('.arch--hero video', { scale: 1.3, duration: 2, ease: 'expo.out' });
     G.fromTo('.arch--mini', { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, delay: .6, ease: 'expo.out' });
     G.fromTo('.hero__stamp', { scale: 0, rotate: -90 }, { scale: 1, rotate: 0, duration: 1.2, delay: .9, ease: 'back.out(1.6)', clearProps: 'transform' });
     countUp();
   };
   runIntro(heroIn);
+
+  /* hero slideshow: crossfade + slow zoom done by CSS (GPU, no jitter) */
+  $$('[data-slides]').forEach(box => {
+    const sl = $$('.arch__slide', box); if (sl.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let i = 0;
+    setInterval(() => {
+      if (document.hidden) return;
+      const cur = sl[i]; i = (i + 1) % sl.length; const nx = sl[i];
+      nx.classList.remove('out'); void nx.offsetWidth; nx.classList.add('on');
+      cur.classList.replace('on', 'out'); setTimeout(() => cur.classList.remove('out'), 1600);
+    }, 5000);
+  });
 
   /* parallax */
   $$('[data-speed]').forEach(el => G.fromTo(el, { yPercent: -parseFloat(el.dataset.speed) * 50 }, { yPercent: parseFloat(el.dataset.speed) * 50, ease: 'none', scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } }));

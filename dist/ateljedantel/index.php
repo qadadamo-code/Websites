@@ -53,9 +53,14 @@ site_head('', ['page' => 'home', 'intro' => true, 'overlay' => false, 'body' => 
   </div>
   <div class="hero__stage">
     <figure class="arch arch--hero" data-arch>
-      <video class="arch__vid" autoplay muted loop playsinline preload="metadata" poster="assets/video/hero-poster.jpg">
-        <source src="assets/video/hero.webm" type="video/webm"><source src="assets/video/hero.mp4" type="video/mp4">
-      </video>
+      <div class="arch__slides" data-slides>
+        <img class="arch__slide on" src="assets/p/2026_02_1778585624081.webp" alt="" fetchpriority="high">
+        <img class="arch__slide" src="assets/p/2026_01_Elmira-F.webp" alt="" decoding="async">
+        <img class="arch__slide" src="assets/p/2026_02_1-2.webp" alt="" decoding="async">
+        <img class="arch__slide" src="assets/p/2026_01_Jenny-184-F.webp" alt="" decoding="async">
+        <img class="arch__slide" src="assets/p/2026_02_1036-Burgundi.webp" alt="" decoding="async">
+        <img class="arch__slide" src="assets/p/2026_01_victoria-vincent-Elsa-F.webp" alt="" decoding="async">
+      </div>
       <span class="arch__shine" aria-hidden="true"></span>
     </figure>
     <figure class="arch arch--mini" data-float><img src="assets/img/mofida-sewing.webp" alt="Mofida Alashi vid symaskinen" loading="eager"></figure>
