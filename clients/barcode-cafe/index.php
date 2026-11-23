@@ -364,6 +364,7 @@ $same = array_values(array_filter((array)$C['social'])); if ($same) $ld['sameAs'
       <p class="coupon__msg" id="couponMsg"></p>
       <div class="receipt__sub" id="receiptSubRow" hidden><span>قبل الخصم</span><b class="latin" id="receiptSub"></b></div>
       <div class="receipt__sub receipt__sub--disc" id="receiptDiscRow" hidden><span id="receiptDiscLabel">الخصم</span><b class="latin" id="receiptDisc"></b></div>
+      <div id="receiptCharges"></div>
       <div class="receipt__total"><span>الإجمالي</span><b class="latin" id="receiptTotal">0 EGP</b></div>
       <form class="receipt__form" id="orderForm">
         <div class="seg" role="radiogroup" aria-label="نوع الطلب">
@@ -373,12 +374,20 @@ $same = array_values(array_filter((array)$C['social'])); if ($same) $ld['sameAs'
         </div>
         <input name="name" placeholder="الاسم" autocomplete="name" required>
         <input name="phone" placeholder="رقم الموبايل" inputmode="tel" class="latin" autocomplete="tel" required>
+        <select name="zone" id="zoneSel" aria-label="منطقة التوصيل" hidden></select>
         <input name="address" placeholder="العنوان بالتفصيل (للتوصيل)" autocomplete="street-address">
         <input name="notes" placeholder="ملاحظات: بدون سكر، ثلج زيادة، أي شيء…">
         <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button type="submit" class="btn btn--copper btn--block">أرسل الطلب على واتساب</button>
         <button type="button" class="btn btn--line btn--block" id="orderMail">أرسل الطلب بالإيميل</button>
       </form>
+      <div class="sent" id="orderSent" hidden>
+        <div class="sent__tick">✓</div>
+        <b>طلبك وصل للكافيه</b>
+        <p>ترابيزة <span class="latin" id="sentTable"></span> · طلب <span class="latin" id="sentNo"></span></p>
+        <div class="sent__status"><i></i><span id="sentStatus">وصل للكافيه</span></div>
+        <button type="button" class="btn btn--line btn--block" id="sentMore">اطلب حاجة تانية</button>
+      </div>
       <div class="receipt__foot">
         <div class="receipt__barcode" id="receiptBarcode"></div>
         <span>شكرًا لأنك اخترت مزاجًا جيدًا</span>
@@ -392,6 +401,8 @@ $same = array_values(array_filter((array)$C['social'])); if ($same) $ld['sameAs'
 <script src="assets/vendor/gsap.min.js"></script>
 <script src="assets/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/vendor/lenis.min.js"></script>
+<?php $T = isset($_GET['t']) ? table_by_code((string)$_GET['t']) : null; ?>
+<script>window.BARCODE_TABLE = <?= $T ? json_encode(['code' => $T['code'], 'name' => $T['name'], 'mode' => in_array(settings()['tableOrder'] ?? 'both', ['both', 'site', 'whatsapp'], true) ? (settings()['tableOrder'] ?? 'both') : 'both'], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) : 'null' ?>;</script>
 <script>window.BARCODE_DATA = <?= json_encode($D, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) ?>;</script>
 <script src="assets/js/app.js?v=<?= BC_VERSION ?>"></script>
 </body>

@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-const BC_VERSION = '3.3.0';
+const BC_VERSION = '3.4.0';
 define('BC_ROOT', dirname(__DIR__));
 define('BC_STORAGE', BC_ROOT . '/storage');
 define('BC_UPLOADS', BC_ROOT . '/uploads');
@@ -199,6 +199,26 @@ function item_image(array $it): string {
     return is_file(BC_ROOT . '/' . $f) ? $f : '';
 }
 
+/* ---------- café tables (QR ordering) ---------- */
+function table_code(): string { $a = 'abcdefghjkmnpqrstuvwxyz23456789'; $c = ''; for ($i = 0; $i < 7; $i++) $c .= $a[random_int(0, strlen($a) - 1)]; return $c; }
+function tables_all(): array {
+    $t = bc_load('tables');
+    if (!$t && !is_file(BC_STORAGE . '/tables.json')) {
+        $names = settings()['tables'] ?? array_map('strval', range(1, 12));
+        foreach ($names as $i => $n) $t[] = ['id' => bc_id('t'), 'name' => (string)$n, 'zone' => '', 'seats' => 4, 'active' => true, 'code' => table_code(), 'order' => ($i + 1) * 10];
+        bc_write('tables', $t);
+    }
+    usort($t, fn($a, $b) => ($a['order'] ?? 0) <=> ($b['order'] ?? 0));
+    return $t;
+}
+/** Only an active table's secret code opens table ordering, so nobody can fake an order for a table from home. */
+function table_by_code(string $code): ?array {
+    $code = preg_replace('/[^a-z0-9]/', '', strtolower($code));
+    if ($code === '') return null;
+    foreach (tables_all() as $t) if (hash_equals((string)$t['code'], $code) && !empty($t['active'])) return $t;
+    return null;
+}
+
 /** Everything the public site needs, already filtered and priced. */
 function public_data(): array {
     $s = settings();
@@ -244,13 +264,42 @@ function public_data(): array {
             'whatsappDisplay' => $s['whatsappDisplay'] ?? '', 'email' => $s['email'] ?? '', 'address' => $s['address'] ?? '',
             'hours' => $s['hours'] ?? '', 'mapUrl' => $s['mapUrl'] ?? '', 'social' => $s['social'] ?? new stdClass(), 'currency' => 'EGP',
             'ribbon' => $s['ribbon'] ?? [], 'orders' => !empty($s['ordersEnabled']), 'delivery' => !empty($s['deliveryEnabled']),
-            'reservations' => !empty($s['reservationsEnabled']), 'api' => true,
+            'reservations' => !empty($s['reservationsEnabled']), 'api' => true, 'charges' => charges(),
         ],
         'menu' => $menu,
         'moods' => bc_load('moods'),
         'events' => $events,
         'offers' => ($s['offersSection'] ?? true) ? ['items' => array_slice(array_column($offerItems, 'id'), 0, 12), 'coupons' => $coupons] : ['items' => [], 'coupons' => []],
     ];
+}
+
+/* ---------- service, VAT and delivery (set in the dashboard, applied everywhere) ---------- */
+function charges(): array {
+    $c = settings()['charges'] ?? [];
+    $zones = [];
+    foreach ((array)($c['zones'] ?? []) as $z) if (trim((string)($z['name'] ?? '')) !== '') $zones[] = ['name' => (string)$z['name'], 'fee' => max(0, (float)($z['fee'] ?? 0))];
+    return [
+        'service' => max(0, min(30, (float)($c['service'] ?? 0))),
+        'serviceTypes' => array_values(array_intersect((array)($c['serviceTypes'] ?? ['داخل الكافيه']), ['توصيل', 'استلام من الفرع', 'داخل الكافيه'])),
+        'vat' => max(0, min(30, (float)($c['vat'] ?? 0))),
+        'deliveryFee' => max(0, (float)($c['deliveryFee'] ?? 0)),
+        'zones' => $zones,
+        'freeOver' => max(0, (float)($c['freeOver'] ?? 0)),
+        'minOrder' => max(0, (float)($c['minOrder'] ?? 0)),
+    ];
+}
+/** Totals after discount: service on the net, VAT on net + service, delivery added last (not taxed). */
+function order_totals(float $sub, float $disc, string $type, string $zone = ''): array {
+    $c = charges(); $net = max(0, $sub - $disc);
+    $service = in_array($type, $c['serviceTypes'], true) ? round($net * $c['service'] / 100) : 0;
+    $vat = round(($net + $service) * $c['vat'] / 100);
+    $delivery = 0; $zoneName = '';
+    if ($type === 'توصيل') {
+        $delivery = $c['deliveryFee'];
+        foreach ($c['zones'] as $z) if ($z['name'] === $zone) { $delivery = $z['fee']; $zoneName = $z['name']; }
+        if ($c['freeOver'] > 0 && $net >= $c['freeOver']) $delivery = 0;
+    }
+    return ['service' => $service, 'vat' => $vat, 'delivery' => $delivery, 'zone' => $zoneName, 'total' => $net + $service + $vat + $delivery];
 }
 
 function event_rsvp_count(string $eventId): int {

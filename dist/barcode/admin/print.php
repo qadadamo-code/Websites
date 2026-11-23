@@ -32,7 +32,11 @@ body{background:#fff;color:#111;font-family:var(--f);margin:0;padding:16px}
   </table>
   <hr>
   <table>
-    <?php if (!empty($o['discount'])): ?><tr><td>المجموع</td><td class="n"><?= number_format($o['subtotal']) ?></td></tr><tr><td>خصم <?= e($o['coupon'] ?? '') ?></td><td class="n">-<?= number_format($o['discount']) ?></td></tr><?php endif; ?>
+    <?php if (!empty($o['discount']) || !empty($o['service']) || !empty($o['vat']) || !empty($o['delivery'])): ?><tr><td>المجموع</td><td class="n"><?= number_format($o['subtotal']) ?></td></tr><?php endif; ?>
+    <?php if (!empty($o['discount'])): ?><tr><td>خصم <?= e($o['coupon'] ?? '') ?></td><td class="n">-<?= number_format($o['discount']) ?></td></tr><?php endif; ?>
+    <?php if (!empty($o['service'])): ?><tr><td>خدمة</td><td class="n"><?= number_format($o['service']) ?></td></tr><?php endif; ?>
+    <?php if (!empty($o['vat'])): ?><tr><td>ضريبة</td><td class="n"><?= number_format($o['vat']) ?></td></tr><?php endif; ?>
+    <?php if (!empty($o['delivery'])): ?><tr><td>توصيل <?= e($o['zone'] ?? '') ?></td><td class="n"><?= number_format($o['delivery']) ?></td></tr><?php endif; ?>
     <tr class="t"><td>الإجمالي</td><td class="n"><?= number_format($o['total']) ?> EGP</td></tr>
     <tr><td class="m">الدفع</td><td class="n m"><?= e(PAY_METHODS[$o['pay'] ?? ''] ?? '') ?></td></tr>
   </table>

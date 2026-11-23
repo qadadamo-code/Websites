@@ -97,9 +97,20 @@
         sub += q * p; $('[data-line-sum]', r).textContent = q && p ? fmt(q * p) : '';
       });
       const d = Math.min(sub, parseFloat(($('#discInp') || {}).value) || 0);
-      $('#subOut').textContent = fmt(sub); $('#totOut').textContent = fmt(sub - d);
+      const f = $('#orderForm'), ch = JSON.parse(f.dataset.charges || '{}'), on = $('#chgOn') && $('#chgOn').checked;
+      const type = (f.querySelector('[name=type]') || {}).value, zone = (f.querySelector('[name=zone]') || {}).value || '';
+      const net = Math.max(0, sub - d); let sv = 0, vat = 0, del = 0;
+      if (on) {
+        sv = (ch.serviceTypes || []).includes(type) ? Math.round(net * ch.service / 100) : 0;
+        vat = Math.round((net + sv) * ch.vat / 100);
+        if (type === 'توصيل') { del = ch.deliveryFee; const z = (ch.zones || []).find((z) => z.name === zone); if (z) del = z.fee; if (ch.freeOver > 0 && net >= ch.freeOver) del = 0; }
+      }
+      const parts = []; if (sv) parts.push(`خدمة ${fmt(sv)}`); if (vat) parts.push(`ضريبة ${fmt(vat)}`); if (del) parts.push(`توصيل ${fmt(del)}`);
+      const co = $('#chgOut'); if (co) { co.textContent = parts.join(' · '); co.hidden = !parts.length; }
+      $('#subOut').textContent = fmt(sub); $('#totOut').textContent = fmt(net + sv + vat + del);
     };
     lines.addEventListener('input', calc);
+    $('#orderForm').addEventListener('change', calc);
     $('#discInp') && $('#discInp').addEventListener('input', calc);
     lines.addEventListener('change', (e) => {
       const s = e.target.closest('[data-line-item]'); if (!s) return;
@@ -183,5 +194,79 @@
     });
     skip.addEventListener('click', () => { if (cur) { cur.classList.add('is-skip'); show(); } });
     show();
+  }
+  // ---- live order alerts: sound + toast + browser notification + sidebar counters ----
+  if (document.body.dataset.notify) {
+    const KEY = 'bc_seen_orders';
+    let seen = null; try { seen = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (_) {}
+    let ctx = null, sig = '';
+    const baseTitle = document.title;
+    const unlock = () => { try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === 'suspended') ctx.resume(); } catch (_) {} };
+    document.addEventListener('pointerdown', unlock, { once: true });
+    const chime = () => {
+      if (!ctx) return;
+      const t = ctx.currentTime;
+      [[880, 0], [1320, 0.16], [1760, 0.32]].forEach(([f, d]) => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = f; o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.0001, t + d); g.gain.exponentialRampToValueAtTime(0.35, t + d + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + d + 0.45);
+        o.start(t + d); o.stop(t + d + 0.5);
+      });
+    };
+    const bell = $('#nbell');
+    const wantBell = () => ('Notification' in window && Notification.permission === 'default') || !localStorage.getItem('bc_bell');
+    if (bell && wantBell()) bell.hidden = false;
+    if (bell) bell.addEventListener('click', async () => {
+      unlock(); chime();
+      try { if ('Notification' in window && Notification.permission === 'default') await Notification.requestPermission(); } catch (_) {}
+      try { localStorage.setItem('bc_bell', '1'); } catch (_) {}
+      bell.hidden = true;
+    });
+    let toastEl = null, toastT;
+    const showToast = (o, n) => {
+      if (!toastEl) { toastEl = document.createElement('div'); toastEl.className = 'ntoast'; toastEl.setAttribute('role', 'alert'); document.body.appendChild(toastEl); }
+      const where = o.table ? `ترابيزة ${o.table}` : o.name;
+      toastEl.innerHTML = `<span class="ntoast__ic"><svg class="ic" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 0 0 4 0"/></svg></span>
+        <span><b></b><small></small></span><a class="b b--sm b--primary" href="orders.php?open=${encodeURIComponent(o.id)}#detail">افتح</a><button class="ntoast__x" aria-label="إغلاق">×</button>`;
+      toastEl.querySelector('b').textContent = n > 1 ? `${n} طلبات جديدة` : `طلب جديد · ${where}`;
+      toastEl.querySelector('small').textContent = `#${o.no} · ${o.items} صنف · ${o.total.toLocaleString('en')} EGP`;
+      toastEl.querySelector('.ntoast__x').onclick = () => toastEl.classList.remove('show');
+      requestAnimationFrame(() => toastEl.classList.add('show'));
+      clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 20000);
+    };
+    const setPill = (nav, n) => {
+      const p = document.querySelector(`[data-nav="${nav}"] .pill`); if (!p) return;
+      if (String(n) !== p.textContent) { p.classList.remove('bump'); void p.offsetWidth; if (n > (+p.textContent || 0)) p.classList.add('bump'); }
+      p.textContent = n; p.hidden = !n;
+    };
+    const refreshBoard = async () => {
+      const b = $('#tboard'); if (!b) return;
+      try {
+        const html = await fetch('tables.php', { credentials: 'same-origin' }).then((r) => r.text());
+        const nb = new DOMParser().parseFromString(html, 'text/html').querySelector('#tboard');
+        if (nb) b.innerHTML = nb.innerHTML;
+      } catch (_) {}
+    };
+    const poll = async () => {
+      let d; try { d = await fetch('notify.php', { credentials: 'same-origin', cache: 'no-store' }).then((r) => r.json()); } catch (_) { return; }
+      if (!d || !d.ok) return;
+      setPill('orders', d.orders); setPill('reservations', d.res); setPill('tables', d.busy);
+      const ids = d.newIds || [];
+      if (seen === null) seen = ids.slice();
+      const fresh = ids.filter((id) => !seen.includes(id));
+      if (fresh.length && d.latest) {
+        chime(); showToast(d.latest, fresh.length);
+        if ('Notification' in window && Notification.permission === 'granted' && document.hidden) {
+          try { const nt = new Notification(d.latest.table ? `طلب جديد · ترابيزة ${d.latest.table}` : `طلب جديد · ${d.latest.name}`, { body: `#${d.latest.no} · ${d.latest.total} EGP`, icon: '../assets/brand/favicon.png', tag: 'bc-order' }); nt.onclick = () => { focus(); location.href = 'orders.php?open=' + encodeURIComponent(d.latest.id) + '#detail'; }; } catch (_) {}
+        }
+      }
+      seen = Array.from(new Set(seen.concat(ids))).slice(-300);
+      try { localStorage.setItem(KEY, JSON.stringify(seen)); } catch (_) {}
+      document.title = d.orders ? `(${d.orders}) ${baseTitle}` : baseTitle;
+      const s = JSON.stringify(d.tables || {});
+      if (s !== sig) { if (sig) refreshBoard(); sig = s; }
+    };
+    poll(); setInterval(poll, 10000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
   }
 })();

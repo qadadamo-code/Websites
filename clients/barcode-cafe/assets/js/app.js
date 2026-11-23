@@ -435,7 +435,22 @@
   const subtotal = () => Object.entries(cart).reduce((s, [id, q]) => s + ITEMS[id].price * q, 0);
   let coupon = null; // {code, discount, label}
   const discount = () => (coupon ? Math.min(coupon.discount, subtotal()) : 0);
-  const total = () => subtotal() - discount();
+  const CH = CFG.charges || { service: 0, serviceTypes: [], vat: 0, deliveryFee: 0, zones: [], freeOver: 0, minOrder: 0 };
+  const curType = () => { const f = document.getElementById("orderForm"); const r = f && f.querySelector('input[name="type"]:checked'); return r ? r.value : ""; };
+  const curZone = () => { const z = document.getElementById("zoneSel"); return z && !z.hidden ? z.value : ""; };
+  /* same math as the server (inc/core.php order_totals) so the customer sees the real total */
+  function extras() {
+    const net = Math.max(0, subtotal() - discount()), type = curType();
+    const service = CH.serviceTypes.includes(type) ? Math.round(net * CH.service / 100) : 0;
+    const vat = Math.round((net + service) * CH.vat / 100);
+    let delivery = 0;
+    if (type === "توصيل") {
+      delivery = CH.deliveryFee; const z = CH.zones.find(z => z.name === curZone()); if (z) delivery = z.fee;
+      if (CH.freeOver > 0 && net >= CH.freeOver) delivery = 0;
+    }
+    return { net, service, vat, delivery };
+  }
+  const total = () => { const x = extras(); return x.net + x.service + x.vat + x.delivery; };
   const count = () => Object.values(cart).reduce((s, q) => s + q, 0);
 
   function add(id, q = 1, silent) {
@@ -465,8 +480,19 @@
     $("#receiptEmpty").style.display = c ? "none" : "block";
     $("#orderForm").style.display = c ? "flex" : "none";
     $("#receiptTotal").textContent = money(total());
-    const d = discount();
-    $("#receiptSubRow").hidden = !d; $("#receiptDiscRow").hidden = !d;
+    const zs = document.getElementById("zoneSel"); if (zs) zs.hidden = !(CH.zones.length && curType() === "توصيل");
+    const d = discount(), x = extras();
+    const rows = [];
+    if (x.service) rows.push(["خدمة", `${CH.service}%`, x.service]);
+    if (x.vat) rows.push(["ضريبة القيمة المضافة", `${CH.vat}%`, x.vat]);
+    if (curType() === "توصيل" && (CH.deliveryFee || CH.zones.length)) rows.push(["التوصيل", x.delivery ? "" : "مجاني", x.delivery]);
+    let note = "";
+    if (curType() === "توصيل" && CH.freeOver > 0 && x.delivery) note = `التوصيل مجاني للطلبات من ${money(CH.freeOver)}`;
+    if (curType() === "توصيل" && CH.minOrder > 0 && x.net < CH.minOrder) note = `أقل طلب للتوصيل ${money(CH.minOrder)}`;
+    $("#receiptCharges").innerHTML = rows.map(([l, t, v]) => `<div class="receipt__sub"><span>${l} ${t ? `<small class="latin">${t}</small>` : ""}</span><b class="latin">${v ? money(v) : "0"}</b></div>`).join("") + (note ? `<p class="receipt__note">${note}</p>` : "");
+    $("#receiptSubRow").hidden = !(d || rows.length); $("#receiptDiscRow").hidden = !d;
+    if (rows.length) $("#receiptSub").textContent = money(subtotal());
+    $("#receiptSubRow").firstElementChild.textContent = d ? "قبل الخصم" : "المجموع";
     if (d) { $("#receiptSub").textContent = money(subtotal()); $("#receiptDisc").textContent = "− " + money(d); $("#receiptDiscLabel").textContent = `خصم ${coupon.code}`; }
     $("#couponBox").style.display = c && API ? "flex" : "none";
     $("#couponMsg").style.display = c && API ? "block" : "none";
@@ -519,45 +545,89 @@
       ...lines,
       "",
       ...(discount() ? [`المجموع: ${money(subtotal())}`, `كود الخصم ${coupon.code}: − ${money(discount())}`] : []),
+      ...(() => { const x = extras(); return [x.service ? `خدمة ${CH.service}%: ${money(x.service)}` : "", x.vat ? `ضريبة ${CH.vat}%: ${money(x.vat)}` : "", f.type.value === "توصيل" && (CH.deliveryFee || CH.zones.length) ? `التوصيل${curZone() ? " (" + curZone() + ")" : ""}: ${x.delivery ? money(x.delivery) : "مجاني"}` : ""].filter(Boolean); })(),
       `الإجمالي: ${money(total())}`,
       `نوع الطلب: ${f.type.value}`,
-      table ? `🪑 ترابيزة رقم: ${table}` : "",
-      `الاسم: ${f.name.value.trim()}`,
-      `الموبايل: ${f.phone.value.trim()}`,
+      table ? `🪑 ترابيزة رقم: ${table.name}` : "",
+      f.name.value.trim() ? `الاسم: ${f.name.value.trim()}` : "",
+      f.phone.value.trim() ? `الموبايل: ${f.phone.value.trim()}` : "",
       f.address.value.trim() ? `العنوان: ${f.address.value.trim()}` : "",
       f.notes.value.trim() ? `ملاحظات: ${f.notes.value.trim()}` : ""
     ].filter((l, i, a) => l !== "" || a[i - 1] !== "").join("\n");
   }
   function validOrder(f) {
+    if (table) return true;
     let ok = true;
     [f.name, f.phone].forEach(i => { const bad = !i.value.trim(); i.classList.toggle("invalid", bad); if (bad) ok = false; });
+    if (f.type.value === "توصيل" && CH.zones.length && !f.zone.value) { f.zone.classList.add("invalid"); ok = false; } else f.zone.classList.remove("invalid");
+    if (f.type.value === "توصيل" && CH.minOrder > 0 && extras().net < CH.minOrder) { toast(`أقل طلب للتوصيل ${money(CH.minOrder)}`); return false; }
     const needAddr = f.type.value === "توصيل" && !f.address.value.trim();
     f.address.classList.toggle("invalid", needAddr); if (needAddr) ok = false;
     if (!ok) toast("من فضلك أكمل البيانات المطلوبة");
     return ok;
   }
   const of = $("#orderForm");
-  /* table QR: ?t=7 opens the menu as an in-café order for that table */
-  let table = "";
+  const zoneSel = $("#zoneSel");
+  if (CH.zones.length) zoneSel.innerHTML = `<option value="">اختار منطقة التوصيل</option>` + CH.zones.map(z => `<option value="${esc(z.name)}">${esc(z.name)} · ${z.fee ? money(z.fee) : "مجاني"}</option>`).join("");
+  const syncType = () => { zoneSel.hidden = !(CH.zones.length && curType() === "توصيل"); render(); };
+  of.addEventListener("change", e => { if (e.target.name === "type" || e.target.name === "zone") syncType(); });
+  zoneSel.hidden = !(CH.zones.length && curType() === "توصيل");
+  /* table QR: ?t=<secret code> (checked by the server) turns the receipt into a direct order to the café */
+  let table = null;
   try {
-    const qt = new URLSearchParams(location.search).get("t");
-    if (qt) sessionStorage.setItem("bcTable", qt.replace(/[^\p{L}\p{N} _-]/gu, "").slice(0, 20));
-    table = sessionStorage.getItem("bcTable") || "";
-  } catch (_) { /* storage blocked */ }
-  if (table) {
-    const inCafe = of.querySelector('input[value="داخل الكافيه"]');
-    if (inCafe) inCafe.checked = true;
-    of.insertAdjacentHTML("afterbegin", `<div class="table-pill">طلبك هيوصل على <b>ترابيزة <span class="latin">${esc(table)}</span></b></div>`);
-    if (of.address) of.address.placeholder = "مش محتاج عنوان، إحنا عارفين ترابيزتك";
+    if (window.BARCODE_TABLE) sessionStorage.setItem("bcTable", JSON.stringify(window.BARCODE_TABLE));
+    else if (new URLSearchParams(location.search).has("t")) sessionStorage.removeItem("bcTable");
+    table = window.BARCODE_TABLE || JSON.parse(sessionStorage.getItem("bcTable") || "null");
+  } catch (_) { table = window.BARCODE_TABLE || null; }
+  const tMode = (table && table.mode) || "both";
+  if (table && tMode === "whatsapp") {
+    // WhatsApp only: keep the normal form, just mark the table and make name/phone optional
+    of.classList.add("is-table", "is-table-wa");
+    const inCafe = of.querySelector('input[value="داخل الكافيه"]'); if (inCafe) inCafe.checked = true;
+    of.insertAdjacentHTML("afterbegin", `<div class="table-pill">بتطلب من <b>ترابيزة <span class="latin">${esc(table.name)}</span></b></div>`);
+    of.name.required = false; of.phone.required = false;
+  } else if (table) {
+    of.classList.add("is-table");
+    const inCafe = of.querySelector('input[value="داخل الكافيه"]'); if (inCafe) inCafe.checked = true;
+    of.insertAdjacentHTML("afterbegin", `<div class="table-pill">بتطلب من <b>ترابيزة <span class="latin">${esc(table.name)}</span></b>، والطلب هيوصل للكافيه على طول</div>`);
+    of.name.placeholder = "اسمك (اختياري)"; of.phone.placeholder = "رقم الموبايل (اختياري)";
+    of.name.required = false; of.phone.required = false;
+    of.querySelector('button[type="submit"]').textContent = "ابعت الطلب للكافيه";
+    // the customer can still pick WhatsApp; the order is logged with the table either way
+    if (tMode === "both") $("#orderMail").insertAdjacentHTML("beforebegin", `<button type="button" class="btn btn--line btn--block" id="orderWaTable">أو ابعته على واتساب</button>`);
+    if (tMode === "both") $("#orderWaTable").addEventListener("click", () => {
+      if (!count()) return;
+      logOrder("whatsapp");
+      window.open(waLink(orderText(of)), "_blank", "noopener");
+    });
   }
   const logOrder = channel => post("api/order.php", {
     no: orderNo, channel, coupon: coupon ? coupon.code : "", website: of.website ? of.website.value : "",
     items: Object.entries(cart).map(([id, qty]) => ({ id, qty })),
-    type: of.type.value, table, name: of.name.value, phone: of.phone.value, address: of.address.value, notes: of.notes.value
+    type: of.type.value, zone: curZone(), tableCode: table ? table.code : "", name: of.name.value, phone: of.phone.value, address: of.address.value, notes: of.notes.value
   });
+  let tracker = null;
+  async function sendTableOrder() {
+    const btn = of.querySelector('button[type="submit"]'); btn.disabled = true; btn.textContent = "بنبعت…";
+    try {
+      const r = await logOrder("table").then(x => x && x.json ? x.json() : x);
+      if (!r || !r.ok) throw new Error((r && r.msg) || "تعذّر الإرسال");
+      $("#sentTable").textContent = r.table; $("#sentNo").textContent = "#" + r.no;
+      of.hidden = true; $("#orderSent").hidden = false; $(".receipt__paper").classList.add("is-sent");
+      Object.keys(cart).forEach(k => delete cart[k]); store.set(cart); coupon = null; render();
+      const poll = async () => {
+        try { const s = await fetch(`api/status.php?id=${encodeURIComponent(r.id)}&k=${encodeURIComponent(r.track)}`).then(x => x.json());
+          if (s.ok) { $("#sentStatus").textContent = s.label; $("#orderSent").dataset.st = s.status; if (["done", "cancelled"].includes(s.status)) clearInterval(tracker); } } catch (_) {}
+      };
+      clearInterval(tracker); tracker = setInterval(poll, 12000);
+    } catch (err) { toast(err.message); }
+    btn.disabled = false; btn.textContent = "ابعت الطلب للكافيه";
+  }
+  $("#sentMore").addEventListener("click", () => { $("#orderSent").hidden = true; of.hidden = false; $(".receipt__paper").classList.remove("is-sent"); closeDrawer(); });
   of.addEventListener("submit", e => {
     e.preventDefault();
     if (!count() || !validOrder(of)) return;
+    if (table && tMode !== "whatsapp") { sendTableOrder(); return; }
     logOrder("whatsapp");
     window.open(waLink(orderText(of)), "_blank", "noopener");
   });
