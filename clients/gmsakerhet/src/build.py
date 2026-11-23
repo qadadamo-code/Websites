@@ -5,7 +5,7 @@ import os, re, html, json, math, datetime
 from content import CO, SERVICES, UI, PLACES, FIELD
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-V = "2"
+V = "3"
 BASE = "https://gmsakerhet.com/"  # canonical = production domain
 OUT = os.environ.get("GMS_OUT", ROOT)          # output dir
 PREFIX = os.environ.get("GMS_PREFIX", "/gmsakerhet/")  # URL path of site root (404 assets)
@@ -202,7 +202,7 @@ def footer(c):
 def contact_form(c, compact=False):
     u = c.u
     opts = "".join(f'<option value="{esc(s[c.lang]["name"])}">{esc(s[c.lang]["name"])}</option>' for s in SERVICES)
-    return f'''<form class="cform" action="{c.rel('contact.php')}" method="post" data-ok="{esc(u['f_ok'])}" data-err="{esc(u['f_err'])}">
+    return f'''<form class="cform" action="{c.rel('contact.php')}" method="post" data-ok="{esc(u['f_ok'])}" data-err="{esc(u['f_err'])}" data-wa="{CO['whatsapp']}">
   <input type="hidden" name="lang" value="{c.lang}">
   <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
   <div class="frow"><label class="fld"><span>{u['f_name']}</span><input name="name" required autocomplete="name"></label>
