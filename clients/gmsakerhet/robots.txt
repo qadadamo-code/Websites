@@ -1,3 +1,2 @@
 User-agent: *
-Allow: /
-Sitemap: https://web.theplanetco.com/gmsakerhet/sitemap.xml
+Disallow: /
