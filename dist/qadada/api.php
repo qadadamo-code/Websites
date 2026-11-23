@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 24;
+const DATA_VERSION = 25;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -490,6 +490,19 @@ function migrate(array &$t): void {
             $kids($cid($has, 'محمود'), ['أمير'], 'g4md');
         }
         if (find_index($M, 'mm2') >= 0) $kids($cid('mm2', 'مصطفى'), ['محمود', 'أحمد'], 'mm23x');
+    }
+    if ($v < 25) {
+        // 2026-11-23: the fez photo is محمود أحمد علي قدادة himself (not his son مصطفى); his sons are أحمد، محمد، مصطفى، فوزي، فؤاد
+        $i1 = find_index($M, 'mm1'); $i2 = find_index($M, 'mm2');
+        if ($i1 >= 0 && $i2 >= 0 && ($M[$i2]['parent'] ?? '') === 'mm1') {
+            $M[$i1]['photo'] = $M[$i2]['photo'] ?? 'assets/img/mustafa-mahmoud.webp';
+            $M[$i1]['deceased'] = true;
+            $M[$i1]['title'] = 'الحاج';
+            $M[$i1]['note'] = 'الحاج محمود أحمد علي قدادة، رحمه الله. أبناؤه: أحمد ومحمد ومصطفى وفوزي وفؤاد.';
+            foreach ($M as &$mm) if (($mm['parent'] ?? '') === 'mm2') $mm['parent'] = 'mm1';
+            unset($mm);
+            array_splice($M, find_index($M, 'mm2'), 1);
+        }
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
