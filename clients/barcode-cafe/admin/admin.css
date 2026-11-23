@@ -1,3 +1,9 @@
+@font-face{font-family:"GE SS Two";font-weight:700 900;font-display:swap;src:url(../assets/fonts/GE-SS-Two-Bold.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F,U+0020-002F,U+003A-0040,U+00AB,U+00BB,U+2010-2027}
+@font-face{font-family:"GE SS Two";font-weight:500 600;font-display:swap;src:url(../assets/fonts/GE-SS-Two-Medium.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F,U+0020-002F,U+003A-0040,U+00AB,U+00BB,U+2010-2027}
+@font-face{font-family:"GE SS Two";font-weight:100 400;font-display:swap;src:url(../assets/fonts/GE-SS-Two-Light.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F,U+0020-002F,U+003A-0040,U+00AB,U+00BB,U+2010-2027}
+@font-face{font-family:"Century Gothic";font-weight:100 500;font-display:swap;src:local("Century Gothic"),local("CenturyGothic"),url(../assets/fonts/Gothic-Book.woff2) format("woff2")}
+@font-face{font-family:"Century Gothic";font-weight:600;font-display:swap;src:local("Century Gothic Bold"),local("CenturyGothic-Bold"),url(../assets/fonts/Gothic-Demi.woff2) format("woff2")}
+@font-face{font-family:"Century Gothic";font-weight:700 900;font-display:swap;src:local("Century Gothic Bold"),local("CenturyGothic-Bold"),url(../assets/fonts/Gothic-Bold.woff2) format("woff2")}
 /* Barcode Cafe — dashboard. Dark espresso theme, cream text, copper accents. RTL. */
 :root{
   --bg:#110803; --bg2:#170C05; --card:#1E1209; --card2:#26170C; --hover:#2E1C0F;
@@ -6,7 +12,7 @@
   --copper:#C98D54; --copper2:#E0A86E; --copper-d:#8A5626; --glow:#F2A65E;
   --ok:#7FC79A; --okbg:rgba(127,199,154,.12); --bad:#F08A7A; --badbg:rgba(240,138,122,.12);
   --warn:#F2C26B; --warnbg:rgba(242,194,107,.12); --info:#8EB8E8; --infobg:rgba(142,184,232,.12);
-  --f:"GE SS Two","Almarai",system-ui,sans-serif; --fl:"Century Gothic","CenturyGothic","Didact Gothic","Almarai",sans-serif;
+  --f:"GE SS Two","Century Gothic","Almarai",system-ui,sans-serif; --fl:"Century Gothic","CenturyGothic","Didact Gothic","Almarai",sans-serif;
   --r:16px; --side:256px; --ease:cubic-bezier(.22,1,.36,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
