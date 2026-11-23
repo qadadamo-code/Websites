@@ -77,7 +77,7 @@
   function renderMeals(cat) {
     if (!mealGrid || !CATS[cat]) return;
     mealGrid.innerHTML = CATS[cat].items.map(mealCard).join('');
-    if (hasG && document.body.classList.contains('ready')) gsap.from($$('.meal', mealGrid), { y: 40, opacity: 0, duration: .7, stagger: .06, ease: 'power3.out', clearProps: 'all' });
+    if (window.__tbReveal) window.__tbReveal(mealGrid);
   }
   const mealTabs = $$('#mealTabs button');
   mealTabs.forEach(b => b.addEventListener('click', () => { mealTabs.forEach(x => x.classList.toggle('is-on', x === b)); renderMeals(b.dataset.cat); }));
@@ -287,7 +287,7 @@
   }
   function renderPacks(type) {
     packGrid.innerHTML = P.filter(p => p.type === type).map(packCard).join('');
-    if (hasG && document.body.classList.contains('ready')) gsap.from($$('.pack', packGrid), { y: 40, opacity: 0, duration: .7, stagger: .08, ease: 'power3.out', clearProps: 'all' });
+    if (window.__tbReveal) window.__tbReveal(packGrid);
   }
   if (packGrid) {
     $$('#packTabs button').forEach(b => b.addEventListener('click', () => { $$('#packTabs button').forEach(x => x.classList.toggle('is-on', x === b)); renderPacks(b.dataset.type); }));
@@ -371,12 +371,16 @@
     gsap.to('.tablia__mama', { y: -8, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5 });
     gsap.to('#heroArt', { yPercent: 10, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
 
-    $$('.sec__head, .mama__copy > *, .vow, .mcat__head, .steps li, .book__calc, .book__form, .contact__card, .note, .seg').forEach(el => {
-      gsap.from(el, { y: 36, opacity: 0, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
+    // reveals use IntersectionObserver (robust to layout changes from tabs, images and async renders)
+    const io = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) { const t = en.target; t.classList.add('in'); io.unobserve(t); setTimeout(() => { t.classList.remove('rv', 'in'); t.style.transitionDelay = ''; t.dataset.rv = '1'; }, 1300); } }), { rootMargin: '0px 0px -6% 0px' });
+    window.__tbReveal = (root) => $$('.sec__head, .mama__copy > *, .vow, .mcat__head, .steps li, .book__calc, .book__form, .contact__card, .note, .seg, .meal, .pack, .mi', root || document).forEach((el, i) => {
+      if (el.classList.contains('rv') || el.dataset.rv) return;
+      el.classList.add('rv'); el.style.transitionDelay = (i % 4) * 60 + 'ms'; io.observe(el);
     });
-    ScrollTrigger.batch('.meal, .pack', { start: 'top 92%', once: true, onEnter: b => gsap.from(b, { y: 40, opacity: 0, duration: .7, stagger: .07, ease: 'power3.out', clearProps: 'transform,opacity' }) });
+    window.__tbReveal();
+    setTimeout(() => $$('.rv:not(.in)').forEach((el) => { const r = el.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) el.classList.add('in'); }), 1200);
     gsap.from('.mama__portrait', { scale: .8, rotate: -6, opacity: 0, duration: 1.2, ease: 'back.out(1.4)', scrollTrigger: { trigger: '.mama', start: 'top 70%', once: true } });
-    ScrollTrigger.batch('.mi', { start: 'top 94%', once: true, onEnter: b => gsap.from(b, { y: 30, opacity: 0, duration: .6, stagger: .05, ease: 'power2.out', clearProps: 'transform,opacity' }) });
+    window.addEventListener('load', () => ScrollTrigger.refresh());
     const oh = $('.occ__hero img'); if (oh) gsap.fromTo(oh, { yPercent: -12 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.occ__hero', start: 'top bottom', end: 'bottom top', scrub: true } });
 
     const navLinks = $$('.hdr__nav a');
