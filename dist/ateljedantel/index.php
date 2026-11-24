@@ -161,7 +161,7 @@ site_head('', ['page' => 'home', 'intro' => true, 'overlay' => false, 'body' => 
     <ul class="svc__list">
       <?php foreach ($c['services'] as $i => $sv): ?>
       <li class="<?= $i === 0 ? 'on' : '' ?>" data-img="<?= e($sv['img']) ?>">
-        <a href="<?= $sv['id'] === 'skradd' ? 'skradderi.php' : ($sv['id'] === 'herr' ? 'skradderi.php#herr' : 'boka.php?typ=' . ($sv['id'] === 'matt' ? 'matt' : 'brud')) ?>">
+        <a href="<?= $sv['id'] === 'skradd' ? 'skradderi.php' : ($sv['id'] === 'herr' ? 'herr.php' : 'boka.php?typ=' . ($sv['id'] === 'matt' ? 'matt' : 'brud')) ?>">
           <span class="svc__n">0<?= $i + 1 ?></span><span class="svc__t"><?= e(tr($sv['t'])) ?></span><span class="svc__d"><?= e(tr($sv['d'])) ?></span><span class="svc__go"><?= ic('arrow') ?></span>
         </a>
       </li>
@@ -205,10 +205,4 @@ site_head('', ['page' => 'home', 'intro' => true, 'overlay' => false, 'body' => 
   </div>
 </section>
 
-<section class="news wrap-narrow">
-  <h2 class="h2" data-lines><?= t('home.news') ?></h2>
-  <p class="muted"><?= t('home.newsD') ?></p>
-  <form class="news__form" data-news><input type="email" name="email" required placeholder="<?= t('ui.email') ?>" autocomplete="email" aria-label="<?= t('ui.email') ?>"><input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn"><?= t('home.newsBtn') ?></button></form>
-  <p class="news__msg" role="status"></p>
-</section>
 <?php site_foot(); ?>

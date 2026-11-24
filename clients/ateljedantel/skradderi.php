@@ -17,7 +17,7 @@ site_head(t('nav.tailor'), ['page' => 'tailor', 'desc' => $en ? 'Tailoring and a
   <div class="prices"><?php foreach ($c['tailor'] as $g): ?><div class="box" data-rise><h3><?= e(tr($g['g'])) ?> <?= ic('needle') ?></h3><?php foreach ($g['rows'] as [$n, $pr]): ?><div class="prow"><span><?= e(tr($n)) ?></span><span><?= e($pr) ?> kr</span></div><?php endforeach; ?></div><?php endforeach; ?></div>
   <p class="fine" style="text-align:left;margin-top:16px"><?= $en ? 'Prices from, incl. VAT. Final price is set when we see the garment.' : 'Priser från, inkl. moms. Slutpriset bestäms när vi sett plagget.' ?></p>
 </section>
-<section class="banner" id="herr" data-parallax style="min-height:min(80vh,720px)"><img src="assets/img/couple-kiss.webp" alt="" loading="lazy" data-speed="0.15" style="object-position:50% 30%">
-  <div class="banner__copy wrap"><p class="eyebrow"><?= $en ? 'Menswear' : 'Herrekipering' ?></p><h2 class="h1" style="font-size:clamp(36px,5vw,72px)" data-lines><?= $en ? 'Tails, tuxedo or suit – buy or rent' : 'Frack, smoking eller kostym – köp eller hyr' ?></h2>
-  <p style="max-width:640px;opacity:.9;margin-bottom:28px"><?= e(tr($c['menswear'])) ?></p><a class="btn btn--light" href="boka.php?typ=herr"><?= ic('cal') ?> <?= $en ? 'Book a fitting (30 min)' : 'Boka utprovning (30 min)' ?></a></div></section>
+<section class="banner" id="herr" data-parallax style="min-height:min(60vh,560px)"><img src="assets/img/couple-kiss.webp" alt="" loading="lazy" data-speed="0.15" style="object-position:50% 30%">
+  <div class="banner__copy wrap"><p class="eyebrow"><?= t('nav.herr') ?></p><h2 class="h1" style="font-size:clamp(34px,4.5vw,64px)" data-lines><?= $en ? 'Tails, tuxedo or suit – buy or rent' : 'Frack, smoking eller kostym – köp eller hyr' ?></h2>
+  <a class="btn btn--light" href="herr.php"><?= $en ? 'Read more about menswear' : 'Läs mer om herrekipering' ?> <?= ic('arrow') ?></a></div></section>
 <?php site_foot(); ?>

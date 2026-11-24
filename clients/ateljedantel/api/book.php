@@ -16,6 +16,7 @@ if (!$ty) $err['type'] = t('f.req');
 if ($name === '') $err['name'] = t('f.req');
 if (!valid_email($email)) $err['email'] = t('f.email');
 if (strlen(preg_replace('/\D/', '', $phone)) < 7) $err['phone'] = t('f.req');
+if ($type === 'skradd' && mb_strlen(trim((string)($d['note'] ?? ''))) < 3) $err['note'] = t('bk.noteReq');
 if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date) || !preg_match('/^\d{2}:\d{2}$/', $time)) $err['time'] = t('f.req');
 if ($err) json_out(['ok' => false, 'errors' => $err, 'msg' => t('co.err')], 422);
 $wish = array_values(array_filter(array_map(fn($x) => preg_replace('/[^a-z0-9]/i', '', (string)$x), (array)($d['wish'] ?? [])))) ;

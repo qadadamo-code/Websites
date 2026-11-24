@@ -31,7 +31,7 @@ site_head(t('bk.title'), ['page' => 'booking', 'desc' => t('bk.lead')]);
         <div class="fld"><label for="bguests"><?= t('bk.guests') ?></label><select id="bguests" name="guests"><?php for ($i = 1; $i <= 6; $i++): ?><option><?= $i ?></option><?php endfor; ?></select></div>
         <div class="fld"><label for="bevent"><?= t('bk.date') ?></label><input id="bevent" name="event" type="date"></div>
         <div class="fld full" id="wishWrap" hidden><label><?= t('bk.wish') ?></label><div class="wishpick" id="wishPick"></div></div>
-        <div class="fld full"><label for="bnote"><?= t('co.note') ?></label><textarea id="bnote" name="note"></textarea></div>
+        <div class="fld full"><label for="bnote"><span data-note-lbl><?= t('co.note') ?></span><span data-note-req hidden> *</span></label><textarea id="bnote" name="note" data-ph-skradd="<?= e(t('bk.noteSkradd')) ?>"></textarea><span class="msg"></span></div>
       </div>
       <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     </div>

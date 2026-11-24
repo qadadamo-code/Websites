@@ -64,6 +64,12 @@ function ad_migrate(): void {
             foreach ($m[$k] as $kk => $v) if (!array_key_exists($kk, $st)) $st[$kk] = $v;
             ad_write($k, $st);
         }
+        foreach (['settings_set' => 'settings', 'content_set' => 'content'] as $mk => $k) {
+            if (empty($m[$mk]) || !is_array($m[$mk])) continue;
+            $st = ad_load($k);
+            foreach ($m[$mk] as $kk => $v) $st[$kk] = $v; // deliberate replacement of a whole section
+            ad_write($k, $st);
+        }
         $done[] = $m['id'];
         ad_write('migrations', $done);
     }
