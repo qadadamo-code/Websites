@@ -1,0 +1,784 @@
+{
+ "meta": {
+  "title": "NORRAID AFRICA – Humanity Without Borders",
+  "description": "Ett humanitärt initiativ med bas i Sverige som står vid sidan av familjer i nödsituationer i Sudan, DR Kongo och Sydsudan. Öppet, källbelagt och ärligt.",
+  "lang_name": "Svenska"
+ },
+ "skip": "Hoppa till innehållet",
+ "nav": {
+  "home": "Hem",
+  "mission": "Vårt uppdrag",
+  "countries": "Länder",
+  "stories": "Berättelser om hopp",
+  "impact": "Vår påverkan",
+  "transparency": "Öppenhet",
+  "about": "Om oss",
+  "contact": "Kontakt",
+  "faq": "Vanliga frågor",
+  "donate": "Ge en gåva",
+  "menu": "Meny",
+  "close": "Stäng",
+  "language": "Språk",
+  "all_countries": "Alla tre länder"
+ },
+ "num": {
+  "million": "{n} miljoner",
+  "usd_billion": "{n} miljarder US-dollar"
+ },
+ "months": ["januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december"],
+ "common": {
+  "planned": "Planerat",
+  "pending": "Väntar på verifiering",
+  "learn_more": "Läs mer",
+  "read_story": "Läs berättelsen",
+  "source": "Källa",
+  "sources": "Källor",
+  "verified": "Senast kontrollerad",
+  "year": "Rapportår",
+  "definition": "Definition",
+  "view_sources": "Källor och metod",
+  "donate_cta": "Hjälp en familj i dag",
+  "back": "Tillbaka",
+  "third_party": "Rapport från tredje part",
+  "reported_by": "Ursprungligen rapporterad av",
+  "published": "Publicerad",
+  "coming_soon": "Kommer snart",
+  "not_yet": "Ännu inte tillgängligt",
+  "fallback_note": "Texten visas på engelska tills en översättning har godkänts."
+ },
+ "country": {
+  "sudan": {
+   "name": "Sudan",
+   "tag": "Världens största flyktingkris",
+   "lead": "Konflikten i Sudan är inne på sitt tredje år och driver fortsatt en humanitär kris och skyddskris av katastrofal omfattning.",
+   "intro": [
+    "Civila har tvingats fly från sina hem gång på gång. Sjukhus, skolor och marknader har attackerats, och landminor och oexploderad ammunition finns i stora delar av landet.",
+    "Enligt FN:s humanitära plan för 2026 bedöms varje distrikt i Sudan ligga på allvarlighetsnivå 3 eller högre, och i Darfur och Kordofan behöver mer än 80 procent av lokalbefolkningen humanitärt stöd."
+   ],
+   "food": "Massvält har fått fäste i stora delar av landet. FN rapporterar att 29 miljoner människor lever i akut livsmedelsosäkerhet och att 23 områden befinner sig i eller riskerar svält. Tre av fyra hushåll med en kvinna som försörjare bedöms sakna tryggad tillgång till mat.",
+   "water": "Mer än hälften av människorna i Sudan har svårt att få tillgång till rent vatten, samtidigt som vatten- och sanitetssystemen bryter samman under konflikten.",
+   "health": "I de värst drabbade områdena fungerar färre än 30 procent av vårdinrättningarna. Kolera, malaria och denguefeber sprids när vården kollapsar.",
+   "displacement": "I oktober 2025 var 9,6 miljoner människor fortfarande internflyktingar i Sudan, många under extremt osäkra förhållanden. Omkring 2,6 miljoner har återvänt sedan november 2024, främst till Khartoum och Al-Jazira.",
+   "education": "Skolor har attackerats eller gjorts om till skydd för familjer på flykt. Barn utsätts för rekrytering, bortföranden och andra grova kränkningar och behöver skydd och trygga platser att lära sig på.",
+   "regions": "Markerade regioner: delstaterna i Darfur och Kordofan, Khartoum och Al-Jazira, som 2026 års plan pekar ut bland områdena med de allvarligaste behoven eller högst prioritet.",
+   "priorities": [
+    "Akut matstöd till familjer på flykt",
+    "Rent vatten och hygienpaket",
+    "Stöd till primärvård och förebyggande av kolera",
+    "Skydd och psykosocialt stöd för kvinnor och barn"
+   ]
+  },
+  "drc": {
+   "name": "DR Kongo",
+   "full": "Demokratiska republiken Kongo",
+   "tag": "En av världens största flyktingkriser",
+   "lead": "Väpnad konflikt är fortfarande den främsta orsaken till de humanitära behoven i Demokratiska republiken Kongo, särskilt i Nordkivu, Sydkivu och Ituri.",
+   "intro": [
+    "Under 2025 spreds striderna över de östra provinserna. Det ledde till omfattande ny flykt, upprepade förflyttningar fram och tillbaka och allvarliga risker för civila.",
+    "Trots landets stora naturresurser hör fattigdomen och sårbarheten till de högsta i världen. Epidemier samt översvämningar och jordskred kopplade till klimatet ökar trycket på familjerna."
+   ],
+   "food": "Livsmedelsosäkerheten har nått extrema nivåer: FN beräknar att 26,6 miljoner människor befinner sig i kris eller nödläge (IPC-fas 3 och 4) mellan januari och juni 2026.",
+   "water": "Drabbade samhällen nämner rent vatten, hygien och sanitet bland sina viktigaste behov, tillsammans med näringsrik mat och primärvård.",
+   "health": "Kolera, mässling och mpox utgör fortsatt stora risker, särskilt där kapaciteten att möta dem är begränsad. De senaste ebolautbrotten har hejdats, men risken för nya utbrott kvarstår.",
+   "displacement": "I september 2025 var mer än 5,3 miljoner människor internflyktingar, och under 2025 registrerades mer än 3 miljoner återvändanden, bland annat oplanerade återvändanden efter att läger stängts.",
+   "education": "Barn, kvinnor och flickor, personer med funktionsnedsättning och överlevare av könsrelaterat våld utsätts för oproportionerligt stora risker. Familjer som flyr gång på gång har svårt att hålla barnen kvar i skolan.",
+   "regions": "Markerade regioner: Nordkivu och Sydkivu. Ituri, som också räknas till de mest akuta områdena, ingår i den tidigare provinsen Orientale på den här förenklade kartan.",
+   "priorities": [
+    "Mat- och näringsstöd till familjer på flykt",
+    "Rent vatten och sanitet i flyktingläger",
+    "Hälsostöd, bland annat mot kolera och mässling",
+    "Skolmaterial till barn på flykt"
+   ]
+  },
+  "south-sudan": {
+   "name": "Sydsudan",
+   "tag": "Två tredjedelar av befolkningen behöver hjälp",
+   "lead": "Sydsudan står inför flera samtidiga kriser inom humanitär hjälp, ekonomi, säkerhet, hälsa och klimat, som förvärras av att människor flyr kriget i Sudan.",
+   "intro": [
+    "Omkring två tredjedelar av landets befolkning behöver humanitärt stöd under 2026. Familjer fastnar i cykler av våld, översvämningar och sjukdomsutbrott.",
+    "Sedan 2019 har de årliga översvämningarna drabbat mer än en miljon människor varje år. I november 2025 hade omkring 1,3 miljoner människor kommit från Sudan."
+   ],
+   "food": "Mer än 7,5 miljoner människor beräknas drabbas av hunger på krisnivå eller värre (IPC 3+) under den magra perioden april–juli 2026. Omkring 2,1 miljoner barn i åldern 6–59 månader väntas drabbas av akut undernäring.",
+   "water": "Återkommande översvämningar förstör vattenpunkter och latriner, och landet har det värsta kolerautbrottet i sin historia, med mer än 95 000 fall sedan september 2024.",
+   "health": "Omkring 1,1 miljoner gravida och ammande kvinnor riskerar undernäring och behöver behandling. Brist på finansiering och attacker mot hjälparbetare tvingar vårdinrättningar att stänga.",
+   "displacement": "Uppskattningsvis 2,6 miljoner människor är fortfarande internflyktingar, många sedan mer än tio år. Bara under 2025 tvingades mer än 675 000 människor på flykt av konflikter och översvämningar.",
+   "education": "Konflikter, översvämningar och flykt håller många barn borta från skolan. Lokalsamhällen ordnar ofta undervisning under träd eller i tillfälliga skydd.",
+   "regions": "Markerade regioner: Upper Nile, Unity och Jonglei, där 2026 års plan rapporterar de största behoven och de svåraste tillträdesproblemen.",
+   "priorities": [
+    "Näringsstöd till barn och mammor",
+    "Rent vatten och förebyggande av kolera",
+    "Akut hjälp till familjer som flytt översvämningar",
+    "Stöd till lokala lärplatser"
+   ]
+  }
+ },
+ "metric": {
+  "pin": "Människor i behov av humanitärt stöd",
+  "targeted": "Människor som den FN-samordnade planen siktar på att nå",
+  "reached": "Människor som faktiskt nåtts",
+  "idps": "Internflyktingar",
+  "food_insecure": "Människor i akut livsmedelsosäkerhet",
+  "ipc3": "Människor i kris eller nödläge för livsmedel (IPC 3+)",
+  "returnees": "Människor som har återvänt hem",
+  "refugees_hosted": "Flyktingar som landet tar emot",
+  "child_malnutrition": "Barn (6–59 månader) som väntas drabbas av akut undernäring",
+  "arrivals_sudan": "Människor som kommit från Sudan",
+  "custom": "Statistik"
+ },
+ "cat": {
+  "in_need": "Människor i behov",
+  "targeted": "Människor som planen siktar på",
+  "reached": "Människor som nåtts",
+  "context": "Bakgrund",
+  "in_need_def": "Alla vars fysiska säkerhet, grundläggande rättigheter eller levnadsvillkor är hotade och som inte kan klara sina grundbehov utan stöd.",
+  "targeted_def": "Den andel av människorna i behov som humanitära organisationer planerar att hjälpa inom den FN-samordnade planen. Den beror på finansiering och tillträde.",
+  "reached_def": "Människor som faktiskt har fått hjälp. NORRAID AFRICA publicerar detta endast för sina egna verifierade insatser.",
+  "context_def": "Andra siffror som beskriver krisen, till exempel flykt eller livsmedelsosäkerhet."
+ },
+ "home": {
+  "eyebrow": "Sudan · DR Kongo · Sydsudan",
+  "hero_title": "Hopp känner inga gränser.",
+  "hero_text": "Vi står vid sidan av familjer i humanitära nödsituationer i Sudan, DR Kongo och Sydsudan.",
+  "hero_cta": "Stöd familjer i nöd",
+  "hero_cta2": "Utforska krisen",
+  "card_title": "Människor i behov 2026",
+  "card_note": "FN-samordnade humanitära planer. Siffrorna avser människor i behov, inte människor som nåtts.",
+  "intro_title": "Varje familj förtjänar en framtid.",
+  "intro_text": "NORRAID AFRICA är ett föreslaget humanitärt initiativ med bas i Sverige. Vi fokuserar på tre länder där konflikt, hunger, sjukdom och flykt har drivit miljontals familjer till bristningsgränsen – och där varje insats spelar roll.",
+  "intro_cta": "Hjälp en familj i dag",
+  "countries_title": "Tre länder. Miljontals familjer.",
+  "countries_text": "Varje kris är unik. Läs om vad familjerna står inför och var stöd planeras.",
+  "map_title": "Var vi fokuserar",
+  "map_text": "Sudan, Demokratiska republiken Kongo och Sydsudan förenas av konflikter och av människor som flyr över gränserna i jakt på säkerhet.",
+  "stats_title": "Verifierade humanitära siffror",
+  "stats_text": "Varje siffra på webbplatsen kommer från en namngiven källa och visar rapportår och datum då vi senast kontrollerade den. Vi blandar aldrig ihop människor i behov, människor som planen siktar på och människor som nåtts.",
+  "how_title": "Så hanteras gåvorna",
+  "how_text": "Vi vill att du vet exakt vart dina pengar går innan du ger.",
+  "how_steps": [
+   {
+    "t": "Du ger via PayPal",
+    "d": "Gåvan görs på PayPals säkra sida. Vi ser eller sparar aldrig dina kortuppgifter."
+   },
+   {
+    "t": "Pengarna kommer till det angivna kontot",
+    "d": "Mottagaren visas på gåvosidan. I dag är det ett privat PayPal-konto registrerat i Sverige, inte en registrerad välgörenhetsorganisation."
+   },
+   {
+    "t": "Fördelas till den fond du väljer",
+    "d": "Sudan, DR Kongo, Sydsudan eller den allmänna humanitära fonden. Varje gåva bokförs mot sin fond."
+   },
+   {
+    "t": "Används för planerade insatser och redovisas",
+    "d": "Pengarna förs över till granskade lokala partner enligt skriftliga avtal, och varje utgift publiceras i våra rapporter."
+   }
+  ],
+  "how_note": "NORRAID AFRICA:s registreringsuppgifter väntar på verifiering. Gåvorna är inte avdragsgilla.",
+  "stories_title": "Berättelser om hopp",
+  "stories_text": "Verkliga människor, korrekt källhänvisade. Tills vi samlar egna förstahandsberättelser delar vi verifierade berättelser som humanitära organisationer har rapporterat, med den ursprungliga källan angiven.",
+  "programs_title": "Insatser och prioriteringar",
+  "programs_text": "Det här är våra planerade arbetsområden. Inget av dem har startat ännu, och vi märker dem tydligt som planerade.",
+  "programs": [
+   {
+    "k": "food",
+    "t": "Mat och näring",
+    "d": "Akut mat- och näringsstöd till familjer på flykt, barn och mammor."
+   },
+   {
+    "k": "water",
+    "t": "Rent vatten och hygien",
+    "d": "Rent vatten, hygienpaket och förebyggande av kolera i läger och mottagande samhällen."
+   },
+   {
+    "k": "health",
+    "t": "Hälsa och vård",
+    "d": "Stöd till primärvård, läkemedel och förebyggande av utbrott genom lokala partner."
+   },
+   {
+    "k": "shelter",
+    "t": "Skydd och nödhjälp",
+    "d": "Nödhjälpspaket och material till skydd för familjer som flytt konflikter och översvämningar."
+   },
+   {
+    "k": "education",
+    "t": "Utbildning",
+    "d": "Skolmaterial och trygga lärmiljöer för barn vars skolgång har avbrutits."
+   },
+   {
+    "k": "protection",
+    "t": "Skydd",
+    "d": "Psykosocialt stöd och skydd för kvinnor, barn och överlevare av våld."
+   }
+  ],
+  "impact_title": "Vår påverkan",
+  "impact_text": "Vi publicerar bara resultat som är verifierade och dokumenterade. Tills dess är dessa indikatorer tomma med avsikt.",
+  "transp_title": "Öppenhet först",
+  "transp_text": "Vi redovisar vem som tar emot gåvorna, vår juridiska status, våra källor och, när insatserna har startat, varje utgift och rapport.",
+  "transp_cta": "Till sidan om öppenhet",
+  "status_label": "Organisationens status"
+ },
+ "imetric": {
+  "families": "Familjer som fått stöd",
+  "meals": "Utdelade måltider",
+  "children": "Barn som fått hjälp",
+  "medical": "Medicinska insatser",
+  "relief_packages": "Nödhjälpspaket",
+  "water": "Människor med stöd till rent vatten",
+  "shelter": "Stöd till boende och skydd",
+  "projects": "Genomförda humanitära projekt"
+ },
+ "impact": {
+  "title": "Vår påverkan och våra resultat",
+  "lead": "Endast verifierade insatser: verkliga utgifter, verkliga resultat, datum, platser och underlag.",
+  "soon_title": "Rapporter om vår påverkan kommer snart",
+  "soon_text": "NORRAID AFRICA har ännu inte publicerat några verifierade resultat. Vi visar inte uppskattningar, uppräknade siffror eller andra organisationers resultat som våra egna. När våra första insatser är genomförda och verifierade visas siffror, dokument och fotografier här.",
+  "planned_title": "Våra planerade insatser",
+  "method_title": "Så kommer vi att verifiera resultat",
+  "method": [
+   "Varje resultat kopplas till ett projekt, ett land, en rapportperiod och underlag som partnerrapporter, kvitton och utdelningslistor.",
+   "En ekonomigranskare kontrollerar utgifterna mot underlagen innan något publiceras.",
+   "Siffror från FN-organ beskriver hela den humanitära insatsen och presenteras aldrig som NORRAID AFRICA:s resultat.",
+   "Fotografier från insatserna publiceras endast med samtycke, och barns identitet skyddas."
+  ],
+  "timeline": "Projektets tidslinje",
+  "map": "Projektplatser",
+  "reports": "Rapporter",
+  "period": "Rapportperiod",
+  "evidence": "Underlag",
+  "download": "Ladda ner rapporten",
+  "location": "Plats",
+  "spent": "Utgifter",
+  "country_dash": "Landöversikt",
+  "none_country": "Inga verifierade resultat för det här landet ännu."
+ },
+ "countries_page": {
+  "title": "Kriserna vi fokuserar på",
+  "lead": "Sudan, DR Kongo och Sydsudan hör till världens allvarligaste humanitära nödsituationer i dag.",
+  "situation": "Den humanitära verkligheten",
+  "people": "De drabbade människorna",
+  "needs": "Akuta behov",
+  "response": "Planerade insatser",
+  "help": "Så kan du hjälpa",
+  "food": "Livsmedelstrygghet",
+  "water": "Vatten och sanitet",
+  "health": "Hälsa och vård",
+  "displacement": "Flykt",
+  "education": "Utbildning och skydd",
+  "map_title": "Karta över landet",
+  "map_legend": "Områden som FN-planen anger som allvarligast eller prioriterade",
+  "stories": "Människors berättelser",
+  "priorities": "Insamlingens prioriteringar",
+  "priorities_note": "Planerat – ännu inte startat. Pengar som samlas in för det här landet hålls i dess fond tills ett avtal med en granskad partner har undertecknats.",
+  "donate_title": "Stå vid sidan av familjer i {country}",
+  "donate_text": "Välj fonden för {country} på gåvosidan. Du ser exakt vem som tar emot din gåva innan du betalar.",
+  "stats_title": "Nyckeltal för 2026"
+ },
+ "mission": {
+  "title": "Vårt uppdrag",
+  "lead": "Att stå vid sidan av familjer i humanitära nödsituationer i Sudan, Demokratiska republiken Kongo och Sydsudan – med ärlighet, värdighet och full öppenhet.",
+  "why_title": "Varför initiativet startades",
+  "why": [
+   "Enligt FN-samordnade planer behöver mer än 60 miljoner människor i Sudan, DR Kongo och Sydsudan humanitärt stöd under 2026. Samtidigt har finansieringen minskat kraftigt och hjälporganisationer har tvingats skära ner på livräddande insatser.",
+   "NORRAID AFRICA grundades som ett initiativ i Sverige för att koppla samman människor i Europa med familjer i de tre länderna, genom en liten, öppen och ansvarstagande organisation."
+  ],
+  "countries_title": "Varför just de här tre länderna",
+  "countries": "De tre kriserna hänger ihop. Människor som flyr kriget i Sudan tar sig till Sydsudan, och östra DR Kongo har en av världens största flyktingkriser. Alla tre hör till de allvarligaste och mest underfinansierade nödsituationerna.",
+  "values_title": "Våra värderingar",
+  "values": [
+   {
+    "t": "Värdighet",
+    "d": "Vi visar människor som de är: motståndskraftiga, aldrig hjälplösa. Vi skyddar integriteten, särskilt barns."
+   },
+   {
+    "t": "Ärlighet",
+    "d": "Vi hittar aldrig på berättelser, siffror eller brådska. Planerat arbete märks som planerat."
+   },
+   {
+    "t": "Öppenhet",
+    "d": "Vi redovisar vem som tar emot gåvorna, hur pengarna används och våra källor."
+   },
+   {
+    "t": "Neutralitet",
+    "d": "Vi är partipolitiskt obundna och hjälper människor enbart utifrån behov."
+   },
+   {
+    "t": "Partnerskap",
+    "d": "Vi arbetar genom lokala organisationer som känner sina samhällen bäst."
+   }
+  ],
+  "partners_title": "Så tänker vi arbeta med lokala partner",
+  "partners": [
+   "Vi planerar att finansiera etablerade lokala och nationella organisationer som redan arbetar i Sudan, DR Kongo och Sydsudan.",
+   "Innan någon överföring görs granskas partnern: registrering, tidigare arbete, ekonomisk kontroll och riktlinjer för skydd.",
+   "Varje partnerskap regleras i ett skriftligt avtal med budget, rapporteringskrav och rätt till revision.",
+   "Ingen partner har anlitats ännu. Partnerna namnges på sidan om öppenhet när avtalen är undertecknade."
+  ],
+  "gov_title": "Styrning och ansvar",
+  "gov": [
+   "Initiativet håller på att etableras formellt i Sverige. Registreringsuppgifterna publiceras först när de officiella dokumenten har verifierats.",
+   "Rollerna är åtskilda: innehållsredaktörer kan inte godkänna ekonomin, och ekonomigranskare verifierar varje redovisad utgift.",
+   "Årliga bokslut och projektrapporter publiceras i vårt dokumentbibliotek."
+  ]
+ },
+ "about": {
+  "title": "Om oss",
+  "lead": "NORRAID AFRICA – Humanity Without Borders – är ett föreslaget humanitärt initiativ med bas i Sverige.",
+  "body": [
+   "Vi är en liten grupp människor i Sverige som vill hjälpa familjer som drabbats av konflikt, hunger och flykt i Sudan, Demokratiska republiken Kongo och Sydsudan.",
+   "Namnet och den visuella identiteten är preliminära tills de har godkänts officiellt. Organisationens registrering väntar på verifiering, och det säger vi öppet på varje sida där det spelar roll.",
+   "Vi tror att en liten organisation kan förtjäna förtroende genom att vara helt öppen: tydlig med vem som tar emot gåvorna, vad som har hänt och inte hänt ännu och var varje siffra kommer ifrån."
+  ],
+  "name_note": "Alla namn och varumärkestillgångar är preliminära tills de har godkänts officiellt."
+ },
+ "stories": {
+  "title": "Berättelser om hopp",
+  "lead": "Bakom varje siffra finns en människa. Berättelserna är verkliga och korrekt hänvisade till de organisationer som först rapporterade dem.",
+  "policy": "Vi hittar aldrig på identiteter eller presenterar påhittade berättelser som verkliga. Där NORRAID AFRICA ännu inte har samlat egna förstahandsberättelser publicerar vi verifierade berättelser från tredje part med den ursprungliga källan.",
+  "context": "Bakgrund",
+  "chronology": "Tidslinje",
+  "needs": "Behov och utmaningar",
+  "attribution": "Källa och hänvisning",
+  "status": "Redaktionell status",
+  "approved": "Godkänd för publicering",
+  "photo_note": "Inget fotografi av personen visas. Berättelsen återges endast i text, så som den ursprungligen rapporterades.",
+  "help_cta": "Stöd familjer i {country}",
+  "all": "Alla berättelser",
+  "filter": "Filtrera efter land",
+  "samira-kassala": {
+   "title": "Samiras flykt från Khartoum",
+   "summary": "Samira, 22, flydde striderna i Khartoum 2023 och bor nu i en skola som gjorts om till skydd i Kassala.",
+   "body": [
+    "Samira var 20 år när striderna nådde Khartoum 2023. Som miljontals andra sudaneser flydde hon. I dag bor hon i Omar Haj Musa-skolan i Kassala, en skolbyggnad som används som skydd för familjer på flykt.",
+    "När hon minns resan beskriver hon hur hon höll andan vid varje vägspärr, rädd att bli stoppad och bortförd. Hennes berättelse, som FN har dokumenterat, speglar de risker som kvinnor och flickor utsätts för i hela Sudan under kriget."
+   ],
+   "context": "Kassala i östra Sudan tar emot ett stort antal människor som flytt från Khartoum och andra konfliktområden, många i skolor och offentliga byggnader.",
+   "needs": "Tryggt boende, skydd mot våld, psykosocialt stöd och en möjlighet att bygga upp sitt liv igen.",
+   "chronology": [
+    "April 2023: kriget bryter ut i Khartoum",
+    "2023: Samira flyr genom vägspärrar till Kassala",
+    "December 2025: hennes berättelse publiceras av FN:s kontor för samordning av humanitära frågor (OCHA)"
+   ]
+  },
+  "tumaini-sake": {
+   "title": "Tumaini återvänder till ett hem som inte finns kvar",
+   "summary": "Tumaini, 39, kom tillbaka med sin familj till Sake i Nordkivu efter att ha flytt. Huset var förstört, och nu bor de under en presenning på samma tomt.",
+   "body": [
+    "När konflikten nådde Sake i Nordkivu flydde Tumaini och hennes familj. När lägren runt Goma stängdes återvände de till sin gård, bara för att upptäcka att hemmet var förstört.",
+    "I dag bor familjen under en presenning där huset en gång stod. Deras berättelse, som FN har rapporterat, delas av många av de mer än 3 miljoner människor som registrerades som återvändande i östra DR Kongo under 2025."
+   ],
+   "context": "Under 2025 spreds striderna över Nordkivu, Sydkivu och Ituri. Många familjer återvände efter att lägren stängts, ofta till förstörda hem och utan samhällsservice.",
+   "needs": "Material till skydd, hushållsartiklar, mat samt tillgång till rent vatten och vård.",
+   "chronology": [
+    "2025: Tumainis familj flyr striderna nära Sake",
+    "2025: lägren runt Goma stängs och familjen återvänder",
+    "December 2025: hennes berättelse publiceras av FN:s OCHA"
+   ]
+  },
+  "qisma-bor": {
+   "title": "Fem år i ett läger i Bor",
+   "summary": "I fem år har Qisma, hennes man och deras fem barn bott i det tidigare flyktinglägret i staden Bor i Sydsudan.",
+   "body": [
+    "Qisma och hennes familj har tillbringat fem år i det tidigare lägret för internflyktingar i staden Bor i delstaten Jonglei. Deras liv har präglats av flykt, översvämningar och kampen för att försörja fem barn.",
+    "Hennes berättelse, som FN publicerade tillsammans med 2026 års humanitära plan för Sydsudan, är en av miljontals bakom siffran 2,6 miljoner människor som fortfarande är internflyktingar i Sydsudan."
+   ],
+   "context": "Jonglei hör till de delstater som drabbats hårdast av översvämningar och konflikter. Många familjer på flykt har bott i läger i flera år.",
+   "needs": "Mat, näringsstöd till barnen, rent vatten, vård och en varaktig lösning för familjen.",
+   "chronology": [
+    "Omkring 2021: familjen bosätter sig i lägret i Bor",
+    "2025: nya konflikter och översvämningar driver ytterligare hundratusentals på flykt",
+    "Januari 2026: hennes berättelse publiceras av FN:s OCHA"
+   ]
+  },
+  "lala-ali-jamam": {
+   "title": "Åtta dagar till fots för att nå säkerhet",
+   "summary": "Lala Ali, 20, gick i åtta dagar med sitt barn för att fly striderna i Sudans delstat Blå Nilen och nå flyktinglägret Jamam i Sydsudan.",
+   "body": [
+    "I början av 2012 kom striderna allt närmare Lala Alis hem i Sudans delstat Blå Nilen. Hon bestämde sig för att lämna. Med sitt barn gick hon i åtta dagar till gränsen, med vatten men utan tillräckligt med mat.",
+    "Hon kom fram till flyktinglägret Jamam i Sydsudan i februari 2012, en av tiotusentals människor som flydde från Blå Nilen det året. Hennes ord dokumenterades av Storbritanniens departement för internationell utveckling (DFID)."
+   ],
+   "context": "Berättelsen är från 2012. Den visar hur länge människor har flytt mellan Sudan och Sydsudan – en rörelse som fortsätter i dag, med omkring 1,3 miljoner ankomster från Sudan sedan 2023.",
+   "needs": "År 2012: mat, rent vatten, skydd och vård i lägret.",
+   "chronology": [
+    "Början av 2012: striderna sprids i delstaten Blå Nilen",
+    "Februari 2012: Lala kommer till lägret Jamam efter åtta dagar till fots",
+    "April 2012: hon fotograferas och intervjuas av DFID"
+   ]
+  },
+  "nyadil-lankien": {
+   "title": "Hon räknar dagarna tills säden tar slut",
+   "summary": "År 2015 berättade Nyadil Machar, bonde i Lankien i Jonglei, att hennes hirs skulle räcka till maj. Efter det skulle familjen behöva äta löv.",
+   "body": [
+    "Nyadil Machar odlar hirs nära Lankien i norra Jonglei. I mars 2015 berättade hon för Oxfam att skörden skulle räcka till maj. Efter det, sa hon, skulle familjen behöva äta löv – det fanns inget annat alternativ.",
+    "Före krisen kunde familjer flytta någon annanstans när säden tog slut. Konflikten hade stängt de flesta försörjningsvägarna och gjort det omöjligt."
+   ],
+   "context": "Berättelsen är från 2015. Hungern i Sydsudan är fortfarande svår: mer än 7,5 miljoner människor beräknas drabbas av hunger på krisnivå under den magra perioden 2026.",
+   "needs": "Matstöd under den magra perioden, utsäde och redskap samt säker tillgång till marknader.",
+   "chronology": [
+    "2013: konflikten bryter ut i Sydsudan",
+    "Mars 2015: Nyadil talar med Oxfam i Lankien",
+    "Den magra perioden (från maj): matförråden tar slut"
+   ]
+  }
+ },
+ "donate": {
+  "title": "Ge en gåva",
+  "lead": "Välj vart ditt stöd ska gå. Du slutför gåvan på PayPals säkra sida.",
+  "step1": "1. Välj fond",
+  "step2": "2. Välj belopp",
+  "step3": "3. Granska och fortsätt",
+  "fund_general": "Allmänna humanitära fonden",
+  "fund_general_d": "Används där behoven är störst i alla tre länderna.",
+  "fund_country_d": "Öronmärks för insatser i {country}.",
+  "custom": "Annat belopp",
+  "custom_ph": "Belopp i €",
+  "custom_note": "Du kan också ändra beloppet hos PayPal.",
+  "currency_note": "Beloppen visas i euro. Slutlig valuta och belopp är de som PayPal visar innan du bekräftar.",
+  "recipient_title": "Vem tar emot din gåva",
+  "recipient_personal": "Din betalning går till ett privat PayPal-konto registrerat i Sverige{name}. Det är inte en registrerad välgörenhetsorganisations konto.",
+  "recipient_pending": "Mottagarens namn visas på PayPal-sidan innan du bekräftar.",
+  "no_tax": "Gåvorna är inte avdragsgilla.",
+  "not_charity": "NORRAID AFRICA:s registreringsuppgifter väntar på verifiering. Vi har inget svenskt 90-konto.",
+  "how_used": "Gåvorna bokförs mot den fond du väljer och används till de planerade insatser som beskrivs på webbplatsen. Varje utgift redovisas öppet.",
+  "button": "Fortsätt till PayPal",
+  "secure": "Du skickas vidare till paypal.com. Vi ser aldrig dina kort- eller bankuppgifter.",
+  "qr_title": "Hellre med mobilen?",
+  "qr_text": "Skanna QR-koden för att öppna samma gåvosida hos PayPal.",
+  "refund_title": "Återbetalning och integritet",
+  "refund_text": "Om du har gjort fel, kontakta oss inom 30 dagar så hjälper vi dig att begära återbetalning via PayPal. PayPal hanterar din betalning enligt sin egen integritetspolicy.",
+  "summary": "Du ger {amount} till: {fund}.",
+  "summary_any": "Du väljer belopp hos PayPal. Fond: {fund}.",
+  "error_amount": "Ange ett belopp mellan 1 € och 10 000 €.",
+  "unavailable": "Gåvor via webben är tillfälligt otillgängliga. Kontakta oss.",
+  "policy_link": "Läs vår gåvopolicy"
+ },
+ "return": {
+  "title": "Välkommen tillbaka från PayPal",
+  "text": "Tack för att du besökte vår gåvosida. Om du genomförde en betalning skickar PayPal ett kvitto till din e-post. Kontrollera kvittot för att se att gåvan gick igenom.",
+  "note": "Vi markerar inte gåvor som genomförda bara för att du kom tillbaka till den här sidan. Betalningar bekräftas endast utifrån PayPals uppgifter.",
+  "contact": "Frågor om en betalning? Kontakta oss och ange transaktions-id:t från ditt PayPal-kvitto.",
+  "home": "Tillbaka till startsidan"
+ },
+ "transparency": {
+  "title": "Öppenhet",
+  "lead": "Allt en givare ska kunna kontrollera, på ett ställe. Fälten är markerade som väntande tills de officiella dokumenten har verifierats.",
+  "legal_title": "Organisationens juridiska uppgifter",
+  "status_pending": "Registreringsuppgifterna väntar på verifiering.",
+  "status_verified": "Registreringen är verifierad.",
+  "f_name": "Organisationens juridiska namn",
+  "f_number": "Organisationsnummer",
+  "f_authority": "Registreringsmyndighet",
+  "f_date": "Registreringsdatum",
+  "f_address": "Registrerad adress",
+  "f_rep": "Behörig företrädare",
+  "f_email": "Kontaktadress",
+  "f_approvals": "Relevanta tillstånd",
+  "f_90": "Svenskt 90-konto (Svensk Insamlingskontroll)",
+  "no_90": "Finns inte",
+  "recipient_title": "Mottagare av gåvor",
+  "recipient_type": "Kontotyp",
+  "personal_account": "Privat PayPal-konto registrerat i Sverige",
+  "recipient_name": "Kontoinnehavare",
+  "expenditure_title": "Projektutgifter",
+  "expenditure_none": "Inga pengar har ännu använts till projekt. Utgifterna redovisas här, projekt för projekt.",
+  "totals_title": "Bekräftade gåvor",
+  "totals_text": "{count} bekräftade gåvor, totalt {sum}, enligt PayPal-utdrag.",
+  "statements_title": "Årliga bokslut",
+  "statements_none": "Det första bokslutet publiceras efter det första räkenskapsåret.",
+  "partners_title": "Partner",
+  "partners_none": "Inga partneravtal har undertecknats ännu.",
+  "gov_title": "Styrning",
+  "docs_title": "Dokumentbibliotek",
+  "docs_none": "Inga dokument har publicerats ännu.",
+  "contact_title": "Kontakt för frågor om öppenhet"
+ },
+ "sources": {
+  "title": "Källor och metod",
+  "lead": "Så väljer, kontrollerar och presenterar vi humanitär statistik.",
+  "rules": [
+   "Vi använder siffror som publiceras av FN-organ och humanitära samordningsorgan, främst FN:s Global Humanitarian Overview och ländernas humanitära behovs- och insatsplaner.",
+   "Varje siffra anger värde, enhet, land, definition, rapportår, källorganisation, länk till källan och datum då vi senast kontrollerade den.",
+   "Vi håller tre kategorier strikt åtskilda: människor i behov, människor som planen siktar på och människor som faktiskt nåtts.",
+   "När en plan revideras visar vi den aktuella siffran och förklarar ändringen. Inaktuella siffror tas bort i stället för att ligga kvar.",
+   "Vi avrundar aldrig uppåt, kombinerar aldrig siffror som inte går att jämföra och presenterar aldrig hela sektorns resultat som våra egna.",
+   "Fotografierna kommer från licensierade källor som Wikimedia Commons. Varje bild visar fotograf, licens och källa."
+  ],
+  "table_title": "All publicerad statistik",
+  "col_country": "Land",
+  "col_cat": "Kategori",
+  "col_value": "Värde",
+  "col_metric": "Statistik",
+  "col_year": "År",
+  "col_source": "Källa",
+  "col_verified": "Kontrollerad",
+  "photos_title": "Fotografer och licenser"
+ },
+ "faq": {
+  "title": "Vanliga frågor",
+  "items": [
+   {
+    "q": "Är NORRAID AFRICA en registrerad välgörenhetsorganisation?",
+    "a": "Inte ännu. Initiativets registreringsuppgifter väntar på verifiering. Vi publicerar organisationsnummer och dokument på sidan om öppenhet när de har verifierats officiellt."
+   },
+   {
+    "q": "Vem tar emot min gåva?",
+    "a": "Gåvorna går i dag till ett privat PayPal-konto registrerat i Sverige. Mottagaren visas på gåvosidan och hos PayPal innan du bekräftar."
+   },
+   {
+    "q": "Är min gåva avdragsgill?",
+    "a": "Nej. Gåvor till NORRAID AFRICA är inte avdragsgilla."
+   },
+   {
+    "q": "Har ni ett svenskt 90-konto?",
+    "a": "Nej. Vi har inget 90-konto från Svensk Insamlingskontroll."
+   },
+   {
+    "q": "Hur används min gåva?",
+    "a": "Gåvan bokförs mot den fond du väljer och går till de planerade insatser som beskrivs på webbplatsen, genom granskade lokala partner. Insatserna har inte startat ännu, och vi redovisar varje utgift."
+   },
+   {
+    "q": "Kan jag välja land?",
+    "a": "Ja. Du kan ge till Sudan, DR Kongo, Sydsudan eller den allmänna humanitära fonden."
+   },
+   {
+    "q": "Är berättelserna på webbplatsen verkliga?",
+    "a": "Ja. Varje berättelse är verklig och hänvisar till den organisation som först rapporterade den. Vi hittar aldrig på identiteter eller presenterar påhittade berättelser som verkliga."
+   },
+   {
+    "q": "Var kommer er statistik ifrån?",
+    "a": "Främst från FN:s humanitära planer för 2026 (OCHA). Varje siffra visar källa, rapportår och datum då vi senast kontrollerade den."
+   },
+   {
+    "q": "Kan jag få pengarna tillbaka?",
+    "a": "Kontakta oss inom 30 dagar med transaktions-id:t från PayPal, så hjälper vi dig att begära återbetalning via PayPal."
+   },
+   {
+    "q": "Hur avslutar jag e-postutskicken?",
+    "a": "Varje e-postmeddelande har en länk för att avsluta prenumerationen, och du kan också kontakta oss när som helst."
+   }
+  ]
+ },
+ "contact": {
+  "title": "Kontakt",
+  "lead": "Frågor om gåvor, partnerskap, media eller vårt arbete? Skriv till oss.",
+  "name": "Ditt namn",
+  "email": "E-postadress",
+  "topic": "Ämne",
+  "message": "Meddelande",
+  "topics": {
+   "general": "Allmän fråga",
+   "donation": "Gåva eller återbetalning",
+   "partner": "Partnerskap",
+   "media": "Media",
+   "privacy": "Fråga om personuppgifter"
+  },
+  "privacy": "Vi använder dina uppgifter enbart för att svara på ditt meddelande. Läs vår integritetspolicy.",
+  "send": "Skicka meddelande",
+  "sent": "Tack. Vi har tagit emot ditt meddelande och svarar via e-post.",
+  "error": "Något gick fel. Kontrollera formuläret och försök igen.",
+  "email_pending": "Vår officiella e-postadress publiceras tillsammans med registreringsuppgifterna. Använd formuläret så länge.",
+  "based": "Med bas i Sverige",
+  "donate_q": "Frågor om en gåva:"
+ },
+ "news": {
+  "title": "Håll dig informerad",
+  "text": "Nyheter då och då om kriserna, våra verifierade framsteg och verkliga berättelser. Ingen skräppost, avsluta när du vill.",
+  "email": "Din e-postadress",
+  "button": "Prenumerera",
+  "consent": "Jag vill få nyheter via e-post från NORRAID AFRICA och godkänner integritetspolicyn.",
+  "ok": "Nästan klart! Kolla din inkorg och bekräfta prenumerationen.",
+  "confirmed_title": "Prenumerationen är bekräftad",
+  "confirmed": "Tack. Nu får du våra nyheter.",
+  "unsub_title": "Du har avslutat prenumerationen",
+  "unsub": "Du får inte längre e-post från oss.",
+  "invalid": "Länken är ogiltig eller har gått ut.",
+  "error": "Ange en giltig e-postadress och kryssa i rutan för samtycke.",
+  "rate": "För många försök. Försök igen senare."
+ },
+ "email": {
+  "sender": "NORRAID AFRICA",
+  "footer": "Du får det här meddelandet eftersom du prenumererar via {site}. Avsluta: {unsub}",
+  "confirm_subject": "Bekräfta din prenumeration",
+  "confirm_body": "Tack för ditt intresse för NORRAID AFRICA. Bekräfta att du vill få våra nyheter genom att klicka på knappen nedan. Om du inte har bett om detta kan du bortse från meddelandet.",
+  "confirm_button": "Bekräfta prenumerationen",
+  "welcome_subject": "Välkommen till NORRAID AFRICA",
+  "welcome_body": "Tack för att du är med. Vi skickar ärliga nyheter då och då om Sudan, DR Kongo och Sydsudan: verifierade siffror, verkliga berättelser och, när vårt arbete börjar, öppna lägesrapporter.",
+  "thanks_subject": "Tack för din gåva",
+  "thanks_body": "Vi har bekräftat din gåva på {amount} till {fund} utifrån PayPals uppgifter. Tack. Gåvan bokförs mot fonden och redovisas öppet.",
+  "update_subject": "Nyheter från NORRAID AFRICA",
+  "story_subject": "En verklig berättelse från {country}",
+  "story_body": "Berättelsen rapporterades ursprungligen av {source}. Vi delar den med källhänvisning och enligt dess licens.",
+  "report_subject": "Lägesrapport för projektet",
+  "unsub_subject": "Du har avslutat prenumerationen",
+  "unsub_body": "Du får inte längre e-post från NORRAID AFRICA. Om det var ett misstag kan du prenumerera igen på vår webbplats.",
+  "button_site": "Besök webbplatsen",
+  "unsubscribe": "Avsluta prenumerationen"
+ },
+ "legal": {
+  "updated": "Senast uppdaterad",
+  "privacy": {
+   "title": "Integritetspolicy",
+   "sections": [
+    {
+     "h": "Personuppgiftsansvarig",
+     "p": "NORRAID AFRICA (ett föreslaget initiativ med bas i Sverige; registreringen väntar på verifiering) är ansvarigt för de personuppgifter som behandlas på webbplatsen. Kontakta oss via kontaktsidan."
+    },
+    {
+     "h": "Vad vi samlar in",
+     "p": "Nyhetsbrev: din e-postadress, ditt språk samt datum och tid för ditt samtycke. Kontaktformulär: ditt namn, din e-post och ditt meddelande. Gåvor: vi registrerar vilken fond och vilket belopp du valde innan du gick vidare till PayPal, utan personuppgifter. Vi samlar inte in kort- eller bankuppgifter."
+    },
+    {
+     "h": "Varför och med vilken rättslig grund",
+     "p": "Nyhetsbrev skickas med ditt samtycke (artikel 6.1 a i GDPR), som du kan återkalla när som helst. Kontaktmeddelanden behandlas för att kunna svara dig (berättigat intresse, artikel 6.1 f). Bokföringsunderlag sparas för att uppfylla rättsliga skyldigheter (artikel 6.1 c)."
+    },
+    {
+     "h": "PayPal",
+     "p": "När du ger en gåva behandlar PayPal (Europe) S.à r.l. et Cie, S.C.A. din betalning som självständigt personuppgiftsansvarig enligt sin egen integritetspolicy."
+    },
+    {
+     "h": "Hur länge vi sparar uppgifter",
+     "p": "Uppgifter för nyhetsbrevet sparas tills du avslutar prenumerationen. Kontaktmeddelanden raderas efter 24 månader. Bokföringsunderlag sparas så länge svensk lag kräver."
+    },
+    {
+     "h": "Delning",
+     "p": "Vi säljer eller hyr aldrig ut personuppgifter och importerar aldrig köpta eller insamlade e-postlistor. Uppgifterna lagras hos vår webbhotellsleverantör inom EU/EES."
+    },
+    {
+     "h": "Dina rättigheter",
+     "p": "Du har rätt att få tillgång till, rätta, radera, begränsa eller flytta dina uppgifter och att invända mot behandlingen. Du kan lämna klagomål till Integritetsskyddsmyndigheten (IMY)."
+    }
+   ]
+  },
+  "cookies": {
+   "title": "Kakor (cookies)",
+   "sections": [
+    {
+     "h": "Kakor vi använder",
+     "p": "nr_lang kommer ihåg vilket språk du valt (1 år). nr_ft skyddar våra formulär mot missbruk (under sessionen). Båda är nödvändiga eller funktionella förstapartskakor och spårar dig inte."
+    },
+    {
+     "h": "Analys",
+     "p": "Vi använder inga kakor för reklam eller spårning. Om integritetsvänlig besöksstatistik någon gång aktiveras körs den först när du har godkänt det."
+    },
+    {
+     "h": "Innehåll från tredje part",
+     "p": "Vissa bilder kan laddas direkt från Wikimedia Commons tills en lokal kopia har sparats. Wikimedia kan då ta emot din IP-adress enligt sin egen integritetspolicy. PayPal sätter egna kakor först när du besöker paypal.com."
+    }
+   ]
+  },
+  "terms": {
+   "title": "Villkor",
+   "sections": [
+    {
+     "h": "Om webbplatsen",
+     "p": "Webbplatsen drivs av NORRAID AFRICA, ett föreslaget humanitärt initiativ med bas i Sverige. Namn och varumärkestillgångar är preliminära tills de har godkänts officiellt."
+    },
+    {
+     "h": "Korrekthet",
+     "p": "Vi är noga med att publicera korrekt och källbelagd information. Humanitära siffror förändras; varje siffra visar källa och datum då vi senast kontrollerade den."
+    },
+    {
+     "h": "Innehåll och bilder",
+     "p": "Fotografierna används enligt de licenser som anges vid varje bild. Våra egna texter och vår logotyp får inte återanvändas utan tillstånd."
+    },
+    {
+     "h": "Ansvar",
+     "p": "Vi ansvarar inte för innehållet på externa webbplatser som vi länkar till."
+    },
+    {
+     "h": "Tillämplig lag",
+     "p": "Svensk lag gäller för dessa villkor."
+    }
+   ]
+  },
+  "donation": {
+   "title": "Gåvopolicy",
+   "sections": [
+    {
+     "h": "Mottagare",
+     "p": "Gåvor tas i dag emot via ett privat PayPal-konto registrerat i Sverige. Det är inte en registrerad välgörenhetsorganisations konto. Kontoinnehavaren visas på gåvosidan och hos PayPal."
+    },
+    {
+     "h": "Status",
+     "p": "NORRAID AFRICA:s registreringsuppgifter väntar på verifiering. Vi har inget svenskt 90-konto, och gåvorna är inte avdragsgilla."
+    },
+    {
+     "h": "Användning av medlen",
+     "p": "Varje gåva bokförs mot den fond givaren väljer (Sudan, DR Kongo, Sydsudan eller allmän). Medlen hålls tills de kan föras över till granskade lokala partner enligt skriftliga avtal. Alla utgifter redovisas."
+    },
+    {
+     "h": "Bekräftelse",
+     "p": "Gåvor bekräftas endast utifrån PayPals uppgifter. Vi publicerar aldrig insamlade belopp som inte har bekräftats, och vi visar aldrig påhittad givaraktivitet, matchningserbjudanden eller nedräkningar."
+    },
+    {
+     "h": "Återbetalning",
+     "p": "Kontakta oss inom 30 dagar med transaktions-id:t från PayPal. Vi hjälper dig att begära återbetalning via PayPal."
+    },
+    {
+     "h": "Om en insats inte kan genomföras",
+     "p": "Om medlen inte kan användas i det valda landet används de för den allmänna humanitära fonden i de övriga fokusländerna, och det redovisas."
+    }
+   ]
+  },
+  "accessibility": {
+   "title": "Tillgänglighetsredogörelse",
+   "sections": [
+    {
+     "h": "Vårt åtagande",
+     "p": "Vi strävar efter att uppfylla riktlinjerna för tillgängligt webbinnehåll (WCAG) 2.2 på nivå AA."
+    },
+    {
+     "h": "Det här gör vi",
+     "p": "Semantisk HTML, tangentbordsnavigering med synligt fokus, textalternativ till bilder, tillräcklig färgkontrast, stöd för minskad rörelse, layout från höger till vänster för arabiska och formulär med tydliga etiketter och felmeddelanden."
+    },
+    {
+     "h": "Kända begränsningar",
+     "p": "Vissa landkartor är förenklade illustrationer; samma information finns alltid i text. Äldre fotografier kan ha begränsade beskrivningar från sina ursprungliga källor."
+    },
+    {
+     "h": "Återkoppling",
+     "p": "Om du stöter på ett hinder, berätta det för oss via kontaktsidan. Vi strävar efter att svara inom 14 dagar."
+    }
+   ]
+  }
+ },
+ "footer": {
+  "about": "Ett föreslaget humanitärt initiativ med bas i Sverige för familjer i Sudan, DR Kongo och Sydsudan.",
+  "status": "Registreringsuppgifterna väntar på verifiering. Gåvorna är inte avdragsgilla.",
+  "explore": "Utforska",
+  "organisation": "Organisation",
+  "legal": "Juridik",
+  "privacy": "Integritet",
+  "cookies": "Kakor",
+  "terms": "Villkor",
+  "donation_policy": "Gåvopolicy",
+  "accessibility": "Tillgänglighet",
+  "sources": "Källor och metod",
+  "rights": "Namn och varumärkestillgångar är preliminära.",
+  "photos": "Fotografier: bidragsgivare på Wikimedia Commons enligt de licenser som anges vid varje bild."
+ },
+ "media": {
+  "photo": "Foto:",
+  "source": "Källa",
+  "hero_water": "Barn bär vattendunkar på huvudet i solnedgången i Minkaman, Sydsudan",
+  "ss_mother": "Lala Ali håller sitt lilla barn i flyktinglägret Jamam, Sydsudan",
+  "sd_registration": "Sudanesiska flyktingkvinnor köar för att registrera sig för matstöd i Adré, Tchad",
+  "sd_elfasher": "Kvinnor på flykt står vid ett träkolsstånd på en marknad i El Fasher, Norra Darfur",
+  "sd_chad": "Flyktingar från Darfur i lägret Farchana, östra Tchad",
+  "sd_adre": "En sudanesisk flyktingkvinna väntar på att registrera sig för matstöd i Adré, Tchad",
+  "drc_mugunga": "Tre barn sitter på vulkanisk sten en morgon i lägret Mugunga nära Goma",
+  "drc_cecilia": "Cecilia står med sin familj framför deras skydd i Rutshuru, Nordkivu",
+  "drc_kibumba": "Rader av vita presenningsskydd i flyktinglägret Kibumba",
+  "drc_school": "Barn sitter i bänkar i en tillfällig nödskola i Nyanzale",
+  "drc_kibati": "Familjer bär sina tillhörigheter längs en väg nära lägret Kibati",
+  "drc_backtoschool": "Leende skolbarn håller upp sina nya skolpaket i Basali",
+  "ss_education": "Barn skriver i anteckningsböcker under en lektion i nödundervisning i Sydsudan",
+  "ss_tree_class": "Flyktingbarn studerar i skuggan av ett träd",
+  "ss_water": "Kvinnor och barn samlas kring en kran med rent vatten i Awerial",
+  "ss_queue": "Flyktingar köar med dunkar för vatten i lägret Jamam",
+  "ss_nyadil": "Nyadil Machar står bredvid travar av skördad hirs i Lankien",
+  "ss_borehole": "En reparerad handpump vid en borrbrunn i Lankien, Sydsudan"
+ },
+ "notfound": {
+  "title": "Sidan hittades inte",
+  "text": "Sidan du letar efter finns inte eller har flyttats."
+ }
+}

@@ -1,0 +1,797 @@
+{
+ "meta": {
+  "title": "NORRAID AFRICA – Humanity Without Borders",
+  "description": "A Sweden-based humanitarian initiative standing with families facing emergencies in Sudan, DR Congo and South Sudan. Transparent, sourced and honest.",
+  "lang_name": "English"
+ },
+ "skip": "Skip to content",
+ "nav": {
+  "home": "Home",
+  "mission": "Our Mission",
+  "countries": "Countries",
+  "stories": "Stories of Hope",
+  "impact": "Our Impact",
+  "transparency": "Transparency",
+  "about": "About Us",
+  "contact": "Contact",
+  "faq": "FAQ",
+  "donate": "Donate",
+  "menu": "Menu",
+  "close": "Close",
+  "language": "Language",
+  "all_countries": "All three countries"
+ },
+ "num": {
+  "million": "{n} million",
+  "usd_billion": "US${n} billion"
+ },
+ "months": [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+ ],
+ "common": {
+  "planned": "Planned",
+  "pending": "Pending verification",
+  "learn_more": "Learn more",
+  "read_story": "Read the story",
+  "source": "Source",
+  "sources": "Sources",
+  "verified": "Last verified",
+  "year": "Reporting year",
+  "definition": "Definition",
+  "view_sources": "Sources and methodology",
+  "donate_cta": "Help a Family Today",
+  "back": "Back",
+  "third_party": "Third-party report",
+  "reported_by": "Originally reported by",
+  "published": "Published",
+  "coming_soon": "Coming soon",
+  "not_yet": "Not yet available",
+  "fallback_note": "This text is shown in English until a translation is approved."
+ },
+ "country": {
+  "sudan": {
+   "name": "Sudan",
+   "tag": "The world's largest displacement crisis",
+   "lead": "Well into its third year, the conflict in Sudan continues to drive a humanitarian and protection crisis of catastrophic scale.",
+   "intro": [
+    "Civilians have been forced from their homes again and again. Hospitals, schools and markets have been attacked, and landmines and unexploded ordnance litter large parts of the country.",
+    "According to the UN's 2026 humanitarian plan, every locality in Sudan is assessed at severity level 3 or above, and in Darfur and Kordofan more than 80 per cent of the local population need humanitarian assistance."
+   ],
+   "food": "Mass hunger has taken hold in large parts of the country. The UN reports 29 million people acutely food insecure and 23 areas in or at risk of famine. Three quarters of female-headed households are estimated to be food insecure.",
+   "water": "More than half of people across Sudan report difficulties in accessing safe water, while water and sanitation systems are crumbling under the strain of conflict.",
+   "health": "Fewer than 30 per cent of health facilities are functioning in the worst-affected areas. Cholera, malaria and dengue are spreading as the health system collapses.",
+   "displacement": "As of October 2025, 9.6 million people remained internally displaced inside Sudan, many in extremely precarious conditions. About 2.6 million people have returned since November 2024, mainly to Khartoum and Aj Jazirah.",
+   "education": "Schools have been attacked or turned into shelters for displaced families. Children face recruitment, abduction and other grave violations, and need protection and safe places to learn.",
+   "regions": "Regions highlighted: Darfur and Kordofan states, Khartoum and Aj Jazirah, which the 2026 plan names among the areas of most severe need or priority response.",
+   "priorities": [
+    "Emergency food for displaced families",
+    "Safe water and hygiene kits",
+    "Support for primary health care and cholera prevention",
+    "Protection and psychosocial support for women and children"
+   ]
+  },
+  "drc": {
+   "name": "DR Congo",
+   "full": "Democratic Republic of the Congo",
+   "tag": "One of the largest displacement crises in the world",
+   "lead": "Armed conflict remains the main driver of humanitarian needs in the Democratic Republic of the Congo, especially in North Kivu, South Kivu and Ituri.",
+   "intro": [
+    "In 2025, hostilities expanded across the eastern provinces, causing massive new displacement, repeated movement back and forth, and serious protection risks for civilians.",
+    "Despite the country's vast natural resources, poverty and vulnerability remain among the highest in the world. Epidemics and climate-related floods and landslides add to the pressure on families."
+   ],
+   "food": "Food insecurity has reached extreme levels: the UN projects 26.6 million people in crisis or emergency food insecurity (IPC phases 3 and 4) between January and June 2026.",
+   "water": "Communities affected by the crisis name safe water, hygiene and sanitation among their main priorities, alongside nutritious food and primary health care.",
+   "health": "Cholera, measles and mpox continue to pose significant risks, especially where response capacity is limited. Recent Ebola outbreaks were contained, but the risk of resurgence persists.",
+   "displacement": "More than 5.3 million people were internally displaced as of September 2025, and more than 3 million returns were recorded during 2025, including unplanned returns after site closures.",
+   "education": "Children, women and girls, persons with disabilities and survivors of gender-based violence face disproportionate risks. Families displaced again and again struggle to keep children in school.",
+   "regions": "Regions highlighted: North Kivu and South Kivu. Ituri, also named among the most acute areas, is part of the former Orientale province on this simplified map.",
+   "priorities": [
+    "Food and nutrition support for displaced families",
+    "Clean water and sanitation in displacement sites",
+    "Health support including cholera and measles prevention",
+    "Learning materials for displaced children"
+   ]
+  },
+  "south-sudan": {
+   "name": "South Sudan",
+   "tag": "Two thirds of the population need help",
+   "lead": "South Sudan is facing a convergence of humanitarian, economic, security, health and climate crises, made worse by people fleeing the war in Sudan.",
+   "intro": [
+    "About two thirds of the country's population need humanitarian assistance in 2026. Families are caught in cycles of violence, floods and disease outbreaks.",
+    "Since 2019, annual flooding has affected more than one million people each year. As of November 2025, about 1.3 million people had arrived from Sudan."
+   ],
+   "food": "More than 7.5 million people are projected to face crisis or worse levels of hunger (IPC 3+) during the April–July 2026 lean season. Some 2.1 million children aged 6–59 months are expected to suffer acute malnutrition.",
+   "water": "Repeated floods damage water points and latrines, and the country is facing the worst cholera outbreak in its history, with more than 95,000 cases recorded since September 2024.",
+   "health": "Around 1.1 million pregnant and breastfeeding women are at risk of malnutrition and in need of treatment. Funding shortfalls and attacks on aid workers are forcing health services to close.",
+   "displacement": "An estimated 2.6 million people remain internally displaced, many for more than a decade. In 2025 alone, more than 675,000 people were newly displaced by conflict and floods.",
+   "education": "Conflict, floods and displacement keep many children out of school. Communities often organise learning under trees or in temporary shelters.",
+   "regions": "Regions highlighted: Upper Nile, Unity and Jonglei, where the 2026 plan reports the greatest needs and the most severe access constraints.",
+   "priorities": [
+    "Nutrition support for children and mothers",
+    "Clean water and cholera prevention",
+    "Emergency relief for families displaced by floods",
+    "Support for community learning spaces"
+   ]
+  }
+ },
+ "metric": {
+  "pin": "People in need of humanitarian assistance",
+  "targeted": "People targeted for assistance by the UN-coordinated plan",
+  "reached": "People actually reached",
+  "idps": "People internally displaced",
+  "food_insecure": "People acutely food insecure",
+  "ipc3": "People in crisis or emergency food insecurity (IPC 3+)",
+  "returnees": "People who have returned home",
+  "refugees_hosted": "Refugees hosted in the country",
+  "child_malnutrition": "Children (6–59 months) expected to suffer acute malnutrition",
+  "arrivals_sudan": "People who arrived from Sudan",
+  "custom": "Statistic"
+ },
+ "cat": {
+  "in_need": "People in need",
+  "targeted": "People targeted",
+  "reached": "People reached",
+  "context": "Context",
+  "in_need_def": "Everyone whose physical safety, basic rights or living conditions are threatened and who cannot meet basic needs without assistance.",
+  "targeted_def": "The share of people in need that humanitarian organisations plan to assist under the UN-coordinated response plan. It depends on funding and access.",
+  "reached_def": "People who actually received assistance. NORRAID AFRICA will only publish this for its own verified activities.",
+  "context_def": "Other figures that describe the crisis, such as displacement or food insecurity."
+ },
+ "home": {
+  "eyebrow": "Sudan · DR Congo · South Sudan",
+  "hero_title": "Hope Crosses Borders.",
+  "hero_text": "Standing with families facing humanitarian emergencies in Sudan, DR Congo, and South Sudan.",
+  "hero_cta": "Support Families in Need",
+  "hero_cta2": "Explore the Crisis",
+  "card_title": "People in need in 2026",
+  "card_note": "UN-coordinated humanitarian plans. Figures are people in need, not people reached.",
+  "intro_title": "Every Family Deserves a Future.",
+  "intro_text": "NORRAID AFRICA is a proposed humanitarian initiative based in Sweden. We focus on three countries where conflict, hunger, disease and displacement have pushed millions of families to the edge — and where every act of support matters.",
+  "intro_cta": "Help a Family Today",
+  "countries_title": "Three countries. Millions of families.",
+  "countries_text": "Each crisis is different. Learn what families are facing and where support is planned.",
+  "map_title": "Where we focus",
+  "map_text": "Sudan, the Democratic Republic of the Congo and South Sudan are linked by conflict and by people fleeing across borders in search of safety.",
+  "stats_title": "Verified humanitarian figures",
+  "stats_text": "Every number on this site comes from a named source and carries its reporting year and the date we last checked it. We never mix people in need, people targeted and people reached.",
+  "how_title": "How donations are administered",
+  "how_text": "We want you to know exactly where your money goes before you give.",
+  "how_steps": [
+   {
+    "t": "You give through PayPal",
+    "d": "Donations are made on PayPal's secure page. We never see or store your card details."
+   },
+   {
+    "t": "Funds arrive in the stated account",
+    "d": "The recipient is shown on the donation page. It is currently a personal PayPal account registered in Sweden, not a registered charity."
+   },
+   {
+    "t": "Allocated to the fund you choose",
+    "d": "Sudan, DR Congo, South Sudan or the general humanitarian fund. Each gift is recorded against its fund."
+   },
+   {
+    "t": "Used for planned programmes and reported",
+    "d": "Funds will be transferred to vetted local partners under written agreements, and every expense will be published in our reports."
+   }
+  ],
+  "how_note": "NORRAID AFRICA's registration details are pending verification. Donations are not tax-deductible.",
+  "stories_title": "Stories of Hope",
+  "stories_text": "Real people, accurately attributed. Until we collect first-hand accounts, we share verified stories reported by humanitarian organisations and name the original source.",
+  "programs_title": "Programmes and priorities",
+  "programs_text": "These are our planned areas of work. None has started yet, and we label them clearly as planned.",
+  "programs": [
+   {
+    "k": "food",
+    "t": "Food and nutrition",
+    "d": "Emergency food and nutrition support for displaced families, children and mothers."
+   },
+   {
+    "k": "water",
+    "t": "Clean water and hygiene",
+    "d": "Safe water, hygiene kits and cholera prevention in camps and host communities."
+   },
+   {
+    "k": "health",
+    "t": "Health care",
+    "d": "Support for primary health care, medicines and outbreak prevention through local partners."
+   },
+   {
+    "k": "shelter",
+    "t": "Shelter and relief",
+    "d": "Relief packages and shelter materials for families displaced by conflict and floods."
+   },
+   {
+    "k": "education",
+    "t": "Education",
+    "d": "Learning materials and safe learning spaces for children whose schooling was interrupted."
+   },
+   {
+    "k": "protection",
+    "t": "Protection",
+    "d": "Psychosocial support and protection services for women, children and survivors of violence."
+   }
+  ],
+  "impact_title": "Our impact",
+  "impact_text": "We will only publish results that are verified and documented. Until then, these indicators stay empty on purpose.",
+  "transp_title": "Transparency first",
+  "transp_text": "We publish who receives donations, our legal status, our sources and, once programmes start, every expense and report.",
+  "transp_cta": "Visit the transparency page",
+  "status_label": "Organisation status"
+ },
+ "imetric": {
+  "families": "Families supported",
+  "meals": "Meals distributed",
+  "children": "Children assisted",
+  "medical": "Medical assistance provided",
+  "relief_packages": "Emergency relief packages",
+  "water": "People with clean water support",
+  "shelter": "Shelter assistance",
+  "projects": "Humanitarian projects completed"
+ },
+ "impact": {
+  "title": "Our Impact & Achievements",
+  "lead": "Verified activities only: real expenditure, real outcomes, dates, places and evidence.",
+  "soon_title": "Impact reports coming soon",
+  "soon_text": "NORRAID AFRICA has not yet published any verified achievements. We will not show estimates, scaled figures or other organisations' results as our own. When our first activities are completed and verified, the figures, documents and photographs will appear here.",
+  "planned_title": "Our planned programmes",
+  "method_title": "How we will verify results",
+  "method": [
+   "Every achievement is linked to a project, a country, a reporting period and supporting documents such as partner reports, receipts and distribution lists.",
+   "A finance reviewer checks expenditure against records before anything is published.",
+   "Figures from UN agencies describe the whole humanitarian response and are never presented as NORRAID AFRICA results.",
+   "Photographs of activities are only published with consent, and children's identities are protected."
+  ],
+  "timeline": "Project timeline",
+  "map": "Project locations",
+  "reports": "Reports",
+  "period": "Reporting period",
+  "evidence": "Evidence",
+  "download": "Download report",
+  "location": "Location",
+  "spent": "Expenditure",
+  "country_dash": "Country dashboard",
+  "none_country": "No verified achievements for this country yet."
+ },
+ "countries_page": {
+  "title": "The crises we focus on",
+  "lead": "Sudan, DR Congo and South Sudan are among the most severe humanitarian emergencies in the world today.",
+  "situation": "The humanitarian reality",
+  "people": "The people affected",
+  "needs": "Urgent needs",
+  "response": "Planned response",
+  "help": "How you can help",
+  "food": "Food security",
+  "water": "Water and sanitation",
+  "health": "Health care",
+  "displacement": "Displacement",
+  "education": "Education and protection",
+  "map_title": "Country map",
+  "map_legend": "Areas named in the UN plan as most severe or prioritised",
+  "stories": "Human stories",
+  "priorities": "Fundraising priorities",
+  "priorities_note": "Planned — not yet started. Funds raised for this country are kept in its fund until a vetted partner agreement is signed.",
+  "donate_title": "Stand with families in {country}",
+  "donate_text": "Choose the {country} fund on the donation page. You will see exactly who receives your gift before you pay.",
+  "stats_title": "Key figures for 2026"
+ },
+ "mission": {
+  "title": "Our Mission",
+  "lead": "To stand with families facing humanitarian emergencies in Sudan, the Democratic Republic of the Congo and South Sudan — with honesty, dignity and full transparency.",
+  "why_title": "Why this initiative was created",
+  "why": [
+   "Sudan, DR Congo and South Sudan together account for more than 60 million people in need of humanitarian assistance in 2026, according to UN-coordinated plans. At the same time, funding has fallen sharply and aid agencies have been forced to cut life-saving programmes.",
+   "NORRAID AFRICA was founded as an initiative in Sweden to connect people in Europe with families in these three countries, through a small, transparent and accountable organisation."
+  ],
+  "countries_title": "Why these three countries",
+  "countries": "The three crises are connected. People fleeing the war in Sudan cross into South Sudan, while eastern DR Congo faces one of the largest displacement crises in the world. All three are among the most severe and the most underfunded emergencies.",
+  "values_title": "Our values",
+  "values": [
+   {
+    "t": "Dignity",
+    "d": "We show people as they are: resilient, never helpless. We protect privacy, especially of children."
+   },
+   {
+    "t": "Honesty",
+    "d": "We never invent stories, statistics or urgency. Planned work is labelled as planned."
+   },
+   {
+    "t": "Transparency",
+    "d": "We publish who receives donations, how funds are used and our sources."
+   },
+   {
+    "t": "Neutrality",
+    "d": "We are nonpartisan and help people based on need alone."
+   },
+   {
+    "t": "Partnership",
+    "d": "We work through local organisations that know their communities best."
+   }
+  ],
+  "partners_title": "How we intend to work with local partners",
+  "partners": [
+   "We plan to fund established local and national organisations already working in Sudan, DR Congo and South Sudan.",
+   "Before any transfer, partners are checked: registration, track record, financial controls and safeguarding policies.",
+   "Every partnership is governed by a written agreement with a budget, reporting requirements and the right to audit.",
+   "No partner has been contracted yet. Partners will be named on the transparency page once agreements are signed."
+  ],
+  "gov_title": "Governance and accountability",
+  "gov": [
+   "The initiative is in the process of being formally established in Sweden. Registration details will be published only after official documents have been verified.",
+   "Roles are separated: content editors cannot approve finances, and finance reviewers verify every reported expense.",
+   "Annual financial statements and project reports will be published in our document library."
+  ]
+ },
+ "about": {
+  "title": "About Us",
+  "lead": "NORRAID AFRICA — Humanity Without Borders — is a proposed humanitarian initiative based in Sweden.",
+  "body": [
+   "We are a small group of people in Sweden who want to help families affected by conflict, hunger and displacement in Sudan, the Democratic Republic of the Congo and South Sudan.",
+   "The name and visual identity are provisional until officially approved. The organisation's legal registration is pending verification, and we say so openly on every page that matters.",
+   "We believe a small organisation can earn trust by being radically transparent: clear about who receives donations, what has and has not happened yet, and where every figure comes from."
+  ],
+  "name_note": "All names and brand assets are provisional until officially approved."
+ },
+ "stories": {
+  "title": "Stories of Hope",
+  "lead": "Behind every statistic is a person. These stories are real and accurately attributed to the organisations that first reported them.",
+  "policy": "We never invent beneficiary identities or present fictional stories as real. Where NORRAID AFRICA has not yet collected first-hand accounts, we publish verified third-party stories with the original source.",
+  "context": "Context",
+  "chronology": "Chronology",
+  "needs": "Needs and challenges",
+  "attribution": "Source and attribution",
+  "status": "Editorial status",
+  "approved": "Approved for publication",
+  "photo_note": "No photograph of this person is shown. The story is told in words only, as originally reported.",
+  "help_cta": "Support families in {country}",
+  "all": "All stories",
+  "filter": "Filter by country",
+  "samira-kassala": {
+   "title": "Samira's escape from Khartoum",
+   "summary": "Samira, 22, fled fighting in Khartoum in 2023 and now lives in a school turned into a shelter in Kassala.",
+   "body": [
+    "Samira was 20 when fighting reached Khartoum in 2023. Like millions of Sudanese, she fled. Today she lives in the Omar Haj Musa School in Kassala, a school building repurposed to shelter displaced families.",
+    "Remembering the journey, she describes holding her breath at every checkpoint, afraid of being stopped and taken. Her account, recorded by the UN, reflects the protection risks women and girls face throughout Sudan's war."
+   ],
+   "context": "Kassala in eastern Sudan hosts large numbers of people displaced from Khartoum and other conflict areas, many in schools and public buildings.",
+   "needs": "Safe shelter, protection from violence, psychosocial support and a way to rebuild her life.",
+   "chronology": [
+    "April 2023: war breaks out in Khartoum",
+    "2023: Samira flees through checkpoints to Kassala",
+    "December 2025: her story is published by UN OCHA"
+   ]
+  },
+  "tumaini-sake": {
+   "title": "Tumaini returns to a home that is gone",
+   "summary": "Tumaini, 39, came back with her family to Sake in North Kivu after fleeing. Their house was destroyed; they now live under a tarpaulin on the same plot.",
+   "body": [
+    "When conflict reached Sake, in North Kivu, Tumaini and her family fled. After the closure of displacement sites around Goma, they returned to their compound — only to find their home destroyed.",
+    "Today the family lives under a tarpaulin on the spot where their house once stood. Their story, reported by the UN, is shared by many of the more than 3 million people recorded as returning in eastern DR Congo in 2025."
+   ],
+   "context": "In 2025, hostilities expanded across North Kivu, South Kivu and Ituri. Many families returned after site closures, often to destroyed homes and without services.",
+   "needs": "Shelter materials, household items, food and access to clean water and health care.",
+   "chronology": [
+    "2025: Tumaini's family flees fighting near Sake",
+    "2025: displacement sites around Goma close; the family returns",
+    "December 2025: her story is published by UN OCHA"
+   ]
+  },
+  "qisma-bor": {
+   "title": "Five years in a camp in Bor",
+   "summary": "For five years, Qisma, her husband and their five children have lived in Bor Town's former displacement camp in South Sudan.",
+   "body": [
+    "Qisma and her family have spent five years in the former displacement camp in Bor Town, Jonglei State. Their life has been shaped by displacement, floods and the struggle to provide for five children.",
+    "Her story, published by the UN with the 2026 South Sudan humanitarian plan, is one of millions behind the figure of 2.6 million people still internally displaced in South Sudan."
+   ],
+   "context": "Jonglei is among the states most affected by floods and conflict. Many displaced families have lived in camps for years.",
+   "needs": "Food, nutrition support for the children, clean water, health care and a durable solution for the family.",
+   "chronology": [
+    "Around 2021: the family settles in the camp in Bor Town",
+    "2025: renewed conflict and floods displace hundreds of thousands more",
+    "January 2026: her story is published by UN OCHA"
+   ]
+  },
+  "lala-ali-jamam": {
+   "title": "Eight days on foot to reach safety",
+   "summary": "Lala Ali, 20, walked for eight days with her child to escape fighting in Sudan's Blue Nile State and reach Jamam refugee camp in South Sudan.",
+   "body": [
+    "In early 2012, fighting was coming closer to Lala Ali's home in Sudan's Blue Nile State. She decided to leave. With her child, she walked for eight days to the border, carrying water, but without enough food.",
+    "She arrived at the Jamam refugee camp in South Sudan in February 2012, one of tens of thousands of people who fled Blue Nile that year. Her words were recorded by the UK Department for International Development."
+   ],
+   "context": "This story dates from 2012. It shows how long people have been fleeing between Sudan and South Sudan — a movement that continues today, with about 1.3 million arrivals from Sudan since 2023.",
+   "needs": "In 2012: food, safe water, shelter and health care in the camp.",
+   "chronology": [
+    "Early 2012: fighting spreads in Blue Nile State",
+    "February 2012: Lala arrives in Jamam camp after eight days on foot",
+    "April 2012: photographed and interviewed by DFID"
+   ]
+  },
+  "nyadil-lankien": {
+   "title": "Counting the days until the grain runs out",
+   "summary": "In 2015, Nyadil Machar, a farmer in Lankien, Jonglei, explained that her millet would last until May. After that, her family would have to eat leaves.",
+   "body": [
+    "Nyadil Machar grows millet near Lankien, in northern Jonglei. In March 2015 she told Oxfam that her harvest would last until May. After that, she said, the family would have to eat leaves — there was no other option.",
+    "Before the crisis, families could move elsewhere when their grain ran out. Conflict had closed most supply routes and made that impossible."
+   ],
+   "context": "This story dates from 2015. Hunger in South Sudan remains severe: more than 7.5 million people are projected to face crisis-level hunger in the 2026 lean season.",
+   "needs": "Food assistance during the lean season, seeds and tools, and safe access to markets.",
+   "chronology": [
+    "2013: conflict breaks out in South Sudan",
+    "March 2015: Nyadil speaks with Oxfam in Lankien",
+    "Lean season (May onwards): food stocks run out"
+   ]
+  }
+ },
+ "donate": {
+  "title": "Make a donation",
+  "lead": "Choose where your support should go. You will complete your gift on PayPal's secure page.",
+  "step1": "1. Choose a fund",
+  "step2": "2. Choose an amount",
+  "step3": "3. Review and continue",
+  "fund_general": "General humanitarian fund",
+  "fund_general_d": "Used where needs are greatest across all three countries.",
+  "fund_country_d": "Kept for programmes in {country}.",
+  "custom": "Other amount",
+  "custom_ph": "Amount in €",
+  "custom_note": "You can also change the amount on PayPal.",
+  "currency_note": "Amounts are shown in euro. The final currency and amount are those PayPal displays before you confirm.",
+  "recipient_title": "Who receives your donation",
+  "recipient_personal": "Your payment goes to a personal PayPal account registered in Sweden{name}. It is not the account of a registered charity.",
+  "recipient_pending": "Recipient name is shown on the PayPal page before you confirm.",
+  "no_tax": "Donations are not tax-deductible.",
+  "not_charity": "NORRAID AFRICA's registration details are pending verification. We do not hold a Swedish 90-konto.",
+  "how_used": "Donations are recorded against the fund you choose and will be used for the planned programmes described on this site. Every expense will be reported publicly.",
+  "button": "Continue to PayPal",
+  "secure": "You will be redirected to paypal.com. We never see your card or bank details.",
+  "qr_title": "Prefer your phone?",
+  "qr_text": "Scan the QR code to open the same PayPal donation page.",
+  "refund_title": "Refunds and privacy",
+  "refund_text": "If you made a mistake, contact us within 30 days and we will help you request a refund through PayPal. PayPal processes your payment under its own privacy policy.",
+  "summary": "You are giving {amount} to: {fund}.",
+  "summary_any": "You will choose the amount on PayPal. Fund: {fund}.",
+  "error_amount": "Please enter an amount between €1 and €10,000.",
+  "unavailable": "Online donations are temporarily unavailable. Please contact us.",
+  "policy_link": "Read our donation policy"
+ },
+ "return": {
+  "title": "Welcome back from PayPal",
+  "text": "Thank you for visiting our donation page. If you completed a payment, PayPal will send you a receipt by email. Please check that receipt to confirm your donation went through.",
+  "note": "We do not mark donations as successful just because you returned to this page. Payments are confirmed only from PayPal records.",
+  "contact": "Questions about a payment? Contact us and include the PayPal transaction ID from your receipt.",
+  "home": "Back to the home page"
+ },
+ "transparency": {
+  "title": "Transparency",
+  "lead": "Everything a donor should be able to check, in one place. Fields stay marked as pending until official documents have been verified.",
+  "legal_title": "Legal organisation profile",
+  "status_pending": "Registration details pending verification.",
+  "status_verified": "Registration verified.",
+  "f_name": "Legal organisation name",
+  "f_number": "Swedish organisation number",
+  "f_authority": "Registration authority",
+  "f_date": "Registration date",
+  "f_address": "Registered address",
+  "f_rep": "Authorised representative",
+  "f_email": "Contact email",
+  "f_approvals": "Relevant approvals",
+  "f_90": "Swedish 90-konto (Svensk Insamlingskontroll)",
+  "no_90": "Not held",
+  "recipient_title": "Donation recipient",
+  "recipient_type": "Account type",
+  "personal_account": "Personal PayPal account registered in Sweden",
+  "recipient_name": "Account holder",
+  "expenditure_title": "Project expenditure",
+  "expenditure_none": "No funds have been spent on projects yet. Expenditure will be published here, project by project.",
+  "totals_title": "Confirmed donations",
+  "totals_text": "{count} confirmed donations, {sum} in total, as recorded from PayPal statements.",
+  "statements_title": "Annual financial statements",
+  "statements_none": "The first annual statement will be published after the first financial year.",
+  "partners_title": "Third-party partners",
+  "partners_none": "No partner agreements have been signed yet.",
+  "gov_title": "Governance",
+  "docs_title": "Document library",
+  "docs_none": "No documents have been published yet.",
+  "contact_title": "Contact for transparency questions"
+ },
+ "sources": {
+  "title": "Sources and Methodology",
+  "lead": "How we choose, check and present humanitarian statistics.",
+  "rules": [
+   "We use figures published by UN agencies and humanitarian coordination bodies, mainly UN OCHA's Global Humanitarian Overview and country Humanitarian Needs and Response Plans.",
+   "Every statistic records its value, unit, country, definition, reporting year, source organisation, source link and the date we last verified it.",
+   "We keep three categories strictly apart: people in need, people targeted for assistance, and people actually reached.",
+   "When a plan is revised, we show the current figure and explain the change. Outdated figures are withdrawn, not left online.",
+   "We never round up, combine incompatible figures or present sector-wide results as our own.",
+   "Photographs come from licensed sources such as Wikimedia Commons. Each image shows the photographer, licence and source."
+  ],
+  "table_title": "All published statistics",
+  "col_country": "Country",
+  "col_cat": "Category",
+  "col_value": "Value",
+  "col_metric": "Statistic",
+  "col_year": "Year",
+  "col_source": "Source",
+  "col_verified": "Verified",
+  "photos_title": "Photo credits"
+ },
+ "faq": {
+  "title": "Frequently asked questions",
+  "items": [
+   {
+    "q": "Is NORRAID AFRICA a registered charity?",
+    "a": "Not yet. The initiative's registration details are pending verification. We will publish the organisation number and documents on the transparency page once they have been officially verified."
+   },
+   {
+    "q": "Who receives my donation?",
+    "a": "Donations currently go to a personal PayPal account registered in Sweden. The recipient is shown on the donation page and on PayPal before you confirm."
+   },
+   {
+    "q": "Is my donation tax-deductible?",
+    "a": "No. Donations to NORRAID AFRICA are not tax-deductible."
+   },
+   {
+    "q": "Do you have a Swedish 90-konto?",
+    "a": "No. We do not hold a 90-konto from Svensk Insamlingskontroll."
+   },
+   {
+    "q": "How will my donation be used?",
+    "a": "Your gift is recorded against the fund you choose and will support the planned programmes described on this site through vetted local partners. Programmes have not started yet, and we will publish every expense."
+   },
+   {
+    "q": "Can I choose a country?",
+    "a": "Yes. You can give to Sudan, DR Congo, South Sudan or the general humanitarian fund."
+   },
+   {
+    "q": "Are the stories on this site real?",
+    "a": "Yes. Every story is real and attributed to the organisation that first reported it. We never invent identities or present fictional stories as real."
+   },
+   {
+    "q": "Where do your statistics come from?",
+    "a": "Mainly from UN OCHA's 2026 humanitarian plans. Each figure shows its source, reporting year and the date we last checked it."
+   },
+   {
+    "q": "Can I get a refund?",
+    "a": "Contact us within 30 days with your PayPal transaction ID and we will help you request a refund through PayPal."
+   },
+   {
+    "q": "How do I unsubscribe from emails?",
+    "a": "Every email has an unsubscribe link, and you can also contact us at any time."
+   }
+  ]
+ },
+ "contact": {
+  "title": "Contact",
+  "lead": "Questions about donations, partnerships, media or our work? Write to us.",
+  "name": "Your name",
+  "email": "Email address",
+  "topic": "Topic",
+  "message": "Message",
+  "topics": {
+   "general": "General question",
+   "donation": "Donation or refund",
+   "partner": "Partnership",
+   "media": "Media",
+   "privacy": "Privacy request"
+  },
+  "privacy": "We use your details only to answer your message. See our privacy policy.",
+  "send": "Send message",
+  "sent": "Thank you. Your message has been received and we will reply by email.",
+  "error": "Something went wrong. Please check the form and try again.",
+  "email_pending": "Our public contact email will be published together with our registration details. Until then, please use this form.",
+  "based": "Based in Sweden",
+  "donate_q": "Questions about a donation:"
+ },
+ "news": {
+  "title": "Stay informed",
+  "text": "Occasional updates on the crises, our verified progress and real stories. No spam, unsubscribe anytime.",
+  "email": "Your email address",
+  "button": "Subscribe",
+  "consent": "I agree to receive email updates from NORRAID AFRICA and accept the privacy policy.",
+  "ok": "Almost done! Please check your inbox and confirm your subscription.",
+  "confirmed_title": "Subscription confirmed",
+  "confirmed": "Thank you. You will now receive our updates.",
+  "unsub_title": "You have been unsubscribed",
+  "unsub": "You will no longer receive emails from us.",
+  "invalid": "This link is invalid or has expired.",
+  "error": "Please enter a valid email address and tick the consent box.",
+  "rate": "Too many attempts. Please try again later."
+ },
+ "email": {
+  "sender": "NORRAID AFRICA",
+  "footer": "You receive this email because you subscribed at {site}. Unsubscribe: {unsub}",
+  "confirm_subject": "Please confirm your subscription",
+  "confirm_body": "Thank you for your interest in NORRAID AFRICA. Please confirm that you want to receive our updates by clicking the button below. If you did not request this, you can ignore this email.",
+  "confirm_button": "Confirm subscription",
+  "welcome_subject": "Welcome to NORRAID AFRICA",
+  "welcome_body": "Thank you for joining us. We will send you occasional, honest updates about Sudan, DR Congo and South Sudan: verified figures, real stories and, as our work begins, transparent progress reports.",
+  "thanks_subject": "Thank you for your donation",
+  "thanks_body": "We have confirmed your donation of {amount} to the {fund} from PayPal records. Thank you. Your gift is recorded against this fund and will be reported publicly.",
+  "update_subject": "Campaign update from NORRAID AFRICA",
+  "story_subject": "A real story from {country}",
+  "story_body": "This story was originally reported by {source}. We share it with attribution and permission under its licence.",
+  "report_subject": "Project progress report",
+  "unsub_subject": "You have been unsubscribed",
+  "unsub_body": "You will no longer receive emails from NORRAID AFRICA. If this was a mistake, you can subscribe again on our website.",
+  "button_site": "Visit the website",
+  "unsubscribe": "Unsubscribe"
+ },
+ "legal": {
+  "updated": "Last updated",
+  "privacy": {
+   "title": "Privacy Policy",
+   "sections": [
+    {
+     "h": "Who is responsible",
+     "p": "NORRAID AFRICA (a proposed initiative based in Sweden; registration pending verification) is responsible for personal data processed on this website. Contact us through the contact page."
+    },
+    {
+     "h": "What we collect",
+     "p": "Newsletter: your email address, language and the date and time of your consent. Contact form: your name, email and message. Donations: we record the fund and amount you selected before leaving for PayPal, without any personal data. We do not collect card or bank details."
+    },
+    {
+     "h": "Why and on what legal basis",
+     "p": "Newsletter emails are sent with your consent (GDPR article 6.1.a), which you can withdraw at any time. Contact messages are processed to answer you (legitimate interest, article 6.1.f). Accounting records are kept to meet legal obligations (article 6.1.c)."
+    },
+    {
+     "h": "PayPal",
+     "p": "When you donate, PayPal (Europe) S.à r.l. et Cie, S.C.A. processes your payment as an independent controller under its own privacy statement."
+    },
+    {
+     "h": "How long we keep data",
+     "p": "Newsletter data is kept until you unsubscribe. Contact messages are deleted after 24 months. Accounting records are kept for the period required by Swedish law."
+    },
+    {
+     "h": "Sharing",
+     "p": "We do not sell or rent personal data and never import purchased or scraped email lists. Data is stored with our web hosting provider in the EU/EEA."
+    },
+    {
+     "h": "Your rights",
+     "p": "You have the right to access, correct, delete, restrict or port your data and to object to processing. You can complain to the Swedish Authority for Privacy Protection (IMY)."
+    }
+   ]
+  },
+  "cookies": {
+   "title": "Cookie Policy",
+   "sections": [
+    {
+     "h": "Cookies we use",
+     "p": "nr_lang remembers the language you chose (1 year). nr_ft protects our forms against misuse (session). Both are strictly necessary or functional first-party cookies and do not track you."
+    },
+    {
+     "h": "Analytics",
+     "p": "We do not use advertising or tracking cookies. If privacy-friendly analytics are ever enabled, they will only run after you agree."
+    },
+    {
+     "h": "Third-party content",
+     "p": "Some images may load directly from Wikimedia Commons until a local copy is stored. Wikimedia may receive your IP address under its own privacy policy. PayPal sets its own cookies only when you visit paypal.com."
+    }
+   ]
+  },
+  "terms": {
+   "title": "Terms and Conditions",
+   "sections": [
+    {
+     "h": "About this website",
+     "p": "This website is operated by NORRAID AFRICA, a proposed humanitarian initiative based in Sweden. Names and brand assets are provisional until officially approved."
+    },
+    {
+     "h": "Accuracy",
+     "p": "We take care to publish accurate, sourced information. Humanitarian figures change; each statistic shows its source and the date we last verified it."
+    },
+    {
+     "h": "Content and images",
+     "p": "Photographs are used under the licences shown with each image. Our own texts and logo may not be reused without permission."
+    },
+    {
+     "h": "Liability",
+     "p": "We are not liable for the content of external websites we link to."
+    },
+    {
+     "h": "Applicable law",
+     "p": "These terms are governed by Swedish law."
+    }
+   ]
+  },
+  "donation": {
+   "title": "Donation Policy",
+   "sections": [
+    {
+     "h": "Recipient",
+     "p": "Donations are currently received through a personal PayPal account registered in Sweden. It is not the account of a registered charity. The account holder is shown on the donation page and on PayPal."
+    },
+    {
+     "h": "Status",
+     "p": "NORRAID AFRICA's registration details are pending verification. We do not hold a Swedish 90-konto, and donations are not tax-deductible."
+    },
+    {
+     "h": "Use of funds",
+     "p": "Each donation is recorded against the fund the donor selects (Sudan, DR Congo, South Sudan or general). Funds are held until they can be transferred to vetted local partners under written agreements. All expenditure will be published."
+    },
+    {
+     "h": "Confirmation",
+     "p": "Donations are confirmed only from PayPal records. We never publish donation totals that have not been confirmed, and we never show invented donor activity, matching offers or countdowns."
+    },
+    {
+     "h": "Refunds",
+     "p": "Contact us within 30 days with your PayPal transaction ID. We will help you request a refund through PayPal."
+    },
+    {
+     "h": "If a programme cannot go ahead",
+     "p": "If funds cannot be used in the chosen country, they will be used for the general humanitarian fund in the other focus countries, and this will be reported."
+    }
+   ]
+  },
+  "accessibility": {
+   "title": "Accessibility Statement",
+   "sections": [
+    {
+     "h": "Our commitment",
+     "p": "We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA."
+    },
+    {
+     "h": "What we do",
+     "p": "Semantic HTML, keyboard navigation with visible focus, text alternatives for images, sufficient colour contrast, support for reduced motion, right-to-left layout for Arabic, and forms with clear labels and error messages."
+    },
+    {
+     "h": "Known limitations",
+     "p": "Some country maps are simplified illustrations; the same information is always given in text. Older photographs may have limited descriptions from their original sources."
+    },
+    {
+     "h": "Feedback",
+     "p": "If you find a barrier, please tell us through the contact page. We aim to respond within 14 days."
+    }
+   ]
+  }
+ },
+ "footer": {
+  "about": "A proposed Sweden-based humanitarian initiative for families in Sudan, DR Congo and South Sudan.",
+  "status": "Registration details pending verification. Donations are not tax-deductible.",
+  "explore": "Explore",
+  "organisation": "Organisation",
+  "legal": "Legal",
+  "privacy": "Privacy",
+  "cookies": "Cookies",
+  "terms": "Terms",
+  "donation_policy": "Donation policy",
+  "accessibility": "Accessibility",
+  "sources": "Sources and methodology",
+  "rights": "Names and brand assets are provisional.",
+  "photos": "Photographs: Wikimedia Commons contributors under the licences shown with each image."
+ },
+ "media": {
+  "photo": "Photo:",
+  "source": "Source",
+  "hero_water": "Children carry water containers on their heads at sunset in Minkaman, South Sudan",
+  "ss_mother": "Lala Ali holds her young child in Jamam refugee camp, South Sudan",
+  "sd_registration": "Sudanese refugee women wait in line to register for food aid in Adré, Chad",
+  "sd_elfasher": "Displaced women stand by a charcoal stall at a market in El Fasher, North Darfur",
+  "sd_chad": "Darfuri refugees in Farchana camp, eastern Chad",
+  "sd_adre": "A Sudanese refugee woman waits to register for food aid in Adré, Chad",
+  "drc_mugunga": "Three children sit on volcanic rock in the morning at Mugunga camp near Goma",
+  "drc_cecilia": "Cecilia stands with her family in front of their shelter in Rutshuru, North Kivu",
+  "drc_kibumba": "Rows of white tarpaulin shelters in Kibumba displacement camp",
+  "drc_school": "Children sit at benches in a temporary emergency school in Nyanzale",
+  "drc_kibati": "Families carrying belongings walk along a road near Kibati camp",
+  "drc_backtoschool": "Smiling schoolchildren hold up their new school kits in Basali",
+  "ss_education": "Children write in notebooks during an emergency education class in South Sudan",
+  "ss_tree_class": "Refugee children study in the shade of a tree",
+  "ss_water": "Women and children gather around a clean-water tap stand in Awerial",
+  "ss_queue": "Refugees line up with containers for water in Jamam camp",
+  "ss_nyadil": "Nyadil Machar stands beside stacks of harvested millet in Lankien",
+  "ss_borehole": "A repaired hand pump borehole in Lankien, South Sudan"
+ },
+ "notfound": {
+  "title": "Page not found",
+  "text": "The page you are looking for does not exist or has moved."
+ }
+}

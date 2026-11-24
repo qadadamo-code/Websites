@@ -1,0 +1,29 @@
+# NORRAID AFRICA — routing and protection (works in a sub-folder or on its own domain)
+Options -Indexes
+DirectoryIndex index.php
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^(storage|data|inc|lang|pages|tests)(/|$) - [F,L]
+RewriteRule (^|/)\. - [F,L]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^ index.php [L,QSA]
+</IfModule>
+<FilesMatch "\.(json|md|lock|tmp|gz|py|sh|csv)$">
+Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+<FilesMatch "\.(woff2|svg|png|jpg|jpeg|webp)$">
+Header set Cache-Control "public, max-age=2592000"
+</FilesMatch>
+<FilesMatch "\.(css|js)$">
+Header set Cache-Control "public, max-age=604800"
+</FilesMatch>
+</IfModule>
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/json
+</IfModule>
+AddType font/woff2 .woff2
+AddType image/svg+xml .svg
+ErrorDocument 403 default
