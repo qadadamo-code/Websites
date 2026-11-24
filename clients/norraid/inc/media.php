@@ -1,7 +1,7 @@
 <?php
 /**
  * Local copies of licensed photos. The site first hotlinks the Wikimedia Commons thumbnails (allowed, credited);
- * this stores a local 1600px + 960px copy so the site no longer depends on Commons. Runs from the admin, and
+ * this stores a local copy (max 1600px) + 960px copy so the site no longer depends on Commons. Runs from the admin, and
  * automatically in the background after page views (a few images at a time) until every photo is local.
  */
 function media_fetch_bytes(string $url): ?string {
@@ -9,13 +9,13 @@ function media_fetch_bytes(string $url): ?string {
     if (function_exists('curl_init')) {
         $ch = curl_init($url);
         curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 3, CURLOPT_TIMEOUT => 25, CURLOPT_CONNECTTIMEOUT => 8,
-            CURLOPT_PROTOCOLS => CURLPROTO_HTTPS, CURLOPT_USERAGENT => 'NORRAID-site/1.0 (photo cache; credited CC images)']);
+            CURLOPT_PROTOCOLS => CURLPROTO_HTTPS, CURLOPT_USERAGENT => 'NORRAID-site/1.0 (https://norraid.com; photo cache of credited CC images)']);
         $b = curl_exec($ch);
         $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         return ($b !== false && $code === 200 && strlen((string)$b) < 25 * 1024 * 1024) ? (string)$b : null;
     }
-    $ctx = stream_context_create(['http' => ['timeout' => 25, 'header' => "User-Agent: NORRAID-site/1.0 (photo cache)\r\n"]]);
+    $ctx = stream_context_create(['http' => ['timeout' => 25, 'header' => "User-Agent: NORRAID-site/1.0 (https://norraid.com; photo cache)\r\n"]]);
     $b = @file_get_contents($url, false, $ctx);
     return $b === false ? null : $b;
 }
@@ -50,7 +50,7 @@ function media_store_bytes(string $id, string $bytes): ?array {
 function media_import_one(string $id): bool {
     $m = media($id);
     if (!$m || empty($m['src'])) return false;
-    $bytes = media_fetch_bytes((string)$m['src']);
+    $bytes = media_fetch_bytes(media_src($m));
     $res = $bytes ? media_store_bytes($id, $bytes) : null;
     nr_tx('media', function (&$l) use ($id, $res) {
         foreach ($l as &$r) if ($r['id'] === $id) {
@@ -63,7 +63,7 @@ function media_import_one(string $id): bool {
 
 /** Background: after the response is sent, import up to $n missing photos (at most once every 10 minutes). */
 function media_autoimport(int $n = 3): void {
-    $pending = array_values(array_filter(media_all(), fn($m) => empty($m['file']) && !empty($m['src']) && (empty($m['import_failed']) || strtotime((string)$m['import_failed']) < time() - 6 * 3600)));
+    $pending = array_values(array_filter(media_all(), fn($m) => empty($m['file']) && !empty($m['src']) && (empty($m['import_failed']) || strtotime((string)$m['import_failed']) < time() - 1800)));
     if (!$pending) return;
     $stamp = NR_STORAGE . '/.media-import';
     if (is_file($stamp) && time() - (int)filemtime($stamp) < 600) return;

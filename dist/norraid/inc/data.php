@@ -67,9 +67,13 @@ function media_url(array $m, int $w = 1600): string {
         if ($w <= 900 && is_file(NR_UPLOADS . '/media/sm-' . $f)) $f = 'sm-' . $f;
         return nr_base() . 'uploads/media/' . rawurlencode($f);
     }
-    $src = (string)($m['src'] ?? '');
-    if ($w <= 900) $src = preg_replace('~/1600px-~', '/960px-', $src);
+    $src = media_src($m);
+    if ($w <= 900) $src = preg_replace('~/1280px-~', '/960px-', $src);
     return $src;
+}
+/** Wikimedia only renders standard thumbnail widths (…960, 1280, 1920…); 1600px is refused, so map it to 1280px. */
+function media_src(array $m): string {
+    return (string)preg_replace('~(upload|thumb)\.wikimedia\.org/(.+)/1600px-~', '$1.wikimedia.org/$2/1280px-', (string)($m['src'] ?? ''));
 }
 function media_alt(array $m): string {
     $k = 'media.' . $m['id'];
@@ -90,7 +94,7 @@ function img(string $id, string $class = '', int $w = 1600, bool $eager = false,
     if (!$m) return '';
     $big = media_url($m, 1600);
     $sm = media_url($m, 900);
-    $srcset = $sm !== $big ? ' srcset="' . e($sm) . ' 960w, ' . e($big) . ' 1600w" sizes="' . e($sizes) . '"' : '';
+    $srcset = $sm !== $big ? ' srcset="' . e($sm) . ' 960w, ' . e($big) . ' 1280w" sizes="' . e($sizes) . '"' : '';
     return '<img class="' . e($class) . '" src="' . e($w <= 900 ? $sm : $big) . '"' . $srcset . ' alt="' . e(media_alt($m)) . '"'
         . ($eager ? ' fetchpriority="high"' : ' loading="lazy"') . ' decoding="async" width="' . (int)($m['w'] ?? 1600) . '" height="' . (int)($m['h'] ?? 1000) . '">';
 }
