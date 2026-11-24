@@ -18,7 +18,7 @@ if ($slug !== '') {
   </div>
  </header>
  <div class="wrap narrow">
-  <?php if ($m): ?><?= figure($s['media'], 'story-fig', 1600) ?>
+  <?php if ($m): ?><?= figure($s['media'], 'story-fig', 1600) ?><?php if (!empty($s['media_illustrative'])): ?><p class="small muted"><?= te('stories.photo_illustrative', ['country' => $cn]) ?></p><?php endif; ?>
   <?php else: ?><div class="story-quote big" aria-hidden="true"><?= icon('quote', 'ic q') ?><span><?= e($cn) ?></span></div><p class="small muted"><?= te('stories.photo_note') ?></p><?php endif; ?>
   <div class="prose story-text"><?php foreach ((array)t('stories.' . $slug . '.body') as $p): ?><p><?= e($p) ?></p><?php endforeach; ?></div>
   <div class="story-facts">

@@ -1,6 +1,7 @@
 <?php
 /** Read helpers for CMS content (all editable from the dashboard). */
 declare(strict_types=1);
+require_once __DIR__ . '/media_extra.php';
 
 const COUNTRY_IDS = ['sudan', 'drc', 'south-sudan'];
 const STAT_CATEGORIES = ['in_need', 'targeted', 'reached', 'context'];
@@ -13,7 +14,11 @@ function org_verified(): bool { return (org()['status'] ?? 'pending') === 'verif
 
 function countries(): array {
     $out = [];
-    foreach (nr_load('countries') as $c) if (!empty($c['id'])) $out[$c['id']] = $c;
+    foreach (nr_load('countries') as $c) {
+        if (empty($c['id'])) continue;
+        foreach (NR_SECTION_PHOTO[$c['id']] ?? [] as $sec => $mid) if (empty($c['sections'][$sec])) $c['sections'][$sec] = $mid;
+        $out[$c['id']] = $c;
+    }
     return $out;
 }
 function country(string $id): ?array { return countries()[$id] ?? null; }
@@ -57,6 +62,7 @@ function stat_value(array $s): string {
 function media_all(): array {
     $out = [];
     foreach (nr_load('media') as $m) $out[$m['id']] = $m;
+    foreach (nr_media_extra() as $id => $m) if (!isset($out[$id])) $out[$id] = $m;
     return $out;
 }
 function media(string $id): ?array { return media_all()[$id] ?? null; }
@@ -110,6 +116,7 @@ function stories(?string $country = null, int $limit = 0): array {
     foreach (nr_load('stories') as $s) {
         if (($s['status'] ?? '') !== 'approved') continue;
         if ($country && ($s['country'] ?? '') !== $country) continue;
+        if (empty($s['media']) && isset(NR_STORY_PHOTO[$s['country'] ?? ''])) { $s['media'] = NR_STORY_PHOTO[$s['country']]; $s['media_illustrative'] = true; }
         $out[] = $s;
     }
     usort($out, fn($a, $b) => strcmp((string)($b['published'] ?? ''), (string)($a['published'] ?? '')));
