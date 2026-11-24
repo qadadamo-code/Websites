@@ -1,0 +1,13 @@
+[
+    {
+        "id": "u1",
+        "user": "admin",
+        "name": "Super Admin",
+        "email": "info@norraid.com",
+        "role": "super",
+        "active": true,
+        "hash": "$2y$10$B3OM5/7lRkPR4q65ZT4m3.RhLqs8ZTxFA4RjYss9SVonvojrKP7BK",
+        "must_change": true,
+        "created": "2026-11-24T08:44:49+00:00"
+    }
+]
