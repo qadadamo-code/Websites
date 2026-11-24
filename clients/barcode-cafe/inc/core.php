@@ -57,6 +57,19 @@ function bc_migrate(): void {
     $done = bc_load('migrations');
     foreach ($all as $m) {
         if (!is_array($m) || empty($m['id']) || in_array($m['id'], $done, true)) continue;
+        // replace the whole menu: {"replaceMenu": {"keepCats": ["shisha"]}, "categories": [...], "items": [...]}
+        if (!empty($m['replaceMenu'])) {
+            $keep = (array)($m['replaceMenu']['keepCats'] ?? []);
+            $cats = array_values(array_filter(bc_load('categories'), fn($c) => in_array($c['id'] ?? '', $keep, true)));
+            $its = array_values(array_filter(bc_load('items'), fn($it) => in_array($it['cat'] ?? '', $keep, true)));
+            $cids = array_column($cats, 'id'); $iids = array_column($its, 'id');
+            foreach ((array)($m['categories'] ?? []) as $row) if (!in_array($row['id'], $cids, true)) $cats[] = $row;
+            foreach ((array)($m['items'] ?? []) as $row) if (!in_array($row['id'], $iids, true)) $its[] = $row;
+            bc_write('categories', $cats); bc_write('items', $its);
+            $m['categories'] = $m['items'] = [];
+        }
+        // replace the moods list
+        if (isset($m['moods']) && is_array($m['moods'])) bc_write('moods', $m['moods']);
         // add rows that don't exist yet
         foreach (['categories', 'items'] as $k) {
             if (empty($m[$k])) continue;
@@ -69,6 +82,12 @@ function bc_migrate(): void {
             $cur = bc_load('items');
             foreach ($cur as &$it) if (isset($m['itemPatch'][$it['id']])) $it = array_merge($it, $m['itemPatch'][$it['id']]);
             unset($it); bc_write('items', $cur);
+        }
+        // change fields on existing categories: {"catPatch": {"id": {"order": 17}}}
+        if (!empty($m['catPatch'])) {
+            $cur = bc_load('categories');
+            foreach ($cur as &$c) if (isset($m['catPatch'][$c['id']])) $c = array_merge($c, $m['catPatch'][$c['id']]);
+            unset($c); bc_write('categories', $cur);
         }
         // merge settings (one level deep for arrays like social)
         if (!empty($m['settings'])) {
