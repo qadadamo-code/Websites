@@ -52,7 +52,8 @@ function media_import_one(string $id): bool {
     if (!$m || empty($m['src'])) return false;
     $bytes = media_fetch_bytes(media_src($m));
     $res = $bytes ? media_store_bytes($id, $bytes) : null;
-    nr_tx('media', function (&$l) use ($id, $res) {
+    nr_tx('media', function (&$l) use ($id, $res, $m) {
+        if (!in_array($id, array_column($l, 'id'), true)) $l[] = $m; // photo shipped in code: store its row once
         foreach ($l as &$r) if ($r['id'] === $id) {
             if ($res) { $old = $r['file'] ?? ''; $r = array_merge($r, $res); if ($old && $old !== $res['file']) { @unlink(NR_UPLOADS . '/media/' . basename($old)); @unlink(NR_UPLOADS . '/media/sm-' . basename($old)); } }
             else $r['import_failed'] = now_iso();
