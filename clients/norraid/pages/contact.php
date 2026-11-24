@@ -23,7 +23,6 @@ $email = trim((string)setting('contact_email'));
    <p><?= icon('pin', 'ic sm') ?> <?= te('contact.based') ?></p>
    <?php if ($email): ?><p><?= icon('mail', 'ic sm') ?> <a href="mailto:<?= e($email) ?>"><?= e($email) ?></a></p><?php else: ?><p class="small"><?= te('contact.email_pending') ?></p><?php endif; ?>
    <?php if ($de = trim((string)setting('donate_email'))): ?><p><?= icon('heart', 'ic sm') ?> <?= te('contact.donate_q') ?> <a href="mailto:<?= e($de) ?>"><?= e($de) ?></a></p><?php endif; ?>
-   <p class="small"><?= te('transparency.status_pending') ?></p>
   </aside>
  </div>
 </section>

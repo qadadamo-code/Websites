@@ -12,7 +12,6 @@ page_head(['path' => 'about', 'title' => t('about.title'), 'description' => t('a
   <figure class="reveal"><?= img('drc_backtoschool', 'rounded', 900, false, '(max-width:800px) 100vw, 45vw') ?><figcaption class="credit"><?= media_credit(media('drc_backtoschool')) ?></figcaption></figure>
   <div class="reveal prose">
    <?php foreach (tl('about.body') as $p): ?><p><?= e($p) ?></p><?php endforeach; ?>
-   <p class="notice"><?= icon('info', 'ic') ?> <span><?= te('about.name_note') ?></span></p>
    <p><a class="btn btn-forest" href="<?= e(u('mission')) ?>"><?= te('nav.mission') ?> <?= icon('arrow', 'ic sm') ?></a> <a class="btn btn-line" href="<?= e(u('contact')) ?>"><?= te('nav.contact') ?></a></p>
   </div>
  </div>

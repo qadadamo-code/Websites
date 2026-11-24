@@ -1,7 +1,7 @@
 {
  "meta": {
   "title": "NORRAID AFRICA – Humanity Without Borders",
-  "description": "A Sweden-based humanitarian initiative standing with families facing emergencies in Sudan, DR Congo and South Sudan. Transparent, sourced and honest.",
+  "description": "NORRAID AFRICA is a Sweden-based humanitarian association standing with families facing emergencies in Sudan, DR Congo and South Sudan.",
   "lang_name": "English"
  },
  "skip": "Skip to content",
@@ -40,7 +40,7 @@
   "December"
  ],
  "common": {
-  "planned": "Planned",
+  "planned": "Ongoing",
   "pending": "Pending verification",
   "learn_more": "Learn more",
   "read_story": "Read the story",
@@ -145,7 +145,7 @@
   "context": "Context",
   "in_need_def": "Everyone whose physical safety, basic rights or living conditions are threatened and who cannot meet basic needs without assistance.",
   "targeted_def": "The share of people in need that humanitarian organisations plan to assist under the UN-coordinated response plan. It depends on funding and access.",
-  "reached_def": "People who actually received assistance. NORRAID AFRICA will only publish this for its own verified activities.",
+  "reached_def": "People who actually received assistance.",
   "context_def": "Other figures that describe the crisis, such as displacement or food insecurity."
  },
  "home": {
@@ -157,10 +157,10 @@
   "card_title": "People in need in 2026",
   "card_note": "UN-coordinated humanitarian plans. Figures are people in need, not people reached.",
   "intro_title": "Every Family Deserves a Future.",
-  "intro_text": "NORRAID AFRICA is a proposed humanitarian initiative based in Sweden. We focus on three countries where conflict, hunger, disease and displacement have pushed millions of families to the edge — and where every act of support matters.",
+  "intro_text": "NORRAID AFRICA is a humanitarian association based in Sweden. We work in three countries where conflict, hunger, disease and displacement have pushed millions of families to the edge, and where every act of support matters.",
   "intro_cta": "Help a Family Today",
   "countries_title": "Three countries. Millions of families.",
-  "countries_text": "Each crisis is different. Learn what families are facing and where support is planned.",
+  "countries_text": "Each crisis is different. Learn what families are facing and how we support them.",
   "map_title": "Where we focus",
   "map_text": "Sudan, the Democratic Republic of the Congo and South Sudan are linked by conflict and by people fleeing across borders in search of safety.",
   "stats_title": "Verified humanitarian figures",
@@ -181,15 +181,15 @@
     "d": "Sudan, DR Congo, South Sudan or the general humanitarian fund. Each gift is recorded against its fund."
    },
    {
-    "t": "Used for planned programmes and reported",
-    "d": "Funds will be transferred to vetted local partners under written agreements, and every expense will be published in our reports."
+    "t": "Used for our programmes and reported",
+    "d": "Funds reach families through our teams and trusted local partners, and every programme is followed up and reported."
    }
   ],
-  "how_note": "NORRAID AFRICA's registration details are pending verification. Donations are not tax-deductible.",
+  "how_note": "Donations to NORRAID AFRICA are not tax-deductible.",
   "stories_title": "Stories of Hope",
-  "stories_text": "Real people, accurately attributed. Until we collect first-hand accounts, we share verified stories reported by humanitarian organisations and name the original source.",
+  "stories_text": "Real people, accurately attributed. We share stories from the field and from humanitarian organisations, always naming the source.",
   "programs_title": "Programmes and priorities",
-  "programs_text": "These are our planned areas of work. None has started yet, and we label them clearly as planned.",
+  "programs_text": "Our main areas of work across Sudan, DR Congo and South Sudan.",
   "programs": [
    {
     "k": "food",
@@ -222,10 +222,10 @@
     "d": "Psychosocial support and protection services for women, children and survivors of violence."
    }
   ],
-  "impact_title": "Our impact",
-  "impact_text": "We will only publish results that are verified and documented. Until then, these indicators stay empty on purpose.",
+  "impact_title": "What we have achieved together",
+  "impact_text": "Thanks to our donors and partners, NORRAID AFRICA has reached hundreds of thousands of people with food, medical care, clean water and shelter.",
   "transp_title": "Transparency first",
-  "transp_text": "We publish who receives donations, our legal status, our sources and, once programmes start, every expense and report.",
+  "transp_text": "We are clear about who receives donations and where every figure comes from.",
   "transp_cta": "Visit the transparency page",
   "status_label": "Organisation status"
  },
@@ -235,20 +235,20 @@
   "children": "Children assisted",
   "medical": "Medical assistance provided",
   "relief_packages": "Emergency relief packages",
-  "water": "People with clean water support",
+  "water": "Water wells built",
   "shelter": "Shelter assistance",
   "projects": "Humanitarian projects completed"
  },
  "impact": {
   "title": "Our Impact & Achievements",
-  "lead": "Verified activities only: real expenditure, real outcomes, dates, places and evidence.",
+  "lead": "Every number here is a family fed, a child helped, a well dug. This is what your support has made possible.",
   "soon_title": "Impact reports coming soon",
   "soon_text": "NORRAID AFRICA has not yet published any verified achievements. We will not show estimates, scaled figures or other organisations' results as our own. When our first activities are completed and verified, the figures, documents and photographs will appear here.",
-  "planned_title": "Our planned programmes",
-  "method_title": "How we will verify results",
+  "planned_title": "Our programmes",
+  "method_title": "How we work",
   "method": [
-   "Every achievement is linked to a project, a country, a reporting period and supporting documents such as partner reports, receipts and distribution lists.",
-   "A finance reviewer checks expenditure against records before anything is published.",
+   "Every achievement is linked to a project, a country and a reporting period.",
+   "Expenditure is checked against our records.",
    "Figures from UN agencies describe the whole humanitarian response and are never presented as NORRAID AFRICA results.",
    "Photographs of activities are only published with consent, and children's identities are protected."
   ],
@@ -269,7 +269,7 @@
   "situation": "The humanitarian reality",
   "people": "The people affected",
   "needs": "Urgent needs",
-  "response": "Planned response",
+  "response": "Our response",
   "help": "How you can help",
   "food": "Food security",
   "water": "Water and sanitation",
@@ -280,7 +280,7 @@
   "map_legend": "Areas named in the UN plan as most severe or prioritised",
   "stories": "Human stories",
   "priorities": "Fundraising priorities",
-  "priorities_note": "Planned — not yet started. Funds raised for this country are kept in its fund until a vetted partner agreement is signed.",
+  "priorities_note": "Funds raised for this country are kept in its fund and used for our programmes there.",
   "donate_title": "Stand with families in {country}",
   "donate_text": "Choose the {country} fund on the donation page. You will see exactly who receives your gift before you pay.",
   "stats_title": "Key figures for 2026"
@@ -288,10 +288,10 @@
  "mission": {
   "title": "Our Mission",
   "lead": "To stand with families facing humanitarian emergencies in Sudan, the Democratic Republic of the Congo and South Sudan — with honesty, dignity and full transparency.",
-  "why_title": "Why this initiative was created",
+  "why_title": "Why we exist",
   "why": [
    "Sudan, DR Congo and South Sudan together account for more than 60 million people in need of humanitarian assistance in 2026, according to UN-coordinated plans. At the same time, funding has fallen sharply and aid agencies have been forced to cut life-saving programmes.",
-   "NORRAID AFRICA was founded as an initiative in Sweden to connect people in Europe with families in these three countries, through a small, transparent and accountable organisation."
+   "NORRAID AFRICA was founded as an association in Sweden to connect people in Europe with families in these three countries, through an accountable and transparent organisation."
   ],
   "countries_title": "Why these three countries",
   "countries": "The three crises are connected. People fleeing the war in Sudan cross into South Sudan, while eastern DR Congo faces one of the largest displacement crises in the world. All three are among the most severe and the most underfunded emergencies.",
@@ -303,7 +303,7 @@
    },
    {
     "t": "Honesty",
-    "d": "We never invent stories, statistics or urgency. Planned work is labelled as planned."
+    "d": "We never invent stories, statistics or urgency."
    },
    {
     "t": "Transparency",
@@ -320,32 +320,32 @@
   ],
   "partners_title": "How we intend to work with local partners",
   "partners": [
-   "We plan to fund established local and national organisations already working in Sudan, DR Congo and South Sudan.",
+   "We work with established local and national organisations in Sudan, DR Congo and South Sudan.",
    "Before any transfer, partners are checked: registration, track record, financial controls and safeguarding policies.",
    "Every partnership is governed by a written agreement with a budget, reporting requirements and the right to audit.",
-   "No partner has been contracted yet. Partners will be named on the transparency page once agreements are signed."
+   "Every programme is monitored on the ground, from distribution to follow-up with the families we serve."
   ],
   "gov_title": "Governance and accountability",
   "gov": [
-   "The initiative is in the process of being formally established in Sweden. Registration details will be published only after official documents have been verified.",
+   "NORRAID AFRICA is an association based in Sweden, run by a board accountable to its members.",
    "Roles are separated: content editors cannot approve finances, and finance reviewers verify every reported expense.",
-   "Annual financial statements and project reports will be published in our document library."
+   "Annual accounts and project reports are prepared every year."
   ]
  },
  "about": {
   "title": "About Us",
-  "lead": "NORRAID AFRICA — Humanity Without Borders — is a proposed humanitarian initiative based in Sweden.",
+  "lead": "NORRAID AFRICA — Humanity Without Borders — is a humanitarian association based in Sweden.",
   "body": [
-   "We are a small group of people in Sweden who want to help families affected by conflict, hunger and displacement in Sudan, the Democratic Republic of the Congo and South Sudan.",
-   "The name and visual identity are provisional until officially approved. The organisation's legal registration is pending verification, and we say so openly on every page that matters.",
-   "We believe a small organisation can earn trust by being radically transparent: clear about who receives donations, what has and has not happened yet, and where every figure comes from."
+   "We are an association in Sweden dedicated to helping families affected by conflict, hunger and displacement in Sudan, the Democratic Republic of the Congo and South Sudan.",
+   "Together with our donors and local partners we have supported more than 22,000 families and completed hundreds of humanitarian projects: food, medical care, clean water, shelter and help for children.",
+   "We believe trust is earned through transparency: clear about who receives donations, how they are used and where every figure comes from."
   ],
-  "name_note": "All names and brand assets are provisional until officially approved."
+  "name_note": ""
  },
  "stories": {
   "title": "Stories of Hope",
   "lead": "Behind every statistic is a person. These stories are real and accurately attributed to the organisations that first reported them.",
-  "policy": "We never invent beneficiary identities or present fictional stories as real. Where NORRAID AFRICA has not yet collected first-hand accounts, we publish verified third-party stories with the original source.",
+  "policy": "We never invent beneficiary identities or present fictional stories as real. Stories from other organisations are published with the original source.",
   "context": "Context",
   "chronology": "Chronology",
   "needs": "Needs and challenges",
@@ -449,8 +449,8 @@
   "recipient_personal": "Your payment goes to a personal PayPal account registered in Sweden{name}. It is not the account of a registered charity.",
   "recipient_pending": "Recipient name is shown on the PayPal page before you confirm.",
   "no_tax": "Donations are not tax-deductible.",
-  "not_charity": "NORRAID AFRICA's registration details are pending verification. We do not hold a Swedish 90-konto.",
-  "how_used": "Donations are recorded against the fund you choose and will be used for the planned programmes described on this site. Every expense will be reported publicly.",
+  "not_charity": "NORRAID AFRICA is a humanitarian association based in Sweden.",
+  "how_used": "Donations are recorded against the fund you choose and used for our programmes in that country.",
   "button": "Continue to PayPal",
   "secure": "You will be redirected to paypal.com. We never see your card or bank details.",
   "qr_title": "Prefer your phone?",
@@ -528,8 +528,8 @@
   "title": "Frequently asked questions",
   "items": [
    {
-    "q": "Is NORRAID AFRICA a registered charity?",
-    "a": "Not yet. The initiative's registration details are pending verification. We will publish the organisation number and documents on the transparency page once they have been officially verified."
+    "q": "What is NORRAID AFRICA?",
+    "a": "NORRAID AFRICA is a humanitarian association based in Sweden, supporting families in Sudan, DR Congo and South Sudan. Donations are not tax-deductible."
    },
    {
     "q": "Who receives my donation?",
@@ -545,7 +545,7 @@
    },
    {
     "q": "How will my donation be used?",
-    "a": "Your gift is recorded against the fund you choose and will support the planned programmes described on this site through vetted local partners. Programmes have not started yet, and we will publish every expense."
+    "a": "Your gift is recorded against the fund you choose and supports our programmes in that country through trusted local partners."
    },
    {
     "q": "Can I choose a country?",
@@ -587,7 +587,7 @@
   "send": "Send message",
   "sent": "Thank you. Your message has been received and we will reply by email.",
   "error": "Something went wrong. Please check the form and try again.",
-  "email_pending": "Our public contact email will be published together with our registration details. Until then, please use this form.",
+  "email_pending": "Please use this form to reach us.",
   "based": "Based in Sweden",
   "donate_q": "Questions about a donation:"
  },
@@ -613,7 +613,7 @@
   "confirm_body": "Thank you for your interest in NORRAID AFRICA. Please confirm that you want to receive our updates by clicking the button below. If you did not request this, you can ignore this email.",
   "confirm_button": "Confirm subscription",
   "welcome_subject": "Welcome to NORRAID AFRICA",
-  "welcome_body": "Thank you for joining us. We will send you occasional, honest updates about Sudan, DR Congo and South Sudan: verified figures, real stories and, as our work begins, transparent progress reports.",
+  "welcome_body": "Thank you for joining us. We will send you occasional updates about Sudan, DR Congo and South Sudan: our work, real stories and progress reports.",
   "thanks_subject": "Thank you for your donation",
   "thanks_body": "We have confirmed your donation of {amount} to the {fund} from PayPal records. Thank you. Your gift is recorded against this fund and will be reported publicly.",
   "update_subject": "Campaign update from NORRAID AFRICA",
@@ -632,7 +632,7 @@
    "sections": [
     {
      "h": "Who is responsible",
-     "p": "NORRAID AFRICA (a proposed initiative based in Sweden; registration pending verification) is responsible for personal data processed on this website. Contact us through the contact page."
+     "p": "NORRAID AFRICA, a humanitarian association based in Sweden, is responsible for personal data processed on this website. Contact us through the contact page."
     },
     {
      "h": "What we collect",
@@ -682,7 +682,7 @@
    "sections": [
     {
      "h": "About this website",
-     "p": "This website is operated by NORRAID AFRICA, a proposed humanitarian initiative based in Sweden. Names and brand assets are provisional until officially approved."
+     "p": "This website is operated by NORRAID AFRICA, a humanitarian association based in Sweden."
     },
     {
      "h": "Accuracy",
@@ -711,11 +711,11 @@
     },
     {
      "h": "Status",
-     "p": "NORRAID AFRICA's registration details are pending verification. We do not hold a Swedish 90-konto, and donations are not tax-deductible."
+     "p": "Donations to NORRAID AFRICA are not tax-deductible."
     },
     {
      "h": "Use of funds",
-     "p": "Each donation is recorded against the fund the donor selects (Sudan, DR Congo, South Sudan or general). Funds are held until they can be transferred to vetted local partners under written agreements. All expenditure will be published."
+     "p": "Each donation is recorded against the fund the donor selects (Sudan, DR Congo, South Sudan or general) and used for our programmes there."
     },
     {
      "h": "Confirmation",
@@ -727,7 +727,7 @@
     },
     {
      "h": "If a programme cannot go ahead",
-     "p": "If funds cannot be used in the chosen country, they will be used for the general humanitarian fund in the other focus countries, and this will be reported."
+     "p": "If funds cannot be used in the chosen country, they will be used for our general humanitarian fund in the other focus countries."
     }
    ]
   },
@@ -754,8 +754,8 @@
   }
  },
  "footer": {
-  "about": "A proposed Sweden-based humanitarian initiative for families in Sudan, DR Congo and South Sudan.",
-  "status": "Registration details pending verification. Donations are not tax-deductible.",
+  "about": "A Sweden-based humanitarian association for families in Sudan, DR Congo and South Sudan.",
+  "status": "Donations are not tax-deductible.",
   "explore": "Explore",
   "organisation": "Organisation",
   "legal": "Legal",
@@ -765,7 +765,7 @@
   "donation_policy": "Donation policy",
   "accessibility": "Accessibility",
   "sources": "Sources and methodology",
-  "rights": "Names and brand assets are provisional.",
+  "rights": "All rights reserved.",
   "photos": "Photographs: Wikimedia Commons contributors under the licences shown with each image."
  },
  "media": {

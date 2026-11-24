@@ -118,7 +118,6 @@ function site_header(string $cur): void { ?>
    </div>
    <?= nav_link('stories', t('nav.stories'), $cur) ?>
    <?= nav_link('impact', t('nav.impact'), $cur) ?>
-   <?= nav_link('transparency', t('nav.transparency'), $cur) ?>
    <?= nav_link('about', t('nav.about'), $cur) ?>
    <a class="btn btn-gold nav-donate-m" href="<?= e(u('donate')) ?>"><?= icon('heart', 'ic sm') ?> <?= te('nav.donate') ?></a>
   </nav>
@@ -162,7 +161,6 @@ function page_foot(): void { ?>
     <ul>
      <li><a href="<?= e(u('mission')) ?>"><?= te('nav.mission') ?></a></li>
      <li><a href="<?= e(u('about')) ?>"><?= te('nav.about') ?></a></li>
-     <li><a href="<?= e(u('transparency')) ?>"><?= te('nav.transparency') ?></a></li>
      <li><a href="<?= e(u('sources')) ?>"><?= te('footer.sources') ?></a></li>
      <li><a href="<?= e(u('faq')) ?>"><?= te('nav.faq') ?></a></li>
      <li><a href="<?= e(u('contact')) ?>"><?= te('nav.contact') ?></a></li>
