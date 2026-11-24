@@ -27,7 +27,6 @@ $all = stats($id);
  <div class="wrap">
   <div class="stat-grid">
    <?php foreach ($all as $s) echo stat_card($s, 'reveal'); ?>
-   <article class="stat-card cat-reached reveal"><p class="stat-cat"><?= te('cat.reached') ?></p><p class="stat-val muted"><?= te('common.not_yet') ?></p><p class="stat-label"><?= te('cat.reached_def') ?></p></article>
   </div>
   <p class="small center"><a href="<?= e(u('sources')) ?>"><?= icon('doc', 'ic sm') ?> <?= te('common.view_sources') ?></a></p>
  </div>
@@ -78,13 +77,11 @@ $all = stats($id);
  <div class="wrap prio-wrap">
   <?= section_head('3 · ' . t('countries_page.response'), t('countries_page.priorities'), t('countries_page.priorities_note')) ?>
   <ul class="prio-list">
-   <?php foreach (tl("$k.priorities") as $p): ?><li class="reveal"><span class="badge-planned"><?= te('common.planned') ?></span><?= e($p) ?></li><?php endforeach; ?>
+   <?php foreach (tl("$k.priorities") as $p): ?><li class="reveal"><?= e($p) ?></li><?php endforeach; ?>
   </ul>
-  <?php $ach = achievements($id); ?>
   <div class="impact-mini reveal">
-   <h3><?= icon('chart', 'ic sm') ?> <?= te('impact.country_dash') ?></h3>
-   <?php if (!$ach): ?><p><?= te('impact.none_country') ?> <a href="<?= e(u('impact')) ?>"><?= te('common.learn_more') ?></a></p>
-   <?php else: ?><a href="<?= e(u('impact')) ?>#<?= e($id) ?>"><?= te('impact.country_dash') ?></a><?php endif; ?>
+   <h3><?= icon('chart', 'ic sm') ?> <?= te('home.impact_title') ?></h3>
+   <p><a href="<?= e(u('impact')) ?>"><?= te('impact.title') ?> <?= icon('arrow', 'ic sm') ?></a></p>
   </div>
  </div>
 </section>

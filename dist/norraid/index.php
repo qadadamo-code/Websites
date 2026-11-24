@@ -31,11 +31,12 @@ if (!preg_match('/^[a-z0-9\-]*$/', $page) || !preg_match('/^[a-z0-9\-]*$/', $slu
 
 $routes = [
     '' => 'home', 'mission' => 'mission', 'countries' => 'countries', 'sudan' => 'country', 'drc' => 'country', 'south-sudan' => 'country',
-    'stories' => 'stories', 'impact' => 'impact', 'donate' => 'donate', 'thank-you' => 'return', 'transparency' => 'transparency',
+    'stories' => 'stories', 'impact' => 'impact', 'donate' => 'donate', 'thank-you' => 'return',
     'about' => 'about', 'contact' => 'contact', 'faq' => 'faq', 'sources' => 'sources',
     'privacy' => 'legal', 'cookies' => 'legal', 'terms' => 'legal', 'donation-policy' => 'legal', 'accessibility' => 'legal',
     'newsletter' => 'newsletter',
 ];
+if ($page === 'transparency') { header('Location: ' . u('impact'), true, 301); exit; }
 $file = $routes[$page] ?? '404';
 if ($slug !== '' && !in_array($file, ['stories', 'newsletter'], true)) $file = '404';
 if ($file === '404') http_response_code(404);

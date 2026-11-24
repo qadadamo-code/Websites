@@ -1,6 +1,6 @@
 <?php
 page_head(['path' => 'impact', 'title' => t('impact.title'), 'description' => t('impact.lead')]);
-$tot = impact_totals();
+$tot = impact_headline();
 ?>
 <section class="page-hero plain">
  <div class="wrap ph-inner"><p class="eyebrow"><?= icon('chart', 'ic sm') ?> <?= te('nav.impact') ?></p><h1><?= te('impact.title') ?></h1><p class="lead"><?= te('impact.lead') ?></p></div>
@@ -21,7 +21,7 @@ $tot = impact_totals();
    <p class="lead"><?= te('impact.soon_text') ?></p>
   </div>
 <?php else: ?>
-  <?php foreach (COUNTRY_IDS as $c): $list = achievements($c); ?>
+  <?php foreach (COUNTRY_IDS as $c): $list = achievements($c); if (!$list) continue; ?>
    <section class="country-dash reveal" id="<?= e($c) ?>">
     <h2><?= e(country_name($c)) ?> — <?= te('impact.country_dash') ?></h2>
     <?php if (!$list): ?><p><?= te('impact.none_country') ?></p><?php else: $ct = impact_totals($c); ?>
@@ -48,8 +48,8 @@ $tot = impact_totals();
 </section>
 <section class="sec sand">
  <div class="wrap">
-  <?= section_head(t('common.planned'), t('impact.planned_title'), t('home.programs_text')) ?>
-  <div class="prog-grid"><?php foreach (tl('home.programs') as $p): ?><article class="prog reveal"><span class="prog-ic"><?= icon($p['k']) ?></span><span class="badge-planned"><?= te('common.planned') ?></span><h3><?= e($p['t']) ?></h3><p><?= e($p['d']) ?></p></article><?php endforeach; ?></div>
+  <?= section_head(t('nav.impact'), t('impact.planned_title'), t('home.programs_text')) ?>
+  <div class="prog-grid"><?php foreach (tl('home.programs') as $p): ?><article class="prog reveal"><span class="prog-ic"><?= icon($p['k']) ?></span><h3><?= e($p['t']) ?></h3><p><?= e($p['d']) ?></p></article><?php endforeach; ?></div>
  </div>
 </section>
 <section class="sec">

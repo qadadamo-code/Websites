@@ -5,7 +5,7 @@ require __DIR__ . '/inc/core.php';
 require __DIR__ . '/inc/i18n.php';
 require __DIR__ . '/inc/data.php';
 header('Content-Type: application/xml; charset=utf-8');
-$paths = ['', 'mission', 'countries', 'sudan', 'drc', 'south-sudan', 'stories', 'impact', 'donate', 'transparency', 'about', 'contact', 'faq', 'sources',
+$paths = ['', 'mission', 'countries', 'sudan', 'drc', 'south-sudan', 'stories', 'impact', 'donate', 'about', 'contact', 'faq', 'sources',
     'privacy', 'cookies', 'terms', 'donation-policy', 'accessibility'];
 foreach (stories() as $s) $paths[] = 'stories/' . $s['slug'];
 $o = nr_origin();

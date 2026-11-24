@@ -39,7 +39,6 @@ $hero = media('hero_water');
   </div>
   <div class="reveal">
    <p class="lead"><?= te('home.intro_text') ?></p>
-   <div class="status-pill"><span class="pulse"></span><b><?= te('home.status_label') ?>:</b> <?= org_verified() ? te('transparency.status_verified') : te('transparency.status_pending') ?></div>
    <p><a class="btn btn-forest" href="<?= e(u('donate')) ?>"><?= te('home.intro_cta') ?> <?= icon('arrow', 'ic sm') ?></a></p>
   </div>
  </div>
@@ -77,7 +76,7 @@ $hero = media('hero_water');
   <div class="stats-table reveal" role="table" aria-label="<?= te('home.stats_title') ?>">
    <div class="st-row st-head" role="row">
     <span role="columnheader"></span>
-    <?php foreach (['in_need', 'targeted', 'reached'] as $cat): ?>
+    <?php foreach (['in_need', 'targeted'] as $cat): ?>
      <span role="columnheader"><b><?= te('cat.' . $cat) ?></b><small><?= te('cat.' . $cat . '_def') ?></small></span>
     <?php endforeach; ?>
    </div>
@@ -87,7 +86,6 @@ $hero = media('hero_water');
      <?php foreach (['in_need', 'targeted'] as $cat): $s = stats($c, $cat)[0] ?? null; ?>
       <span role="cell" data-label="<?= te('cat.' . $cat) ?>"><?php if ($s): ?><b class="num"><?= e(stat_value($s)) ?></b><small><?= source_link($s) ?> · <?= e((string)$s['year']) ?></small><?php else: ?>—<?php endif; ?></span>
      <?php endforeach; ?>
-     <span role="cell" data-label="<?= te('cat.reached') ?>"><b class="num muted"><?= te('common.not_yet') ?></b><small><?= te('impact.soon_title') ?></small></span>
     </div>
    <?php endforeach; ?>
   </div>
@@ -122,7 +120,7 @@ $hero = media('hero_water');
   <?= section_head(t('common.planned'), t('home.programs_title'), t('home.programs_text')) ?>
   <div class="prog-grid">
    <?php foreach (tl('home.programs') as $p): ?>
-    <article class="prog reveal"><span class="prog-ic"><?= icon($p['k']) ?></span><span class="badge-planned"><?= te('common.planned') ?></span><h3><?= e($p['t']) ?></h3><p><?= e($p['d']) ?></p></article>
+    <article class="prog reveal"><span class="prog-ic"><?= icon($p['k']) ?></span><h3><?= e($p['t']) ?></h3><p><?= e($p['d']) ?></p></article>
    <?php endforeach; ?>
   </div>
  </div>
@@ -136,35 +134,15 @@ $hero = media('hero_water');
     <h2><?= te('home.impact_title') ?></h2>
     <p><?= te('home.impact_text') ?></p>
    </div>
-   <?php $tot = impact_totals(); ?>
+   <?php $tot = impact_headline(); ?>
    <div class="metric-grid">
     <?php foreach (IMPACT_METRICS as $m): ?>
      <div class="metric<?= $tot ? '' : ' empty' ?>">
       <b<?= $tot ? ' data-count="' . (int)$tot[$m] . '"' : '' ?>><?= $tot ? e(num($tot[$m])) : '—' ?></b>
       <span><?= te('imetric.' . $m) ?></span>
-      <?php if (!$tot): ?><small><?= te('common.coming_soon') ?></small><?php endif; ?>
      </div>
     <?php endforeach; ?>
    </div>
-   <?php if (!$tot): ?><p class="ib-soon"><?= icon('info', 'ic sm') ?> <?= te('impact.soon_title') ?> — <a href="<?= e(u('impact')) ?>"><?= te('common.learn_more') ?></a></p><?php endif; ?>
-  </div>
- </div>
-</section>
-
-<section class="sec transp-sec">
- <div class="wrap transp-grid">
-  <figure class="transp-img reveal"><?= img('ss_water', '', 900, false, '(max-width:800px) 100vw, 50vw') ?><figcaption class="credit"><?= media_credit(media('ss_water')) ?></figcaption></figure>
-  <div class="reveal">
-   <p class="eyebrow"><?= icon('protection', 'ic sm') ?> <?= te('nav.transparency') ?></p>
-   <h2><?= te('home.transp_title') ?></h2>
-   <p class="lead"><?= te('home.transp_text') ?></p>
-   <ul class="checks">
-    <li><?= icon('check', 'ic sm') ?> <?= te('donate.recipient_title') ?></li>
-    <li><?= icon('check', 'ic sm') ?> <?= te('transparency.legal_title') ?></li>
-    <li><?= icon('check', 'ic sm') ?> <?= te('common.view_sources') ?></li>
-    <li><?= icon('check', 'ic sm') ?> <?= te('transparency.expenditure_title') ?></li>
-   </ul>
-   <a class="btn btn-forest" href="<?= e(u('transparency')) ?>"><?= te('home.transp_cta') ?> <?= icon('arrow', 'ic sm') ?></a>
   </div>
  </div>
 </section>

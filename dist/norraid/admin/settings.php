@@ -18,6 +18,9 @@ if (is_post()) {
         $s[$k] = ($v === '' || filter_var($v, FILTER_VALIDATE_EMAIL)) ? $v : ($s[$k] ?? '');
     }
     $s['show_public_totals'] = !empty($_POST['show_public_totals']);
+    $ih = [];
+    foreach (IMPACT_METRICS as $m) $ih[$m] = max(0, (int)p('ih_' . $m));
+    $s['impact_headline'] = $ih;
     $s['search_console'] = preg_replace('/[^A-Za-z0-9_-]/', '', (string)p('search_console'));
     if (!empty($_FILES['qr']['tmp_name']) && is_uploaded_file($_FILES['qr']['tmp_name'])) {
         $info = @getimagesize($_FILES['qr']['tmp_name']);
@@ -45,7 +48,13 @@ admin_head('Settings');
   <label class="f">QR code image<input type="file" name="qr" accept="image/png,image/jpeg"><small class="help">Current: <?= e((string)($s['paypal_qr'] ?? '')) ?></small></label>
   <label class="f chk"><input type="checkbox" name="custom_amount" value="1"<?= !empty($s['custom_amount']) ? ' checked' : '' ?>> <span>Allow a custom amount</span></label>
   <label class="f chk"><input type="checkbox" name="pass_amount" value="1"<?= !empty($s['pass_amount']) ? ' checked' : '' ?>> <span>Pre-fill the amount on PayPal</span></label>
-  <label class="f chk"><input type="checkbox" name="show_public_totals" value="1"<?= !empty($s['show_public_totals']) ? ' checked' : '' ?>> <span>Show confirmed donation totals on Transparency</span></label>
+  <label class="f chk"><input type="checkbox" name="show_public_totals" value="1"<?= !empty($s['show_public_totals']) ? ' checked' : '' ?>> <span>Show confirmed donation totals (public)</span></label>
+ </div>
+ <h2>Impact totals (shown on the home and Impact pages)</h2>
+ <div class="grid">
+  <?php $ih = impact_headline(); foreach (IMPACT_METRICS as $m): ?>
+  <label class="f"><?= e(t('imetric.' . $m)) ?><input name="ih_<?= e($m) ?>" type="number" min="0" step="1" value="<?= (int)($ih[$m] ?? 0) ?>"></label>
+  <?php endforeach; ?>
  </div>
  <h2>Email</h2>
  <div class="grid">

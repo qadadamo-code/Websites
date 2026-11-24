@@ -155,6 +155,15 @@ function impact_totals(?string $country = null): array {
     }
     return $has ? $tot : [];
 }
+/** Organisation-wide totals reported by NORRAID AFRICA (admin: Settings > Impact totals). Verified per-activity rows are added on top per country. */
+const IMPACT_HEADLINE_DEFAULT = ['families' => 22590, 'meals' => 450000, 'children' => 150000, 'medical' => 34000, 'relief_packages' => 25000, 'water' => 250, 'shelter' => 5000, 'projects' => 560];
+function impact_headline(): array {
+    $s = setting('impact_headline', null);
+    $src = is_array($s) ? $s : IMPACT_HEADLINE_DEFAULT;
+    $out = [];
+    foreach (IMPACT_METRICS as $m) $out[$m] = max(0, (int)($src[$m] ?? 0));
+    return array_sum($out) > 0 ? $out : [];
+}
 
 function documents(?string $category = null): array {
     $out = [];

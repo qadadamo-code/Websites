@@ -34,8 +34,7 @@ page_head(['path' => 'mission', 'title' => t('mission.title'), 'description' => 
 <section class="sec dark">
  <div class="wrap two-col">
   <div class="reveal"><h2><?= te('mission.partners_title') ?></h2><ul class="checks light"><?php foreach (tl('mission.partners') as $p): ?><li><?= icon('check', 'ic sm') ?> <?= e($p) ?></li><?php endforeach; ?></ul></div>
-  <div class="reveal"><h2><?= te('mission.gov_title') ?></h2><ul class="checks light"><?php foreach (tl('mission.gov') as $p): ?><li><?= icon('protection', 'ic sm') ?> <?= e($p) ?></li><?php endforeach; ?></ul>
-   <a class="btn btn-ghost" href="<?= e(u('transparency')) ?>"><?= te('home.transp_cta') ?> <?= icon('arrow', 'ic sm') ?></a></div>
+  <div class="reveal"><h2><?= te('mission.gov_title') ?></h2><ul class="checks light"><?php foreach (tl('mission.gov') as $p): ?><li><?= icon('protection', 'ic sm') ?> <?= e($p) ?></li><?php endforeach; ?></ul></div>
  </div>
 </section>
 <?= donate_band(t('home.intro_title'), t('home.hero_text')) ?>
