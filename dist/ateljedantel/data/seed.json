@@ -191,8 +191,8 @@
     "en": "The dress you will remember forever"
    },
    "text": {
-    "sv": "Brudklänningar, festklänningar och accessoarer – utvalda med kärlek och anpassade av vår sömmerska tills de sitter perfekt på just dig.",
-    "en": "Wedding dresses, evening gowns and accessories – chosen with love and tailored by our seamstress until they fit you perfectly."
+    "sv": "Brudklänningar, festklänningar och accessoarer – utvalda med kärlek och anpassade av våra sömmerskor tills de sitter perfekt på just dig.",
+    "en": "Wedding dresses, evening gowns and accessories – chosen with love and tailored by our seamstresses until they fit you perfectly."
    }
   },
   "story": {
@@ -226,8 +226,8 @@
      "en": "Can the dress be adjusted to fit me?"
     },
     "a": {
-     "sv": "Ja. Alla våra klänningar kan sys om av vår erfarna sömmerska – längd, midja, axelband och detaljer. Vi mäter och nålar upp direkt i butiken.",
-     "en": "Yes. All of our dresses can be altered by our experienced seamstress – length, waist, straps and details. We measure and pin directly in the store."
+     "sv": "Ja. Alla våra klänningar kan sys om av våra erfarna sömmerskor – längd, midja, axelband och detaljer. Vi mäter och nålar upp direkt i butiken.",
+     "en": "Yes. All of our dresses can be altered by our experienced seamstresses – length, waist, straps and details. We measure and pin directly in the store."
     }
    },
    {
@@ -280,15 +280,8 @@
     "rows": [
      [
       {
-       "sv": "Uppläggning, synlig söm",
-       "en": "Hem, visible stitch"
-      },
-      "250"
-     ],
-     [
-      {
-       "sv": "Uppläggning, osynlig söm",
-       "en": "Hem, invisible stitch"
+       "sv": "Uppläggning",
+       "en": "Hem"
       },
       "280"
      ],

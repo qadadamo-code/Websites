@@ -42,7 +42,9 @@
     const d = e.target.closest('[data-d]'); if (d && !d.disabled) { date = d.dataset.d; f.querySelectorAll('.cal__d').forEach(x => x.classList.toggle('on', x === d)); loadSlots(); sum(); return; }
     const t = e.target.closest('[data-t]'); if (t) { time = t.dataset.t; f.querySelectorAll('.slot').forEach(x => x.classList.toggle('on', x === t)); sum(); }
   });
-  f.addEventListener('change', e => { if (e.target.name === 'type') { date = ''; time = ''; $('#slots').innerHTML = ''; loadMonth(); sum(); } });
+  const noteReq = () => { const sk = (new FormData(f)).get('type') === 'skradd', n = $('#bnote'); f.querySelector('[data-note-req]').hidden = !sk; f.querySelector('[data-note-lbl]').textContent = sk ? T('bk.noteSk') : T('co.note'); n.placeholder = sk ? n.dataset.phSkradd : ''; };
+  noteReq();
+  f.addEventListener('change', e => { if (e.target.name === 'type') { date = ''; time = ''; $('#slots').innerHTML = ''; loadMonth(); sum(); noteReq(); } });
   /* dresses from the wishlist (and the one the visitor came from) */
   A.catReady.then(() => {
     const ids = [...new Set([f.dataset.pre, ...A.getWish()].filter(id => id && A.PROD[id]))].slice(0, 12);
@@ -56,6 +58,7 @@
     if (!fd.get('name').trim()) errs.name = T('f.req');
     if (!/^\S+@\S+\.\S+$/.test(fd.get('email'))) errs.email = T('f.email');
     if (fd.get('phone').replace(/\D/g, '').length < 7) errs.phone = T('f.req');
+    if (fd.get('type') === 'skradd' && (fd.get('note') || '').trim().length < 3) errs.note = T('bk.noteReq');
     f.querySelectorAll('.fld').forEach(x => { x.classList.remove('err'); const m = x.querySelector('.msg'); m && (m.textContent = ''); });
     f.querySelector('[data-msg=time]').textContent = date && time ? '' : T('f.req');
     Object.entries(errs).forEach(([k, v]) => { const fl = f.querySelector('[name=' + k + ']').closest('.fld'); fl.classList.add('err'); fl.querySelector('.msg').textContent = v; });

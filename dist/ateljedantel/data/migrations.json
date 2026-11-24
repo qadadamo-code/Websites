@@ -1,0 +1,301 @@
+[
+ {
+  "id": "2026-11-24-client-feedback",
+  "content_set": {
+   "hero": {
+    "kicker": {
+     "sv": "Umeå · sedan 2012",
+     "en": "Umeå · since 2012"
+    },
+    "title": {
+     "sv": "Klänningen du minns hela livet",
+     "en": "The dress you will remember forever"
+    },
+    "text": {
+     "sv": "Brudklänningar, festklänningar och accessoarer – utvalda med kärlek och anpassade av våra sömmerskor tills de sitter perfekt på just dig.",
+     "en": "Wedding dresses, evening gowns and accessories – chosen with love and tailored by our seamstresses until they fit you perfectly."
+    }
+   },
+   "tailor": [
+    {
+     "g": {
+      "sv": "Byxor",
+      "en": "Trousers"
+     },
+     "rows": [
+      [
+       {
+        "sv": "Uppläggning",
+        "en": "Hem"
+       },
+       "280"
+      ],
+      [
+       {
+        "sv": "Ta in midja",
+        "en": "Take in waist"
+       },
+       "280–300"
+      ],
+      [
+       {
+        "sv": "Byta gylf",
+        "en": "Replace fly zip"
+       },
+       "320"
+      ],
+      [
+       {
+        "sv": "Laga jeans",
+        "en": "Jeans repair"
+       },
+       "250–300"
+      ]
+     ]
+    },
+    {
+     "g": {
+      "sv": "Jacka & kavaj",
+      "en": "Jacket & blazer"
+     },
+     "rows": [
+      [
+       {
+        "sv": "Förkorta ärm",
+        "en": "Shorten sleeves"
+       },
+       "450–520"
+      ],
+      [
+       {
+        "sv": "Ta in/ut rygg & midja",
+        "en": "Take in/out back & waist"
+       },
+       "520"
+      ],
+      [
+       {
+        "sv": "Byta dragkedja",
+        "en": "Replace zip"
+       },
+       "700"
+      ],
+      [
+       {
+        "sv": "Förkorta längd",
+        "en": "Shorten length"
+       },
+       "800"
+      ],
+      [
+       {
+        "sv": "Byta foder",
+        "en": "Replace lining"
+       },
+       "1 600–1 800"
+      ]
+     ]
+    },
+    {
+     "g": {
+      "sv": "Klänning & kjol",
+      "en": "Dress & skirt"
+     },
+     "rows": [
+      [
+       {
+        "sv": "Uppläggning kjol",
+        "en": "Skirt hem"
+       },
+       "400"
+      ],
+      [
+       {
+        "sv": "Uppläggning balklänning",
+        "en": "Prom dress hem"
+       },
+       "800"
+      ],
+      [
+       {
+        "sv": "Byta dragkedja",
+        "en": "Replace zip"
+       },
+       "300–600"
+      ],
+      [
+       {
+        "sv": "Ta in midja",
+        "en": "Take in waist"
+       },
+       "300"
+      ],
+      [
+       {
+        "sv": "Ta ut midja",
+        "en": "Let out waist"
+       },
+       "500–1 000"
+      ]
+     ]
+    },
+    {
+     "g": {
+      "sv": "Övrigt",
+      "en": "Other"
+     },
+     "rows": [
+      [
+       {
+        "sv": "Sy fast knapp",
+        "en": "Sew on button"
+       },
+       "50"
+      ],
+      [
+       {
+        "sv": "Byta jeansknapp",
+        "en": "Replace jeans button"
+       },
+       "150"
+      ],
+      [
+       {
+        "sv": "Förkorta ärm tröja/skjorta",
+        "en": "Shorten sleeve, top/shirt"
+       },
+       "380"
+      ],
+      [
+       {
+        "sv": "Förkorta längd tröja",
+        "en": "Shorten length, top"
+       },
+       "400"
+      ],
+      [
+       {
+        "sv": "Lagning med lapp",
+        "en": "Patch repair"
+       },
+       "250–300"
+      ]
+     ]
+    }
+   ],
+   "faq": [
+    {
+     "q": {
+      "sv": "Behöver jag boka tid för att prova?",
+      "en": "Do I need to book a fitting?"
+     },
+     "a": {
+      "sv": "Du är välkommen in under öppettiderna, men för brudklänningar rekommenderar vi att du bokar en tid så att vi kan ge dig vår fulla uppmärksamhet. Lördagar tar vi endast emot bokade besök.",
+      "en": "You are welcome to drop in during opening hours, but for wedding dresses we recommend booking so we can give you our full attention. On Saturdays we only receive booked visits."
+     }
+    },
+    {
+     "q": {
+      "sv": "Kan klänningen anpassas efter mig?",
+      "en": "Can the dress be adjusted to fit me?"
+     },
+     "a": {
+      "sv": "Ja. Alla våra klänningar kan sys om av våra erfarna sömmerskor – längd, midja, axelband och detaljer. Vi mäter och nålar upp direkt i butiken.",
+      "en": "Yes. All of our dresses can be altered by our experienced seamstresses – length, waist, straps and details. We measure and pin directly in the store."
+     }
+    },
+    {
+     "q": {
+      "sv": "Vad betyder Beställningsvara?",
+      "en": "What does “Made to order” mean?"
+     },
+     "a": {
+      "sv": "Klänningen beställs hem från leverantören i din storlek och färg. Leveranstiden varierar, kontakta oss så berättar vi exakt.",
+      "en": "The dress is ordered from the supplier in your size and colour. Delivery time varies, contact us and we will tell you exactly."
+     }
+    },
+    {
+     "q": {
+      "sv": "Hur betalar jag?",
+      "en": "How do I pay?"
+     },
+     "a": {
+      "sv": "Du skickar din beställning online och betalar med Swish, banköverföring eller i butiken. Vi bekräftar alltid din order och lagerstatus innan du betalar.",
+      "en": "You place your order online and pay by Swish, bank transfer or in store. We always confirm your order and stock before you pay."
+     }
+    },
+    {
+     "q": {
+      "sv": "Hur lång tid tar en ändring?",
+      "en": "How long does an alteration take?"
+     },
+     "a": {
+      "sv": "Mindre ändringar är ofta klara inom en vecka. Inför bröllop och studentbal är det högtryck, så kom gärna i god tid.",
+      "en": "Smaller alterations are often ready within a week. Before weddings and prom season it gets busy, so come in good time."
+     }
+    },
+    {
+     "q": {
+      "sv": "Hyr ni ut frack och smoking?",
+      "en": "Do you rent tails and tuxedos?"
+     },
+     "a": {
+      "sv": "Ja, vi både säljer och hyr ut frack, smoking, jackett och kostym. Boka en utprovning på cirka en halvtimme – särskilt inför vårens promovering och höstens årshögtid.",
+      "en": "Yes, we both sell and rent tails, tuxedos, morning suits and suits. Book a fitting of about half an hour – especially before the spring conferment and autumn anniversary celebrations."
+     }
+    }
+   ],
+   "services": [
+    {
+     "id": "prova",
+     "img": "assets/img/bride-tiara.webp",
+     "t": {
+      "sv": "Personlig provning",
+      "en": "Personal fitting"
+     },
+     "d": {
+      "sv": "Lugn och personlig provning i vår ateljé. Vi hjälper dig hitta siluetten som får dig att stråla.",
+      "en": "A calm, personal fitting in our atelier. We help you find the silhouette that makes you shine."
+     }
+    },
+    {
+     "id": "skradd",
+     "img": "assets/img/mofida-sewing.webp",
+     "t": {
+      "sv": "Skrädderi & ändringar",
+      "en": "Tailoring & alterations"
+     },
+     "d": {
+      "sv": "Våra skräddare med över 40 års erfarenhet mäter och nålar upp direkt på plats.",
+      "en": "Our tailors with more than 40 years of experience measure and pin directly on site."
+     }
+    },
+    {
+     "id": "matt",
+     "img": "assets/img/sketch.webp",
+     "t": {
+      "sv": "Måttsydda klänningar",
+      "en": "Made-to-measure dresses"
+     },
+     "d": {
+      "sv": "Drömmer du om något helt unikt? Vi skissar, väljer tyg och syr din klänning från grunden.",
+      "en": "Dreaming of something completely unique? We sketch, choose fabric and sew your dress from scratch."
+     }
+    },
+    {
+     "id": "herr",
+     "img": "uploads/herr-frack.jpg",
+     "t": {
+      "sv": "Herrekipering & uthyrning",
+      "en": "Menswear & rental"
+     },
+     "d": {
+      "sv": "Frack, smoking, jackett och kostym – köp eller hyr inför promovering, bröllop och gala.",
+      "en": "Tails, tuxedos, morning suits and suits – buy or rent for conferments, weddings and galas."
+     }
+    }
+   ],
+   "herrImg": "uploads/herr-frack.jpg"
+  }
+ }
+]

@@ -2,7 +2,7 @@
 require __DIR__ . '/inc.php';
 require_perm('bookings.view');
 $cfg = booking_cfg(); $types = []; foreach ((array)($cfg['types'] ?? []) as $t) $types[$t['id']] = $t;
-$tab = (string)($_GET['tab'] ?? 'upcoming');
+$tab = (string)($_GET['tab'] ?? 'cal');
 if (posted()) {
     $act = p('act') ?: p('st');
     if ($act === 'cfg') {
@@ -47,15 +47,22 @@ $rows = match ($tab) {
     'past' => array_reverse(array_values(array_filter($all, fn($b) => $b['date'] < $today))),
     'new' => array_values(array_filter($all, fn($b) => $b['status'] === 'new')),
     'all' => $all,
+    'cal' => [],
     default => array_values(array_filter($all, fn($b) => $b['date'] >= $today && !in_array($b['status'], ['cancelled'], true))),
 };
 if (isset($_GET['export']) && can('export')) export_rows(L('bokningar', 'bookings'), ['Ref', L('Datum', 'Date'), L('Tid', 'Time'), L('Typ', 'Type'), L('Min', 'Min'), L('Namn', 'Name'), L('E-post', 'Email'), L('Telefon', 'Phone'), L('Personer', 'Guests'), L('Bröllop/bal', 'Event date'), L('Vill prova', 'Wants to try'), L('Meddelande', 'Message'), 'Status'],
     array_map(fn($b) => [$b['ref'], $b['date'], $b['time'], $b['typeName'], (int)$b['min'], $b['name'], $b['email'], $b['phone'], (int)$b['guests'], $b['event'], implode(', ', $b['wish'] ?? []), $b['note'], BOOK_ST()[$b['status']] ?? $b['status']], $rows), $_GET['export'] === 'csv' ? 'csv' : 'xls');
 $cnt = ['upcoming' => count(array_filter($all, fn($b) => $b['date'] >= $today && $b['status'] !== 'cancelled')), 'new' => count(array_filter($all, fn($b) => $b['status'] === 'new')), 'past' => count(array_filter($all, fn($b) => $b['date'] < $today)), 'all' => count($all)];
+// calendar month + selected day
+$calM = preg_match('/^\d{4}-\d{2}$/', (string)($_GET['m'] ?? '')) ? $_GET['m'] : substr($today, 0, 7);
+$calDay = preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)($_GET['day'] ?? '')) ? $_GET['day'] : (substr($today, 0, 7) === $calM ? $today : $calM . '-01');
+if ($tab === 'cal') $rows = array_values(array_filter($all, fn($b) => $b['date'] === $calDay));
+$byDay = []; foreach ($all as $b) if ($b['status'] !== 'cancelled' && str_starts_with($b['date'], $calM)) $byDay[$b['date']][] = $b;
 $dows = [1 => L('Måndag', 'Monday'), L('Tisdag', 'Tuesday'), L('Onsdag', 'Wednesday'), L('Torsdag', 'Thursday'), L('Fredag', 'Friday'), L('Lördag', 'Saturday'), L('Söndag', 'Sunday')];
-admin_head(L('Bokningar', 'Bookings'), 'bookings', ($tab !== 'settings' && $tab !== 'add' ? export_buttons('bookings.php?tab=' . urlencode($tab)) : '') . (can('bookings.edit') ? '<a class="b" href="?tab=add">' . icon('plus') . ' ' . L('Ny bokning', 'New booking') . '</a>' : ''));
+admin_head(L('Bokningar', 'Bookings'), 'bookings', ($tab !== 'settings' && $tab !== 'add' && $tab !== 'cal' ? export_buttons('bookings.php?tab=' . urlencode($tab)) : '') . (can('bookings.edit') ? '<a class="b" href="?tab=add">' . icon('plus') . ' ' . L('Ny bokning', 'New booking') . '</a>' : ''));
 ?>
 <div class="tabs">
+  <a href="?tab=cal" class="<?= $tab === 'cal' ? 'on' : '' ?>"><?= L('Kalender', 'Calendar') ?></a>
   <?php foreach (['upcoming' => L('Kommande', 'Upcoming'), 'new' => L('Nya', 'New'), 'past' => L('Tidigare', 'Past'), 'all' => L('Alla', 'All')] as $k => $lbl): ?><a href="?tab=<?= $k ?>" class="<?= $tab === $k ? 'on' : '' ?>"><?= e($lbl) ?><b><?= $cnt[$k] ?></b></a><?php endforeach; ?>
   <?php if (can('settings.edit')): ?><a href="?tab=settings" class="<?= $tab === 'settings' ? 'on' : '' ?>"><?= L('Öppettider & typer', 'Hours & types') ?></a><?php endif; ?>
 </div>
@@ -97,8 +104,43 @@ admin_head(L('Bokningar', 'Bookings'), 'bookings', ($tab !== 'settings' && $tab 
   <button class="b"><?= L('Spara bokning', 'Save booking') ?></button>
 </form>
 <?php else: ?>
+  <?php if ($tab === 'cal'):
+    $first = strtotime($calM . '-01'); $days = (int)date('t', $first); $lead = (int)date('N', $first) - 1;
+    $prev = date('Y-m', strtotime('-1 month', $first)); $next = date('Y-m', strtotime('+1 month', $first));
+    $months = [L('januari', 'January'), L('februari', 'February'), L('mars', 'March'), L('april', 'April'), L('maj', 'May'), L('juni', 'June'), L('juli', 'July'), L('augusti', 'August'), L('september', 'September'), L('oktober', 'October'), L('november', 'November'), L('december', 'December')];
+    $tyColor = ['brud' => '#c8102e', 'fest' => '#7b4fa0', 'herr' => '#1f4e79', 'skradd' => '#b8860b', 'matt' => '#2e7d5b']; ?>
+  <style>
+    .bcal{background:var(--card,#fff);border:1px solid var(--line,#e5e0da);border-radius:12px;padding:14px;margin-bottom:16px}
+    .bcal__hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.bcal__hd b{font-size:18px;text-transform:capitalize}
+    .bcal__g{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+    .bcal__w{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute,#888);padding:4px 6px}
+    .bcal__d{min-height:92px;border:1px solid var(--line,#e5e0da);border-radius:8px;padding:5px;display:flex;flex-direction:column;gap:3px;color:inherit;text-decoration:none;overflow:hidden}
+    .bcal__d:hover{border-color:#999}.bcal__d.today{box-shadow:inset 0 0 0 2px #c8102e}.bcal__d.sel{background:rgba(200,16,46,.06);border-color:#c8102e}.bcal__d.past{opacity:.55}
+    .bcal__n{font-size:12px;font-weight:600;display:flex;justify-content:space-between}.bcal__n i{font-style:normal;background:#17110f;color:#fff;border-radius:9px;padding:0 6px;font-size:11px}
+    .bcal__e{font-size:11px;line-height:1.25;padding:2px 5px;border-radius:4px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bcal__e.new{outline:2px dashed rgba(0,0,0,.35);outline-offset:-2px}
+    .bcal__lg{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px}.bcal__lg span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--c);margin-right:5px;vertical-align:-1px}
+    @media(max-width:700px){.bcal__d{min-height:58px}.bcal__e{font-size:0;height:6px;padding:0}.bcal__w{font-size:9px;padding:2px}}
+  </style>
+  <div class="bcal">
+    <div class="bcal__hd"><a class="b b--ghost b--sm" href="?tab=cal&m=<?= $prev ?>">‹</a><b><?= e($months[(int)substr($calM, 5, 2) - 1] . ' ' . substr($calM, 0, 4)) ?></b><a class="b b--ghost b--sm" href="?tab=cal&m=<?= $next ?>">›</a></div>
+    <div class="bcal__g">
+      <?php foreach ($dows as $n): ?><div class="bcal__w"><?= e(mb_substr($n, 0, 3)) ?></div><?php endforeach; ?>
+      <?php for ($i = 0; $i < $lead; $i++): ?><div></div><?php endfor; ?>
+      <?php for ($d = 1; $d <= $days; $d++): $ds = $calM . '-' . str_pad((string)$d, 2, '0', STR_PAD_LEFT); $list = $byDay[$ds] ?? []; ?>
+      <a class="bcal__d<?= $ds === $today ? ' today' : '' ?><?= $ds === $calDay ? ' sel' : '' ?><?= $ds < $today ? ' past' : '' ?>" href="?tab=cal&m=<?= $calM ?>&day=<?= $ds ?>">
+        <span class="bcal__n"><?= $d ?><?php if ($list): ?><i><?= count($list) ?></i><?php endif; ?></span>
+        <?php foreach (array_slice($list, 0, 4) as $b): ?><span class="bcal__e<?= $b['status'] === 'new' ? ' new' : '' ?>" style="background:<?= $tyColor[$b['type']] ?? '#555' ?>"><?= e($b['time'] . ' ' . $b['name']) ?></span><?php endforeach; ?>
+        <?php if (count($list) > 4): ?><small class="muted">+<?= count($list) - 4 ?></small><?php endif; ?>
+      </a>
+      <?php endfor; ?>
+    </div>
+    <div class="bcal__lg"><?php foreach ($types as $t): ?><span style="--c:<?= $tyColor[$t['id']] ?? '#555' ?>"><?= e($t['name']['sv']) ?></span><?php endforeach; ?><span style="--c:transparent;outline:2px dashed #999;outline-offset:-2px;padding:0 4px"><?= L('Ny, ej bekräftad', 'New, not confirmed') ?></span></div>
+  </div>
+  <div class="daygroup"><?= e($dows[(int)date('N', strtotime($calDay))] . ' ' . $calDay) ?><?= $calDay === $today ? ' · ' . L('Idag', 'Today') : '' ?></div>
+  <?php endif; ?>
   <?php if (!$rows): ?><div class="card empty"><p class="muted"><?= L('Inga bokningar här.', 'No bookings here.') ?></p></div><?php endif; ?>
-  <?php $cur = ''; foreach ($rows as $b): if ($b['date'] !== $cur): $cur = $b['date']; ?><div class="daygroup"><?= e($dows[(int)date('N', strtotime($cur))] . ' ' . $cur) ?><?= $cur === $today ? ' · ' . L('Idag', 'Today') : '' ?></div><?php endif; ?>
+  <?php $cur = $tab === 'cal' ? $calDay : ''; foreach ($rows as $b): if ($b['date'] !== $cur): $cur = $b['date']; ?><div class="daygroup"><?= e($dows[(int)date('N', strtotime($cur))] . ' ' . $cur) ?><?= $cur === $today ? ' · ' . L('Idag', 'Today') : '' ?></div><?php endif; ?>
   <div class="card" style="padding:14px 18px;margin-bottom:10px">
     <div class="row">
       <b style="font-size:18px;min-width:56px"><?= e($b['time']) ?></b>

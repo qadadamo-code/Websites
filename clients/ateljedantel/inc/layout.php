@@ -76,6 +76,7 @@ function site_head(string $title, array $o = []): void {
       </div>
       <?php foreach ($navCats as $id => $label): $c = category($id); if (!$c || empty($c['active'])) continue; ?><a href="butik.php?kat=<?= e($c['slug']) ?>"><?= $label ?></a><?php endforeach; ?>
       <a href="skradderi.php" class="<?= $page === 'tailor' ? 'on' : '' ?>"><?= t('nav.tailor') ?></a>
+      <a href="herr.php" class="<?= $page === 'herr' ? 'on' : '' ?>"><?= t('nav.herr') ?></a>
       <a href="om-oss.php" class="<?= $page === 'about' ? 'on' : '' ?>"><?= t('nav.about') ?></a>
     </nav>
     <a class="hd__logo" href="./" aria-label="Ateljé Dantel – <?= t('nav.home') ?>"><?= logo_svg('logo', false) ?></a>
@@ -95,7 +96,7 @@ function site_head(string $title, array $o = []): void {
   <nav class="menu__nav">
     <a href="butik.php"><?= t('nav.all') ?></a>
     <?php foreach ($cats as $c): ?><a href="butik.php?kat=<?= e($c['slug']) ?>"><?= e(tr($c['name'])) ?></a><?php endforeach; ?>
-    <a href="skradderi.php"><?= t('nav.tailor') ?></a><a href="om-oss.php"><?= t('nav.about') ?></a><?php if (press_items()): ?><a href="press.php"><?= t('nav.press') ?></a><?php endif; ?><a href="storleksguide.php"><?= t('nav.size') ?></a><a href="kontakt.php"><?= t('nav.contact') ?></a>
+    <a href="skradderi.php"><?= t('nav.tailor') ?></a><a href="herr.php"><?= t('nav.herr') ?></a><a href="om-oss.php"><?= t('nav.about') ?></a><?php if (press_items()): ?><a href="press.php"><?= t('nav.press') ?></a><?php endif; ?><a href="storleksguide.php"><?= t('nav.size') ?></a><a href="kontakt.php"><?= t('nav.contact') ?></a>
   </nav>
   <div class="menu__foot"><a class="btn" href="boka.php"><?= ic('cal') ?> <?= t('nav.book') ?></a><a href="tel:<?= e($s['phoneIntl']) ?>"><?= e($s['phone']) ?></a><a href="mailto:<?= e($s['email']) ?>"><?= e($s['email']) ?></a></div>
 </div>
@@ -132,7 +133,7 @@ function site_foot(array $o = []): void {
     $s = settings(); $L = lang();
     $i18n = [];
     foreach (['ui.add', 'ui.added', 'ui.choose', 'ui.remove', 'ui.cartempty', 'ui.wishempty', 'ui.from', 'ui.soldout', 'ui.order', 'ui.results', 'ui.noresults', 'ui.view', 'ui.wishadd', 'ui.copied', 'ui.size', 'ui.color', 'ui.sale', 'ui.instock',
-        'co.free', 'co.sending', 'co.err', 'co.place', 'f.req', 'f.email', 'f.err', 'f.rate', 'bk.none', 'bk.closed', 'bk.taken', 'bk.waMsg', 'bk.date', 'home.newsOk', 'ui.seeall', 'ui.onlyone', 'ui.sizeguide', 'ui.continue', 'ui.qty'] as $k) $i18n[$k] = t($k);
+        'co.free', 'co.sending', 'co.err', 'co.place', 'f.req', 'f.email', 'f.err', 'f.rate', 'bk.none', 'bk.closed', 'bk.taken', 'bk.waMsg', 'bk.date', 'bk.noteSk', 'bk.noteReq', 'co.note', 'home.newsOk', 'ui.seeall', 'ui.onlyone', 'ui.sizeguide', 'ui.continue', 'ui.qty'] as $k) $i18n[$k] = t($k);
     ?>
 </main>
 <footer class="ft">
@@ -145,7 +146,7 @@ function site_foot(array $o = []): void {
       </div>
     </div>
     <div class="ft__col"><h3><?= t('ft.shop') ?></h3><?php foreach (categories() as $c): ?><a href="butik.php?kat=<?= e($c['slug']) ?>"><?= e(tr($c['name'])) ?></a><?php endforeach; ?></div>
-    <div class="ft__col"><h3><?= t('ft.help') ?></h3><a href="boka.php"><?= t('nav.book') ?></a><a href="skradderi.php"><?= t('nav.tailor') ?></a><a href="storleksguide.php"><?= t('nav.size') ?></a><a href="villkor.php"><?= t('nav.terms') ?></a><a href="kontakt.php"><?= t('nav.contact') ?></a><a href="om-oss.php"><?= t('nav.about') ?></a><?php if (press_items()): ?><a href="press.php"><?= t('nav.press') ?></a><?php endif; ?></div>
+    <div class="ft__col"><h3><?= t('ft.help') ?></h3><a href="boka.php"><?= t('nav.book') ?></a><a href="skradderi.php"><?= t('nav.tailor') ?></a><a href="herr.php"><?= t('nav.herr') ?></a><a href="storleksguide.php"><?= t('nav.size') ?></a><a href="villkor.php"><?= t('nav.terms') ?></a><a href="kontakt.php"><?= t('nav.contact') ?></a><a href="om-oss.php"><?= t('nav.about') ?></a><?php if (press_items()): ?><a href="press.php"><?= t('nav.press') ?></a><?php endif; ?></div>
     <div class="ft__col"><h3><?= t('ui.visit') ?></h3>
       <a href="<?= e($s['mapUrl']) ?>" target="_blank" rel="noopener"><?= e($s['address']) ?><br><?= e($s['city']) ?></a>
       <a href="tel:<?= e($s['phoneIntl']) ?>"><?= e($s['phone']) ?></a><a href="mailto:<?= e($s['email']) ?>"><?= e($s['email']) ?></a>
