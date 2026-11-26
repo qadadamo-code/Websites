@@ -303,5 +303,11 @@
   "booking_drop_types": [
    "skradd"
   ]
+ },
+ {
+  "id": "2026-11-26-no-saturday-booking",
+  "booking_drop_days": [
+   "6"
+  ]
  }
 ]

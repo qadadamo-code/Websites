@@ -77,6 +77,11 @@ function ad_migrate(): void {
                 ad_write('settings', $st);
             }
         }
+        if (!empty($m['booking_drop_days']) && is_array($m['booking_drop_days'])) {
+            $st = ad_load('settings');
+            foreach ($m['booking_drop_days'] as $dd) unset($st['booking']['days'][(string)$dd]);
+            ad_write('settings', $st);
+        }
         $done[] = $m['id'];
         ad_write('migrations', $done);
     }
