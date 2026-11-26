@@ -70,6 +70,13 @@ function ad_migrate(): void {
             foreach ($m[$mk] as $kk => $v) $st[$kk] = $v; // deliberate replacement of a whole section
             ad_write($k, $st);
         }
+        if (!empty($m['booking_drop_types']) && is_array($m['booking_drop_types'])) {
+            $st = ad_load('settings'); $drop = $m['booking_drop_types'];
+            if (isset($st['booking']['types']) && is_array($st['booking']['types'])) {
+                $st['booking']['types'] = array_values(array_filter($st['booking']['types'], fn($t) => !in_array($t['id'] ?? '', $drop, true)));
+                ad_write('settings', $st);
+            }
+        }
         $done[] = $m['id'];
         ad_write('migrations', $done);
     }

@@ -10,7 +10,8 @@ site_head(t('nav.tailor'), ['page' => 'tailor', 'desc' => $en ? 'Tailoring and a
   <img src="assets/img/sewing.webp" alt="" loading="lazy" data-rise style="aspect-ratio:4/3">
   <div><h2 class="h2" style="font-size:clamp(28px,3vw,42px);margin-bottom:18px" data-lines><?= $en ? 'Personal service on site' : 'Personlig service på plats' ?></h2>
   <p data-rise><?= $en ? 'Bring your garment and tell us what you need. Our tailors measure and pin directly on site to ensure a careful, durable result – button replacement, zips, trouser hems, jeans repairs and tailored blazers. Whether everyday wear or party clothes, every garment is adjusted to your wishes for the best possible fit.' : 'Kom in med ditt plagg och berätta vad du behöver hjälp med. Våra skräddare mäter och nålar upp direkt på plats för ett noggrant och hållbart resultat – knappbyte, dragkedjebyten, uppläggning av byxor, lagning av jeans och skräddarsydda kavajer. Oavsett om det gäller vardagsplagg eller festkläder anpassar vi varje plagg efter dina önskemål för bästa möjliga passform.' ?></p>
-  <a class="btn" href="boka.php?typ=skradd" data-rise><?= ic('cal') ?> <?= $en ? 'Book tailoring' : 'Boka skrädderi' ?></a></div>
+  <p class="lead" style="font-size:18px;margin:22px 0" data-rise><b><?= $en ? 'No appointment needed' : 'Ingen tidsbokning behövs' ?></b> – <?= $en ? 'just drop in with your garment during our opening hours.' : 'kom bara förbi med ditt plagg under våra öppettider.' ?></p>
+  <a class="btn" href="kontakt.php" data-rise><?= ic('pin') ?> <?= $en ? 'Opening hours & directions' : 'Öppettider & hitta hit' ?></a></div>
 </div></section>
 <section class="sec wrap" style="padding-top:40px">
   <header class="sec__hd"><p class="eyebrow"><?= $en ? 'Price list' : 'Prislista' ?></p><h2 class="h2" data-lines><?= $en ? 'What does it cost?' : 'Vad kostar det?' ?></h2></header>

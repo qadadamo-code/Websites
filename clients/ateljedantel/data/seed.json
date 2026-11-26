@@ -148,14 +148,6 @@
      "min": 30
     },
     {
-     "id": "skradd",
-     "name": {
-      "sv": "Skrädderi – ändring & lagning",
-      "en": "Tailoring – alterations & repairs"
-     },
-     "min": 30
-    },
-    {
      "id": "matt",
      "name": {
       "sv": "Måttsydd klänning – konsultation",

@@ -297,5 +297,11 @@
    ],
    "herrImg": "uploads/herr-frack.jpg"
   }
+ },
+ {
+  "id": "2026-11-26-no-tailoring-booking",
+  "booking_drop_types": [
+   "skradd"
+  ]
  }
 ]
