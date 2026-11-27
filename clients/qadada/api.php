@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 28;
+const DATA_VERSION = 29;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -634,6 +634,12 @@ function migrate(array &$t): void {
             // نبيل بن صبحي is deceased
             if (($s = $cid($h ?? '', 'صبحي')) && ($n = $cid($s, 'نبيل'))) { $i = find_index($M, $n); $M[$i]['deceased'] = true; $M[$i]['title'] = 'المرحوم'; }
         }
+    }
+    if ($v < 29) {
+        // 2026-11-27: photo of الحاج علي بن أحمد بن علي (Jaffa)
+        $i = find_index($M, 'm4');
+        if ($i >= 0) { $M[$i]['photo'] = 'assets/img/ali-ahmad.webp'; $M[$i]['title'] = 'الحاج'; $M[$i]['deceased'] = true; $M[$i]['featured'] = true;
+            if (empty($M[$i]['note'])) $M[$i]['note'] = 'الحاج علي أحمد علي قدادة، رحمه الله، من يافا.'; }
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
