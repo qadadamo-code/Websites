@@ -387,7 +387,7 @@
   /* ---------- parallax ---------- */
   function parallax() {
     if (!hasG) return;
-    $$('.fac__img img').forEach(function (im) { gsap.fromTo(im, { yPercent: -8 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: im.closest('.fac'), start: 'top bottom', end: 'bottom top', scrub: true } }); });
+    $$('.fac__img img').forEach(function (im) { gsap.fromTo(im, { scale: 1.12 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: im.closest('.fac'), start: 'top bottom', end: 'bottom top', scrub: true } }); });
     gsap.fromTo('.materials__bg img', { yPercent: -10 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.materials', start: 'top bottom', end: 'bottom top', scrub: true } });
   }
 
