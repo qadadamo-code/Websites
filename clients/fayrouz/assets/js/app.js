@@ -194,7 +194,7 @@ function stRender(swap) {
   }
   $('#stItem').value = st.item;
   seg($('#stSize'), st.size);
-  $('#disc').style.transform = `scale(${[.62, .8, 1][st.size]})`;
+  $('#disc').style.transform = `scale(${[.72, .86, 1][st.size]})`;
   $$('.plate-ring').forEach((r, i) => r.classList.toggle('on', i === st.size));
   $$('.size-tags span').forEach((s, i) => s.classList.toggle('on', i === st.size));
   $$('#stExtras .chip').forEach(b => b.classList.toggle('on', st.ex.has(+b.dataset.x)));
@@ -231,10 +231,9 @@ function renderMenu() {
     if (!items.length) return '';
     const sized = c.items[0].p.length === 3;
     return `<div class="cat" id="cat-${c.id}">
-      <div class="cat-side">${c.img ? `<div class="ph"><img src="assets/img/${c.img}-s.webp" alt="${c.t}" loading="lazy"></div>` : ''}<div><h3>${c.t}</h3><p>${c.s}</p></div></div>
-      <div>${sized ? `<div class="size-head"><span>الصنف</span>${SZ.map(s => `<span>${s}</span>`).join('')}</div>` : ''}
-      <div class="rows">${items.map(({ it, i }) => `<div class="row ${sized ? '' : 'one'}"><div class="nm">${it.n}${it.tag ? `<span class="tag">${it.tag}</span>` : ''}</div>
-        ${it.p.map((p, s) => `<button class="pb" data-c="${c.id}" data-i="${i}" data-s="${s}" aria-label="${it.n} ${sized ? SZ[s] : ''} ${p} جنيه">${c.from ? '<small>من</small>' : ''}${p}<small>ج</small></button>`).join('')}</div>`).join('')}</div></div></div>`;
+      <div class="cat-hd">${c.img ? `<div class="ph"><img src="assets/img/${c.img}-s.webp" alt="${c.t}" loading="lazy"></div>` : ''}<div><h3>${c.t}</h3><p>${c.s}</p></div><span class="cnt">${c.items.length} صنف</span></div>
+      <div class="items">${items.map(({ it, i }) => `<div class="it"><div class="nm"><span>${it.n}</span>${it.tag ? `<span class="tag">${it.tag}</span>` : ''}</div>
+        <div class="pbs ${sized ? '' : 'one'}">${it.p.map((p, s) => `<button class="pb" data-c="${c.id}" data-i="${i}" data-s="${s}" aria-label="${it.n} ${sized ? SZ[s] : ''} ${p} جنيه"><small>${sized ? SZ[s] : (c.from ? 'يبدأ من' : 'السعر')}</small><b>${p}<i>ج</i></b></button>`).join('')}</div></div>`).join('')}</div></div>`;
   }).join('');
   $('#menuBody').innerHTML = html || `<div class="empty">مفيش صنف بالاسم ده… جرّب كلمة تانية</div>`;
   if (ST) ST.refresh();
