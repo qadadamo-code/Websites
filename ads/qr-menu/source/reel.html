@@ -1,0 +1,285 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--mint:#92C5B4;--navy:#143659;--ink:#0b1e33;--red:#ff5a5f;--wa:#25D366}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:transparent}
+body{font-family:'Readex Pro','Alexandria',sans-serif;color:#fff}
+.num{font-family:'Montserrat',sans-serif;direction:ltr;unicode-bidi:isolate;display:inline-block}
+#stage{position:fixed;inset:0;width:1080px;height:1920px;overflow:hidden}
+.sc{position:absolute;inset:0;opacity:0}
+.bg{position:absolute;inset:0;background:radial-gradient(900px 700px at 80% 10%,rgba(146,197,180,.28),transparent 60%),radial-gradient(800px 800px at 10% 95%,rgba(146,197,180,.18),transparent 60%),linear-gradient(160deg,#0a1d33,#143659 60%,#0c2340)}
+.bg:after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:60px 60px}
+/* captions on footage */
+.vig{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,transparent 22%,transparent 50%,rgba(5,15,30,.78) 78%,rgba(5,15,30,.9) 100%)}
+.cap{position:absolute;left:70px;right:70px;top:1180px;text-align:center}
+.tag{display:inline-block;font-weight:700;font-size:34px;padding:10px 28px;border-radius:40px;margin-bottom:22px}
+.tag.p{background:var(--red);color:#fff}.tag.s{background:var(--mint);color:var(--navy)}
+.cap h2{font-weight:800;font-size:84px;line-height:1.25;text-shadow:0 6px 30px rgba(0,0,0,.6)}
+.cap h2 em{font-style:normal;color:var(--mint)}
+.cap h2 .r{color:#ffb4b4}
+.w{display:inline-block;opacity:0;transform:translateY(30px)}
+/* top caption for UI scenes */
+.tcap{position:absolute;left:60px;right:60px;top:150px;text-align:center}
+.tcap h2{font-weight:800;font-size:78px;line-height:1.25}
+.tcap h2 em{font-style:normal;color:var(--mint)}
+.phone{position:absolute;width:600px;height:1220px;left:240px;top:470px;border-radius:78px;background:#05070c;padding:20px;box-shadow:0 40px 120px rgba(0,0,0,.55),0 0 0 3px #2b3a4f inset}
+.phone .scr{position:relative;width:100%;height:100%;border-radius:60px;overflow:hidden;background:#0b141a}
+.phone .notch{position:absolute;top:34px;left:50%;transform:translateX(-50%);width:170px;height:44px;border-radius:30px;background:#000;z-index:5}
+/* whatsapp */
+.wahead{height:170px;background:#1f2c34;display:flex;align-items:flex-end;padding:0 30px 24px;gap:18px}
+.wahead .av{width:70px;height:70px;border-radius:50%;background:#c58b4a;display:flex;align-items:center;justify-content:center;font-size:36px}
+.wahead b{font-size:32px}.wahead small{display:block;font-size:22px;color:#8aa;font-weight:400}
+.chat{position:absolute;top:170px;left:0;right:0;bottom:0;padding:24px 22px;background:#0b141a;display:flex;flex-direction:column;gap:16px;justify-content:flex-end}
+.msg{align-self:flex-start;max-width:82%;background:#202c33;border-radius:22px 22px 22px 6px;padding:16px 22px;font-size:30px;line-height:1.35;opacity:0;transform:scale(.6);transform-origin:right bottom}
+.msg .tm{font-size:18px;color:#8aa;margin-right:10px}
+.msg.img{padding:8px}.msg.img img{display:block;width:300px;height:220px;object-fit:cover;border-radius:16px;filter:blur(1.5px)}
+.badge{position:absolute;top:400px;right:150px;background:var(--red);color:#fff;font-size:56px;font-weight:800;min-width:150px;height:110px;border-radius:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 40px rgba(255,90,95,.5);z-index:9}
+.stamp{position:absolute;left:120px;right:120px;top:1060px;text-align:center;font-size:96px;font-weight:900;color:#fff;background:var(--red);border-radius:30px;padding:20px;transform:rotate(-6deg) scale(0);box-shadow:0 20px 60px rgba(0,0,0,.5);z-index:10}
+/* menu phone */
+.strip{position:absolute;top:0;left:0;width:100%}
+.chip{position:absolute;background:#fff;color:var(--navy);font-weight:800;font-size:40px;padding:22px 34px;border-radius:26px;box-shadow:0 20px 50px rgba(0,0,0,.35);display:flex;align-items:center;gap:14px;opacity:0;z-index:8}
+.chip i{font-style:normal;width:52px;height:52px;border-radius:50%;background:var(--mint);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--navy)}
+.load{position:absolute;inset:0;background:#0f2742;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;z-index:4}
+.load img{width:170px}.load .bar{width:300px;height:12px;border-radius:8px;background:rgba(255,255,255,.15);overflow:hidden}.load .bar div{height:100%;background:var(--mint);width:0}
+/* order */
+.cart{position:absolute;inset:0;background:#13223d;padding:120px 34px 40px}
+.cart h3{font-size:40px;margin-bottom:10px}.cart .sub{color:#9fb4c9;font-size:26px;margin-bottom:30px}
+.it{display:flex;align-items:center;gap:20px;background:#1b2f50;border-radius:26px;padding:16px;margin-bottom:18px}
+.it img{width:120px;height:120px;border-radius:18px;object-fit:cover}
+.it b{display:block;font-size:30px}.it span{color:var(--mint);font-size:30px;font-weight:700}
+.it .q{margin-right:auto;font-size:28px;background:#0f2038;border-radius:20px;padding:8px 18px}
+.tot{display:flex;justify-content:space-between;font-size:34px;font-weight:700;margin:26px 6px}
+.btn{background:var(--wa);color:#fff;font-size:36px;font-weight:800;text-align:center;border-radius:30px;padding:30px;display:flex;align-items:center;justify-content:center;gap:16px}
+.tap{position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);z-index:9}
+.wacard{position:absolute;left:90px;right:90px;top:520px;background:#0b141a;border-radius:40px;padding:34px;box-shadow:0 30px 90px rgba(0,0,0,.6);opacity:0}
+.wacard .h{display:flex;align-items:center;gap:18px;font-size:32px;font-weight:700;margin-bottom:24px}
+.wacard .h .ic{width:76px;height:76px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center}
+.bub{background:#005c4b;border-radius:26px 26px 6px 26px;padding:26px 30px;font-size:34px;line-height:1.6}
+.bub b{color:#d9fdd3}
+.pos{position:absolute;left:180px;right:180px;top:560px;opacity:0}
+.term{background:linear-gradient(180deg,#2a3b55,#1a2840);border-radius:40px;padding:40px 40px 30px;box-shadow:0 30px 90px rgba(0,0,0,.6);position:relative;z-index:2}
+.term .sc2{background:#9fe0c9;color:#0b2a22;border-radius:18px;padding:22px;font-size:34px;font-weight:700;text-align:center}
+.term .slot{height:16px;background:#05070c;border-radius:8px;margin-top:30px}
+.paper{position:relative;margin:0 40px;background:#fff;color:#222;font-family:'Montserrat','Readex Pro',sans-serif;font-size:28px;padding:30px;line-height:1.7;border-radius:0 0 12px 12px;z-index:1;overflow:hidden}
+.paper .row{display:flex;justify-content:space-between;font-family:'Readex Pro'}
+/* loyalty */
+.lcard{position:absolute;left:110px;right:110px;top:520px;height:540px;border-radius:44px;background:linear-gradient(135deg,#92C5B4,#5f9f8b 55%,#143659);padding:44px;box-shadow:0 40px 100px rgba(0,0,0,.5);color:var(--navy)}
+.lcard .t{font-size:34px;font-weight:700;opacity:.85}
+.lcard .n{font-size:58px;font-weight:900;color:#fff;margin:14px 0 6px}
+.lcard .pts{font-size:120px;font-weight:900;color:#fff;line-height:1}
+.lcard .pts small{font-size:40px;margin-right:12px}
+.stamps{display:flex;gap:18px;margin-top:40px;flex-direction:row-reverse;justify-content:flex-end}
+.stamps div{width:62px;height:62px;border-radius:50%;border:4px solid rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;font-size:32px}
+.stamps div.on{background:#fff}
+.gift{position:absolute;left:150px;right:150px;top:1140px;background:#fff;color:var(--navy);border-radius:36px;padding:34px;text-align:center;font-size:48px;font-weight:900;box-shadow:0 30px 90px rgba(0,0,0,.5);transform:scale(0)}
+.gift small{display:block;font-size:30px;font-weight:600;color:#557;margin-top:8px}
+.ret{position:absolute;left:110px;right:110px;top:1420px;display:flex;gap:22px;opacity:0}
+.ret div{flex:1;background:rgba(255,255,255,.1);border:2px solid rgba(146,197,180,.5);border-radius:28px;padding:24px;text-align:center;font-size:28px}
+.ret b{display:block;font-size:56px;color:var(--mint)}
+/* dashboard */
+.dash{position:absolute;left:60px;right:60px;top:430px;background:#f4f7fb;color:#0b1e33;border-radius:44px;padding:40px;box-shadow:0 40px 110px rgba(0,0,0,.55)}
+.dash .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.dash .top b{font-size:40px}.dash .top img{height:60px}
+.stats{display:flex;gap:20px}
+.st{flex:1;background:#fff;border-radius:26px;padding:24px;box-shadow:0 6px 20px rgba(20,54,89,.08)}
+.st small{display:block;font-size:24px;color:#5b6b80}.st b{font-size:52px;color:var(--navy)}
+.chart{display:flex;align-items:flex-end;gap:16px;height:220px;background:#fff;border-radius:26px;padding:24px;margin:22px 0}
+.chart div{flex:1;background:linear-gradient(180deg,#92C5B4,#143659);border-radius:10px 10px 4px 4px;height:0}
+.edit{background:#fff;border-radius:26px;padding:24px;display:flex;align-items:center;gap:20px;font-size:32px}
+.edit img{width:90px;height:90px;border-radius:16px;object-fit:cover}
+.edit .f{margin-right:auto;border:3px solid var(--mint);border-radius:16px;padding:10px 24px;font-weight:800;font-size:40px;min-width:170px;text-align:center}
+.toast{position:absolute;left:50%;top:1680px;transform:translateX(-50%) translateY(40px);background:var(--navy);color:#fff;font-size:34px;font-weight:700;padding:22px 40px;border-radius:40px;white-space:nowrap;opacity:0;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.orders{margin-top:22px;display:flex;flex-direction:column;gap:14px}
+.od{background:#fff;border-radius:22px;padding:20px 26px;display:flex;justify-content:space-between;font-size:30px;opacity:0;transform:translateX(-60px)}
+.od span{font-weight:700;border-radius:14px;padding:4px 16px;font-size:26px}
+.od .n{background:#ffe9c7;color:#9a5b00}.od .d{background:#d9f3ea;color:#0f6b4f}
+/* works strip */
+.works{position:absolute;left:0;right:0;top:1500px;display:flex;justify-content:center;gap:26px;opacity:0}
+.works div{width:220px;height:400px;border-radius:30px;overflow:hidden;border:5px solid #fff;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.works img{width:100%;height:100%;object-fit:cover;object-position:top}
+.works p{position:absolute;top:-62px;left:0;right:0;text-align:center;font-size:32px;font-weight:700;color:var(--mint)}
+/* end */
+.end .logo{position:absolute;left:50%;top:170px;width:480px;transform:translateX(-50%)}
+.end h1{position:absolute;left:40px;right:40px;top:700px;text-align:center;font-size:92px;font-weight:900;line-height:1.2}
+.end h1 em{font-style:normal;color:var(--mint)}
+.feats{position:absolute;left:80px;right:80px;top:960px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.feats div{background:rgba(255,255,255,.08);border:2px solid rgba(146,197,180,.45);border-radius:26px;padding:22px;font-size:34px;font-weight:700;text-align:center;opacity:0}
+.price{position:absolute;left:0;right:0;top:1260px;text-align:center}
+.price small{font-size:40px;color:#cfe;display:block}
+.price b{font-size:140px;font-weight:900;color:#fff;line-height:1.1}
+.price b .cur{font-size:60px;color:var(--mint)}.price b .big{font-size:150px}
+.wab{position:absolute;left:150px;right:150px;top:1530px;background:var(--wa);border-radius:60px;padding:30px;text-align:center;font-size:64px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:20px;box-shadow:0 20px 60px rgba(37,211,102,.45)}
+.end .cta{position:absolute;left:0;right:0;top:1700px;text-align:center;font-size:40px;font-weight:700;color:var(--mint)}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:50}
+.plogo{position:absolute;left:50%;top:330px;transform:translateX(-50%) scale(.6);width:300px;opacity:0;z-index:20;filter:drop-shadow(0 10px 40px rgba(0,0,0,.6))}
+.corner{position:absolute;left:50px;top:70px;height:90px;opacity:0;z-index:30;filter:drop-shadow(0 4px 14px rgba(0,0,0,.5))}
+</style></head><body><div id="stage">
+
+<!-- footage caption scenes -->
+<div class="sc" id="A" data-a="0" data-b="1.94"><div class="vig"></div><div class="cap"><h2><span class="w">إنت</span> <span class="w">صاحب</span> <span class="w"><em>مطعم</em></span> <span class="w">أو</span> <span class="w"><em>كافيه؟</em></span></h2></div></div>
+<div class="sc" id="B" data-a="1.94" data-b="5.6"><div class="vig"></div><div class="cap"><div class="tag p">المشكلة</div><h2><span class="w">الأسعار</span> <span class="w">بتتغيّر</span> <span class="w"><span class="r">كل شهر</span></span><br><span class="w">والمنيو</span> <span class="w">كله</span> <span class="w"><span class="r">شطب واستيكرات</span></span></h2></div></div>
+<div class="sc" id="C" data-a="5.6" data-b="7.3"><div class="vig"></div><div class="cap"><div class="tag p">المشكلة</div><h2><span class="w">وكل شوية</span> <span class="w"><span class="r">طباعة</span></span> <span class="w">من الأول!</span></h2></div></div>
+<div class="sc" id="D" data-a="7.3" data-b="9.1"><div class="vig"></div><div class="cap"><div class="tag p">المشكلة</div><h2><span class="w">منيو</span> <span class="w"><span class="r">مبقّع</span></span> <span class="w">و<span class="r">مقطّع</span></span></h2></div></div>
+<div class="sc" id="E" data-a="9.1" data-b="11.2"><div class="vig"></div><div class="cap"><div class="tag p">المشكلة</div><h2><span class="w">والزبون</span> <span class="w">مستني</span> <span class="w"><span class="r">الويتر</span></span><br><span class="w">عشان</span> <span class="w">يطلب..</span></h2></div></div>
+
+<div class="sc" id="F" data-a="11.2" data-b="14.9"><div class="bg"></div>
+ <div class="tcap"><h2>وعلى <em style="color:#25D366">الواتساب</em>؟</h2></div>
+ <div class="badge"><span class="num" id="fcount">1</span></div>
+ <div class="phone"><div class="scr"><div class="notch"></div>
+  <div class="wahead"><div class="av">🍽️</div><div><b>طلبات المطعم</b><small>47 رسالة غير مقروءة</small></div></div>
+  <div class="chat" id="chat">
+   <div class="msg">السلام عليكم، المنيو فين؟<span class="tm num">9:41</span></div>
+   <div class="msg">بكام ده؟؟<span class="tm num">9:42</span></div>
+   <div class="msg img"><img src="img2.jpg"></div>
+   <div class="msg">عندكم توصيل مدينة نصر؟<span class="tm num">9:43</span></div>
+   <div class="msg">السعر ده لسه زي ما هو؟<span class="tm num">9:44</span></div>
+   <div class="msg">أنا طالب من ساعة!! 😡<span class="tm num">9:51</span></div>
+   <div class="msg">الأوردر فين؟؟<span class="tm num">9:52</span></div>
+  </div></div></div>
+ <div class="stamp">أوردرات بتضيع!</div>
+</div>
+
+<div class="sc" id="G" data-a="14.9" data-b="18.4"><div class="vig" style="background:linear-gradient(180deg,rgba(5,15,30,.85) 0%,rgba(5,15,30,.55) 25%,transparent 45%,transparent 75%,rgba(5,15,30,.6) 100%)"></div>
+ <img class="plogo" src="img/lockup-light.png">
+ <div class="cap" style="top:250px"><div class="tag s">الحل مع Planet</div><h2><span class="w"><em>QR</em> كود</span> <span class="w">على كل</span> <span class="w">ترابيزة</span></h2></div></div>
+<div class="sc" id="H" data-a="18.4" data-b="20.9"><div class="vig"></div><div class="cap"><div class="tag s">الحل</div><h2><span class="w">الزبون</span> <span class="w">يصوّر..</span><br><span class="w">والمنيو</span> <span class="w">يفتح</span> <span class="w"><em>في ثانية</em></span></h2></div></div>
+
+<div class="sc" id="I" data-a="20.9" data-b="24.0"><div class="bg"></div>
+ <div class="tcap"><h2>منيو <em>شيك</em> باسم مطعمك</h2></div>
+ <div class="phone"><div class="scr"><div class="notch"></div>
+  <img class="strip" id="zstrip" src="img/zaza-strip.jpg">
+  <div class="load" id="zload"><img src="img/mark-light.png"><div class="bar"><div id="zbar"></div></div></div>
+ </div></div>
+ <div class="chip" id="ch1" style="right:40px;top:720px"><i>✓</i>بالصور</div>
+ <div class="chip" id="ch2" style="left:40px;top:1020px"><i>✓</i>والأسعار</div>
+ <div class="chip" id="ch3" style="right:30px;top:1380px"><i>✓</i>من غير تطبيق</div>
+</div>
+
+<div class="sc" id="J" data-a="24.0" data-b="28.8"><div class="bg"></div>
+ <div class="tcap"><h2 id="jcap">يطلب <em>من مكانه</em></h2></div>
+ <div class="phone" id="jphone"><div class="scr"><div class="notch"></div>
+  <div class="cart"><h3>طلبك 🛒</h3><div class="sub">ترابيزة رقم <span class="num">7</span></div>
+   <div class="it"><img src="img/d-kebab.png"><div><b>طاجن ملوخية بالجمبري</b><span class="num">EGP 430</span></div><div class="q num">x1</div></div>
+   <div class="it"><img src="img/d-chicken.png"><div><b>حمام محشي</b><span class="num">EGP 390</span></div><div class="q num">x2</div></div>
+   <div class="it"><img src="img/d-kunafa.png"><div><b>كنافة بالقشطة</b><span class="num">EGP 150</span></div><div class="q num">x1</div></div>
+   <div class="tot"><span>الإجمالي</span><span class="num">EGP 1,360</span></div>
+   <div class="btn" id="jbtn">اطلب دلوقتي ✓</div>
+  </div><div class="tap" id="jtap" style="left:220px;top:930px"></div></div></div>
+ <div class="wacard" id="wacard"><div class="h"><div class="ic">✆</div>واتساب المطعم · دلوقتي</div>
+  <div class="bub">🧾 <b>أوردر جديد #<span class="num">1042</span></b><br>ترابيزة <span class="num">7</span><br>1× طاجن ملوخية بالجمبري<br>2× حمام محشي<br>1× كنافة بالقشطة<br><b>الإجمالي: <span class="num">1,360</span> ج</b></div></div>
+ <div class="pos" id="pos"><div class="term"><div class="sc2">POS ✓ أوردر جديد</div><div class="slot"></div></div>
+  <div class="paper" id="paper"><div style="text-align:center;font-weight:800">ORDER #1042 · T7</div><div class="row"><span>طاجن ملوخية</span><span>430</span></div><div class="row"><span>حمام محشي ×2</span><span>780</span></div><div class="row"><span>كنافة</span><span>150</span></div><div class="row" style="font-weight:800;border-top:2px dashed #999;padding-top:6px"><span>TOTAL</span><span>1,360</span></div></div></div>
+</div>
+
+<div class="sc" id="K" data-a="28.8" data-b="33.5"><div class="bg"></div>
+ <div class="tcap"><h2>سيستم <em>ولاء</em><br>جوّه الموقع</h2></div>
+ <div class="lcard"><div class="t">كارت الولاء ⭐</div><div class="n">أحمد محمود</div>
+  <div class="pts"><span class="num" id="kpts">120</span><small>نقطة</small></div>
+  <div class="stamps" id="stamps"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>🎁</div></div></div>
+ <div class="gift" id="gift">🎁 مشروبك المرة الجاية مجاناً<small>الزبون يرجعلك تاني وتالت</small></div>
+ <div class="ret" id="ret"><div><b class="num">+38%</b>زيارات متكررة</div><div><b class="num">1,250</b>رقم عميل عندك</div></div>
+</div>
+
+<div class="sc" id="L" data-a="33.5" data-b="35.0"><div class="vig"></div><div class="cap"><div class="tag s">الحل</div><h2><span class="w">وداشبورد</span> <span class="w"><em>كاملة</em></span></h2></div></div>
+
+<div class="sc" id="M" data-a="35.0" data-b="38.1"><div class="bg"></div>
+ <div class="tcap"><h2>غيّر أي <em>سعر</em> في ثانية</h2></div>
+ <div class="dash"><div class="top"><b>لوحة التحكم</b><img src="img/lockup-navy.png"></div>
+  <div class="stats"><div class="st"><small>أوردرات النهارده</small><b class="num" id="m1">0</b></div><div class="st"><small>المبيعات (ج)</small><b class="num" id="m2">0</b></div><div class="st"><small>عملاء جداد</small><b class="num" id="m3">0</b></div></div>
+  <div class="chart" id="chart"><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  <div class="edit"><img src="img/d-chicken.png"><b>حمام محشي</b><div class="f num" id="mprice">390</div></div>
+  <div class="orders"><div class="od"><div>ترابيزة <span class="num">4</span> · <span class="num">640</span> ج</div><span class="n">جديد</span></div><div class="od"><div>دليفري · المعادي</div><span class="d">اتسلّم ✓</span></div><div class="od"><div>ترابيزة <span class="num">11</span> · <span class="num">1,120</span> ج</div><span class="n">جديد</span></div></div>
+ </div>
+ <div class="toast" id="toast">✓ السعر اتغيّر على المنيو فوراً</div>
+</div>
+
+<div class="sc" id="N" data-a="38.1" data-b="40.5"><div class="vig"></div>
+ <div class="cap" style="top:1050px"><h2><span class="w">موقع إلكتروني</span> <span class="w"><em>شيك</em></span><br><span class="w">باسم</span> <span class="w"><em>مطعمك</em></span></h2></div>
+ <div class="works" id="works"><p>من شغلنا</p><div><img src="img/zaza-top.jpg"></div><div><img src="img/tayseer-top.jpg"></div><div><img src="img/naama-bay-top.jpg"></div></div>
+</div>
+
+<div class="sc end" id="O" data-a="40.5" data-b="99"><div class="bg"></div>
+ <img class="logo" id="elogo" src="img/lockup-light.png">
+ <h1 id="eh">منيو <em>QR</em> لمطعمك<br>وكل اللي يلزمك</h1>
+ <div class="feats" id="feats"><div>📲 منيو بالصور والأسعار</div><div>🟢 طلبات على الواتساب</div><div>🧾 ربط مع الكاشير</div><div>⭐ سيستم ولاء + داشبورد</div></div>
+ <div class="price" id="eprice"><small>كل ده بـ</small><b><span class="num big">12,499</span> <span class="cur">جنيه</span></b></div>
+ <div class="wab" id="ewab">✆ <span class="num">01203101104</span></div>
+ <div class="cta" id="ecta">ابعتلنا على الواتساب دلوقتي 👆</div>
+</div>
+
+<img class="corner" id="corner" src="img/lockup-light.png">
+<div class="flash" id="flash"></div>
+</div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const eo=x=>1-Math.pow(1-cl(x),3), eb=x=>{x=cl(x);const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const prog=(t,a,d)=>cl((t-a)/d);
+const fmt=n=>Math.round(n).toLocaleString('en-US');
+function words(sc,t,start,step){$$('#'+sc+' .w').forEach((w,i)=>{const p=eo(prog(t,start+i*step,.35));w.style.opacity=p;w.style.transform=`translateY(${(1-p)*30}px) scale(${.9+.1*p})`});const tg=$('#'+sc+' .tag');if(tg){const p=eb(prog(t,start-.1,.35));tg.style.transform=`scale(${p})`}}
+function render(t){
+ $$('.sc').forEach(s=>{const a=+s.dataset.a,b=+s.dataset.b;let o=0;if(t>=a-0.001&&t<b){o=1;if(s.querySelector('.bg')){o=cl((t-a)/.18)}}s.style.opacity=o;s.style.visibility=o>0?'visible':'hidden'});
+ words('A',t,0.25,.28);
+ words('B',t,2.0,.32);
+ words('C',t,5.65,.35);
+ words('D',t,7.35,.3);
+ words('E',t,9.2,.3);
+ // F whatsapp
+ {const L=t-11.2;const ms=$$('#chat .msg');ms.forEach((m,i)=>{const p=eb(prog(L,.15+i*.42,.3));m.style.opacity=cl(p*1.5);m.style.transform=`scale(${.6+.4*p})`;m.style.display=L>.15+i*.42-.05?'block':'none'});
+  $('#fcount').textContent=Math.min(47,Math.max(1,Math.round(1+46*eo(prog(L,0,3.2)))));
+  const bp=eb(prog(L,0,.4));$('#F .badge').style.transform=`scale(${bp*(1+.06*Math.sin(L*12))})`;
+  const sp=eb(prog(L,2.45,.35));$('#F .stamp').style.transform=`rotate(-6deg) scale(${sp})`;
+  const tp=eo(prog(L,0,.4));$('#F .tcap').style.transform=`translateY(${(1-tp)*-40}px)`;$('#F .tcap').style.opacity=tp;
+  $('#F .phone').style.transform=`translateY(${(1-eo(prog(L,0,.5)))*200}px)`;}
+ // G solution
+ {const L=t-14.9;const fl=L<0.35&&L>=0?1-L/.35:0;$('#flash').style.opacity=t>=14.9&&t<15.25?fl:0;
+  const lp=prog(L,.1,.45);$('#G .plogo').style.opacity=L<1.5?eo(lp):cl(1-(L-1.5)/.3);$('#G .plogo').style.transform=`translateX(-50%) scale(${.6+.4*eb(lp)})`;
+  words('G',t,16.45,.3);}
+ words('H',t,18.45,.3);
+ // corner logo during solution footage
+ {const on=(t>=16.5&&t<20.9)||(t>=33.5&&t<35)||(t>=38.1&&t<40.5);$('#corner').style.opacity=on?1:0}
+ // I menu phone
+ {const L=t-20.9;$('#zbar').style.width=(eo(prog(L,.05,.45))*100)+'%';$('#zload').style.opacity=1-prog(L,.55,.2);
+  const ph=1180, sh=8490*560/780; // strip display height
+  const keys=[[0,0],[.9,0],[1.5,1690*560/780],[2.2,(1690+1500)*560/780],[2.9,(1690+3400+100)*560/780]];
+  let y=0;for(let i=1;i<keys.length;i++){if(L>=keys[i-1][0]){const [a,ya]=keys[i-1],[b,yb]=keys[i];y=ya+(yb-ya)*eo(prog(L,a,b-a));}}
+  $('#zstrip').style.transform=`translateY(${-y}px)`;
+  [['#ch1',.25],['#ch2',.85],['#ch3',1.45]].forEach(([s,a])=>{const p=eb(prog(L,a,.35));$(s).style.opacity=cl(p);$(s).style.transform=`scale(${.5+.5*p})`});
+  $('#I .phone').style.transform=`translateY(${(1-eo(prog(L,0,.45)))*160}px)`;}
+ // J order
+ {const L=t-24.0;const tp=prog(L,.9,.4);$('#jtap').style.transform=`scale(${tp>0&&tp<1?eo(tp)*1.6:0})`;$('#jtap').style.opacity=1-tp;
+  $('#jbtn').style.transform=`scale(${L>.9&&L<1.1?.95:1})`;
+  const out=eo(prog(L,1.15,.45));$('#jphone').style.transform=`translateY(${(1-eo(prog(L,0,.4)))*160 + out*900}px) scale(${1-out*.3})`;$('#jphone').style.opacity=1-out;
+  const wp=eb(prog(L,1.3,.45)), wo=eo(prog(L,2.55,.35));$('#wacard').style.opacity=cl(wp)*(1-wo);$('#wacard').style.transform=`translateY(${(1-wp)*120 - wo*200}px) scale(${.85+.15*wp})`;
+  const pp=eb(prog(L,2.75,.4));$('#pos').style.opacity=cl(pp);$('#pos').style.transform=`translateY(${(1-pp)*120}px)`;
+  const pr=eo(prog(L,3.1,1.0));$('#paper').style.maxHeight=(pr*520)+'px';$('#paper').style.paddingTop=(pr*30)+'px';$('#paper').style.paddingBottom=(pr*30)+'px';
+  $('#jcap').innerHTML=L<1.25?'يطلب <em>من مكانه</em>':(L<2.6?'الأوردر يوصلك على <em style="color:#25D366">الواتساب</em>':'أو يترحّل على<br><em>سيستم الكاشير</em> بتاعك');}
+ // K loyalty
+ {const L=t-28.8;const cp=eb(prog(L,.1,.5));$('.lcard').style.transform=`perspective(1200px) rotateY(${(1-cp)*-60}deg) scale(${.8+.2*cp})`;$('.lcard').style.opacity=cl(cp*1.4);
+  $('#kpts').textContent=fmt(120+130*eo(prog(L,1.6,1.4)));
+  const n=Math.min(10,Math.floor(6+ 4*prog(L,1.4,1.6)+(L>1.3?0:0)));$$('#stamps div').forEach((d,i)=>{d.className=i<(L<1.3?6:n)?'on':'';});
+  const gp=eb(prog(L,2.9,.4));$('#gift').style.transform=`scale(${gp})`;
+  const rp=eo(prog(L,3.5,.4));$('#ret').style.opacity=rp;$('#ret').style.transform=`translateY(${(1-rp)*60}px)`;}
+ words('L',t,33.6,.3);
+ // M dashboard
+ {const L=t-35.0;const dp=eo(prog(L,0,.45));$('.dash').style.transform=`translateY(${(1-dp)*200}px)`;
+  $('#m1').textContent=fmt(128*eo(prog(L,.2,1.2)));$('#m2').textContent=fmt(38450*eo(prog(L,.2,1.2)));$('#m3').textContent=fmt(46*eo(prog(L,.2,1.2)));
+  const hs=[45,62,50,78,70,92,100];$$('#chart div').forEach((d,i)=>d.style.height=(hs[i]*eo(prog(L,.3+i*.06,.6)))+'%');
+  const pv=L<.7?'390':L<.85?'39':L<1.0?'3':L<1.15?'':L<1.3?'4':L<1.45?'42':'420';$('#mprice').textContent=pv+(L>=.7&&L<1.6&&Math.floor(L*6)%2?'|':'');
+  $('#mprice').style.background=L>1.6&&L<2.2?'#d9f3ea':'#fff';
+  const to=eb(prog(L,1.6,.3)),tq=prog(L,2.6,.3);$('#toast').style.opacity=cl(to)*(1-tq);$('#toast').style.transform=`translateX(-50%) translateY(${(1-to)*40}px)`;
+  $$('.od').forEach((o,i)=>{const p=eo(prog(L,1.5+i*.35,.4));o.style.opacity=p;o.style.transform=`translateX(${(1-p)*-60}px)`});
+  $('#M .tcap h2').innerHTML=L<1.4?'غيّر أي <em>سعر</em> في ثانية':'وتابع <em>أوردراتك</em> وعملاءك';}
+ // N
+ words('N',t,38.2,.3);{const wp=eo(prog(t,38.9,.5));$('#works').style.opacity=wp;$('#works').style.transform=`translateY(${(1-wp)*80}px)`;}
+ // O end
+ {const L=t-40.5;const lp=eb(prog(L,0,.5));$('#elogo').style.transform=`translateX(-50%) scale(${.6+.4*lp})`;$('#elogo').style.opacity=cl(lp);
+  const hp=eo(prog(L,.3,.4));$('#eh').style.opacity=hp;$('#eh').style.transform=`translateY(${(1-hp)*40}px)`;
+  $$('#feats div').forEach((d,i)=>{const p=eb(prog(L,.6+i*.15,.35));d.style.opacity=cl(p);d.style.transform=`scale(${.7+.3*p})`});
+  const pp=eb(prog(L,1.4,.45));$('#eprice').style.opacity=cl(pp);$('#eprice').style.transform=`scale(${.7+.3*pp})`;
+  const wp=eb(prog(L,1.8,.45));$('#ewab').style.transform=`scale(${wp*(1+(L>2.5?.03*Math.sin(L*6):0))})`;
+  $('#ecta').style.opacity=eo(prog(L,2.3,.4));}
+}
+render(0);
+</script></body></html>

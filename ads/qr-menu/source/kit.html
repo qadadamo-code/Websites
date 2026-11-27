@@ -1,0 +1,108 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--mint:#92C5B4;--navy:#143659;--red:#ff5a5f;--wa:#25D366}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Readex Pro','Alexandria',sans-serif;color:#fff;background:#333;display:flex;flex-wrap:wrap;gap:20px;padding:20px;width:3500px}
+.num{font-family:'Montserrat',sans-serif;direction:ltr;unicode-bidi:isolate;display:inline-block}
+.card{position:relative;overflow:hidden;flex:none}
+.sq{width:1080px;height:1080px}.pt{width:1080px;height:1350px}.st{width:1080px;height:1920px}
+.bg{position:absolute;inset:0;background:radial-gradient(800px 600px at 85% 5%,rgba(146,197,180,.3),transparent 60%),radial-gradient(700px 700px at 5% 100%,rgba(146,197,180,.2),transparent 60%),linear-gradient(160deg,#0a1d33,#143659 60%,#0c2340)}
+.bg:after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:60px 60px}
+.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,15,30,.15) 0%,rgba(5,15,30,.1) 35%,rgba(5,15,30,.85) 70%,rgba(5,15,30,.95) 100%)}
+.shadeT{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,15,30,.92) 0%,rgba(5,15,30,.6) 30%,transparent 55%)}
+.logo{position:absolute;top:50px;left:56px;height:96px;z-index:5}
+.idx{position:absolute;top:62px;right:60px;font-size:30px;font-weight:700;background:rgba(255,255,255,.14);border-radius:30px;padding:8px 22px;z-index:5}
+.tag{display:inline-block;font-weight:700;font-size:34px;padding:10px 28px;border-radius:40px;margin-bottom:22px}
+.tag.p{background:var(--red)}.tag.s{background:var(--mint);color:var(--navy)}
+.txt{position:absolute;left:70px;right:70px;bottom:80px;z-index:4}
+.txt h2{font-size:86px;font-weight:900;line-height:1.2}
+.txt h2 em{font-style:normal;color:var(--mint)}.txt h2 .r{color:#ffb4b4}
+.txt p{font-size:40px;line-height:1.5;margin-top:18px;color:#dfeaf2}
+.top{position:absolute;left:70px;right:70px;top:170px;text-align:center;z-index:4}
+.top h2{font-size:78px;font-weight:900;line-height:1.22}.top h2 em{font-style:normal;color:var(--mint)}
+.top p{font-size:38px;color:#cfe0ea;margin-top:16px;line-height:1.5}
+.swipe{position:absolute;bottom:50px;left:60px;font-size:30px;font-weight:700;color:var(--mint);z-index:6}
+/* UI bits */
+.bub{background:#005c4b;border-radius:26px 26px 6px 26px;padding:26px 30px;font-size:34px;line-height:1.6}
+.wacard{background:#0b141a;border-radius:36px;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.wacard .h{display:flex;align-items:center;gap:16px;font-size:30px;font-weight:700;margin-bottom:20px}
+.wacard .h i{font-style:normal;width:64px;height:64px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center}
+.paper{background:#fff;color:#222;font-size:28px;padding:26px 30px;line-height:1.7;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.paper .row{display:flex;justify-content:space-between}
+.lcard{border-radius:44px;background:linear-gradient(135deg,#92C5B4,#5f9f8b 55%,#143659);padding:44px;box-shadow:0 40px 100px rgba(0,0,0,.5);color:var(--navy)}
+.lcard .t{font-size:34px;font-weight:700}.lcard .n{font-size:54px;font-weight:900;color:#fff;margin:10px 0}
+.lcard .pts{font-size:110px;font-weight:900;color:#fff;line-height:1}.lcard .pts small{font-size:38px;margin-right:10px}
+.stamps{display:flex;gap:16px;margin-top:34px}.stamps div{width:58px;height:58px;border-radius:50%;border:4px solid rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;font-size:30px}.stamps .on{background:#fff}
+.dash{background:#f4f7fb;color:#0b1e33;border-radius:40px;padding:36px;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+.dash .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}.dash .hd b{font-size:38px}.dash .hd img{height:56px}
+.stats{display:flex;gap:18px}.s{flex:1;background:#fff;border-radius:24px;padding:22px}.s small{display:block;font-size:24px;color:#5b6b80}.s b{font-size:50px;color:var(--navy)}
+.chart{display:flex;align-items:flex-end;gap:14px;height:180px;background:#fff;border-radius:24px;padding:22px;margin:18px 0}.chart div{flex:1;background:linear-gradient(180deg,#92C5B4,#143659);border-radius:10px 10px 4px 4px}
+.edit{background:#fff;border-radius:24px;padding:22px;display:flex;align-items:center;gap:18px;font-size:32px}.edit img{width:84px;height:84px;border-radius:16px;object-fit:cover}
+.edit .f{margin-right:auto;border:3px solid var(--mint);background:#d9f3ea;border-radius:16px;padding:8px 22px;font-weight:800;font-size:38px}
+.phones{display:flex;justify-content:center;gap:26px}
+.phones div{width:250px;height:500px;border-radius:36px;overflow:hidden;border:6px solid #fff;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.phones img{width:100%;height:100%;object-fit:cover;object-position:top}
+.feats{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.feats div{background:rgba(255,255,255,.09);border:2px solid rgba(146,197,180,.5);border-radius:24px;padding:20px;font-size:32px;font-weight:700;text-align:center}
+.price{text-align:center}.price small{font-size:38px;color:#cfe;display:block}.price b{font-size:130px;font-weight:900;line-height:1.1}.price .cur{font-size:56px;color:var(--mint)}
+.wab{background:var(--wa);border-radius:60px;padding:26px;text-align:center;font-size:58px;font-weight:900;box-shadow:0 20px 60px rgba(37,211,102,.4)}
+.x{position:absolute;width:150px;height:150px;border-radius:50%;background:var(--red);font-size:90px;display:flex;align-items:center;justify-content:center;font-weight:900;box-shadow:0 10px 40px rgba(0,0,0,.4);z-index:5}
+.ok{background:var(--mint);color:var(--navy)}
+</style></head><body>
+
+<!-- CAROUSEL -->
+<div class="card sq" id="c1"><img class="photo" src="img/p2.jpg" style="object-position:center 40%"><div class="shade"></div><div class="idx num">1/6</div>
+ <div class="txt"><div class="tag p">مشكلة كل مطعم</div><h2>منيو مطعمك<br>لسه <span class="r">شطب واستيكرات؟</span></h2><p>الأسعار بتتغيّر كل شهر.. والطباعة مش بتخلص.</p></div><div class="swipe">اسحب ←</div></div>
+
+<div class="card sq" id="c2"><img class="photo" src="img/p5.jpg" style="object-position:center 55%"><div class="shadeT"></div><img class="logo" src="img/lockup-light.png" style="height:120px">
+ <div class="top" style="top:60px;right:80px;left:250px;text-align:right"><div class="tag s">الحل</div><h2 style="font-size:70px"><em>QR</em> على كل ترابيزة</h2><p>الزبون يصوّر.. والمنيو يفتح في ثانية، بالصور والأسعار، من غير أي تطبيق.</p></div></div>
+
+<div class="card sq" id="c3"><div class="bg"></div><div class="idx num">3/6</div>
+ <div class="top" style="top:110px"><h2>الأوردر يوصلك على <em style="color:#25D366">الواتساب</em><br>أو على <em>سيستم الكاشير</em></h2></div>
+ <div style="position:absolute;right:70px;top:430px;width:520px" class="wacard"><div class="h"><i>✆</i>واتساب المطعم</div><div class="bub">🧾 <b>أوردر جديد</b><br>ترابيزة <span class="num">7</span><br>1× طاجن ملوخية<br>2× حمام محشي<br><b>الإجمالي: <span class="num">1,210</span> ج</b></div></div>
+ <div style="position:absolute;left:70px;top:560px;width:380px" class="paper"><div style="text-align:center;font-weight:800;font-family:Montserrat">POS · ORDER #1042</div><div class="row"><span>طاجن ملوخية</span><span class="num">430</span></div><div class="row"><span>حمام محشي ×2</span><span class="num">780</span></div><div class="row" style="font-weight:800;border-top:2px dashed #999"><span>TOTAL</span><span class="num">1,210</span></div></div>
+</div>
+
+<div class="card sq" id="c4"><div class="bg"></div><div class="idx num">4/6</div>
+ <div class="top" style="top:110px"><h2>سيستم <em>ولاء</em> جوّه الموقع</h2><p>نقط وهدايا.. والزبون يرجعلك تاني وتالت.</p></div>
+ <div class="lcard" style="position:absolute;left:130px;right:130px;top:470px"><div class="t">كارت الولاء ⭐</div><div class="n">أحمد محمود</div><div class="pts"><span class="num">250</span><small>نقطة</small></div><div class="stamps"><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div><div>🎁</div></div></div>
+</div>
+
+<div class="card sq" id="c5"><div class="bg"></div><div class="idx num">5/6</div>
+ <div class="top" style="top:90px"><h2>داشبورد <em>كاملة</em></h2><p>غيّر أي سعر في ثانية، وتابع أوردراتك وعملاءك.</p></div>
+ <div class="dash" style="position:absolute;left:90px;right:90px;top:400px"><div class="hd"><b>لوحة التحكم</b><img src="img/lockup-navy.png"></div>
+  <div class="stats"><div class="s"><small>أوردرات النهارده</small><b class="num">128</b></div><div class="s"><small>المبيعات (ج)</small><b class="num">38,450</b></div><div class="s"><small>عملاء جداد</small><b class="num">46</b></div></div>
+  <div class="chart"><div style="height:45%"></div><div style="height:62%"></div><div style="height:50%"></div><div style="height:78%"></div><div style="height:70%"></div><div style="height:92%"></div><div style="height:100%"></div></div>
+  <div class="edit"><img src="img/d-chicken.png"><b>حمام محشي</b><div class="f num">420</div><span style="font-size:26px;color:#0f6b4f">✓ اتحدّث</span></div></div>
+</div>
+
+<div class="card sq" id="c6"><div class="bg"></div><img class="logo" src="img/lockup-light.png" style="height:120px">
+ <div class="top" style="top:60px;left:260px;right:70px;text-align:right"><h2 style="font-size:64px">منيو <em>QR</em> باسم مطعمك</h2><p style="font-size:32px">من شغلنا لمطاعم وكافيهات:</p></div>
+ <div class="phones" style="position:absolute;left:0;right:0;top:300px;transform:scale(.82);transform-origin:top center"><div><img src="img/zaza-top.jpg"></div><div><img src="img/tayseer-top.jpg"></div><div><img src="img/naama-bay-top.jpg"></div></div>
+ <div class="price" style="position:absolute;left:0;right:0;top:730px"><b><span class="num">12,499</span> <span class="cur">جنيه</span></b></div>
+ <div class="wab" style="position:absolute;left:170px;right:170px;top:910px;font-size:52px;padding:20px">✆ <span class="num">01203101104</span></div>
+</div>
+
+<!-- POST 4:5 -->
+<div class="card pt" id="post"><div class="bg"></div>
+ <div style="position:absolute;left:0;right:0;top:0;height:560px;overflow:hidden"><img class="photo" src="img/p3.jpg" style="object-position:center 40%;filter:saturate(.8)"><div class="shade" style="background:linear-gradient(180deg,transparent 40%,rgba(10,29,51,.95))"></div></div>
+ <div class="x" style="right:60px;top:60px">✕</div>
+ <div style="position:absolute;right:70px;left:70px;top:390px;z-index:4"><div class="tag p">المنيو الورقي</div><h2 style="font-size:58px;font-weight:900;line-height:1.3">مبقّع وأسعاره متشطّبة</h2></div>
+ <img src="img/lockup-light.png" style="position:absolute;left:60px;top:650px;height:130px">
+ <div style="position:absolute;right:70px;left:260px;top:660px"><div class="tag s">منيو QR من Planet</div><h2 style="font-size:60px;font-weight:900;line-height:1.25">صوّر.. <span style="color:var(--mint)">واطلب</span></h2></div>
+ <div class="feats" style="position:absolute;left:70px;right:70px;top:850px"><div>📲 منيو بالصور والأسعار</div><div>🟢 الأوردر على الواتساب</div><div>🧾 ربط مع الكاشير</div><div>⭐ ولاء + داشبورد كاملة</div></div>
+ <div class="price" style="position:absolute;left:0;right:0;top:1035px"><b style="font-size:105px"><span class="num">12,499</span> <span class="cur">جنيه</span></b></div>
+ <div class="wab" style="position:absolute;left:170px;right:170px;top:1200px;font-size:52px;padding:20px">✆ <span class="num">01203101104</span></div>
+</div>
+
+<!-- STORY 9:16 -->
+<div class="card st" id="story" style="background:#0b2038"><img class="photo" src="img/p6.jpg" style="height:1150px;object-position:center 40%"><div class="shade" style="background:linear-gradient(180deg,rgba(5,15,30,.75) 0%,transparent 22%,transparent 40%,#0b2038 60%)"></div>
+ <img src="img/lockup-light.png" style="position:absolute;left:50%;transform:translateX(-50%);top:110px;height:200px">
+ <div style="position:absolute;left:70px;right:70px;top:880px;text-align:center"><div class="tag s">لأصحاب المطاعم والكافيهات</div><h2 style="font-size:74px;font-weight:900;line-height:1.2">منيو <span style="color:var(--mint)">QR</span> على كل ترابيزة</h2><p style="font-size:40px;color:#d7e6ee;margin-top:14px">يفتح في ثانية · من غير تطبيق</p></div>
+ <div class="feats" style="position:absolute;left:80px;right:80px;top:1250px"><div>📲 منيو بالصور</div><div>🟢 طلبات واتساب</div><div>🧾 ربط بالكاشير</div><div>⭐ ولاء + داشبورد</div></div>
+ <div class="price" style="position:absolute;left:0;right:0;top:1470px"><b style="font-size:120px"><span class="num">12,499</span> <span class="cur">جنيه</span></b></div>
+ <div class="wab" style="position:absolute;left:150px;right:150px;top:1660px">✆ <span class="num">01203101104</span></div>
+</div>
+</body></html>
