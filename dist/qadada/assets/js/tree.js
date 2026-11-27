@@ -10,7 +10,7 @@
 
   const LEVEL = 172, SLOT = 128, GROUND = 250;
   const STATUS = { confirmed: 'مؤكَّد من العائلة', documented: 'موثَّق بمصدر', narrative: 'رواية عائلية', proposed: 'موضعٌ مقترح' };
-  const PLACES = ['غزة', 'يافا', 'القاهرة', 'كفر الشيخ', 'عمّان', 'الخبر', 'تركيا', 'بلغاريا', 'روسيا', 'بلجيكا', 'إيرلندا', 'السويد', 'إسبانيا', 'جرين باي', 'تورنتو'];
+  const PLACES = ['فلسطين', 'مصر', 'الأردن', 'السعودية', 'تركيا', 'بلغاريا', 'روسيا', 'بلجيكا', 'إيرلندا', 'السويد', 'إسبانيا', 'الولايات المتحدة', 'كندا'];
 
   const state = { members: [], byId: new Map(), kids: new Map(), admin: false, user: null, setup: false, csrf: '', pending: 0, collapsed: new Set(), sel: null, view: 'vt', fv: null, path: [] };
   let rootId = null;

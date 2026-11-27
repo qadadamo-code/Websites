@@ -250,21 +250,19 @@
 
   /* ---------- World presence map (canvas, scroll story) ---------- */
   const CITIES = [
-    { id: 'gaza', name: 'غزة', country: 'فلسطين', code: 'PS', lon: 34.4667, lat: 31.5017, stage: 0, origin: true },
-    { id: 'jaffa', name: 'يافا', country: 'فلسطين · قبل 1948', code: 'PS', lon: 34.7522, lat: 32.0504, stage: 0, hideAt: 1.3, hideM: .85 },
-    { id: 'cairo', name: 'القاهرة', country: 'مصر', code: 'EG', lon: 31.2357, lat: 30.0444, stage: 1, hideAt: 2.3 },
-    { id: 'kfs', name: 'كفر الشيخ', country: 'مصر', code: 'EG', lon: 30.9397, lat: 31.1107, stage: 1, hideAt: 1.9, hideM: 1.05 },
-    { id: 'amman', name: 'عمّان', country: 'الأردن', code: 'JO', lon: 35.9106, lat: 31.9539, stage: 1, hideAt: 2.3 },
-    { id: 'khobar', name: 'الخبر', country: 'السعودية', code: 'SA', lon: 50.2083, lat: 26.2172, stage: 1 },
-    { id: 'tr', name: 'تركيا', country: '', code: 'TR', lon: 32.85, lat: 39.93, stage: 2 },
-    { id: 'bg', name: 'بلغاريا', country: '', code: 'BG', lon: 25.48, lat: 42.73, stage: 2 },
+    { id: 'gaza', name: 'فلسطين', country: '', sub: 'غزة · مستقرّ العائلة', code: 'PS', lon: 34.4667, lat: 31.5017, stage: 0, origin: true },
+    { id: 'eg', name: 'مصر', country: '', sub: 'جمهورية مصر العربية', code: 'EG', lon: 31.2357, lat: 30.0444, stage: 1, hideAt: 2.3 },
+    { id: 'jo', name: 'الأردن', country: '', sub: 'المملكة الأردنية الهاشمية', code: 'JO', lon: 35.9106, lat: 31.9539, stage: 1, hideAt: 2.3 },
+    { id: 'sa', name: 'السعودية', country: '', sub: 'المملكة العربية السعودية', code: 'SA', lon: 46.7, lat: 24.7, stage: 1 },
+    { id: 'tr', name: 'تركيا', country: '', sub: 'الجمهورية التركية', code: 'TR', lon: 32.85, lat: 39.93, stage: 2 },
+    { id: 'bg', name: 'بلغاريا', country: '', sub: 'جمهورية بلغاريا', code: 'BG', lon: 25.48, lat: 42.73, stage: 2 },
     { id: 'ru', name: 'روسيا', country: '', sub: 'الاتحاد الروسي', code: 'RU', lon: 37.62, lat: 55.75, stage: 2 },
     { id: 'se', name: 'السويد', country: '', sub: 'مملكة السويد', code: 'SE', lon: 18.07, lat: 59.33, stage: 2 },
     { id: 'ie', name: 'إيرلندا', country: '', sub: 'جمهورية إيرلندا', code: 'IE', lon: -6.26, lat: 53.35, stage: 2 },
     { id: 'be', name: 'بلجيكا', country: '', sub: 'مملكة بلجيكا', code: 'BE', lon: 4.35, lat: 50.85, stage: 2 },
     { id: 'es', name: 'إسبانيا', country: '', sub: 'مملكة إسبانيا', code: 'ES', lon: -3.70, lat: 40.42, stage: 2 },
-    { id: 'gb', name: 'جرين باي', country: 'ويسكونسن · الولايات المتحدة', code: 'US', lon: -88.0198, lat: 44.5192, stage: 3 },
-    { id: 'to', name: 'تورنتو', country: 'كندا', code: 'CA', lon: -79.3832, lat: 43.6532, stage: 3 }
+    { id: 'us', name: 'الولايات المتحدة', country: '', sub: 'الولايات المتحدة الأمريكية', code: 'US', lon: -88.0198, lat: 44.5192, stage: 3 },
+    { id: 'ca', name: 'كندا', country: '', sub: 'كندا', code: 'CA', lon: -79.3832, lat: 43.6532, stage: 3 }
   ];
   function buildCityList() {
     const ul = $('#citiesList');
