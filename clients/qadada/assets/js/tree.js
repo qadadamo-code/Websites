@@ -544,7 +544,7 @@
   const ft = $('#ft'), fv = $('#fv');
   const fvCrumbs = $('#fvCrumbs'), fvFocus = $('#fvFocus'), fvKids = $('#fvKids'), fvSibs = $('#fvSibs');
   const dispName = m => {
-    const t = m.title && /المرحوم|الأستاذ|السيد|اللواء|المهندس|الدكتور|الحاج|الحاجة/.test(m.title) && m.title.length < 12 ? m.title + ' ' : '';
+    const t = m.title && /المرحوم|الشهيد|الأستاذ|السيد|اللواء|المهندس|الدكتور|الحاج|الحاجة/.test(m.title) && m.title.length < 12 ? m.title + ' ' : '';
     return t + m.name;
   };
   const avatar = (m, cls) => m.photo
