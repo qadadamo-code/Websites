@@ -21,6 +21,7 @@
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true }); // iOS toolbar show/hide must not re-layout mid-scroll
 
   /* ---------------- links from config ---------------- */
   const waLink = text => `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(text)}`;
@@ -232,24 +233,25 @@
     const el = typeof target === "string" ? $(target) : target;
     if (!el) return;
     if (lenis) { lenis.scrollTo(el, { offset: 0, duration: 1.6 }); return; }
-    // Touch/mobile: scroll the window to an exact Y (no scrollIntoView, which iOS Safari
-    // cancels when another element scrolls mid-way), then re-check once it settles,
-    // in case lazy images or pinned sections shifted the target.
-    const go = smooth => window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY), behavior: smooth && !reduce ? "smooth" : "auto" });
+    // Touch/mobile: jump straight to the section (a long smooth scroll on iOS Safari gets
+    // interrupted by toolbar resizes, image decoding and other scrolls, and stops early),
+    // then re-check a few times and correct if the layout moved underneath.
+    const go = () => window.scrollTo({ top: Math.max(0, Math.round(el.getBoundingClientRect().top + window.scrollY)), behavior: "auto" });
     window.__navScrolling = true;
-    go(true);
+    go();
     clearTimeout(window.__navFix);
-    let last = -1, still = 0;
-    const settle = () => {
-      const y = Math.round(window.scrollY);
-      still = y === last ? still + 1 : 0; last = y;
-      if (still < 3) { window.__navFix = setTimeout(settle, 120); return; }
-      if (Math.abs(el.getBoundingClientRect().top) > 4) go(false);
+    let n = 0;
+    const check = () => {
+      if (Math.abs(el.getBoundingClientRect().top) > 3) go();
+      if (++n < 6) { window.__navFix = setTimeout(check, 180); return; }
       window.__navScrolling = false;
       const bar = document.getElementById("menuTabs"), t = bar && el.id && bar.querySelector('a[href="#' + el.id + '"]');
-      if (t) { const br = bar.getBoundingClientRect(), r = t.getBoundingClientRect(); bar.scrollBy({ left: (r.left + r.width / 2) - (br.left + br.width / 2) }); }
+      if (t) {
+        bar.querySelectorAll("a").forEach(x => x.classList.toggle("is-active", x === t));
+        const br = bar.getBoundingClientRect(), r = t.getBoundingClientRect(); bar.scrollBy({ left: (r.left + r.width / 2) - (br.left + br.width / 2) });
+      }
     };
-    window.__navFix = setTimeout(settle, 250);
+    window.__navFix = setTimeout(check, 120);
   };
   document.addEventListener("click", e => {
     const a = e.target.closest('a[href^="#"]');
