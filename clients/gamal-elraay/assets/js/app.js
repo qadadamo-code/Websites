@@ -93,7 +93,7 @@
       b.textContent = l.label; b.dataset.l = l.code; b.setAttribute('aria-selected', l.code === lang);
       m2.appendChild(b);
     });
-    $$('[data-l]').forEach(function (b) { b.addEventListener('click', function () { setLang(b.dataset.l); $('#lang').classList.remove('is-open'); document.body.classList.remove('nav-open'); }); });
+    $$('[data-l]').forEach(function (b) { b.addEventListener('click', function () { setLang(b.dataset.l); $('#lang').classList.remove('is-open'); setNav(false); }); });
   }
   $('#langBtn').addEventListener('click', function (e) { e.stopPropagation(); var o = $('#lang').classList.toggle('is-open'); this.setAttribute('aria-expanded', o); });
   document.addEventListener('click', function () { $('#lang').classList.remove('is-open'); });
@@ -330,7 +330,13 @@
   });
 
   /* ---------- nav ---------- */
-  $('#burger').addEventListener('click', function () { document.body.classList.toggle('nav-open'); });
+  function setNav(o) {
+    document.body.classList.toggle('nav-open', o);
+    document.body.classList.toggle('is-locked', o);
+    if (window.__lenis) o ? __lenis.stop() : __lenis.start();
+    onScroll(window.scrollY);
+  }
+  $('#burger').addEventListener('click', function () { setNav(!document.body.classList.contains('nav-open')); });
   function go(hash) {
     var el = $(hash); if (!el) return;
     if (window.__lenis) __lenis.scrollTo(el, { offset: hash === '#collections' || hash === '#top' ? 0 : -40, duration: 1.4 });
@@ -339,7 +345,7 @@
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a[href^="#"]'); if (!a) return;
     var h = a.getAttribute('href'); if (h.length < 2) return;
-    e.preventDefault(); document.body.classList.remove('nav-open'); go(h);
+    e.preventDefault(); if (document.body.classList.contains('nav-open')) setNav(false); go(h);
   });
 
   /* ---------- reveal ---------- */
@@ -385,9 +391,21 @@
   function startHeroHint() {}
 
   /* ---------- header / bbar ---------- */
+  var lastY = 0, hdrHidden = false;
   function onScroll(y) {
+    var hdr = $('#hdr'), navOpen = document.body.classList.contains('nav-open');
+    var mob = isMobile();
     var hh = $('#hero').offsetHeight - window.innerHeight;
-    $('#hdr').classList.toggle('is-solid', y > hh - 10 || document.body.classList.contains('nav-open'));
+    hdr.classList.toggle('is-solid', navOpen || (mob ? y > 24 : y > hh - 10));
+    // phones: hide while scrolling down, show again on scroll up
+    var dy = y - lastY;
+    if (mob && !navOpen) {
+      if (y < 80) hdrHidden = false;
+      else if (dy > 6) hdrHidden = true;
+      else if (dy < -6) hdrHidden = false;
+    } else hdrHidden = false;
+    hdr.classList.toggle('is-hidden', hdrHidden);
+    lastY = y;
     $('.bbar').classList.toggle('show', y > window.innerHeight * 0.6);
     $('.hero__hint').style.opacity = y > 60 ? 0 : 1;
   }
@@ -399,7 +417,7 @@
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger); stReady = true;
     var lenis = null;
-    if (window.Lenis && !window.matchMedia('(prefers-reduced-motion:reduce)').matches) {
+    if (window.Lenis && !window.matchMedia('(prefers-reduced-motion:reduce)').matches && !window.matchMedia('(hover:none),(pointer:coarse)').matches) {
       lenis = new Lenis({ duration: 1.15, smoothWheel: true });
       window.__lenis = lenis;
       lenis.on('scroll', function (e) { ScrollTrigger.update(); onScroll(e.scroll); });
