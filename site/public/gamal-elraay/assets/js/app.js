@@ -135,7 +135,7 @@
 
   /* ---------- marquee ---------- */
   function renderMarquee() {
-    var words = ['col.living', 'col.corner', 'col.bedroom', 'col.dining', 'col.kids', 'col.office'].map(t);
+    var words = ['col.classic', 'col.living', 'col.corner', 'col.bedroom', 'col.dining', 'col.office'].map(t);
     var html = words.concat(words).map(function (w) { return '<span>' + w + '</span>'; }).join('');
     $('#marq').innerHTML = html + html;
   }
@@ -148,7 +148,7 @@
     $('#colsDots').innerHTML = D.collections.map(function (c, i) { return '<i class="' + (i ? '' : 'on') + '"></i>'; }).join('');
     $$('.colcard').forEach(function (card) {
       card.addEventListener('click', function () {
-        var map = { living: 'living', corner: 'living', bedroom: 'bedroom', kids: 'bedroom', dining: 'dining', office: 'decor' };
+        var map = { classic: 'classic', living: 'living', corner: 'living', bedroom: 'bedroom', kids: 'bedroom', dining: 'dining', office: 'decor' };
         filterShop(map[card.dataset.col] || 'all');
         go('#showroom');
       });
@@ -208,7 +208,7 @@
   function prodById(id) { return D.products.filter(function (p) { return p.id === id; })[0]; }
   function pname(p) { return p.name[lang] || p.name.en; }
   function renderShop() {
-    var cats = ['all', 'living', 'bedroom', 'dining', 'decor'];
+    var cats = ['all', 'classic', 'living', 'bedroom', 'dining', 'decor'];
     $('#chips').innerHTML = cats.map(function (c) { return '<button class="chip' + (c === curCat ? ' is-on' : '') + '" data-c="' + c + '">' + (c === 'all' ? t('shop.all') : t('cat.' + c)) + '</button>'; }).join('');
     $$('#chips .chip').forEach(function (b) { b.addEventListener('click', function () { filterShop(b.dataset.c); }); });
     $('#grid').innerHTML = D.products.map(function (p) {
