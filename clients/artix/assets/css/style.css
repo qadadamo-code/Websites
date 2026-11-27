@@ -150,8 +150,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* ---------- manifesto ---------- */
 .manifesto{padding:clamp(80px,12vw,170px) 0 clamp(60px,8vw,110px)}
 .manifesto__grid{display:grid;grid-template-columns:minmax(150px,240px) 1fr;gap:clamp(30px,6vw,90px);align-items:start}
-.manifesto__portrait{margin:0;border-radius:200px 200px 18px 18px;overflow:hidden;aspect-ratio:3/7;max-height:520px;background:var(--bg2);position:sticky;top:120px}
-.manifesto__portrait img{width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:grayscale(1) contrast(1.05)}
+.manifesto__portrait{margin:0;border-radius:200px 200px 18px 18px;overflow:hidden;aspect-ratio:262/600;max-height:540px;background:var(--bg2);position:sticky;top:120px}
+.manifesto__portrait img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.05)}
 .manifesto__text{font-size:clamp(24px,3vw,44px);line-height:1.38;font-weight:500;margin:0;letter-spacing:-.01em}
 [dir="rtl"] .manifesto__text{line-height:1.6;letter-spacing:0}
 .manifesto__text .w{opacity:.16;transition:opacity .35s,color .35s}
@@ -178,7 +178,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .fac__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2vw,28px)}
 .fac{position:relative;border-radius:var(--r);overflow:hidden;background:#111;color:#fff;min-height:clamp(380px,42vw,560px);display:flex;align-items:flex-end}
 .fac__img{position:absolute;inset:0}
-.fac__img img{width:100%;height:115%;object-fit:cover;will-change:transform;transition:transform 1.4s var(--ease)}
+.fac__img img{width:100%;height:100%;object-fit:cover;object-position:center 22%;will-change:transform;transition:transform 1.4s var(--ease)}
 .fac:hover .fac__img img{transform:scale(1.04)}
 .fac::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.85),rgba(0,0,0,.05) 60%)}
 .fac__body{position:relative;z-index:2;padding:clamp(22px,3vw,38px)}
@@ -370,7 +370,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .stat:nth-child(odd){border-inline-start:0;padding-inline-start:0}
   .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
   .manifesto__grid{grid-template-columns:1fr}
-  .manifesto__portrait{position:relative;top:0;width:120px;aspect-ratio:3/5}
+  .manifesto__portrait{position:relative;top:0;width:150px;aspect-ratio:262/600;max-height:none}
   .why{grid-template-columns:1fr 1fr;row-gap:24px}
   .growth__row{grid-template-columns:62px 1fr 84px;gap:12px}
   .growth__row b{font-size:15px}
