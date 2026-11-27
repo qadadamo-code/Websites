@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 27;
+const DATA_VERSION = 28;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -561,6 +561,78 @@ function migrate(array &$t): void {
         };
         if (($kh = $cid('m14', 'خليل')) && ($ib = $cid($kh, 'إبراهيم')) && !$cid($ib, 'أمير') && ($o = $cid($ib, 'عمر'))) {
             $i = find_index($M, $o); $M[$i]['name'] = 'أمير';
+        }
+    }
+    if ($v < 28) {
+        // 2026-11-27: Jaffa branch expansion (أحمد بن علي → حسن و علي) from the family chart and Walid Sobhi's messages
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        $seq = 0;
+        $order = function (string $parent, array $names) use (&$M, $norm) {
+            $slots = []; $byName = [];
+            foreach ($M as $i => $x) if (($x['parent'] ?? '') === $parent) { $slots[] = $i; $byName[$norm($x['name'])][] = $x; }
+            $out = [];
+            foreach ($names as $n) if (!empty($byName[$norm($n)])) $out[] = array_shift($byName[$norm($n)]);
+            foreach ($byName as $rows) foreach ($rows as $x) $out[] = $x;
+            foreach ($slots as $k => $i) $M[$i] = $out[$k];
+        };
+        $build = function (string $parent, array $spec) use (&$build, &$M, &$seq, $add, $cid, $order) {
+            $names = [];
+            foreach ($spec as $k => $v) {
+                $name = is_int($k) ? $v : $k;
+                $names[] = $name;
+                $id = $cid($parent, $name);
+                if (!$id) { $id = 'y28_' . (++$seq); $add(['id' => $id, 'parent' => $parent, 'name' => $name, 'branch' => 'يافا']); }
+                if (!is_int($k) && is_array($v)) $build($id, $v);
+            }
+            $order($parent, $names);
+        };
+        if (find_index($M, 'm3') >= 0) {
+            $build('m3', [
+                'حسن' => [
+                    'صبحي' => [
+                        'وليد' => ['صبحي', 'وسيم', 'باسل', 'أمجد', 'أحمد', 'محمد'],
+                        'محمد' => ['عبدالله', 'مهند'],
+                        'نبيل' => ['محمد'],
+                        'سامر' => ['هاني', 'عمر'],
+                    ],
+                    'أحمد' => [
+                        'حسن',
+                        'محمد' => ['عبد الكريم', 'محمود', 'مصطفى', 'أحمد'],
+                        'خليل' => ['أحمد'],
+                        'حمزة', 'أنس', 'عمر',
+                    ],
+                ],
+                'علي' => [
+                    'رجب',
+                    'موسى' => ['طارق' => ['معاذ'], 'معاذ' => ['موسى', 'عمران']],
+                    'حسين',
+                    'نايف' => [
+                        'رجب' => ['عمرو', 'محمد', 'رضوان', 'نايف', 'آدم', 'رجب'],
+                        'رضوان' => ['إبراهيم'],
+                        'مجدي' => ['سيف الدين'],
+                        'ضياء' => ['أمير', 'فارس'],
+                        'محمد' => ['كريم'],
+                        'أحمد',
+                        'فادي' => ['عبدالله'],
+                    ],
+                    'جبريل' => [
+                        'خالد' => ['جبريل', 'محمود'],
+                        'عامر' => ['أحمد', 'محمد', 'زيد'],
+                        'محمد',
+                        'صلاح' => ['آدم'],
+                        'علي', 'بشار',
+                    ],
+                ],
+            ]);
+            // حسن first under أحمد بن علي
+            $h = $cid('m3', 'حسن');
+            if ($h) { $i = find_index($M, $h); $row = $M[$i]; array_splice($M, $i, 1); $j = find_index($M, $cid('m3', 'علي')); if ($j >= 0) array_splice($M, $j, 0, [$row]); else $M[] = $row; }
+            // نبيل بن صبحي is deceased
+            if (($s = $cid($h ?? '', 'صبحي')) && ($n = $cid($s, 'نبيل'))) { $i = find_index($M, $n); $M[$i]['deceased'] = true; $M[$i]['title'] = 'المرحوم'; }
         }
     }
     $t['members'] = $M;
