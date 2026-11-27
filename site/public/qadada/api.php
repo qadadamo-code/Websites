@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 30;
+const DATA_VERSION = 31;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -659,6 +659,24 @@ function migrate(array &$t): void {
             if ($ali && ($jb = $cid($ali, 'جبريل')) && ($kh = $cid($jb, 'خالد')) && !$cid($kh, 'محمد')) {
                 $add(['id' => 'y30k', 'parent' => $kh, 'name' => 'محمد', 'branch' => 'يافا'], $cid($kh, 'جبريل'));
             }
+        }
+    }
+    if ($v < 31) {
+        // 2026-11-27: follow the handwritten sheet: no حسين under علي بن أحمد; خالد بن جبريل's sons are جبريل، محمود، حمزة
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        $hasKids = function (string $id) use (&$M) { foreach ($M as $x) if (($x['parent'] ?? '') === $id) return true; return false; };
+        if ($ali = $cid('m3', 'علي')) {
+            if (($h = $cid($ali, 'حسين')) && !$hasKids($h)) array_splice($M, find_index($M, $h), 1);
+            if (($jb = $cid($ali, 'جبريل')) && ($kh = $cid($jb, 'خالد'))) {
+                if (($m = $cid($kh, 'محمد')) && !$hasKids($m) && !$cid($kh, 'حمزة')) { $i = find_index($M, $m); $M[$i]['name'] = 'حمزة'; $row = $M[$i]; array_splice($M, $i, 1);
+                    $j = find_index($M, $cid($kh, 'محمود')); array_splice($M, $j + 1, 0, [$row]); }
+                elseif (!$cid($kh, 'حمزة')) $add(['id' => 'y31h', 'parent' => $kh, 'name' => 'حمزة', 'branch' => 'يافا'], $cid($kh, 'محمود'));
+            }
+            if (($jb = $cid($ali, 'جبريل')) && ($ny = $cid($ali, 'نايف'))) { $i = find_index($M, $jb); $row = $M[$i]; array_splice($M, $i, 1); array_splice($M, find_index($M, $ny), 0, [$row]); }
         }
     }
     $t['members'] = $M;
