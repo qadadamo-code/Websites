@@ -231,8 +231,25 @@
   const scrollTo = target => {
     const el = typeof target === "string" ? $(target) : target;
     if (!el) return;
-    if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.6 });
-    else el.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+    if (lenis) { lenis.scrollTo(el, { offset: 0, duration: 1.6 }); return; }
+    // Touch/mobile: scroll the window to an exact Y (no scrollIntoView, which iOS Safari
+    // cancels when another element scrolls mid-way), then re-check once it settles,
+    // in case lazy images or pinned sections shifted the target.
+    const go = smooth => window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY), behavior: smooth && !reduce ? "smooth" : "auto" });
+    window.__navScrolling = true;
+    go(true);
+    clearTimeout(window.__navFix);
+    let last = -1, still = 0;
+    const settle = () => {
+      const y = Math.round(window.scrollY);
+      still = y === last ? still + 1 : 0; last = y;
+      if (still < 3) { window.__navFix = setTimeout(settle, 120); return; }
+      if (Math.abs(el.getBoundingClientRect().top) > 4) go(false);
+      window.__navScrolling = false;
+      const bar = document.getElementById("menuTabs"), t = bar && el.id && bar.querySelector('a[href="#' + el.id + '"]');
+      if (t) { const br = bar.getBoundingClientRect(), r = t.getBoundingClientRect(); bar.scrollBy({ left: (r.left + r.width / 2) - (br.left + br.width / 2) }); }
+    };
+    window.__navFix = setTimeout(settle, 250);
   };
   document.addEventListener("click", e => {
     const a = e.target.closest('a[href^="#"]');
@@ -341,7 +358,7 @@
   $$(".cat").forEach(cat => {
     ScrollTrigger.create({
       trigger: cat, start: "top 50%", end: "bottom 50%",
-      onToggle: self => { if (self.isActive) { tabLinks.forEach(t => t.classList.toggle("is-active", t.dataset.cat === cat.dataset.cat)); const a = tabLinks.find(t => t.dataset.cat === cat.dataset.cat); a && a.scrollIntoView({ inline: "center", block: "nearest" }); } }
+      onToggle: self => { if (self.isActive) { tabLinks.forEach(t => t.classList.toggle("is-active", t.dataset.cat === cat.dataset.cat)); const a = tabLinks.find(t => t.dataset.cat === cat.dataset.cat); if (a && !window.__navScrolling) { const tr = tabs.getBoundingClientRect(), ar = a.getBoundingClientRect(); tabs.scrollBy({ left: (ar.left + ar.width / 2) - (tr.left + tr.width / 2) }); } } }
     });
   });
 
