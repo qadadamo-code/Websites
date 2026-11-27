@@ -158,7 +158,7 @@
     [2.8, 2.3, 1.9, 1.25, .85, .35].forEach((a, i) => root((i - 2.5) * 8, GROUND, a, 110 + r() * 60, 12 - Math.abs(i - 2.5) * 2, 3));
     const gold = el('path', { d: `M4 ${GROUND} C 20 ${GROUND + 70}, 0 ${GROUND + 120}, 0 ${GROUND + 170}`, stroke: '#e8cd7a', 'stroke-width': 3, fill: 'none', pathLength: 1, style: 'filter:drop-shadow(0 0 6px rgba(232,205,122,.8))' }, gGround);
     rootParts.push(gold);
-    const t = el('text', { x: 0, y: GROUND + 214, class: 't-ground-txt' }, gGround); t.textContent = 'الجذور: غزة · فلسطين';
+    const t = el('text', { x: 0, y: GROUND + 214, class: 't-ground-txt' }, gGround); t.textContent = 'مستقرّنا: غزة · فلسطين';
     const t2 = el('text', { x: 0, y: GROUND + 240, class: 't-ground-sub' }, gGround); t2.textContent = 'محلة الدرج · ثم يافا · ثم العودة إلى غزة';
     // braided trunk from ground to the root medallion
     trunkParts = [];
