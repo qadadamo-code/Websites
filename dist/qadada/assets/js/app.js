@@ -91,7 +91,7 @@
     const pin = el('g', { opacity: 0 }, rootsG);
     el('circle', { cx: CX + 120, cy: GROUND + 134, r: 6, fill: '#e8cd7a' }, pin);
     el('circle', { cx: CX + 120, cy: GROUND + 134, r: 6, class: 'gm-pulse' }, pin);
-    const t1 = el('text', { x: CX + 140, y: GROUND + 142, class: 'ht-label', 'text-anchor': 'end' }, pin); t1.textContent = 'غزة';
+    const t1 = el('text', { x: CX + 140, y: GROUND + 142, class: 'ht-label', 'text-anchor': 'end' }, pin); t1.textContent = 'فلسطين';
     const t2 = el('text', { x: CX + 196, y: GROUND + 142, class: 'ht-label-s', 'text-anchor': 'end' }, pin); t2.textContent = '';
     groups.pin = pin;
 
@@ -250,7 +250,7 @@
 
   /* ---------- World presence map (canvas, scroll story) ---------- */
   const CITIES = [
-    { id: 'gaza', name: 'فلسطين', country: '', sub: 'غزة · مستقرّ العائلة', code: 'PS', lon: 34.4667, lat: 31.5017, stage: 0, origin: true },
+    { id: 'gaza', name: 'فلسطين', country: '', sub: 'وطن العائلة', code: 'PS', lon: 34.4667, lat: 31.5017, stage: 0, origin: true },
     { id: 'eg', name: 'مصر', country: '', sub: 'جمهورية مصر العربية', code: 'EG', lon: 31.2357, lat: 30.0444, stage: 1, hideAt: 2.3 },
     { id: 'jo', name: 'الأردن', country: '', sub: 'المملكة الأردنية الهاشمية', code: 'JO', lon: 35.9106, lat: 31.9539, stage: 1, hideAt: 2.3 },
     { id: 'sa', name: 'السعودية', country: '', sub: 'المملكة العربية السعودية', code: 'SA', lon: 46.7, lat: 24.7, stage: 1 },
