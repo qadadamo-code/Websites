@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 25;
+const DATA_VERSION = 26;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -502,6 +502,54 @@ function migrate(array &$t): void {
             foreach ($M as &$mm) if (($mm['parent'] ?? '') === 'mm2') $mm['parent'] = 'mm1';
             unset($mm);
             array_splice($M, find_index($M, 'mm2'), 1);
+        }
+    }
+    if ($v < 26) {
+        // 2026-11-27: sons and grandsons of الحاج عبد (أبو عدنان) from the family's list; his son is جهاد (not عماد)
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        $order = function (?string $parent, array $names) use (&$M, $norm) {
+            if (!$parent) return;
+            $slots = []; $byName = [];
+            foreach ($M as $i => $x) if (($x['parent'] ?? '') === $parent) { $slots[] = $i; $byName[$norm($x['name'])] = $x; }
+            $seq = [];
+            foreach ($names as $n) if (isset($byName[$norm($n)])) { $seq[] = $byName[$norm($n)]; unset($byName[$norm($n)]); }
+            foreach ($byName as $x) $seq[] = $x;
+            foreach ($slots as $k => $i) $M[$i] = $seq[$k];
+        };
+        $kids = function (?string $parent, array $names, string $prefix) use (&$M, $add, $cid, $order) {
+            if (!$parent) return;
+            foreach ($names as $k => $n) if (!$cid($parent, $n)) $add(['id' => $prefix . ($k + 1), 'parent' => $parent, 'name' => $n]);
+            $order($parent, $names);
+        };
+        if (find_index($M, 'm13') >= 0) {
+            if (!$cid('m13', 'جهاد') && ($e = $cid('m13', 'عماد'))) { $i = find_index($M, $e); $M[$i]['name'] = 'جهاد'; }
+            $kids('m13', ['عدنان', 'عادل', 'زياد', 'جهاد', 'أسامة'], 'a26s');
+            $adn = $cid('m13', 'عدنان');
+            $kids($adn, ['عبد'], 'a26a');
+            if ($adn) $kids($cid($adn, 'عبد'), ['عدنان', 'محمود'], 'a26aa');
+            $adl = $cid('m13', 'عادل');
+            $kids($adl, ['رائد', 'رأفت', 'محمد'], 'a26b');
+            if ($adl) {
+                $kids($cid($adl, 'رائد'), ['عادل', 'عبدالله'], 'a26br');
+                $kids($cid($adl, 'رأفت'), ['محمد'], 'a26bf');
+                $mo = $cid($adl, 'محمد');
+                $kids($mo, ['كرم', 'عادل'], 'a26bm');
+                if ($mo && ($k = $cid($mo, 'كرم'))) { $i = find_index($M, $k); $M[$i]['title'] = 'الشهيد'; $M[$i]['deceased'] = true; }
+            }
+            $kids($cid('m13', 'زياد'), ['إيهاب', 'محمد'], 'a26c');
+            $jh = $cid('m13', 'جهاد');
+            $kids($jh, ['محمود', 'أحمد', 'محمد'], 'a26d');
+            if ($jh) {
+                $kids($cid($jh, 'محمود'), ['جهاد'], 'a26dm');
+                $kids($cid($jh, 'محمد'), ['عماد'], 'a26dd');
+            }
+            $os = $cid('m13', 'أسامة');
+            $kids($os, ['رامي', 'محمد'], 'a26e');
+            if ($os) $kids($cid($os, 'رامي'), ['أسامة'], 'a26er');
         }
     }
     $t['members'] = $M;
