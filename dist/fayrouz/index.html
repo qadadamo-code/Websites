@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>الفيروز | بيتزا وفطائر – توصيل 24 ساعة</title>
+<meta name="description" content="الفيروز للبيتزا والفطائر: بيتزا شرقي وإيطالي، فطير حشو، صواريخ، حواوشي، فطير حلو ومشلتت. توصيل 24 ساعة. ناصية سيدي بلال من شارع الأسيوطي أمام ألبان القزاز. اطلب على واتساب.">
+<meta name="theme-color" content="#0d0c0b">
+<meta property="og:title" content="الفيروز | بيتزا وفطائر">
+<meta property="og:description" content="الجبنة بتشد.. والطعم بيشدّك أكتر. اطلب على واتساب – توصيل 24 ساعة">
+<meta property="og:image" content="assets/img/hero-b.webp">
+<link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=1">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="mark" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M50 14 L82 74 Q50 88 18 74 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M24 66 Q50 78 76 66" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="50" cy="44" r="5.5" fill="currentColor"/>
+      <circle cx="40" cy="60" r="4.5" fill="currentColor"/>
+      <circle cx="60" cy="61" r="4" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></symbol>
+  </defs>
+</svg>
+
+<!-- INTRO -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-in">
+    <svg class="intro-mark"><use href="#mark"/></svg>
+    <div class="intro-word"><span>ا</span><span>ل</span><span>ف</span><span>ي</span><span>ر</span><span>و</span><span>ز</span></div>
+    <div class="intro-sub">بيتزا · فطائر</div>
+  </div>
+</div>
+
+<!-- TABLE BANNER (QR) -->
+<div class="table-bar" id="tableBar" hidden><span>🍽️ أنت على ترابيزة رقم <b id="tableNo"></b> — اطلب من هنا وهيوصلك لحد عندك</span></div>
+
+<!-- HEADER -->
+<header class="hdr" id="hdr">
+  <a href="#top" class="brand" aria-label="الفيروز">
+    <svg class="brand-mark"><use href="#mark"/></svg>
+    <span class="brand-txt"><b>الفيروز</b><small>بيتزا · فطائر</small></span>
+  </a>
+  <nav class="nav" id="nav">
+    <a href="#moods">الأصناف</a>
+    <a href="#studio">اعمل طلبك</a>
+    <a href="#menu">المنيو</a>
+    <a href="#delivery">التوصيل</a>
+    <a href="#visit">العنوان</a>
+  </nav>
+  <div class="hdr-tools">
+    <span class="open-pill"><i></i>مفتوح 24 ساعة</span>
+    <button class="cart-btn" id="cartBtn" aria-label="السلة"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="17" cy="20.5" r="1.3"/></svg><b id="cartCount">0</b></button>
+    <button class="burger" id="navBtn" aria-label="القائمة"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO: scroll-scrubbed cheese pull -->
+<section class="hero" id="hero">
+  <div class="hero-pin">
+    <canvas id="seq" class="seq"></canvas>
+    <img class="seq-poster" id="seqPoster" src="assets/img/hero-a.webp" alt="بيتزا الفيروز طالعة من الفرن" fetchpriority="high">
+    <div class="hero-shade"></div>
+    <div class="hero-copy wrap">
+      <p class="eyebrow h-in"><span class="dot"></span>من الفرن لإيدك · توصيل 24 ساعة</p>
+      <h1 class="hero-title">
+        <span class="ln"><span>الجبنة بتشِد</span></span>
+        <span class="ln"><span class="tq">والطعم بيشِدّك أكتر</span></span>
+      </h1>
+      <p class="hero-sub h-in">بيتزا شرقي وإيطالي، فطير حشو، صواريخ، حواوشي وفطير حلو. كله بيتعمل قدامك، طازة، وبيوصلك سخن في أي ساعة.</p>
+      <div class="hero-cta h-in">
+        <a href="#menu" class="btn btn-tq">اطلب دلوقتي<svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a>
+        <a href="#studio" class="btn btn-ghost">اعمل طلبك بالمقاس</a>
+      </div>
+    </div>
+    <div class="hero-stats wrap">
+      <div class="hs"><b>24</b><span>ساعة توصيل</span></div>
+      <div class="hs"><b>80+</b><span>صنف في المنيو</span></div>
+      <div class="hs"><b>3</b><span>مقاسات لكل صنف</span></div>
+    </div>
+    <div class="scroll-hint"><i></i><span>اسحب لتحت</span></div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div class="ticker-in" id="ticker"></div></div>
+
+<!-- MOODS -->
+<section class="moods" id="moods">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker">المنيو في لقطة</p>
+      <h2>إنت في مود إيه النهارده؟</h2>
+      <p class="lead">اختار القسم وإحنا نوديك على أصنافه وأسعاره على طول.</p>
+    </div>
+    <div class="mood-grid" id="moodGrid"></div>
+  </div>
+</section>
+
+<!-- STUDIO: size picker -->
+<section class="studio" id="studio">
+  <div class="wrap studio-in">
+    <div class="studio-vis">
+      <div class="plate" id="plate">
+        <div class="plate-ring r1"></div><div class="plate-ring r2"></div><div class="plate-ring r3"></div>
+        <div class="disc" id="disc"><img id="discImg" src="assets/img/pizza-sharqi.webp" alt=""></div>
+      </div>
+      <div class="size-tags"><span data-i="0">صغير</span><span data-i="1">وسط</span><span data-i="2">كبير</span></div>
+    </div>
+    <div class="studio-panel">
+      <p class="kicker">اعمل طلبك</p>
+      <h2>اختار النوع، الحشو، والمقاس</h2>
+      <div class="field">
+        <label>النوع</label>
+        <div class="chips" id="stType"></div>
+      </div>
+      <div class="field">
+        <label>الحشو</label>
+        <div class="select-wrap"><select id="stItem"></select></div>
+      </div>
+      <div class="field">
+        <label>المقاس</label>
+        <div class="seg" id="stSize"><button data-i="0">صغير</button><button data-i="1" class="on">وسط</button><button data-i="2">كبير</button><i class="seg-ind"></i></div>
+      </div>
+      <div class="field">
+        <label>إضافات <small>(اختياري)</small></label>
+        <div class="chips extras" id="stExtras"></div>
+      </div>
+      <div class="studio-foot">
+        <div class="price"><small>الإجمالي</small><b id="stPrice">75</b><span>ج</span></div>
+        <div class="qty"><button id="qMinus" aria-label="أقل">−</button><b id="qVal">1</b><button id="qPlus" aria-label="أكتر">+</button></div>
+        <button class="btn btn-tq" id="stAdd">ضيف للسلة</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker">المنيو كامل</p>
+      <h2>كل الأصناف بأسعارها</h2>
+      <p class="lead">دوس على السعر اللي يناسبك، والصنف يدخل السلة بالمقاس ده على طول.</p>
+    </div>
+    <div class="menu-bar">
+      <div class="tabs" id="tabs"></div>
+      <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="دوّر على صنف… مثلاً بسطرمة"></label>
+    </div>
+    <div class="menu-body" id="menuBody"></div>
+  </div>
+</section>
+
+<!-- CRAFT -->
+<section class="craft" id="craft">
+  <div class="craft-media"><img src="assets/img/baker.webp" alt="فرد عجينة الفطير" loading="lazy"></div>
+  <div class="wrap craft-in">
+    <p class="kicker">على أصوله</p>
+    <h2>العجينة بتتفرد قدامك<br><span class="tq">والفرن مابيطفيش</span></h2>
+    <p class="lead">كل فطيرة وكل بيتزا بتتعمل بالطلب. عجينة طازة كل يوم، جبنة موتزاريلا بتشد، وحشو على قد ما نفسك.</p>
+    <div class="craft-pts">
+      <div><b>طازة</b><span>عجينة كل يوم</span></div>
+      <div><b>بالطلب</b><span>مفيش حاجة جاهزة</span></div>
+      <div><b>سخن</b><span>من الفرن للعلبة</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section class="delivery" id="delivery">
+  <div class="wrap del-in">
+    <div class="del-media"><img src="assets/img/delivery.webp" alt="توصيل الفيروز بالليل" loading="lazy"><div class="del-clock"><small>الساعة دلوقتي</small><b id="clock">--:--</b><span>وإحنا شغالين ✓</span></div></div>
+    <div class="del-copy">
+      <p class="kicker">خدمة توصيل 24 ساعة</p>
+      <h2>جوعت الساعة 3 الفجر؟<br><span class="tq">إحنا صاحيين.</span></h2>
+      <p class="lead">اطلب في أي وقت، ليل أو نهار. ابعت طلبك على واتساب أو كلمنا، والطيار يوصلك والأكل لسه سخن.</p>
+      <div class="del-btns">
+        <a class="btn btn-tq" id="waBig" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>اطلب على واتساب</a>
+        <a class="btn btn-ghost" id="callBig" href="#">اتصل بينا</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QR / TABLE -->
+<section class="qr" id="qr">
+  <div class="wrap qr-in">
+    <div class="qr-card">
+      <div class="qr-code" id="qrCode"></div>
+      <small>امسح وجرّب</small>
+    </div>
+    <div>
+      <p class="kicker">قاعد عندنا؟</p>
+      <h2>امسح الكود اللي على الترابيزة</h2>
+      <p class="lead">المنيو يفتح على موبايلك، تختار براحتك، وطلبك يوصل للمطبخ برقم ترابيزتك. من غير ما تستنى حد ياخد الأوردر.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <div class="wrap visit-in">
+    <div class="visit-card">
+      <svg class="visit-mark"><use href="#mark"/></svg>
+      <h2>زورنا</h2>
+      <p class="addr" id="addr"></p>
+      <div class="visit-rows">
+        <div><small>المواعيد</small><b>مفتوح 24 ساعة · كل يوم</b></div>
+        <div><small>تليفون وواتساب</small><b id="phoneTxt" dir="ltr"></b></div>
+      </div>
+      <div class="del-btns">
+        <a class="btn btn-tq" id="mapBtn" href="#" target="_blank" rel="noopener">افتح على الخريطة</a>
+        <a class="btn btn-ghost" id="waVisit" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>واتساب</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ftr">
+  <div class="wrap ftr-in">
+    <div class="brand"><svg class="brand-mark"><use href="#mark"/></svg><span class="brand-txt"><b>الفيروز</b><small>بيتزا · فطائر</small></span></div>
+    <p>© 2026 الفيروز للبيتزا والفطائر</p>
+    <a class="credit" href="https://theplanetco.com" target="_blank" rel="noopener">تصميم وتطوير <b>Planet Creative Marketing</b></a>
+  </div>
+</footer>
+
+<!-- floating cart bar (mobile) -->
+<button class="fab" id="fab" hidden><span><b id="fabCount">0</b> صنف</span><span>اعرض السلة · <b id="fabTotal">0</b> ج</span></button>
+
+<!-- CART -->
+<div class="scrim" id="scrim"></div>
+<aside class="cart" id="cart" aria-label="السلة">
+  <div class="cart-hd"><h3>طلبك</h3><button class="x" id="cartClose" aria-label="إغلاق">✕</button></div>
+  <div class="cart-list" id="cartList"></div>
+  <div class="cart-form">
+    <div class="seg mode" id="mode"><button data-m="delivery" class="on">توصيل</button><button data-m="pickup">استلام</button><button data-m="table">ترابيزة</button><i class="seg-ind"></i></div>
+    <input id="fName" placeholder="الاسم">
+    <input id="fPhone" placeholder="رقم الموبايل" inputmode="tel" dir="ltr">
+    <input id="fAddr" placeholder="العنوان بالتفصيل">
+    <input id="fTable" placeholder="رقم الترابيزة" inputmode="numeric" hidden>
+    <textarea id="fNote" rows="2" placeholder="ملاحظات (مثلاً: من غير زيتون)"></textarea>
+  </div>
+  <div class="cart-ft">
+    <div class="tot"><span>الإجمالي</span><b><span id="cartTotal">0</span> ج</b></div>
+    <button class="btn btn-tq wide" id="sendWa"><svg><use href="#i-wa"/></svg>ابعت الطلب على واتساب</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/data.js?v=1"></script>
+<script src="assets/js/app.js?v=1"></script>
+</body>
+</html>
