@@ -32,7 +32,7 @@ fetch('assets/img/qr.svg').then(r => r.text()).then(s => $('#qrCode').innerHTML 
 /* ---------- intro ---------- */
 const intro = $('#intro');
 const endIntro = () => { if (!intro) return; intro.style.transition = 'opacity .6s, visibility .6s'; intro.style.opacity = 0; intro.style.visibility = 'hidden'; heroIn(); };
-window.addEventListener('load', () => setTimeout(endIntro, reduce ? 0 : 1700));
+window.addEventListener('load', () => setTimeout(endIntro, reduce ? 0 : 2400));
 setTimeout(endIntro, 4000);
 
 /* ---------- smooth scroll ---------- */
