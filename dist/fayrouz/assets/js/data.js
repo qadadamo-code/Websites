@@ -75,7 +75,7 @@ window.FZ_MENU = [
   },
   {
     id: 'meshaltet', t: 'المشلتت', s: 'فطير مشلتت بلدي بالسمنة، طبقات ورا طبقات', img: 'meshaltet', sized: false, from: true,
-    items: [P1('فطير مشلتت', 45, 'يبدأ من')]
+    items: [P1('فطير مشلتت', 45)]
   },
   {
     id: 'extras', t: 'الإضافات', s: 'زوّد على أي طلب', img: null, sized: false,
