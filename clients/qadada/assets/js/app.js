@@ -299,7 +299,7 @@
     const labels = cityM.map(c => {
       const d = document.createElement('div');
       d.className = 'mlabel' + (c.origin ? ' mlabel--origin' : '');
-      d.innerHTML = c.name + (c.country && !c.origin ? `<small>${c.country}</small>` : c.origin ? '<small>الجذر الأول</small>' : '');
+      d.innerHTML = c.name + (c.country && !c.origin ? `<small>${c.country}</small>` : c.origin ? '<small>مستقرّ العائلة</small>' : '');
       labelsBox.appendChild(d);
       return d;
     });
