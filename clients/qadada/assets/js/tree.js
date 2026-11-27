@@ -497,7 +497,7 @@
     tpBody.innerHTML = `
       <div class="tp__hero">
         ${m.photo ? `<img class="tp__photo" src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<div class="tp__photo">${esc(m.name.charAt(0))}</div>`}
-        <div class="tp__name">${esc(m.title && /مختار|المرحوم|الأستاذ|السيد|اللواء|المهندس|الدكتور|الحاج/.test(m.title) && !/فرع|الجد/.test(m.title) && m.title.length < 12 ? m.title + ' ' : '')}${esc(m.name)}</div>
+        <div class="tp__name">${esc(m.title && /مختار|المرحوم|الشهيد|الأستاذ|السيد|اللواء|المهندس|الدكتور|الحاج/.test(m.title) && !/فرع|الجد/.test(m.title) && m.title.length < 12 ? m.title + ' ' : '')}${esc(m.name)}</div>
         ${m.title ? `<div class="tp__title">${esc(m.title)}</div>` : ''}
         <div class="tp__badges"><span class="tp__b">${STATUS[m.status] || STATUS.confirmed}</span>${dead ? `<span class="tp__b">${dead}</span>` : ''}</div>
       </div>
