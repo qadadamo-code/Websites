@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 29;
+const DATA_VERSION = 30;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -640,6 +640,26 @@ function migrate(array &$t): void {
         $i = find_index($M, 'm4');
         if ($i >= 0) { $M[$i]['photo'] = 'assets/img/ali-ahmad.webp'; $M[$i]['title'] = 'الحاج'; $M[$i]['deceased'] = true; $M[$i]['featured'] = true;
             if (empty($M[$i]['note'])) $M[$i]['note'] = 'الحاج علي أحمد علي قدادة، رحمه الله، من يافا.'; }
+    }
+    if ($v < 30) {
+        // 2026-11-27: handwritten Jaffa sketch: سعيد بن أحمد بن علي; آدم و رجب are sons of نايف بن رجب بن نايف; محمد بن خالد بن جبريل
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        if (find_index($M, 'm3') >= 0) {
+            if (!$cid('m3', 'سعيد')) $add(['id' => 'y30s', 'parent' => 'm3', 'name' => 'سعيد', 'branch' => 'يافا'], $cid('m3', 'حسن'));
+            if (($ali = $cid('m3', 'علي')) && ($nay = $cid($ali, 'نايف')) && ($rj = $cid($nay, 'رجب')) && ($n2 = $cid($rj, 'نايف'))) {
+                foreach (['آدم', 'رجب'] as $nm) {
+                    if ($cid($n2, $nm)) continue;
+                    if ($x = $cid($rj, $nm)) { $i = find_index($M, $x); $M[$i]['parent'] = $n2; $row = $M[$i]; array_splice($M, $i, 1); $M[] = $row; }
+                }
+            }
+            if ($ali && ($jb = $cid($ali, 'جبريل')) && ($kh = $cid($jb, 'خالد')) && !$cid($kh, 'محمد')) {
+                $add(['id' => 'y30k', 'parent' => $kh, 'name' => 'محمد', 'branch' => 'يافا'], $cid($kh, 'جبريل'));
+            }
+        }
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
