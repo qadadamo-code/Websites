@@ -6,11 +6,11 @@ window.GR = {
     phoneDisplay: '01203101104'
   },
   collections: [
-    { id: 'living', img: 'col_living', n: '01' },
-    { id: 'corner', img: 'col_corner', n: '02' },
-    { id: 'bedroom', img: 'col_bedroom', n: '03' },
-    { id: 'dining', img: 'col_dining', n: '04' },
-    { id: 'kids', img: 'col_kids', n: '05' },
+    { id: 'classic', img: 'col_classic', n: '01' },
+    { id: 'living', img: 'col_living', n: '02' },
+    { id: 'corner', img: 'col_corner', n: '03' },
+    { id: 'bedroom', img: 'col_bedroom', n: '04' },
+    { id: 'dining', img: 'col_dining', n: '05' },
     { id: 'office', img: 'col_office', n: '06' }
   ],
   fabrics: [
@@ -23,6 +23,10 @@ window.GR = {
   ],
   /* price = placeholder EGP "from" price */
   products: [
+    { id: 'p_classic_sofa', cat: 'classic', price: 52000, name: { ar: 'كنبة صالون «ملكي» مذهبة', en: 'Royal gilded salon sofa', fr: 'Canapé de salon doré Royal', es: 'Sofá de salón dorado Real', de: 'Vergoldetes Salonsofa Royal', zh: '皇家鎏金沙龙沙发', ru: 'Золочёный диван «Роял»' } },
+    { id: 'p_classic_chair', cat: 'classic', price: 16500, name: { ar: 'فوتيه كلاسيك روز مذهب', en: 'Gilded blush classic armchair', fr: 'Fauteuil classique doré rose', es: 'Butaca clásica dorada rosa', de: 'Vergoldeter Sessel Rosé', zh: '鎏金玫瑰古典单椅', ru: 'Золочёное кресло, розовый бархат' } },
+    { id: 'p_classic_table', cat: 'classic', price: 18900, name: { ar: 'ترابيزة وسط مذهبة برخام', en: 'Gilded marble-top coffee table', fr: 'Table basse dorée marbre', es: 'Mesa de centro dorada con mármol', de: 'Vergoldeter Couchtisch mit Marmor', zh: '鎏金大理石茶几', ru: 'Золочёный стол с мраморной столешницей' } },
+    { id: 'p_recliner', cat: 'living', price: 58000, name: { ar: 'ركنة بريكلاينر كهرباء', en: 'Sectional with power recliner', fr: 'Canapé d’angle relax électrique', es: 'Esquinero con reclinable eléctrico', de: 'Ecksofa mit Relaxfunktion', zh: '电动躺椅转角沙发', ru: 'Угловой диван с электрореклайнером' } },
     { id: 'p_sofa', cat: 'living', price: 38500, name: { ar: 'كنبة «زمرد» قطيفة', en: 'Emerald velvet sofa', fr: 'Canapé velours émeraude', es: 'Sofá terciopelo esmeralda', de: 'Samtsofa Smaragd', zh: '祖母绿丝绒沙发', ru: 'Бархатный диван «Изумруд»' } },
     { id: 'p_armchair', cat: 'living', price: 14900, name: { ar: 'فوتيه «سحاب» بوكليه', en: 'Cloud bouclé armchair', fr: 'Fauteuil bouclette Nuage', es: 'Butaca bouclé Nube', de: 'Bouclé-Sessel Wolke', zh: '云朵圈圈绒单椅', ru: 'Кресло букле «Облако»' } },
     { id: 'p_corner', cat: 'living', price: 64000, name: { ar: 'ركنة «ميدان» قطيفة', en: 'Maidan velvet sectional', fr: 'Canapé d’angle Maidan', es: 'Esquinero Maidan', de: 'Ecksofa Maidan', zh: 'Maidan 丝绒转角沙发', ru: 'Угловой диван «Майдан»' } },
