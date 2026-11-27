@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 26;
+const DATA_VERSION = 27;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -550,6 +550,17 @@ function migrate(array &$t): void {
             $os = $cid('m13', 'أسامة');
             $kids($os, ['رامي', 'محمد'], 'a26e');
             if ($os) $kids($cid($os, 'رامي'), ['أسامة'], 'a26er');
+        }
+    }
+    if ($v < 27) {
+        // 2026-11-27: إبراهيم بن خليل بن غطاس's son is أمير, not عمر
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        if (($kh = $cid('m14', 'خليل')) && ($ib = $cid($kh, 'إبراهيم')) && !$cid($ib, 'أمير') && ($o = $cid($ib, 'عمر'))) {
+            $i = find_index($M, $o); $M[$i]['name'] = 'أمير';
         }
     }
     $t['members'] = $M;
