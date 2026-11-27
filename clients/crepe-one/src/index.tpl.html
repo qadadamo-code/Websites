@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Crepe One | كريب وان – كريب وبيتزا</title>
+<meta name="description" content="Crepe One كريب وان – كريب حادق وحلو على الصاج وبيتزا من الفرن من 2010. اطلب أونلاين على واتساب. Try the difference.">
+<meta name="theme-color" content="#0f1110">
+<meta property="og:title" content="Crepe One | كريب وان">
+<meta property="og:description" content="كريب على الصاج وبيتزا من الفرن من 2010 – Try the difference">
+<meta property="og:image" content="assets/img/og.jpg">
+<link rel="icon" href="assets/img/icon.png">
+<link rel="apple-touch-icon" href="assets/img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/seq/d/001.webp" media="(min-width:641px)">
+<link rel="preload" as="image" href="assets/seq/m/001.webp" media="(max-width:640px)">
+<link rel="stylesheet" href="assets/css/style.css?v=1">
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro" aria-hidden="true">
+  <div class="intro-logo">{{LOGO}}</div>
+  <div class="intro-glow"></div>
+  <div class="intro-bar"><i></i></div>
+</div>
+
+<!-- TABLE BAR -->
+<div id="tableBar" class="table-bar" hidden><span class="tb-dot"></span><span data-t="tableBar">أنت على ترابيزة رقم</span> <b id="tableNo"></b><span class="tb-sub" data-t="tableSub">اطلب من موبايلك والطلب يوصل للمطبخ على طول</span></div>
+
+<!-- HEADER -->
+<header id="hdr">
+  <a href="#top" class="brand" aria-label="Crepe One">{{LOGO}}</a>
+  <nav id="nav">
+    <a href="#menu" data-t="nMenu">المنيو</a>
+    <a href="#builder" data-t="nBuilder">اعمل الكريب بتاعك</a>
+    <a href="#pizza" data-t="nPizza">البيتزا</a>
+    <a href="#story" data-t="nStory">حكايتنا</a>
+    <a href="#visit" data-t="nVisit">تواصل</a>
+  </nav>
+  <div class="hdr-act">
+    <button id="langBtn" class="lang" aria-label="Language">EN</button>
+    <button id="cartBtn" class="cart-btn" aria-label="Cart"><svg viewBox="0 0 24 24"><path d="M5 7h14l-1.4 11.2a2 2 0 0 1-2 1.8H8.4a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg><span id="cartCount">0</span></button>
+    <button id="navBtn" class="nav-btn" aria-label="Menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero-sticky">
+    <canvas id="seq"></canvas>
+    <img id="seqPoster" class="seq-poster" src="assets/seq/d/001.webp" alt="">
+    <div class="hero-shade"></div>
+    <div class="hero-copy">
+      <span class="eyebrow h-in"><i class="flame"></i><span data-t="heroEye">من 2010 · كريب وبيتزا</span></span>
+      <h1 class="hero-title">
+        <span class="ln"><span data-t="heroL1">الصاج سخن.</span></span>
+        <span class="ln"><span data-t="heroL2">والفرن ولّع.</span></span>
+        <span class="ln accent"><span>Try the difference</span></span>
+      </h1>
+      <p class="hero-sub h-in" data-t="heroSub">كريب بيتعمل قدامك على الصاج، وبيتزا طالعة من الفرن على طول. نفس الطعم اللي حبيته من 2010، بفرق تحسه من أول قطمة.</p>
+      <div class="hero-cta h-in">
+        <a href="#menu" class="btn btn-g" data-t="ctaOrder">اطلب دلوقتي</a>
+        <a href="#builder" class="btn btn-o" data-t="ctaBuild">اعمل الكريب بتاعك</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><b>2010</b><span data-t="st1">البداية</span></div>
+      <div class="hs"><b>45+</b><span data-t="st2">صنف في المنيو</span></div>
+      <div class="hs"><b>30</b><span data-t="st3">دقيقة توصيل تقريبا</span></div>
+    </div>
+    <div class="scroll-hint"><span data-t="scroll">انزل وشوف الكريب بيتعمل</span><i></i></div>
+    <div class="hero-steps" aria-hidden="true">
+      <span data-t="step1">1 العجينة</span><span data-t="step2">2 الحشو</span><span data-t="step3">3 الجبنة</span><span data-t="step4">4 التطبيقة</span>
+    </div>
+  </div>
+</section>
+
+<div class="ticker"><div class="ticker-in" id="ticker"></div></div>
+
+<!-- TWO FIRES -->
+<section class="fires" id="fires">
+  <div class="sec-head">
+    <span class="kicker" data-t="firesK">نارين… ومطبخ واحد</span>
+    <h2 data-t="firesH">صاج للكريب، وفرن للبيتزا</h2>
+    <p data-t="firesP">اسحب الخط واختار مزاجك النهارده.</p>
+  </div>
+  <div class="dual" id="dual">
+    <div class="dual-side d-crepe"><img src="assets/img/chef-fold.webp" alt="" loading="lazy">
+      <div class="dual-lbl"><b data-t="dCrepe">الكريب</b><span data-t="dCrepeS">رقيق، مقرمش من بره، ومليان من جوه</span><a href="#menu" data-cat="savory" class="dual-go" data-t="seeCrepe">منيو الكريب</a></div></div>
+    <div class="dual-side d-pizza" id="dPizza"><img src="assets/img/pizza-oven.webp" alt="" loading="lazy">
+      <div class="dual-lbl"><b data-t="dPizza">البيتزا</b><span data-t="dPizzaS">عجينة بتختمر كل يوم، وجبنة بتشد</span><a href="#menu" data-cat="pizza" class="dual-go" data-t="seePizza">منيو البيتزا</a></div></div>
+    <div class="dual-handle" id="dualHandle" role="slider" tabindex="0" aria-label="crepe / pizza" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span><svg viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></div>
+  </div>
+</section>
+
+<!-- SIGNATURE -->
+<section class="sig" id="signature">
+  <div class="sig-media rv"><img src="assets/img/pizza-crepe.webp" alt="Pizza Crepe" loading="lazy"><span class="sig-badge" data-t="sigBadge">الأكثر طلبا</span></div>
+  <div class="sig-copy">
+    <span class="kicker" data-t="sigK">سيجنتشر Crepe One</span>
+    <h2 data-t="sigH">لما الكريب قابل البيتزا</h2>
+    <p data-t="sigP">صوص بيتزا، موتزاريلا بتشد، بيبروني وزيتون… كلهم جوه كريب مقرمش متقفل زي البوكس. اختراعنا اللي الناس بتيجي مخصوص علشانه.</p>
+    <ul class="sig-list">
+      <li data-t="sigL1">عجينة كريب طازة كل يوم</li>
+      <li data-t="sigL2">موتزاريلا 100%</li>
+      <li data-t="sigL3">بيتقفل على الصاج قدامك</li>
+    </ul>
+    <div class="sig-buy"><span class="price"><b>165</b> <i data-t="egp">ج</i></span><button class="btn btn-g" id="sigAdd" data-t="addCart">أضف للسلة</button></div>
+  </div>
+</section>
+
+<!-- BUILDER -->
+<section class="builder" id="builder">
+  <div class="sec-head">
+    <span class="kicker" data-t="bK">ستوديو الكريب</span>
+    <h2 data-t="bH">اعمل الكريب بتاعك</h2>
+    <p data-t="bP">اختار الحشو والإضافات والصوص وطريقة التطبيق، والسعر بيتحسب قدامك.</p>
+  </div>
+  <div class="b-wrap">
+    <div class="b-stage">
+      <div class="b-plate"><div class="b-ring"></div><img id="bImg" src="assets/img/crepe-kofta.webp" alt=""></div>
+      <div class="b-chips" id="bFloat"></div>
+      <div class="b-fold" id="bFoldShape" aria-hidden="true"></div>
+    </div>
+    <div class="b-panel">
+      <div class="seg" id="bKind"><span class="seg-ind"></span><button data-k="savory" class="on" data-t="kSav">حادق</button><button data-k="sweet" data-t="kSwt">حلو</button></div>
+      <div class="b-grp"><h4><span>1</span><em data-t="g1">الحشو الأساسي</em><small data-t="g1s">اختار لحد 2</small></h4><div class="chips" id="bFill"></div></div>
+      <div class="b-grp"><h4><span>2</span><em data-t="g2">الإضافات</em></h4><div class="chips" id="bExtra"></div></div>
+      <div class="b-grp"><h4><span>3</span><em data-t="g3">الصوص</em></h4><div class="chips" id="bSauce"></div></div>
+      <div class="b-grp"><h4><span>4</span><em data-t="g4">طريقة التطبيق</em></h4><div class="chips folds" id="bFold"></div></div>
+      <div class="b-foot">
+        <div class="b-sum"><small id="bSummary"></small><span class="price"><b id="bPrice">0</b> <i data-t="egp">ج</i></span></div>
+        <div class="qty big"><button id="bMinus">−</button><b id="bQ">1</b><button id="bPlus">+</button></div>
+        <button class="btn btn-g" id="bAdd" data-t="addCart">أضف للسلة</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIZZA -->
+<section class="pizza" id="pizza">
+  <video class="pz-video" id="pzVideo" muted loop playsinline preload="none" poster="assets/img/pizza-oven.webp"><source data-src="assets/video/oven.mp4" type="video/mp4"></video>
+  <div class="pz-shade"></div>
+  <div class="pz-in">
+    <span class="kicker" data-t="pzK">من الفرن على طول</span>
+    <h2 data-t="pzH">بيتزا بعجينة بتختمر 24 ساعة</h2>
+    <p data-t="pzP">اختار البيتزا والحجم، وإحنا علينا الباقي.</p>
+    <div class="pz-pick">
+      <div class="pz-list" id="pzList"></div>
+      <div class="pz-card">
+        <div class="pz-disc"><img id="pzImg" src="assets/img/pizza-pull-s.webp" alt=""></div>
+        <div class="seg" id="pzSize"><span class="seg-ind"></span><button data-i="0"></button><button data-i="1" class="on"></button><button data-i="2"></button></div>
+        <div class="pz-buy"><span class="price"><b id="pzPrice">0</b> <i data-t="egp">ج</i></span><button class="btn btn-g" id="pzAdd" data-t="addCart">أضف للسلة</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="sec-head">
+    <span class="kicker" data-t="mK">المنيو كامل</span>
+    <h2 data-t="mH">كل اللي نفسك فيه</h2>
+    <p data-t="mP">دوس على السعر والصنف يتضاف للسلة على طول.</p>
+  </div>
+  <div class="menu-tools">
+    <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" data-tp="searchPh" placeholder="دور على صنف… كفتة، نوتيلا، بيبروني"></div>
+    <div class="tabs" id="tabs"></div>
+  </div>
+  <div id="menuBody"></div>
+  <p class="sample-note" data-t="sampleNote">* الأسعار والأصناف تجريبية للعرض، وهتتحدث بمنيو المطعم الحقيقي.</p>
+</section>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="story-media rv"><img src="assets/img/interior.webp" alt="" loading="lazy"><div class="story-logo">{{LOGO}}</div></div>
+  <div class="story-copy">
+    <span class="kicker" data-t="sK">حكايتنا</span>
+    <h2 data-t="sH">من صاج واحد في 2010… لاسم الناس بتسأل عليه</h2>
+    <p data-t="sP">بدأنا بصاج كريب واحد وفكرة بسيطة: كل حاجة تتعمل طازة وقدام الزبون. السنين عدت، والمنيو كبر، ودخل الفرن، بس الفكرة زي ما هي. علشان كده بنقولها بثقة: جرب الفرق.</p>
+    <div class="nums">
+      <div><b class="cnt" data-n="16">0</b><span data-t="n1">سنة خبرة</span></div>
+      <div><b class="cnt" data-n="45">0</b><span data-t="n2">صنف</span></div>
+      <div><b class="cnt" data-n="100">0</b><span data-t="n3">% طازة كل يوم</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- QR -->
+<section class="qr" id="qr">
+  <div class="qr-in">
+    <div class="qr-code"><div id="qrCode"></div><span data-t="qrTable">ترابيزة 7</span></div>
+    <div class="qr-copy">
+      <span class="kicker" data-t="qK">جوه المطعم</span>
+      <h2 data-t="qH">امسح الكود… واطلب من ترابيزتك</h2>
+      <p data-t="qP">على كل ترابيزة كود QR. بتمسحه، الموقع بيعرف رقم ترابيزتك، وطلبك بيوصل للمطبخ على واتساب من غير ما تستنى حد.</p>
+      <a class="btn btn-o" href="?table=7#menu" data-t="qTry">جرب كأنك على ترابيزة 7</a>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <div class="sec-head">
+    <span class="kicker" data-t="vK">تواصل معانا</span>
+    <h2 data-t="vH">جعان؟ إحنا على بعد رسالة</h2>
+  </div>
+  <div class="v-grid">
+    <a class="v-card wa rv" id="waBig" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z"/><path d="M8.5 8.5c.3 2.6 2.4 5 5 5.8l1.3-1.3 2 1-.6 1.6c-3.8.3-8-3.6-7.8-7.6L10 7.5l1 2-1.2 1.2"/></svg><b data-t="vWa">اطلب على واتساب</b><span dir="ltr" class="num" id="waNum"></span></a>
+    <a class="v-card rv" id="callBig"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><b data-t="vCall">اتصل بينا</b><span dir="ltr" class="num" id="phoneNum"></span></a>
+    <div class="v-card rv"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b data-t="vHours">مواعيدنا</b><span id="hoursTxt"></span></div>
+    <a class="v-card rv" id="mapBtn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg><b data-t="vAddr">العنوان</b><span id="addrTxt"></span></a>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-logo">{{LOGO}}</div>
+  <p data-t="fTag">كريب وبيتزا من 2010 · Try the difference</p>
+  <p class="credit"><span data-t="fBy">تصميم وتطوير</span> <a href="https://theplanetco.com" target="_blank" rel="noopener">Planet Creative Marketing</a></p>
+</footer>
+
+<!-- CART -->
+<button id="fab" class="fab" hidden><span class="fab-c" id="fabCount">0</span><span data-t="viewCart">عرض السلة</span><b><span id="fabTotal">0</span> <i data-t="egp">ج</i></b></button>
+<div id="scrim"></div>
+<aside id="cart" aria-label="Cart">
+  <div class="cart-hd"><h3 data-t="cartH">طلبك</h3><button id="cartClose" aria-label="close">✕</button></div>
+  <div class="cart-list" id="cartList"></div>
+  <div class="cart-ft">
+    <div class="seg" id="mode"><span class="seg-ind"></span><button data-m="delivery" data-t="mDel">توصيل</button><button data-m="pickup" data-t="mPick">استلام</button><button data-m="table" data-t="mTable">ترابيزة</button></div>
+    <input id="fName" data-tp="phName" placeholder="الاسم">
+    <input id="fPhone" type="tel" inputmode="tel" data-tp="phPhone" placeholder="رقم الموبايل">
+    <input id="fAddr" data-tp="phAddr" placeholder="العنوان بالتفصيل">
+    <input id="fTable" inputmode="numeric" data-tp="phTable" placeholder="رقم الترابيزة" hidden>
+    <textarea id="fNote" rows="2" data-tp="phNote" placeholder="ملاحظات (بدون بصل، سبايسي زيادة…)"></textarea>
+    <div class="cart-tot"><span data-t="total">الإجمالي</span><b><span id="cartTotal">0</span> <i data-t="egp">ج</i></b></div>
+    <small class="del-note" id="delNote"></small>
+    <button id="sendWa" class="btn btn-g wide"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z"/></svg><span data-t="sendWa">ابعت الطلب على واتساب</span></button>
+  </div>
+</aside>
+<div id="toast"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/data.js?v=1"></script>
+<script src="assets/js/app.js?v=1"></script>
+</body>
+</html>
