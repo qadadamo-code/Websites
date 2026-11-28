@@ -5,7 +5,7 @@ window.AH_CONFIG = {
   whatsapp: '201203101104',
   phone: '01203101104',
   hours: ['يومياً من 12 الظهر لحد 2 بالليل', 'Daily, 12 PM – 2 AM'],
-  address: ['الفرع الرئيسي، العنوان بيتضاف قريب', 'Main branch, address coming soon'],
+  address: ['زهراء أكتوبر الجديدة (800 فدان سابقاً)، قطاع ج، مول سيتي بلازا', 'New Zahraa October (ex-800 Feddan), Sector J, City Plaza Mall'],
   delivery: 25,
   freeOver: 800,
   frames: 72
@@ -13,9 +13,9 @@ window.AH_CONFIG = {
 
 window.AH_I18N = {
   ar: {
-    brand: 'أسماك الحوت', brandSm: 'أسماك', brandLg: 'الحوت', tag: 'سمك · جمبري · مأكولات بحرية',
+    brand: 'أسماك الحوت', brandSm: 'أسماك', brandLg: 'الحوت 2', tag: 'أشهى المأكولات البحرية',
     navMarket: 'السوق', navJourney: 'الرحلة', navSig: 'الأطباق', navFeast: 'العزومة', navMenu: 'المنيو', navVisit: 'زورنا',
-    heroTag: 'طازة من البحر كل يوم', heroT1: 'من البحر', heroT2: 'على الفحم', heroT3: 'لحد سفرتك',
+    heroTag: 'الفرع الثاني والأحلى · زهراء أكتوبر', heroT1: 'من البحر', heroT2: 'على الفحم', heroT3: 'لحد سفرتك',
     heroSub: 'اختار سمكتك بعينك من على التلج، وزنها قدامك، وقولنا تحبها إزاي: مشوية ردة، سنجاري، مقلية، أو صينية في الفرن. والباقي علينا.',
     ctaPick: 'اختار سمكتك', ctaMenu: 'شوف المنيو', scroll: 'انزل للعمق',
     st1n: '+15', st1: 'نوع سمك وبحريات', st2n: '0', st2: 'تلاجات، كله طازة', st3n: '45', st3: 'دقيقة وتكون عندك',
@@ -42,9 +42,9 @@ window.AH_I18N = {
     selected: 'اخترت', kgUnit: 'كجم'
   },
   en: {
-    brand: 'Al Hoot Seafood', brandSm: 'SEAFOOD', brandLg: 'AL HOOT', tag: 'Fish · Shrimp · Seafood',
+    brand: 'Al Hoot Seafood', brandSm: 'SEAFOOD', brandLg: 'AL HOOT 2', tag: 'The tastiest seafood',
     navMarket: 'Market', navJourney: 'Journey', navSig: 'Signatures', navFeast: 'Feast', navMenu: 'Menu', navVisit: 'Visit',
-    heroTag: 'Fresh from the sea, every day', heroT1: 'From the sea', heroT2: 'to the coals', heroT3: 'to your table',
+    heroTag: 'Branch 2 · Zahraa October', heroT1: 'From the sea', heroT2: 'to the coals', heroT3: 'to your table',
     heroSub: 'Pick your fish off the ice, weigh it in front of you and tell us how you like it: bran-grilled, singari, fried or oven-baked. We take it from there.',
     ctaPick: 'Pick your fish', ctaMenu: 'See the menu', scroll: 'Dive deeper',
     st1n: '15+', st1: 'kinds of fish & seafood', st2n: '0', st2: 'freezers, all fresh', st3n: '45', st3: 'minutes to your door',
@@ -87,7 +87,7 @@ window.AH_COOK = [
   { id: 'grill', n: ['مشوي ردة', 'Bran-grilled'], d: ['على الفحم بالردة والليمون', 'Over charcoal with bran & lemon'], p: 0, ic: '🔥' },
   { id: 'singari', n: ['سنجاري', 'Singari'], d: ['بالطماطم والفلفل والتوم', 'Tomato, pepper & garlic'], p: 30, ic: '🫑' },
   { id: 'fry', n: ['مقلي', 'Fried'], d: ['مقرمش بالدقيق والكمون', 'Crispy flour & cumin crust'], p: 0, ic: '🍳' },
-  { id: 'tray', n: ['صينية فرن', 'Oven tray'], d: ['بالخضار والبطاطس في الفرن', 'Baked with veg & potatoes'], p: 45, ic: '🥘' }
+  { id: 'tray', n: ['طاجن', 'Tagine'], d: ['في طاجن فخار بالخضار في الفرن', 'Clay tagine with veg, oven-baked'], p: 45, ic: '🥘' }
 ];
 
 window.AH_SIDES = [
