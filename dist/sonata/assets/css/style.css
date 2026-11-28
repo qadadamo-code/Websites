@@ -268,7 +268,7 @@ html[lang="en"] .f>span{font-family:var(--f-disp);letter-spacing:.16em;text-tran
 .stepper{display:flex;border:1px solid rgba(226,200,150,.24);border-radius:var(--r);height:50px}
 [data-theme="light"] .stepper{border-color:rgba(80,58,28,.2)}
 .stepper button{width:48px;font-size:20px;color:var(--gold)}
-.stepper input{border:0;text-align:center;height:100%;flex:1;padding:0}
+.stepper input{border:0;background:transparent;text-align:center;height:100%;flex:1;width:0;min-width:0;padding:0;font-size:16px;outline:none}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{padding:8px 16px;border:1px solid rgba(226,200,150,.24);border-radius:999px;font-size:13.5px;transition:all .3s}
 [data-theme="light"] .chip{border-color:rgba(80,58,28,.2)}
@@ -308,7 +308,9 @@ html[lang="en"] .sheet h3{font-family:var(--f-disp);font-weight:200}
 .sheet p{color:var(--tx-2)}
 .sheet__price{font-family:var(--f-disp);font-weight:300;font-size:28px;color:var(--acc);margin-bottom:10px}
 .sheet__x{position:absolute;top:12px;inset-inline-end:12px;width:40px;height:40px;border-radius:50%;background:rgba(12,10,8,.7);color:#f2ebdf;font-size:22px;z-index:2}
-.sheet--noimg .sheet__card{grid-template-columns:1fr;width:min(520px,100%)}.sheet--noimg .sheet__img{display:none}
+.sheet__order{display:flex;gap:10px;width:100%;margin-top:6px}.sheet__order .btn{flex:1}
+.sheet__qty{width:132px;height:54px;flex:none;border-color:var(--line-2);border-radius:999px;overflow:hidden}.sheet__qty input{color:var(--tx)}
+.sheet__hint{font-size:12.5px;color:var(--tx-3)!important}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(34px)}
