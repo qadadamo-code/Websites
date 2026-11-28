@@ -250,7 +250,7 @@
     const n = cart.reduce((a, c) => a + c.q, 0);
     $('#cartCount').textContent = n;
     if (!cart.length) {
-      $('#drList').innerHTML = `<div class="dr-empty"><img src="assets/img/mark.svg" alt="">${t('cartEmpty')}</div>`;
+      $('#drList').innerHTML = `<div class="dr-empty"><img src="assets/img/logo-mark.webp" alt="">${t('cartEmpty')}</div>`;
       $('#drFoot').style.display = 'none'; return;
     }
     $('#drFoot').style.display = '';
