@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 36;
+const DATA_VERSION = 37;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -824,6 +824,18 @@ function migrate(array &$t): void {
                 'رمضان',
             ]);
         }
+    }
+    if ($v < 37) {
+        // 2026-11-28: photo of الحاج سعيد بن أحمد بن علي (Jaffa); يامن بن مهند بن محمد بن صبحي بن حسن
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        if ($sa = $cid('m3', 'سعيد')) { $i = find_index($M, $sa); $M[$i]['photo'] = 'assets/img/saeed-ahmad.webp'; $M[$i]['title'] = 'الحاج'; $M[$i]['deceased'] = true; $M[$i]['featured'] = true;
+            if (empty($M[$i]['note'])) $M[$i]['note'] = 'الحاج سعيد أحمد علي قدادة، رحمه الله، من يافا.'; }
+        if (($h = $cid('m3', 'حسن')) && ($sb = $cid($h, 'صبحي')) && ($mh = $cid($sb, 'محمد')) && ($mu = $cid($mh, 'مهند')) && !$cid($mu, 'يامن'))
+            $add(['id' => 'y37y', 'parent' => $mu, 'name' => 'يامن', 'branch' => 'يافا']);
     }
     $t['members'] = $M;
     $t['v'] = DATA_VERSION;
