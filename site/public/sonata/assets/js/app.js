@@ -33,6 +33,7 @@ const T = {
   wa:['واتساب','WhatsApp'], call:['اتصل بنا','Call us'],
   f_name:['الاسم','Name'], f_phone:['رقم الموبايل','Mobile'], f_branch:['الفرع','Location'], f_guests:['عدد الأشخاص','Guests'], f_date:['التاريخ','Date'], f_time:['الوقت','Time'], f_occ:['المناسبة','Occasion'], f_note:['ملاحظات','Notes'],
   f_note_p:['طاولة على التراس، تورتة عيد ميلاد…','Terrace table, birthday cake…'], f_send:['أرسل طلب الحجز عبر واتساب','Send request via WhatsApp'],
+  order:['اطلب عبر واتساب','Order on WhatsApp'], order_hint:['يصلك تأكيد الطلب والتوصيل من فريق سوناتا على واتساب.','Sonata\u2019s team confirms your order and delivery on WhatsApp.'],
   ft_tag:['مطبخ عالمي، مؤلَّف في القاهرة.','International cuisine, composed in Cairo.'], ft_by:['تصميم وتطوير','Designed & built by']
 };
 const OCC = [['casual','عادي','Casual'],['birthday','عيد ميلاد','Birthday'],['business','عمل','Business'],['date','عشاء رومانسي','Date night'],['event','مناسبة خاصة','Private event']];
@@ -125,16 +126,22 @@ $('#sigGrid').addEventListener('click',e=>{ const b=e.target.closest('.dish'); i
 
 /* ---------- sheet ---------- */
 const sheet = $('#sheet');
+let shItem=null;
+function shLink(){ const q=+$('#shQty').value, i=shItem, tot=q*i.price;
+  const msg = lang==='ar' ? `طلب من سوناتا سوشيال هاوس\n${q} × ${i.ar} (${i.price} ج.م)\nالإجمالي: ${tot} ج.م\nالاسم:\nالعنوان:` : `Order – Sonata Social House\n${q} × ${i.en} (${i.price} EGP)\nTotal: ${tot} EGP\nName:\nAddress:`;
+  $('#shOrder').href = waLink(msg); $('#shPrice').textContent = `${tot} ${cur()}`; }
 function openSheet(i){
-  sheet.classList.toggle('sheet--noimg', !i.img);
-  if(i.img) $('#shImg').src = `assets/img/${i.img}.webp`;
+  shItem = i; $('#shQty').value = 1;
+  $('#shImg').src = `assets/img/${i.img || catImg(i.cat)}.webp`;
   $('#shCat').textContent = L(i.cat.name);
   $('#shName').textContent = nm(i);
   $('#shDesc').textContent = ds(i);
-  $('#shPrice').textContent = `${i.price} ${cur()}`;
+  $('#shDesc').style.display = ds(i) ? '' : 'none';
+  shLink();
   sheet.classList.add('is-open'); sheet.setAttribute('aria-hidden','false');
   lenis && lenis.stop();
 }
+$$('[data-q]').forEach(b=>b.addEventListener('click',()=>{ const i=$('#shQty'); i.value=Math.min(20,Math.max(1,(+i.value)+(+b.dataset.q))); shLink(); }));
 function closeSheet(){ sheet.classList.remove('is-open'); sheet.setAttribute('aria-hidden','true'); lenis && lenis.start(); }
 sheet.addEventListener('click',e=>{ if(e.target.closest('[data-close]')) closeSheet(); });
 addEventListener('keydown',e=>{ if(e.key==='Escape') closeSheet(); });
