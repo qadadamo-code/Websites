@@ -11,7 +11,7 @@ const PEND_FILE   = STORE_DIR . '/pending.json';
 const RATE_FILE   = STORE_DIR . '/rate.json';
 const SEED_FILE   = __DIR__ . '/data/seed.json';
 const UPLOAD_DIR  = __DIR__ . '/uploads/members';
-const DATA_VERSION = 35;
+const DATA_VERSION = 36;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -785,6 +785,42 @@ function migrate(array &$t): void {
                     'عباس' => ['محمود', 'عيسى'],
                     'محمد',
                 ],
+                'رمضان',
+            ]);
+        }
+    }
+    if ($v < 36) {
+        // 2026-11-28: سعيد branch: محمد بن يوسف ← سعيد; grandsons of إبراهيم بن إسماعيل
+        $norm = fn($x) => str_replace(['أ', 'إ', 'آ', 'ة', 'ى'], ['ا', 'ا', 'ا', 'ه', 'ي'], trim((string)$x));
+        $cid = function (string $parent, string $name) use (&$M, $norm) {
+            foreach ($M as $x) if (($x['parent'] ?? '') === $parent && $norm($x['name']) === $norm($name)) return $x['id'];
+            return null;
+        };
+        $seq = 0;
+        $order = function (string $parent, array $names) use (&$M, $norm) {
+            $slots = []; $byName = [];
+            foreach ($M as $i => $x) if (($x['parent'] ?? '') === $parent) { $slots[] = $i; $byName[$norm($x['name'])][] = $x; }
+            $out = [];
+            foreach ($names as $n) if (!empty($byName[$norm($n)])) $out[] = array_shift($byName[$norm($n)]);
+            foreach ($byName as $rows) foreach ($rows as $x) $out[] = $x;
+            foreach ($slots as $k => $i) $M[$i] = $out[$k];
+        };
+        $build = function (string $parent, array $spec) use (&$build, &$M, &$seq, $add, $cid, $order) {
+            $names = [];
+            foreach ($spec as $k => $v) {
+                $name = is_int($k) ? $v : $k;
+                $names[] = $name;
+                $id = $cid($parent, $name);
+                if (!$id) { $id = 'y36_' . (++$seq); $add(['id' => $id, 'parent' => $parent, 'name' => $name, 'branch' => 'يافا']); }
+                if (!is_int($k) && is_array($v)) $build($id, $v);
+            }
+            $order($parent, $names);
+        };
+        if ($sa = $cid('m3', 'سعيد')) {
+            $build($sa, [
+                'جوهر',
+                'إسماعيل' => ['إبراهيم' => ['محمد' => ['إبراهيم', 'عبد الرحمن'], 'إسماعيل' => ['عمر'], 'أحمد' => ['عمر', 'هاشم'], 'فراس' => ['يوسف', 'زيد']]],
+                'يوسف' => ['عيسى', 'حمزة', 'عباس', 'محمد' => ['سعيد']],
                 'رمضان',
             ]);
         }
