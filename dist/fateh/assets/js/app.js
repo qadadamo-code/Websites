@@ -202,7 +202,7 @@
     const name = $('#cName').value.trim(); if (name) lines.push(`${t('waName')}: ${name}`);
     lines.push(`${t('waType')}: ${t(otype)}`);
     const addr = $('#cAddr').value.trim(); if (otype === 'delivery' && addr) lines.push(`${t('waAddr')}: ${addr}`);
-    window.open('https://wa.me/' + CFG.whatsapp + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+    location.href = 'https://wa.me/' + CFG.whatsapp + '?text=' + encodeURIComponent(lines.join('\n'));
   };
   let tt;
   function toast(msg) { const el = $('#toast'); el.textContent = msg || t('added'); el.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 1600); }
